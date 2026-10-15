@@ -1,0 +1,783 @@
+{
+  "edition": "2026-10-14",
+  "capturedAt": "2026-10-14T00:28:51.2295428+02:00",
+  "purpose": "Selected UI source evidence, assets and existing tests. This is not a runnable application distribution.",
+  "projects": [
+    {
+      "project": "vector95",
+      "head": "484f3b35e2f987978afb9b8c5d948cdd482f2c03",
+      "capture": "Working-tree file contents; HEAD is context, not proof of a clean checkout."
+    },
+    {
+      "project": "sausage-music",
+      "head": "cda204685846083b9e3811de52917f800e8c298a",
+      "capture": "Working-tree file contents; HEAD is context, not proof of a clean checkout."
+    }
+  ],
+  "files": [
+    {
+      "project": "vector95",
+      "source": "index.html",
+      "path": "references/vector95/index.html",
+      "sha256": "c999e3716093ab040299b28d820971c2b89c471220a08b0f00a6ef3f7d7a7c9a",
+      "bytes": 13325
+    },
+    {
+      "project": "vector95",
+      "source": "package.json",
+      "path": "references/vector95/package.json",
+      "sha256": "03a03692147ff03c6f3e394d79f59f8e565ce67b2c1ffeda9741058cabeb345e",
+      "bytes": 1454
+    },
+    {
+      "project": "vector95",
+      "source": "README.md",
+      "path": "references/vector95/README.md",
+      "sha256": "df079fd39764bc38b168c51a1fa3fbbe46521a3dcfb23617cf10ca34e21b4350",
+      "bytes": 39041
+    },
+    {
+      "project": "vector95",
+      "source": "src/classic.css",
+      "path": "references/vector95/src/classic.css",
+      "sha256": "e97410e6f56f297cceb0d5d173d4e0e03fceddaf9e55ece2a40b5ee5c0a2f791",
+      "bytes": 47334
+    },
+    {
+      "project": "vector95",
+      "source": "src/menus.js",
+      "path": "references/vector95/src/menus.js",
+      "sha256": "8631fe89ae6fbdac95e06311b79b11bd5fac2d98368ef2e9dd4359a62e288fd9",
+      "bytes": 14023
+    },
+    {
+      "project": "vector95",
+      "source": "src/status-help.js",
+      "path": "references/vector95/src/status-help.js",
+      "sha256": "d23a7a53404ef2e951ae2d35c2acfeab0ace4fd537ec20f327b50b80e551f09d",
+      "bytes": 1985
+    },
+    {
+      "project": "vector95",
+      "source": "src/command-search.js",
+      "path": "references/vector95/src/command-search.js",
+      "sha256": "3761766f003bfd20f67f74e6a2b32ada76dbb1f2e254fbf886b9df80a5d811a8",
+      "bytes": 2453
+    },
+    {
+      "project": "vector95",
+      "source": "src/app.js",
+      "path": "references/vector95/src/app.js",
+      "sha256": "057b08b5e46263eb1f8fec041f24c0ed3a31d278fad88bb21417eb01bdb359d4",
+      "bytes": 255918
+    },
+    {
+      "project": "vector95",
+      "source": "src/layer-ui.js",
+      "path": "references/vector95/src/layer-ui.js",
+      "sha256": "0443582cf0f3a58d4210d12320740d7d6d5e3992df5c40b70127f5bfe0e8b867",
+      "bytes": 3861
+    },
+    {
+      "project": "vector95",
+      "source": "src/color-dialog.js",
+      "path": "references/vector95/src/color-dialog.js",
+      "sha256": "812a7120f50d19eccbf695b56b17dcd5bc6b1e6b64ba3ecbcd1b3d122a67ff5a",
+      "bytes": 10893
+    },
+    {
+      "project": "vector95",
+      "source": "src/canvas-dialog.js",
+      "path": "references/vector95/src/canvas-dialog.js",
+      "sha256": "563d762822e155ac26b2537752671a0aec67e6f1da9f4c8d9f04e554b9d705fd",
+      "bytes": 10228
+    },
+    {
+      "project": "vector95",
+      "source": "src/text-dialog.js",
+      "path": "references/vector95/src/text-dialog.js",
+      "sha256": "f419363022bfb0ab79d47ddf7353a3b5b4baf4ae622558df41180ba4d027e0f5",
+      "bytes": 10584
+    },
+    {
+      "project": "vector95",
+      "source": "src/input-preferences.js",
+      "path": "references/vector95/src/input-preferences.js",
+      "sha256": "aedcecf7331814ff845dfeb00f9dcbb91676ed4f94b4b407824fd894ec47d9d8",
+      "bytes": 2858
+    },
+    {
+      "project": "vector95",
+      "source": "src/input-bindings.js",
+      "path": "references/vector95/src/input-bindings.js",
+      "sha256": "bafa71317bf461d33bd7af3baa1084d795d49ec2e468c2366e7cbeded307b56a",
+      "bytes": 9478
+    },
+    {
+      "project": "vector95",
+      "source": "src/palettes.js",
+      "path": "references/vector95/src/palettes.js",
+      "sha256": "dcb4ac1278a9d9c66605004ab63636187061a5ee601b9058c7e5ae161c6f5e25",
+      "bytes": 2293
+    },
+    {
+      "project": "vector95",
+      "source": "src/icons.js",
+      "path": "references/vector95/src/icons.js",
+      "sha256": "1a6ba3505576f56861c81d7b0adb57bd5670d211d8eaa9c4459d8a4f7d64e4f7",
+      "bytes": 823
+    },
+    {
+      "project": "vector95",
+      "source": "src/artwork-preview.js",
+      "path": "references/vector95/src/artwork-preview.js",
+      "sha256": "516c3028d98ccaed6d9ec8f6a0521df2caa43285a5b40b38feec64fa665d46db",
+      "bytes": 5246
+    },
+    {
+      "project": "vector95",
+      "source": "src/generated/svg-assets.js",
+      "path": "references/vector95/src/generated/svg-assets.js",
+      "sha256": "d388bdc21eeaff3428c018fa272c5543ec9b25d150d71039e4f54a5ebe82b7b9",
+      "bytes": 135592
+    },
+    {
+      "project": "vector95",
+      "source": "src/generated/svg-assets.css",
+      "path": "references/vector95/src/generated/svg-assets.css",
+      "sha256": "f3ba43b6cec84cc805a1ae176d6cbd5cc1dc8ca966d1c5f4d299f419292f0bdc",
+      "bytes": 1059
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/README.md",
+      "path": "references/vector95/src/assets/README.md",
+      "sha256": "6796918eaec9378223b91f232b5ecc90c78b219a2fdb1ba1b0910f4c24cdd568",
+      "bytes": 1462
+    },
+    {
+      "project": "vector95",
+      "source": "src/vendor/ms_sans_serif.woff2",
+      "path": "references/vector95/src/vendor/ms_sans_serif.woff2",
+      "sha256": "11b5a68acb6b967d1faa5a3f58432028e9c9cada37c8778d9dcc7415dca73a32",
+      "bytes": 6508
+    },
+    {
+      "project": "vector95",
+      "source": "src/vendor/ms_sans_serif_bold.woff2",
+      "path": "references/vector95/src/vendor/ms_sans_serif_bold.woff2",
+      "sha256": "5f3fbc5790b315fc158b749078e7fd1d74e1f9b463f6b7266c1908cb82a450ae",
+      "bytes": 6264
+    },
+    {
+      "project": "vector95",
+      "source": "src/vendor/font-LICENSE.txt",
+      "path": "references/vector95/src/vendor/font-LICENSE.txt",
+      "sha256": "8933005629892c51d896f7591b5e79c39a17617ce678231e4c3aa7d412d2682f",
+      "bytes": 1053
+    },
+    {
+      "project": "vector95",
+      "source": "scripts/vendor.mjs",
+      "path": "references/vector95/scripts/vendor.mjs",
+      "sha256": "45969e31c0b1182df7a4c1fdd9006956d6fb089233eff2c7182d2a4a9e83c121",
+      "bytes": 1607
+    },
+    {
+      "project": "vector95",
+      "source": "scripts/svg-assets.mjs",
+      "path": "references/vector95/scripts/svg-assets.mjs",
+      "sha256": "8307d19baec18c55615430e5f2753da264583796d8bbd2fef33f3f718b78a99c",
+      "bytes": 4121
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/control-polish.spec.mjs",
+      "path": "references/vector95/tests/ui/control-polish.spec.mjs",
+      "sha256": "4d399083ef12ca9721f0e70e0b746cbcfcf54f01f72ee118c15e6887d4eb12f8",
+      "bytes": 4224
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/keyboard-focus.spec.mjs",
+      "path": "references/vector95/tests/ui/keyboard-focus.spec.mjs",
+      "sha256": "8d7fc50b636adb2705a58802885c81708d0d4b8196deecc095d3abc811a80cbf",
+      "bytes": 5277
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/status-help.spec.mjs",
+      "path": "references/vector95/tests/ui/status-help.spec.mjs",
+      "sha256": "fba943136dca3a037c5259b64ea37d8d23520403246d92bf0d93e44953f44400",
+      "bytes": 6603
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/svg-assets.spec.mjs",
+      "path": "references/vector95/tests/ui/svg-assets.spec.mjs",
+      "sha256": "f2fb9165dd2dfaada3eb44a6dc82ba35f78d1c48c9df1c12587a7e93feb4404c",
+      "bytes": 4478
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/search-transform.spec.mjs",
+      "path": "references/vector95/tests/ui/search-transform.spec.mjs",
+      "sha256": "a108009835474d1454ad1bea6cc99160ed7719a6c06278ba29a40ab9f971b759",
+      "bytes": 9674
+    },
+    {
+      "project": "vector95",
+      "source": "tests/ui/studio.spec.mjs",
+      "path": "references/vector95/tests/ui/studio.spec.mjs",
+      "sha256": "c208efd8361b5050ffe05b8b436096c96daa89c113dd1e41333eeb220b57ba1b",
+      "bytes": 5444
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/controls-1.png",
+      "path": "references/vector95/artifacts/controls-1.png",
+      "sha256": "0445d3d7c11e6c1fe8dee11a0a2c3f609d000af0735d9a6e4527746b456437fc",
+      "bytes": 48664
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/controls-1.25.png",
+      "path": "references/vector95/artifacts/controls-1.25.png",
+      "sha256": "47cacdef1cc252cb2c6c751af564dfcb1343d4166bc7f9fc64c0af982340b291",
+      "bytes": 74324
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/controls-1.5.png",
+      "path": "references/vector95/artifacts/controls-1.5.png",
+      "sha256": "d266ed786a2c8a009737550912c02eb21e97cca9fb6755a347a69bd48ae4ecd1",
+      "bytes": 83480
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/controls-2.png",
+      "path": "references/vector95/artifacts/controls-2.png",
+      "sha256": "0558ac72324ac47e0625e79ea6a85a19944de5bb09729eccb80cb75cec37177c",
+      "bytes": 150660
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/layer-ui-checks/game-art-scene.png",
+      "path": "references/vector95/artifacts/layer-ui-checks/game-art-scene.png",
+      "sha256": "6498eed130fca6ba85928d64e7287f76992f7f1529f4352c3ea273183a3dccb9",
+      "bytes": 89137
+    },
+    {
+      "project": "vector95",
+      "source": "artifacts/layer-ui-checks/game-art-font-dialog.png",
+      "path": "references/vector95/artifacts/layer-ui-checks/game-art-font-dialog.png",
+      "sha256": "dadf43c921c59539d675368a2ad2630706c4b822bc63403035594c3d4e53824c",
+      "bytes": 55970
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/brush.svg",
+      "path": "references/vector95/src/assets/icons/brush.svg",
+      "sha256": "3109592193e1570473f169772f344b1e303cc4b75707567a9f4eeba684b47289",
+      "bytes": 449
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/bucket.svg",
+      "path": "references/vector95/src/assets/icons/bucket.svg",
+      "sha256": "779154ebf0e59b7b332253592db186a91338e4c5a11ed8f5a60a49a9fe4d1223",
+      "bytes": 465
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/check.svg",
+      "path": "references/vector95/src/assets/icons/check.svg",
+      "sha256": "69b6952427808bc441f879c88ab4e2c333073f3575b5b1251ef92687c976153a",
+      "bytes": 258
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/down.svg",
+      "path": "references/vector95/src/assets/icons/down.svg",
+      "sha256": "61ee947af749237b142f41ff2389bd721c16b025862ffc76248badd1958c3154",
+      "bytes": 274
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/duplicate.svg",
+      "path": "references/vector95/src/assets/icons/duplicate.svg",
+      "sha256": "c158901afa3f05983385c171756374185ed53f2393ecb46a11ff583aa46d9646",
+      "bytes": 289
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/ellipse.svg",
+      "path": "references/vector95/src/assets/icons/ellipse.svg",
+      "sha256": "3c3da879b7fffd4827a039f51dc78ba49694cb456c2f013f3810909fb0bf5a94",
+      "bytes": 253
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/eraser.svg",
+      "path": "references/vector95/src/assets/icons/eraser.svg",
+      "sha256": "b2b0a59e21b066d0370667c96705c16dded240f8728c5d82f9b8c93dddf2eaa6",
+      "bytes": 331
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/export.svg",
+      "path": "references/vector95/src/assets/icons/export.svg",
+      "sha256": "a856ed163675b176918ca3dd761ef7e24d5607b055e9b4884c3dd0264e0ead2b",
+      "bytes": 257
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/eye.svg",
+      "path": "references/vector95/src/assets/icons/eye.svg",
+      "sha256": "fd10851efcace89b194ad569216c28ef3e7aa8a45e118b9039396803e1f2f71b",
+      "bytes": 336
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/eyedropper.svg",
+      "path": "references/vector95/src/assets/icons/eyedropper.svg",
+      "sha256": "1753239e225829da42897dd820e330c78ed2ce48271e3fc78fa5021e5b1432c2",
+      "bytes": 342
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/fit.svg",
+      "path": "references/vector95/src/assets/icons/fit.svg",
+      "sha256": "d90f39235a2548a21647d77d5c02b1893725539cb5dbd141c64b769c20e98b8e",
+      "bytes": 325
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/grid.svg",
+      "path": "references/vector95/src/assets/icons/grid.svg",
+      "sha256": "c8719c746ec32bd3ca9153330620725113ca65ad558e425ae6ae1d401f06285d",
+      "bytes": 315
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/hand.svg",
+      "path": "references/vector95/src/assets/icons/hand.svg",
+      "sha256": "806110ebe1d0ebd58023a4dae3fdd7c623110c6d1c9b1b4c5f95421537648a6d",
+      "bytes": 414
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/hidden.svg",
+      "path": "references/vector95/src/assets/icons/hidden.svg",
+      "sha256": "d207a508a6e7c2498a101206e311c887f7793f0cf80fe9400fb749c76ea63a6e",
+      "bytes": 283
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/info.svg",
+      "path": "references/vector95/src/assets/icons/info.svg",
+      "sha256": "f6f0142c2dcf01357540cf7c08e833f8063210d2f6da1095f8495ee1079a033b",
+      "bytes": 318
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/layers.svg",
+      "path": "references/vector95/src/assets/icons/layers.svg",
+      "sha256": "c8409457f08f2567832c51231e9bb51dbb9cf82cfa19b7c3c7ed95c502238dea",
+      "bytes": 310
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/line.svg",
+      "path": "references/vector95/src/assets/icons/line.svg",
+      "sha256": "fedbf492d1cf6dd490fbd786e261f6e0f5bbacca37b15438f9a33874eb7b8fb8",
+      "bytes": 242
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/lock.svg",
+      "path": "references/vector95/src/assets/icons/lock.svg",
+      "sha256": "79bcfb41b0bcbec9328b2179d9813a517468918c090826840033599a29a97d3b",
+      "bytes": 341
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/logo.svg",
+      "path": "references/vector95/src/assets/icons/logo.svg",
+      "sha256": "0e31d55ff89d86a34f618136ff8ad674c92a42ab0f6ca408955075a475229e1c",
+      "bytes": 377
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/minus.svg",
+      "path": "references/vector95/src/assets/icons/minus.svg",
+      "sha256": "5a3ffb1fd2512fb5d7acdadb60cbecbeb27a070bee5f0b8fe9fd79133dcd834e",
+      "bytes": 253
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/new.svg",
+      "path": "references/vector95/src/assets/icons/new.svg",
+      "sha256": "d592485a238be88010723c01c442cbabedc1e5a35e50ffdebefb928f9bb41b58",
+      "bytes": 282
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/node.svg",
+      "path": "references/vector95/src/assets/icons/node.svg",
+      "sha256": "b4f183f04ed0d39cc262487e1623ba43846d12b6a0e2ff9c2c633c5e1525d625",
+      "bytes": 319
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/none.svg",
+      "path": "references/vector95/src/assets/icons/none.svg",
+      "sha256": "547e610debc4087abb91526fa6f865e2aefaa582142135d3c4c064b63458582f",
+      "bytes": 317
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/nudge.svg",
+      "path": "references/vector95/src/assets/icons/nudge.svg",
+      "sha256": "cc328f1fd0f331a14ce40c989b60fa50fa219b23229c0d74e527d3a1a2bc4f54",
+      "bytes": 2524
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/open.svg",
+      "path": "references/vector95/src/assets/icons/open.svg",
+      "sha256": "017f2bf16aa5364f29d161f39c43ae4133a70631feab607720f3ce88aa3d2455",
+      "bytes": 322
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/pen.svg",
+      "path": "references/vector95/src/assets/icons/pen.svg",
+      "sha256": "bcf7899d52237df783c91c68e91f1570dd3067a4a82cfaf5c29a18446100e0db",
+      "bytes": 396
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/pencil.svg",
+      "path": "references/vector95/src/assets/icons/pencil.svg",
+      "sha256": "5b64c7972207c80d27386226289bd500128ab7b5505a221ba95cbb8ba968937b",
+      "bytes": 385
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/plus.svg",
+      "path": "references/vector95/src/assets/icons/plus.svg",
+      "sha256": "9b68323faaee5e1c969dc625b69b8bda7c982176cad055dee863cda089001f0c",
+      "bytes": 260
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/rect.svg",
+      "path": "references/vector95/src/assets/icons/rect.svg",
+      "sha256": "a8320ded96c15144b13c0fb2540a468f59929da3f72439f99ea33dcce92d9140",
+      "bytes": 258
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/redo.svg",
+      "path": "references/vector95/src/assets/icons/redo.svg",
+      "sha256": "97a69198539c275b4b243bd4866e58d73b90cab619ab11347c2923b5afbd0614",
+      "bytes": 264
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/save.svg",
+      "path": "references/vector95/src/assets/icons/save.svg",
+      "sha256": "3ae2fe674e6cc02a3dbdfdf6a20daed22db5e3c052519a31980bbfa73ecad92b",
+      "bytes": 430
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/select.svg",
+      "path": "references/vector95/src/assets/icons/select.svg",
+      "sha256": "85b9aa04c125dd4a36e9d7a11cd2306860e69ff675949818a2576a4180a388e6",
+      "bytes": 326
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/slice.svg",
+      "path": "references/vector95/src/assets/icons/slice.svg",
+      "sha256": "4d792d93b3d7dbf017b916485c1841e50360eb0d5f0f5b6650c772f2503fd0db",
+      "bytes": 290
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/smooth.svg",
+      "path": "references/vector95/src/assets/icons/smooth.svg",
+      "sha256": "63e59f0336344aa973df19b7503a5e44162efb3675e2e0d0abe6bdca3e2cf1a2",
+      "bytes": 298
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/swap.svg",
+      "path": "references/vector95/src/assets/icons/swap.svg",
+      "sha256": "b60bfebe45baeba510e5aa6ea3e0f6bd1d58a26b138b79c6efe1f2629d140a0a",
+      "bytes": 251
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/tablet.svg",
+      "path": "references/vector95/src/assets/icons/tablet.svg",
+      "sha256": "be251b021c4628fb0f40324bb4334e8d4cde3335a4dc635d5885f9de5b5bb45c",
+      "bytes": 311
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/text.svg",
+      "path": "references/vector95/src/assets/icons/text.svg",
+      "sha256": "fa331ec42fbaae01a106753d72da30c77c02c04ae12b499103dbed31a92efd3a",
+      "bytes": 271
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/trash.svg",
+      "path": "references/vector95/src/assets/icons/trash.svg",
+      "sha256": "f85811084abbc3158411d17d621c4215e2663f41a962f863c283f0d9d166f848",
+      "bytes": 283
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/undo.svg",
+      "path": "references/vector95/src/assets/icons/undo.svg",
+      "sha256": "8cb1f5e6ac6079aa404d6a681874639dcf848b85ce1f20e6ec733b00ff39b0c5",
+      "bytes": 261
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/unlock.svg",
+      "path": "references/vector95/src/assets/icons/unlock.svg",
+      "sha256": "4b9c30d1a4f25da33f100888e029c502dff5175d36d32d71c9d6f0799a16eceb",
+      "bytes": 309
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/up.svg",
+      "path": "references/vector95/src/assets/icons/up.svg",
+      "sha256": "e187c0bdd06cc8e0acaf9fa4452fefc6d22db1e5d384fd9063f048115e3e70d9",
+      "bytes": 272
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/icons/zoom.svg",
+      "path": "references/vector95/src/assets/icons/zoom.svg",
+      "sha256": "c4d01725a0c560dda40d4bdea1fea3337fa601607da4bb498063c5d28a90c636",
+      "bytes": 308
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/captions/close.svg",
+      "path": "references/vector95/src/assets/captions/close.svg",
+      "sha256": "96675c94a71a20cdc891e13dd8dc4806915ea79e40b2e81660992809bbefff04",
+      "bytes": 260
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/captions/maximize.svg",
+      "path": "references/vector95/src/assets/captions/maximize.svg",
+      "sha256": "fd7ab6503ae7b8354472758797bac5370b1f411e42ddaaa8dd4c5c0c76e8434f",
+      "bytes": 279
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/captions/minimize.svg",
+      "path": "references/vector95/src/assets/captions/minimize.svg",
+      "sha256": "83f5038f73089137ccd3b9d4b3f1cb9dc338ebdd284598398eb5e5825adf0bcc",
+      "bytes": 248
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/captions/restore.svg",
+      "path": "references/vector95/src/assets/captions/restore.svg",
+      "sha256": "5ad6b467dcdd7454af8348ac066f5d2f2af3df2a58d94ddd207b14cb2e6b433a",
+      "bytes": 321
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/scrollbars/down.svg",
+      "path": "references/vector95/src/assets/scrollbars/down.svg",
+      "sha256": "d8b57cdc42626d7cb580d5c8735ebfc066803c6ec56ceebf5939912f59ed201b",
+      "bytes": 116
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/scrollbars/left.svg",
+      "path": "references/vector95/src/assets/scrollbars/left.svg",
+      "sha256": "f974b801e6c2cc7a1a0c94a90599a225163d156a84527fba0ef8e3177f1dbba9",
+      "bytes": 116
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/scrollbars/right.svg",
+      "path": "references/vector95/src/assets/scrollbars/right.svg",
+      "sha256": "ac6850da63583133ace0ac7d1e9bbb5118ac5bd07614454e28e63ff97ceb8018",
+      "bytes": 118
+    },
+    {
+      "project": "vector95",
+      "source": "src/assets/scrollbars/up.svg",
+      "path": "references/vector95/src/assets/scrollbars/up.svg",
+      "sha256": "8066845cde15c07a3a0ab9ff8d744702cb1fe3b330c8df7013805aa2d11c7370",
+      "bytes": 116
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio.html",
+      "path": "references/sausage-music/web/site/radio.html",
+      "sha256": "ea9d38ab4037f045f67ecbf16d05665cbd4552c394ee176671f7375f07dc6015",
+      "bytes": 11432
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio.css",
+      "path": "references/sausage-music/web/site/radio.css",
+      "sha256": "90e3fc9c289f85f73734258be3115f644a9bc34bb5c6d95c196e12063ea1a60e",
+      "bytes": 19032
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio.js",
+      "path": "references/sausage-music/web/site/radio.js",
+      "sha256": "1b57c87814f5ca1389c7cae21b415e57f69b3bf11b450a744f0c5ed956b065f6",
+      "bytes": 49127
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio-mobile.js",
+      "path": "references/sausage-music/web/site/radio-mobile.js",
+      "sha256": "7a17b279b9ac6e56317d1b1922d44085394c91c6613c6dd33d1a0152a1a28110",
+      "bytes": 1091
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio-mobile.css",
+      "path": "references/sausage-music/web/site/radio-mobile.css",
+      "sha256": "3563610ab8ff9c24fd328a673a0cdb5d751a8b37387042a40bbdb238f8e686f2",
+      "bytes": 2758
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms_sans_serif.woff2",
+      "path": "references/sausage-music/web/site/ms_sans_serif.woff2",
+      "sha256": "11b5a68acb6b967d1faa5a3f58432028e9c9cada37c8778d9dcc7415dca73a32",
+      "bytes": 6508
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms_sans_serif_bold.woff2",
+      "path": "references/sausage-music/web/site/ms_sans_serif_bold.woff2",
+      "sha256": "5f3fbc5790b315fc158b749078e7fd1d74e1f9b463f6b7266c1908cb82a450ae",
+      "bytes": 6264
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms-sans-serif-readme.txt",
+      "path": "references/sausage-music/web/site/ms-sans-serif-readme.txt",
+      "sha256": "6599ad698ff7f2d8d1c745cc8c6b0e04042a8b0e26416e9eccefd2eab6850a2c",
+      "bytes": 1120
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms-sans-serif-license.txt",
+      "path": "references/sausage-music/web/site/ms-sans-serif-license.txt",
+      "sha256": "efa69ea6ddd11befc5f42965dbe7b9b10a9db3bf122d603489e9d8363d036f9b",
+      "bytes": 223
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms-sans-serif-bold-readme.txt",
+      "path": "references/sausage-music/web/site/ms-sans-serif-bold-readme.txt",
+      "sha256": "c936ebb71ce44231bcb6434c6fcf8b90e6e22985825170b5b9b1cb3eead10e98",
+      "bytes": 1120
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/ms-sans-serif-bold-license.txt",
+      "path": "references/sausage-music/web/site/ms-sans-serif-bold-license.txt",
+      "sha256": "89af821e4dd03e78318c01f3d9682b620229ff6906cff4cb5722372e3fc28e0e",
+      "bytes": 228
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/win31-notices.txt",
+      "path": "references/sausage-music/web/site/win31-notices.txt",
+      "sha256": "58cb1bcbeb73830720b9d4bc2a78df69e43624c2a58e5b0818e8d0aad7bf11e8",
+      "bytes": 1769
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/test/radio_test.mjs",
+      "path": "references/sausage-music/web/test/radio_test.mjs",
+      "sha256": "2db99cc2ea6602c229c471574215bb5d55dffed4bc474f152c60b4300e894f3b",
+      "bytes": 8981
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/test/radio_mobile_test.mjs",
+      "path": "references/sausage-music/web/test/radio_mobile_test.mjs",
+      "sha256": "fb4d1de4207f1edfc1fbc36d0fdaf0499953e4dac85976293776665bc1402441",
+      "bytes": 1448
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/electron/preload.js",
+      "path": "references/sausage-music/web/electron/preload.js",
+      "sha256": "0a62a5cc4d286e4977b660285153082868e9c8e3ba7d3286b2bea2283530c7da",
+      "bytes": 1429
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/electron/test/window_controls_test.mjs",
+      "path": "references/sausage-music/web/electron/test/window_controls_test.mjs",
+      "sha256": "12ccb2a4494cf4311d5dae58403f52aa84d5fd04c45e5b1d3c66250d313e3596",
+      "bytes": 7915
+    },
+    {
+      "project": "vector95",
+      "source": "src/palette-credits.txt",
+      "path": "references/vector95/src/palette-credits.txt",
+      "sha256": "055808512ad4e8229d606635a8162a7c608a0a5424a909e59076b5f8a854c233",
+      "bytes": 14181
+    },
+    {
+      "project": "vector95",
+      "source": "electron/main.cjs",
+      "path": "references/vector95/electron/main.cjs",
+      "sha256": "7a25c47fb491b828030c6d813869cab6e5c15b3ec11e32323def0474c8911914",
+      "bytes": 12979
+    },
+    {
+      "project": "vector95",
+      "source": "electron/preload.cjs",
+      "path": "references/vector95/electron/preload.cjs",
+      "sha256": "3e7553bcd092049a06cf2ffcc8e4b5c751698c72cc953b9db60368795ad8c8a0",
+      "bytes": 1220
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio-mobile.html",
+      "path": "references/sausage-music/web/site/radio-mobile.html",
+      "sha256": "c666c9caee4a737020f74d2f9bcd725ac46a77ae65ffed5e7ca413e242ed6f4f",
+      "bytes": 8089
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/site/radio-mobile-text.js",
+      "path": "references/sausage-music/web/site/radio-mobile-text.js",
+      "sha256": "f6e234f3554af6155c2ac542068bce941929e8b495ed90e088fb8152e5e413f8",
+      "bytes": 740
+    },
+    {
+      "project": "sausage-music",
+      "source": "web/electron/window_controls.js",
+      "path": "references/sausage-music/web/electron/window_controls.js",
+      "sha256": "0d2b60032762d1f5bba92c513cdc4e89369ed31791e76397bc9bc7bc788836ad",
+      "bytes": 3299
+    }
+  ],
+  "publicationNote": "Machine-specific source roots omitted for public distribution. Archived file hashes and source revisions are unchanged."
+}

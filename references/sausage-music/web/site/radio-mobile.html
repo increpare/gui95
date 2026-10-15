@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>ProcGen FM - Mobile</title>
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="radio-mobile.css">
+</head>
+<body class="bg-body-tertiary" data-layout="mobile">
+<main class="mobile-player container" id="playerWindow" aria-label="ProcGen FM">
+  <div class="player-body" id="windowBody">
+    <header class="d-flex align-items-center gap-2">
+      <h1 class="h5 mb-0 me-auto">ProcGen FM</h1>
+      <span class="badge text-bg-secondary" id="led">Stopped</span>
+      <details class="dropdown menu" id="fileMenu">
+        <summary class="btn btn-outline-secondary dropdown-toggle" aria-label="Player menu">Menu</summary>
+        <div class="dropdown-menu dropdown-menu-end menu-popup" data-bs-popper="static">
+          <button class="dropdown-item" id="importVotes" disabled>Import flags...</button>
+          <button class="dropdown-item" id="downloadVotes" disabled>Export flags</button>
+          <button class="dropdown-item" id="copyVotes" disabled>Copy flags</button>
+          <hr class="dropdown-divider">
+          <button class="dropdown-item" id="helpButton">Help</button>
+          <a class="dropdown-item" href="radio.html">Desktop player</a>
+        </div>
+      </details>
+    </header>
+
+    <section class="card" aria-label="Now playing">
+      <div class="card-body">
+        <div class="display off" id="display">
+          <div class="h4 mb-1 track-title" id="title">No track selected</div>
+          <div class="text-body-secondary small text-truncate mb-2" id="sub"></div>
+          <canvas class="d-block w-100 bg-dark rounded" id="scope" height="32" aria-label="Audio spectrum"></canvas>
+        </div>
+        <div class="d-flex align-items-center gap-2 my-2 small text-body-secondary timeline">
+          <span id="elapsed">0:00</span>
+          <div class="progress flex-grow-1" role="progressbar" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="progress-bar" id="bar"></i></div>
+          <span id="total">0:00</span>
+        </div>
+        <div class="d-flex gap-2 transport" role="group" aria-label="Playback">
+          <button class="btn btn-outline-secondary btn-lg" id="prev" aria-label="Previous track" disabled>Prev</button>
+          <button class="btn btn-primary btn-lg" id="play" disabled><span id="playLabel">Play</span></button>
+          <button class="btn btn-outline-secondary btn-lg" id="next" aria-label="Next track" disabled>Next</button>
+        </div>
+        <div class="d-flex gap-2 mt-2 track-actions" role="group" aria-label="Playing track actions">
+          <button class="btn btn-outline-success flex-fill" id="like" aria-pressed="false" disabled>Keep</button>
+          <button class="btn btn-outline-danger flex-fill" id="dislike" aria-pressed="false" disabled>Reject</button>
+          <button class="btn btn-outline-secondary flex-fill" id="stop" disabled>Stop</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="mobile-workspace">
+      <section class="mobile-panel" id="queueView" role="tabpanel" aria-labelledby="queueTab">
+        <div class="d-flex align-items-center justify-content-between gap-2 mb-2"><h2 class="h6 mb-0">Queue</h2><span class="small text-body-secondary" id="queueCount"></span></div>
+        <ol class="list list-group mobile-track-list" id="playlist" role="listbox" aria-label="Upcoming tracks; tap to play"></ol>
+        <button class="btn btn-outline-secondary mt-2" id="moreTracks" disabled>More tracks</button>
+      </section>
+      <section class="mobile-panel" id="savedView" role="tabpanel" aria-labelledby="savedTab" hidden>
+        <h2 class="visually-hidden" id="listLabel">Liked tracks</h2>
+        <div class="library-tabs nav nav-tabs nav-fill mb-2" role="tablist" aria-label="Saved tracks">
+          <button class="nav-link active" id="likesTab" role="tab" data-view="likes" aria-selected="true" aria-controls="likesPanel">Liked</button>
+          <button class="nav-link" id="dislikesTab" role="tab" data-view="dislikes" aria-selected="false" aria-controls="dislikesPanel" tabindex="-1">Rejected</button>
+          <button class="nav-link" id="historyTab" role="tab" data-view="history" aria-selected="false" aria-controls="historyPanel" tabindex="-1">History</button>
+        </div>
+        <div class="track-lists">
+          <div id="likesPanel" role="tabpanel" aria-labelledby="likesTab"><ol class="list list-group mobile-track-list" id="likes" role="listbox" aria-label="Liked tracks; tap to play"></ol></div>
+          <div id="dislikesPanel" role="tabpanel" aria-labelledby="dislikesTab" hidden><ol class="list list-group mobile-track-list" id="dislikes" role="listbox" aria-label="Rejected tracks; tap to play" hidden></ol></div>
+          <div id="historyPanel" role="tabpanel" aria-labelledby="historyTab" hidden><ol class="list list-group mobile-track-list" id="history" role="listbox" aria-label="Played tracks; tap to play" hidden></ol></div>
+        </div>
+      </section>
+      <section class="mobile-panel" id="tuneView" role="tabpanel" aria-labelledby="settingsButton" hidden>
+        <h2 class="h6 mb-2">Settings</h2>
+        <div class="tune-scroll">
+          <label class="form-label" for="volume">Volume</label>
+          <input class="form-range mb-3" id="volume" type="range" min="0" max="1" step="0.02" value="0.6">
+          <fieldset class="mb-3"><legend class="h6">Sound</legend><div class="toggle-grid" id="palettes" role="group" aria-label="Sound"></div></fieldset>
+          <fieldset class="mb-0"><legend class="h6">Styles</legend><div class="toggle-grid" id="generators" role="group" aria-label="Styles"></div><button class="btn btn-outline-secondary w-100 mt-2" id="allStyles" disabled>Select all styles</button></fieldset>
+        </div>
+      </section>
+    </div>
+
+    <nav class="nav nav-pills nav-fill gap-2" role="tablist" aria-label="Player views">
+      <button class="nav-link active" id="queueTab" role="tab" data-mobile-view="queue" aria-selected="true" aria-controls="queueView">Queue</button>
+      <button class="nav-link" id="savedTab" role="tab" data-mobile-view="saved" aria-selected="false" aria-controls="savedView" tabindex="-1">Saved</button>
+      <button class="nav-link" id="settingsButton" role="tab" data-mobile-view="tune" aria-selected="false" aria-controls="tuneView" tabindex="-1" disabled>Settings</button>
+    </nav>
+    <div class="statusbar small text-body-secondary"><span id="status" role="status" aria-live="polite">Loading...</span></div>
+  </div>
+</main>
+
+<dialog class="modal mobile-dialog" id="importDialog" aria-labelledby="importTitle">
+  <div class="modal-content">
+    <header class="modal-header"><h2 class="modal-title fs-5" id="importTitle">Import flags</h2><button class="btn-close" data-close-dialog aria-label="Close import"></button></header>
+    <div class="modal-body">
+      <label class="form-label" for="importBox">Paste your exported tracks</label>
+      <textarea class="form-control" id="importBox" rows="6" placeholder="Paste saved tracks here"></textarea>
+      <p class="small mb-0 mt-2" id="importStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" data-close-dialog>Cancel</button><button class="btn btn-primary" id="addVotes">Add tracks</button></div>
+  </div>
+</dialog>
+<dialog class="modal mobile-dialog" id="helpDialog" aria-labelledby="helpTitle">
+  <div class="modal-content">
+    <header class="modal-header"><h2 class="modal-title fs-5" id="helpTitle">Help</h2><button class="btn-close" data-close-dialog aria-label="Close help"></button></header>
+    <div class="modal-body"><div class="help-content" id="helpContent"></div></div>
+    <div class="modal-footer"><button class="btn btn-primary" data-close-dialog>Close</button></div>
+  </div>
+</dialog>
+<script type="module" src="radio-mobile.js"></script>
+</body>
+</html>

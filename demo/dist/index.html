@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#008080">
+  <meta name="description" content="GUI95: a working reference desktop inspired by mid-1990s interfaces. Explore files, paint a picture, tune a player, and change your desktop settings.">
+  <title>GUI95 Reference Desktop</title>
+  <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="desktop.css">
+  <script src="desktop.js" defer></script>
+</head>
+<body>
+  <main id="desktop" aria-label="Reference desktop">
+    <nav id="desktop-icons" aria-label="Desktop shortcuts"></nav>
+    <div class="desktop-mark" aria-hidden="true">GUI95<span>REFERENCE DESKTOP</span></div>
+    <div id="windows"></div>
+  </main>
+  <footer id="taskbar">
+    <button id="start" aria-haspopup="menu" aria-expanded="false"><img class="start-icon" src="assets/icons/logo.svg" alt=""><b>Start</b></button>
+    <span class="task-divider"></span><div id="tasks" aria-label="Open windows"></div>
+    <div class="tray"><button id="sound-toggle" aria-label="Mute sound" title="Mute sound"><span aria-hidden="true">♫</span></button><time id="clock"></time></div>
+  </footer>
+  <div id="start-menu" class="popup start-popup" role="menu" hidden><div class="start-brand" aria-hidden="true">GUI<b>95</b></div><div id="start-items"></div></div>
+  <div id="menu-popup" class="popup" role="menu" hidden></div>
+  <dialog id="dialog" aria-labelledby="dialog-heading"><div class="titlebar"><img src="assets/icons/info.svg" alt=""><strong id="dialog-heading"></strong><button class="caption-button close-dialog" aria-label="Close dialog"><img src="assets/icons/close.svg" alt=""></button></div><div id="dialog-content"></div></dialog>
+  <div id="announcer" class="visually-hidden" role="status" aria-live="polite"></div>
+  <noscript><div class="no-script">This interactive desktop needs JavaScript. The reference documents remain available in the parent project folder.</div></noscript>
+</body>
+</html>

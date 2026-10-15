@@ -1,0 +1,56 @@
+{
+  "name": "vector95",
+  "version": "1.4.2",
+  "description": "A pressure-sensitive SVG studio with a classic MDI workspace",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "postinstall": "node scripts/prepare.mjs",
+    "prestart": "node scripts/prepare.mjs",
+    "start": "electron .",
+    "preview": "node scripts/serve.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "build:assets": "node scripts/svg-assets.mjs",
+    "pretest": "node scripts/svg-assets.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:ui": "playwright test",
+    "build": "node scripts/build.mjs",
+    "build:dir": "node scripts/build.mjs --dir"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "98.css": "0.1.21",
+    "canvaskit-wasm": "0.42.0",
+    "electron": "44.6.0",
+    "electron-builder": "26.15.3",
+    "esbuild": "0.25.12",
+    "fontkit": "2.0.4",
+    "paper": "0.12.18",
+    "prettier": "^3.9.9",
+    "svgo": "4.1.0"
+  },
+  "build": {
+    "appId": "studio.vector95.app",
+    "productName": "Vector 95",
+    "directories": {
+      "output": "release"
+    },
+    "npmRebuild": false,
+    "files": [
+      "index.html",
+      "src/**/*",
+      "!src/assets/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "src/icon.ico",
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "Vector95-${version}.exe"
+    }
+  }
+}

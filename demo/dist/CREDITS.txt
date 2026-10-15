@@ -1,0 +1,22 @@
+GUI95 Reference Desktop
+
+Original demonstration application created for the GUI95 reference collection.
+Visual vocabulary: Vector95 and sausage-music / ProcGen FM.
+Most SVG icon assets and the two labeled source screenshots: Vector95.
+Monitor and Media Player application icons: original artwork for this demo.
+
+MS Sans Serif regular and bold font recreations by lou.
+Regular: https://fontstruct.com/fontstructions/show/1384746
+Bold: https://fontstruct.com/fontstructions/show/1384862
+License: Creative Commons Attribution-ShareAlike 3.0.
+The fonts are unmodified. Their complete original licenses and readmes
+accompany them in assets/ms-sans-serif*.txt.
+
+The parent collection's docs/provenance.md records the application sources,
+hash manifest, and project-specific notices. Stephen Lavelle's distributed
+material is covered by the parent collection's MIT license; third-party
+material retains its own terms. See LICENSE and THIRD-PARTY-NOTICES.md
+in the parent collection.
+
+Windows and Microsoft are trademarks of Microsoft. This is an independent
+reference demonstration, not a Microsoft product or operating system emulator.

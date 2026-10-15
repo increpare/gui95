@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>ProcGen FM</title>
+<link rel="stylesheet" href="radio.css">
+</head>
+<body>
+<main class="window" id="playerWindow" aria-label="ProcGen FM">
+  <header class="titlebar" id="titlebar">
+    <details class="system-menu menu">
+      <summary class="system-box" aria-label="System menu"><i aria-hidden="true"></i></summary>
+      <div class="menu-popup">
+        <button data-window="restore">Restore</button>
+        <button data-window="move" data-desktop-only>Move</button>
+        <button data-window="size" data-desktop-only>Size</button>
+        <button data-window="minimize">Minimize</button>
+        <button data-window="maximize">Maximize</button>
+        <hr data-desktop-only>
+        <button data-window="close" data-desktop-only>Close <span>Alt+F4</span></button>
+      </div>
+    </details>
+    <h1>ProcGen FM</h1>
+    <div class="window-controls">
+      <button id="minimize" class="caption-button" aria-label="Minimize" title="Minimize"><span class="minimize-icon" aria-hidden="true"></span></button>
+      <button id="maximize" class="caption-button" aria-label="Maximize" title="Maximize"><span class="maximize-icon" aria-hidden="true"></span></button>
+      <button id="closeWindow" class="caption-button" aria-label="Close" title="Close" data-desktop-only><span class="close-icon" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <div id="windowBody">
+    <nav class="menubar" aria-label="Player menu">
+      <details class="menu" id="fileMenu">
+        <summary><u>F</u>ile</summary>
+        <div class="menu-popup">
+          <button id="importVotes" disabled>Import Flags...</button>
+          <button id="downloadVotes" disabled>Save Flags...</button>
+          <button id="copyVotes" disabled>Copy Flags</button>
+          <hr data-desktop-only>
+          <button data-desktop="open-output-folder" data-desktop-only>Open Output Folder</button>
+          <button data-desktop="copy-output-path" data-desktop-only>Copy Output Folder Path</button>
+          <hr data-desktop-only>
+          <button data-window="close" data-desktop-only>Exit <span>Alt+F4</span></button>
+        </div>
+      </details>
+      <details class="menu" id="playbackMenu">
+        <summary><u>P</u>layback</summary>
+        <div class="menu-popup">
+          <button data-command="play">Play / Pause <span>Space</span></button>
+          <button data-command="stop">Stop</button>
+          <button data-command="prev">Previous <span>Left</span></button>
+          <button data-command="next">Next <span>Right</span></button>
+          <button data-command="moreTracks">More Upcoming Tracks</button>
+          <hr>
+          <button data-command="like">Keep <span>K</span></button>
+          <button data-command="dislike">Reject <span>R</span></button>
+        </div>
+      </details>
+      <details class="menu" id="viewMenu">
+        <summary><u>V</u>iew</summary>
+        <div class="menu-popup">
+          <button data-view="history" aria-pressed="false">History</button>
+          <button data-view="likes" aria-pressed="true">Liked Tracks</button>
+          <button data-view="dislikes" aria-pressed="false">Disliked Tracks</button>
+          <hr>
+          <button data-focus-split="librarySplitter">Resize Track Panes</button>
+          <hr data-desktop-only>
+          <button data-desktop="reload" data-desktop-only>Reload</button>
+        </div>
+      </details>
+      <details class="menu" id="optionsMenu">
+        <summary><u>O</u>ptions</summary>
+        <div class="menu-popup">
+          <button id="settingsButton" disabled>Choose Styles</button>
+          <button id="allStyles" disabled>All Styles</button>
+          <hr data-browser-only>
+          <a href="radio-mobile.html" data-browser-only>Mobile Player</a>
+          <a href="studio.html" data-browser-only>Studio</a>
+          <a href="lab.html" data-browser-only>Lab</a>
+        </div>
+      </details>
+      <details class="menu" id="helpMenu">
+        <summary><u>H</u>elp</summary>
+        <div class="menu-popup"><button id="helpButton">Keys and Files...</button></div>
+      </details>
+    </nav>
+    <div class="client">
+      <section class="now-playing" aria-label="Track">
+        <div class="display off" id="display">
+          <div class="track-info"><div class="ttl" id="title">No track selected</div><div class="sub" id="sub"></div></div>
+          <canvas id="scope" height="54" aria-label="Audio spectrum"></canvas>
+        </div>
+        <div class="timeline"><span id="elapsed">0:00</span><div class="progress" role="progressbar" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div><span id="total">0:00</span></div>
+      </section>
+      <div class="transport" role="group" aria-label="Playback">
+        <div class="keys">
+          <button class="key" id="prev" title="Previous (Left arrow)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>Prev</button>
+          <button class="key" id="play" title="Play (Space)" disabled><svg viewBox="0 0 24 24" id="playIcon" aria-hidden="true"><path d="M7 4v16l14-8z"/></svg><span id="playLabel">Play</span></button>
+          <button class="key" id="stop" title="Stop" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/></svg>Stop</button>
+          <button class="key" id="next" title="Next (Right arrow)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>Next</button>
+          <span class="toolbar-separator" aria-hidden="true"></span>
+          <button class="key" id="like" title="Keep selected track (K)" aria-pressed="false" disabled><span class="flag kept" aria-hidden="true"></span>Keep</button>
+          <button class="key" id="dislike" title="Reject selected track (R)" aria-pressed="false" disabled><span class="flag rejected" aria-hidden="true"></span>Reject</button>
+        </div>
+        <label class="vol" for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.02" value="0.6"></label>
+      </div>
+      <section class="workspace" aria-label="Music panes">
+        <section class="stations-pane" aria-label="Station settings">
+          <fieldset class="styles-panel"><legend>Styles</legend><div class="toggle-grid" id="generators" role="group" aria-label="Styles"></div></fieldset>
+          <fieldset class="sounds-panel"><legend>Sound</legend><div class="toggle-grid" id="palettes" role="group" aria-label="Sound"></div></fieldset>
+        </section>
+        <div class="library-panes" id="libraryPanes">
+          <section class="incoming-pane" id="incomingPane" aria-labelledby="incomingLabel">
+            <h2 id="incomingLabel">Playlist <span class="stream-mark" role="img" aria-label="Endless playlist" title="Continuous playlist"><svg viewBox="0 0 16 9" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h3v1H2zm-1 1h1v1H1zm4 0h1v1H5zM0 3h1v3H0zm6 0h1v1H6zM1 6h1v1H1zm1 1h3v1H2zm3-1h1v1H5zm1-1h1v1H6zm1-1h2v1H7zm2-1h1v1H9zm1-1h1v1h-1zm1-1h3v1h-3zm3 1h1v1h-1zm1 1h1v3h-1zm-1 3h1v1h-1zm-3 1h3v1h-3zm-1-1h1v1h-1zM9 5h1v1H9z"/></svg></span><span id="queueCount"></span></h2>
+            <ol class="list" id="playlist" role="listbox" aria-label="Endless incoming playlist"></ol>
+            <div class="stream-tail"><span class="continuation">Continuous playlist</span><button id="moreTracks" title="Load more upcoming tracks" disabled>More tracks</button></div>
+          </section>
+          <div class="splitter vertical" id="librarySplitter" role="separator" aria-label="Resize track panes" aria-orientation="vertical" aria-valuemin="150" aria-valuemax="700" aria-valuenow="580" tabindex="0"></div>
+          <section class="saved-pane" aria-labelledby="listLabel">
+            <div class="library-tabs" role="tablist" aria-label="Saved tracks"><button id="likesTab" role="tab" data-view="likes" aria-selected="true" aria-controls="likesPanel">Liked</button><button id="dislikesTab" role="tab" data-view="dislikes" aria-selected="false" aria-controls="dislikesPanel" tabindex="-1">Disliked</button><button id="historyTab" role="tab" data-view="history" aria-selected="false" aria-controls="historyPanel" tabindex="-1">History</button></div>
+            <h2 id="listLabel">Liked tracks</h2>
+            <div class="track-lists">
+              <div id="historyPanel" role="tabpanel" aria-labelledby="historyTab" hidden><ol class="list" id="history" role="listbox" aria-label="Played tracks" hidden></ol></div>
+              <div id="likesPanel" role="tabpanel" aria-labelledby="likesTab"><ol class="list" id="likes" role="listbox" aria-label="Liked tracks"></ol></div>
+              <div id="dislikesPanel" role="tabpanel" aria-labelledby="dislikesTab" hidden><ol class="list" id="dislikes" role="listbox" aria-label="Disliked tracks" hidden></ol></div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+    <footer class="statusbar"><span id="status" role="status" aria-live="polite">Loading...</span><span class="led" id="led">Stopped</span></footer>
+  </div>
+  <div class="resize-edge n" data-resize="n"></div><div class="resize-edge s" data-resize="s"></div>
+  <div class="resize-edge e" data-resize="e"></div><div class="resize-edge w" data-resize="w"></div>
+  <div class="resize-edge ne" data-resize="ne"></div><div class="resize-edge nw" data-resize="nw"></div>
+  <div class="resize-edge se" data-resize="se"></div><div class="resize-edge sw" data-resize="sw"></div>
+</main>
+
+<dialog class="dialog" id="importDialog" aria-labelledby="importTitle">
+  <header class="dialog-titlebar"><h2 id="importTitle">Import Flags</h2><button class="caption-button" data-close-dialog aria-label="Close Import Flags"><span class="close-icon" aria-hidden="true"></span></button></header>
+  <div class="dialog-body"><div class="dialog-fields"><label for="importBox">Tracks:</label><textarea id="importBox" placeholder="Paste saved tracks here"></textarea><span id="importStatus" role="status" aria-live="polite"></span></div><div class="dialog-actions"><button class="default" id="addVotes">Add</button><button data-close-dialog>Cancel</button></div></div>
+</dialog>
+<dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle">
+  <header class="dialog-titlebar"><h2 id="helpTitle">Keys and Files</h2><button class="caption-button" data-close-dialog aria-label="Close Keys and Files"><span class="close-icon" aria-hidden="true"></span></button></header>
+  <div class="help-body"><pre id="helpContent"></pre><button class="default" data-close-dialog>OK</button></div>
+</dialog>
+<button class="minimized-player" id="restorePlayer" aria-label="Restore ProcGen FM" hidden><svg viewBox="0 0 32 32" aria-hidden="true" shape-rendering="crispEdges"><path fill="#000" d="M2 2h28v23H2zM13 25h6v3h-6zM7 28h18v3H7z"/><path fill="#fff" d="M3 3h26v21H3z"/><path fill="#c0c0c0" d="M4 4h24v18H4z"/><path fill="#000080" d="M5 5h22v15H5z"/><path fill="#00ffff" d="M18 7h2v9h-2zM13 14h5v4h-5zM18 7h5v2h-5z"/></svg><span>ProcGen FM</span></button>
+<script type="module" src="radio.js"></script>
+</body>
+</html>

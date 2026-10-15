@@ -1,0 +1,10 @@
+/dist/
+/demo/.openai/
+/demo-deploy.tar.gz
+/demo-preview.jpg
+/font-readability.png
+/.codex_tmp/
+/node_modules/
+*.log
+.DS_Store
+Thumbs.db

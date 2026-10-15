@@ -1,0 +1,365 @@
+Palettes bundled from https://github.com/aseprite/aseprite/tree/main/data/extensions
+Source commit: 14fe117e853bd642672e72018166239506060cd4
+Colour order and duplicate entries are preserved. Classic (Arne16) retains Vector 95's existing layout.
+
+Adigun A. Polack Palettes
+{"name":"Adigun A. Polack","url":"https://twitter.com/AdigunPolack"}
+
+AAP-64: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/adigunpolack-palettes/aap-64.gpl
+#Palette Name: AAP-64
+#Description: Created by Adigun Polack
+#Colors: 64
+#https://twitter.com/AdigunPolack
+#http://pixeljoint.com/pixelart/119466.htm
+
+AAP-Micro12: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/adigunpolack-palettes/aap-micro12.gpl
+# ------------------------------------------------------
+#  T h e   A A P - M i c r o 1 2   P a l e t t e
+# ------------------------------------------------------
+# Created by Adigun Azikiwe Polack.
+# (c)2018 Adigun Azikiwe Polack.  All Rights Reserved.
+# ------------------------------------------------------
+#
+# https://twitter.com/AdigunPolack
+# http://pixeljoint.com/pixelart/121151.htm
+#
+
+AAP-Splendor128: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/adigunpolack-palettes/aap-splendor128.gpl
+# --------------------------------------------------------
+#  T h e   A A P - S p l e n d o r 1 2 8   P a l e t t e
+# --------------------------------------------------------
+# Created by Adigun Azikiwe Polack.
+# (c)2018 Adigun Azikiwe Polack.  All Rights Reserved.
+# --------------------------------------------------------
+#
+# https://twitter.com/AdigunPolack
+# http://pixeljoint.com/pixelart/120714.htm
+#
+
+AAP-RadiantXV: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/adigunpolack-palettes/aap-radiantxv.gpl
+#
+# AAP-RadiantXV
+# Created by Adigun Polack for the PixelJoint 15 Color Palette Competition
+# https://twitter.com/adigunpolack
+#
+
+SimpleJPC-16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/adigunpolack-palettes/simplejpc-16.gpl
+# ------------------------------------------------------
+#  S i m p l e J P C - 1 6   P a l e t t e
+# ------------------------------------------------------
+# Created by Adigun Azikiwe Polack.
+# (c)2018 Adigun Azikiwe Polack.  All Rights Reserved.
+# ------------------------------------------------------
+#
+# https://twitter.com/AdigunPolack
+# http://pixeljoint.com/pixelart/119844.htm
+#
+
+Arne Niklas Jansson Palettes
+{"name":"Arne Niklas Jansson","url":"https://androidarts.com/"}
+
+A64: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/a64.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# Based on the c64 palette
+#
+
+ARNE16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/arne16.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+#
+
+ARNE32: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/arne32.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+#
+
+CGArne: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/cg-arne.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+#
+
+Copper Tech: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/copper-tech.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# A cold-warm ramp palette, more focused on tech. RGB extras.
+#
+
+CPC Boy: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/cpc-boy.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# Inspired by the Armstrad CPC palette with a Gameboy screen gradient added.
+#
+
+Eroge Copper: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/eroge-copper.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# This palette is made for Eroge games and cold-warm ramp games like Xenon II, Killing Gameshow, Paradroid 90. Because of the Eroge focus, I've included two warm / skin tone ramps. The green should ramp into the dark teal.
+#
+
+JMP: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/jmp.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# Japanese Machine Palette, inspired by the MSX.
+#
+
+Psygnosia: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/arne-palettes/psygnosia.gpl
+#
+# by Arne Niklas Jansson
+# http://androidarts.com/palette/16pal.htm
+# Inspired by the game Ork by Psygnosis
+#
+
+Davit Masia Palettes
+{"name":"Davit Masia","url":"https://twitter.com/DavitMasia"}
+
+Matriax8c: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/davitmasia-palettes/matriax8c.gpl
+#
+# by Davit Masia
+# https://twitter.com/DavitMasia
+#
+
+Richard "DawnBringer" Fhager Palettes
+{"name":"Richard Fhager","url":"http://hem.fyristorg.com/dawnbringer/"}
+
+DB16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/dawnbringer-palettes/db16.gpl
+#
+# by Richard "DawnBringer" Fhager
+# http://pixeljoint.com/forum/forum_posts.asp?TID=12795
+#
+
+DB32: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/dawnbringer-palettes/db32.gpl
+#
+# by Richard "DawnBringer" Fhager
+# http://pixeljoint.com/forum/forum_posts.asp?TID=16247
+#
+
+ENDESGA Studios Palettes
+{"name":"ENDESGA Studios","url":"https://twitter.com/ENDESGA"}
+
+ARQ4: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/arq4.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+ARQ16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/arq16.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+EDG16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/edg16.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+EDG32: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/edg32.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+EDG8: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/edg8.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+EN4: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/en4.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+ENOS16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/enos16.gpl
+#
+# By ENDESGA Studios
+# https://twitter.com/ENDESGA
+#
+
+HEPT32: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/endesga-palettes/hept32.gpl
+#
+
+Hardware Palettes
+{}
+
+Apple II: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/apple-ii.gpl
+#
+
+Atari 2600 NTSC: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/atari2600-ntsc.gpl
+#
+
+Atari 2600 PAL: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/atari2600-pal.gpl
+#
+
+CGA: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga.gpl
+#
+
+CGA0: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga0.gpl
+#
+
+CGA0 High: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga0hi.gpl
+#
+
+CGA1: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga1.gpl
+#
+
+CGA1 High: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga1hi.gpl
+#
+
+CGA3rd: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga3rd.gpl
+#
+
+CGA3rd High: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cga3rdhi.gpl
+#
+
+Commodore Plus/4: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/commodore-plus4.gpl
+#
+
+Commodore VIC-20: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/commodore-vic20.gpl
+#
+
+Commodore 64: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/commodore64.gpl
+#
+
+CPC: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/cpc.gpl
+#
+# http://www.cpcwiki.eu/index.php/CPC_Palette
+#
+
+Game Boy: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/gameboy.gpl
+#
+
+Game Boy Color Type1: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/gameboy-color-type1.gpl
+#
+
+Master System: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/master-system.gpl
+#
+
+MSX1: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/msx1.gpl
+#
+
+MSX2: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/msx2.gpl
+#
+
+NES: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/nes.gpl
+#
+
+NES NTSC: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/nes-ntsc.gpl
+#
+
+Teletext: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/teletext.gpl
+#
+
+VGA 13h: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/vga-13h.gpl
+#
+# https://commons.wikimedia.org/wiki/User:Psychonaut/ipalette.sh
+# VGA 13h standard palette
+#
+
+Virtual Boy: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/virtualboy.gpl
+#
+# Thanks to Planet Virtual Boy for the contribution
+# http://www.planetvb.com/
+#
+
+ZX Spectrum: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hardware-palettes/zx-spectrum.gpl
+#
+# ZX Spectrum
+#
+
+Hyohnoo Palettes
+{"name":"Hyohnoo","url":"https://twitter.com/Hyohnoo"}
+
+mail24: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/hyohnoo-palettes/mail24.gpl
+#
+# by Hyohnoo
+# https://twitter.com/Hyohnoo
+#
+
+Javier Guerrero Palettes
+{"name":"Javier Guerrero","url":"https://twitter.com/Xavier_Gd"}
+
+nyx8: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/javierguerrero-palettes/nyx8.gpl
+#
+# by Javier Guerrero
+# https://twitter.com/Xavier_Gd
+#
+
+PICO-8 Palette
+{"name":"Joseph White","url":"http://www.pico-8.com/"}
+
+PICO-8: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/pico8-palette/pico-8.gpl
+#
+# by Joseph White
+# http://www.pico-8.com/
+#
+
+PineTreePizza Palettes
+{"name":"PineTreePizza","url":"https://twitter.com/PineTreePizza"}
+
+BubbleGum16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/pinetreepizza-palettes/bubblegum-16.gpl
+#
+# by PineTreePizza
+# https://twitter.com/PineTreePizza
+#
+
+Rosy-42: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/pinetreepizza-palettes/rosy-42.gpl
+#
+# by PineTreePizza
+# https://twitter.com/PineTreePizza
+#
+
+Software Palettes
+{}
+
+Google UI: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/google-ui.gpl
+#
+
+Minecraft: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/minecraft.gpl
+#
+# Based on Minecraft 1.14 default texture
+# Order: wool, concrete, terracotta
+#
+
+Monokai: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/monokai.gpl
+#
+
+SmileBASIC: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/smile-basic.gpl
+#
+# SmileBASIC: http://smilebasic.com/en/reference/#constant
+#
+
+Solarized: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/solarized.gpl
+#
+
+Web Safe Colors: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/web-safe-colors.gpl
+#
+# ColorZilla Web Safe Colors palette
+#
+
+Win16: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/win16.gpl
+#
+
+X11: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/software-palettes/x11.gpl
+#
+
+Zughy Palettes
+{"name":"Zughy","url":"https://twitter.com/_Zughy"}
+
+Zughy-32: https://github.com/aseprite/aseprite/blob/14fe117e853bd642672e72018166239506060cd4/data/extensions/zughy-palettes/zughy-32.gpl
+#
+# by Zughy
+# https://twitter.com/_Zughy
+#
+

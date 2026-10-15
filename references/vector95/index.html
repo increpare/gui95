@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'"
+    />
+    <title>Vector 95 - SVG Editor</title>
+    <link rel="icon" href="src/generated/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="src/generated/svg-assets.css" />
+    <link rel="stylesheet" href="src/classic.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-titlebar">
+        <div class="app-brand">
+          <span data-icon="logo"></span><strong>Vector 95</strong
+          ><span class="title-divider"></span
+          ><span class="title-subtitle">SVG Editor</span>
+        </div>
+        <div class="app-controls">
+          <span class="local-badge" hidden></span
+          ><button
+            data-action="app-minimize"
+            aria-label="Minimise application"
+            data-icon="minimize"
+          ></button
+          ><button
+            data-action="app-maximize"
+            aria-label="Maximise application"
+            data-icon="maximize"
+          ></button
+          ><button
+            data-action="app-close"
+            aria-label="Close application"
+            data-icon="close"
+          ></button>
+        </div>
+      </header>
+      <nav class="menubar" aria-label="Application menu">
+        <div id="menus"></div>
+        <div id="mdi-child-controls" class="mdi-child-controls" hidden>
+          <button
+            data-window-action="minimize"
+            aria-label="Minimise drawing"
+            title="Minimise drawing"
+            data-icon="minimize"
+          ></button>
+          <button
+            data-window-action="maximize"
+            aria-label="Restore drawing"
+            title="Restore drawing"
+            data-icon="restore"
+          ></button>
+          <button
+            data-window-action="close"
+            aria-label="Close drawing"
+            title="Close drawing"
+            data-icon="close"
+          ></button>
+        </div>
+        <span class="edition" hidden></span>
+      </nav>
+      <div class="commandbar">
+        <div class="command-group">
+          <button
+            data-action="new"
+            title="New document (Ctrl+N)"
+            data-icon="new"
+            aria-label="New document"
+          ></button
+          ><button
+            data-action="open"
+            title="Open SVG (Ctrl+O)"
+            data-icon="open"
+            aria-label="Open SVG"
+          ></button
+          ><button
+            data-action="save"
+            title="Save SVG (Ctrl+S)"
+            data-icon="save"
+            aria-label="Save SVG"
+          ></button>
+        </div>
+        <div class="command-group">
+          <button
+            data-action="undo"
+            title="Undo (Ctrl+Z)"
+            data-icon="undo"
+            aria-label="Undo"
+          ></button
+          ><button
+            data-action="redo"
+            title="Redo (Ctrl+Shift+Z)"
+            data-icon="redo"
+            aria-label="Redo"
+          ></button>
+        </div>
+        <div class="command-group">
+          <button
+            data-action="fit"
+            title="Fit artboard (Ctrl+0)"
+            data-icon="fit"
+            aria-label="Fit artboard"
+          ></button
+          ><button
+            id="grid-button"
+            data-action="grid"
+            title="Show grid (Ctrl+\u0027)"
+            data-icon="grid"
+            aria-label="Show grid"
+            aria-pressed="false"
+          ></button>
+        </div>
+        <span class="toolbar-divider"></span>
+        <div class="current-tool">
+          <span id="current-tool-icon"></span>
+          <div>
+            <strong id="current-tool-name">Brush</strong
+            ><span id="current-tool-hint"
+              >Paint on the active layer. Overlapping fills merge.</span
+            >
+          </div>
+        </div>
+        <section
+          class="tool-properties"
+          aria-label="Tool options"
+          aria-describedby="tool-options-description"
+        >
+          <svg
+            id="brush-preview"
+            viewBox="0 0 240 54"
+            aria-label="Size preview"
+          ></svg>
+          <div id="size-options" class="toolbar-option">
+            <label for="brush-size">Size</label>
+            <input
+              id="brush-size"
+              type="range"
+              min="1"
+              max="100"
+              step="0.1"
+              value="12"
+            />
+            <label class="toolbar-value"
+              ><input
+                id="size-display"
+                type="number"
+                min="1"
+                max="100"
+                step="0.1"
+                value="12"
+                aria-label="Size in pixels"
+              /><span>px</span></label
+            >
+          </div>
+          <div id="smoothing-options" class="toolbar-option">
+            <label for="smoothing">Smoothing</label>
+            <input id="smoothing" type="range" min="0" max="90" value="35" />
+            <label class="toolbar-value"
+              ><input
+                id="smoothing-display"
+                type="number"
+                min="0"
+                max="90"
+                step="1"
+                value="35"
+                aria-label="Smoothing percentage"
+              /><span>%</span></label
+            >
+          </div>
+          <label
+            class="check-row"
+            id="pressure-options"
+            title="Vary the brush width with pen pressure"
+            ><input
+              type="checkbox"
+              id="pressure"
+              checked
+              aria-label="Use pen pressure"
+            /><span>Pressure</span></label
+          >
+          <div
+            class="pressure-meter"
+            title="Live pen pressure"
+            aria-label="Live pen pressure"
+          >
+            <span id="input-label" hidden>Mouse input</span>
+            <div><i id="pressure-level"></i></div>
+            <span id="pressure-number">—</span>
+          </div>
+          <p id="tool-options-description" hidden></p>
+          <div
+            id="selection-appearance-options"
+            class="selection-appearance"
+            role="group"
+            aria-label="Selection appearance"
+            hidden
+          ></div>
+          <label id="paint-inside-options" class="check-row" hidden
+            ><input id="paint-inside" type="checkbox" /><span
+              >Paint Inside</span
+            ></label
+          >
+          <label id="bucket-boundary-options" class="toolbar-option" hidden
+            >Boundaries<select
+              id="bucket-boundaries"
+              aria-label="Bucket boundaries"
+            >
+              <option value="active">Active layer</option>
+              <option value="visible">Visible layers</option>
+            </select></label
+          >
+        </section>
+        <div class="command-end">
+          <span class="pen-chip" id="pen-chip"
+            ><span data-icon="tablet"></span><span>Mouse input</span></span
+          ><button class="export-button" data-action="export-svg">
+            <span data-icon="export"></span> Export SVG
+          </button>
+        </div>
+      </div>
+      <main class="studio">
+        <aside class="toolbox" aria-label="Drawing tools">
+          <div class="panel-caption">
+            <span data-icon="brush"></span> Tools
+            <span class="caption-grip"></span>
+          </div>
+          <div id="tools"></div>
+          <div class="tool-separator"></div>
+          <div class="color-stack">
+            <button
+              id="fill-chip"
+              title="Primary colour"
+              aria-label="Choose primary colour"
+            ></button
+            ><button
+              id="stroke-chip"
+              title="Secondary colour"
+              aria-label="Choose secondary colour"
+            ></button>
+          </div>
+          <div class="color-actions">
+            <button
+              class="small-tool"
+              data-action="swap-colors"
+              title="Swap primary and secondary (X)"
+              data-icon="swap"
+              aria-label="Swap colours"
+            ></button>
+          </div>
+          <label class="palette-choice" for="palette-source">Palette</label>
+          <select id="palette-source" aria-label="Colour palette">
+            <option value="classic">Classic (Arne16)</option>
+            <option value="document" selected>Drawing</option>
+            <option value="recent">Recent</option>
+          </select>
+          <div
+            id="swatches"
+            class="swatches"
+            aria-label="Arne16 colour palette"
+          ></div>
+          <div class="toolbox-bottom">V<span>95</span></div>
+        </aside>
+        <div
+          id="toolbox-resizer"
+          role="separator"
+          aria-label="Toolbar width"
+          aria-orientation="vertical"
+          aria-valuemin="83"
+          aria-valuemax="320"
+          aria-valuenow="83"
+          tabindex="0"
+          title="Drag to resize the toolbar"
+        ></div>
+        <section class="workspace">
+          <div
+            class="document-tabs"
+            id="document-tabs"
+            aria-label="Open documents"
+          ></div>
+          <div class="desktop" id="desktop">
+            <div class="desktop-watermark">
+              <span data-icon="logo"></span><span>Vector 95</span>
+            </div>
+          </div>
+        </section>
+        <div
+          id="inspector-resizer"
+          role="separator"
+          aria-label="Sidebar width"
+          aria-orientation="vertical"
+          aria-valuemin="240"
+          aria-valuemax="520"
+          aria-valuenow="258"
+          tabindex="0"
+          title="Drag to resize the sidebar"
+        ></div>
+        <aside class="inspector" aria-label="Properties and layers">
+          <div class="panel-caption">
+            <span data-icon="layers"></span> Layers
+            <span class="caption-grip"></span><span id="layer-count"></span>
+          </div>
+          <section class="layers-panel">
+            <div class="layers-columns">
+              <span>NAME</span><span>SHOW / LOCK</span>
+            </div>
+            <div
+              id="layers"
+              class="layer-list"
+              role="tree"
+              aria-label="Drawing layers"
+            ></div>
+            <div class="layer-actions">
+              <button
+                data-action="add-layer"
+                title="Add layer"
+                data-icon="plus"
+                aria-label="Add layer"
+              ></button
+              ><button
+                data-action="layer-up"
+                title="Move layer up"
+                data-icon="up"
+                aria-label="Move layer up"
+              ></button
+              ><button
+                data-action="layer-down"
+                title="Move layer down"
+                data-icon="down"
+                aria-label="Move layer down"
+              ></button
+              ><button
+                data-action="layer-properties"
+                title="Layer properties"
+                data-icon="info"
+                aria-label="Layer properties"
+              ></button
+              ><span></span
+              ><button
+                data-action="delete-layer"
+                title="Delete layer"
+                data-icon="trash"
+                aria-label="Delete layer"
+              ></button>
+            </div>
+          </section>
+          <div class="property-panels">
+            <div class="panel-caption">
+              <span data-icon="select"></span> Selection
+              <span class="caption-grip"></span>
+            </div>
+            <section class="selection-properties" id="selection-properties">
+              <p class="empty-selection">
+                Select an object to edit its position.
+              </p>
+            </section>
+          </div>
+          <div class="inspector-note">
+            <span data-icon="info"></span
+            ><span
+              >Drawings are saved as SVG files.<br /><strong
+                >Save to keep your changes.</strong
+              ></span
+            >
+          </div>
+        </aside>
+      </main>
+      <footer class="statusbar">
+        <div class="status-main"><i></i><span id="status">Ready.</span></div>
+        <span id="coordinates">X: — &nbsp; Y: —</span
+        ><span id="document-size">1000 × 700 px</span
+        ><span class="status-version">SVG 1.1 <span>◢</span></span>
+      </footer>
+    </div>
+    <input type="file" id="file-input" accept=".svg,image/svg+xml" hidden />
+    <dialog id="dialog" aria-labelledby="dialog-title">
+      <div class="dialog-title">
+        <strong id="dialog-title"></strong
+        ><button
+          id="dialog-close"
+          aria-label="Close dialog"
+          data-icon="close"
+        ></button>
+      </div>
+      <div id="dialog-body"></div>
+    </dialog>
+    <div id="toast" role="status"></div>
+    <script src="src/vendor/paper-core.js"></script>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

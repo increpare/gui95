@@ -1,0 +1,4 @@
+interface:
+  display_name: "GUI95"
+  short_description: "Build classic Windows 95 interfaces and widgets"
+  default_prompt: "Use $gui95 to build this interface with classic Windows 95 widgets and keyboard behavior."

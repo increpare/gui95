@@ -1,0 +1,43 @@
+name: Verify and publish demo
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify reference hashes and documentation
+        shell: pwsh
+        run: ./tools/verify-reference.ps1
+      - name: Check demo syntax
+        run: node --check demo/dist/desktop.js
+      - name: Build distributable skill
+        shell: pwsh
+        run: ./tools/package-skill.ps1
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: demo/dist
+      - uses: actions/deploy-pages@v4
+        id: deployment

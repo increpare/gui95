@@ -1,0 +1,16 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 16 16"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.25"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path
+    fill="#fff"
+    d="M5.5 8V4a1 1 0 0 1 2 0V2.5a1 1 0 0 1 2 0V4a1 1 0 0 1 2 0v2a1 1 0 0 1 2 0v4c0 3-1.5 4.5-4.5 4.5-2 0-3-1-4-2.5L2 8.5c-.8-1.2.5-2.2 1.5-1.2l2 2M7.5 5v3M9.5 5v3M11.5 6v2"
+  />
+</svg>
