@@ -24,7 +24,7 @@ Example prompts:
 - “Use $gui95 to restyle this Electron utility with classic gray controls and crisp typography.”
 - “Use $gui95 to review this interface's menus, focus states, and disabled controls.”
 
-This is a standalone skill release, not a listing in OpenAI's plugin directory.
+The standalone skill can be installed immediately. A separate plugin package contains the same skill plus directory metadata, an icon, and starter prompts. GUI95 is not yet listed in OpenAI's plugin directory. See the [plugin packaging guide](docs/plugin-submission.md).
 
 | Find | Open |
 | --- | --- |
@@ -75,6 +75,6 @@ Issues and small pull requests are welcome. Include the affected control, expect
 
 ## License
 
-Stephen Lavelle's material distributed in this collection is available under the [MIT license](LICENSE), including his bundled Vector95 and ProcGen FM excerpts. Third-party fonts and theme material retain their own licenses and credits; see [third-party notices](THIRD-PARTY-NOTICES.md). Neither application needs to be installed to use the skill.
+Stephen Lavelle's material distributed in this collection is available under the [MIT license](LICENSE), including his bundled Vector95 and ProcGen FM excerpts. Third-party fonts and theme material retain their own licenses and credits; see [third-party notices](THIRD-PARTY-NOTICES.md). Neither application needs to be installed to use the skill. See [privacy information](PRIVACY.md) for the plugin, demo, and support tracker.
 
 GUI95 is an independent project, not affiliated with or endorsed by Microsoft. Microsoft and Windows are trademarks of the Microsoft group of companies.

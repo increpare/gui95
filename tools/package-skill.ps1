@@ -10,7 +10,7 @@ if ((Test-Path -LiteralPath $skillRoot) -or (Test-Path -LiteralPath $archivePath
 }
 & (Join-Path $PSScriptRoot 'verify-reference.ps1')
 New-Item -ItemType Directory -Path $skillRoot -Force | Out-Null
-foreach ($item in @('SKILL.md', 'README.md', 'LICENSE', 'THIRD-PARTY-NOTICES.md', 'agents', 'docs', 'references')) {
+foreach ($item in @('SKILL.md', 'README.md', 'LICENSE', 'THIRD-PARTY-NOTICES.md', 'PRIVACY.md', 'agents', 'docs', 'references')) {
     Copy-Item -LiteralPath (Join-Path $sourceRoot $item) -Destination $skillRoot -Recurse
 }
 New-Item -ItemType Directory -Path (Join-Path $skillRoot 'demo') -Force | Out-Null

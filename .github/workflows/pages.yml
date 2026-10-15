@@ -22,6 +22,9 @@ jobs:
       - name: Build distributable skill
         shell: pwsh
         run: ./tools/package-skill.ps1
+      - name: Build directory plugin package
+        shell: pwsh
+        run: ./tools/package-plugin.ps1
   deploy:
     if: github.event_name != 'pull_request'
     needs: verify

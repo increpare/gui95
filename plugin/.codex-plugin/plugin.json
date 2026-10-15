@@ -1,0 +1,44 @@
+{
+  "name": "gui95",
+  "version": "1.1.0",
+  "description": "Build or restyle Windows 95-inspired web and Electron interfaces with classic controls, menus, dialogs, crisp bevels, and keyboard behavior. GUI95 is a vibe-coded skill and reference collection by Stephen Lavelle.",
+  "author": {
+    "name": "Stephen Lavelle",
+    "url": "https://github.com/increpare"
+  },
+  "homepage": "https://increpare.github.io/gui95/",
+  "repository": "https://github.com/increpare/gui95",
+  "license": "MIT",
+  "keywords": ["windows95", "win95", "retro-ui", "ui-design", "widgets", "html", "css", "javascript", "electron", "desktop", "accessibility", "vibe-coded"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GUI95",
+    "shortDescription": "Build Windows 95-style UIs",
+    "longDescription": "Build and restyle Windows 95-inspired web and Electron interfaces with GUI95, a vibe-coded skill and widget reference collection by Stephen Lavelle.\n\nCreate classic gray buttons, beveled panels, menus, dialogs, property tabs, toolbars, lists, split panes, and desktop workspaces. Adapt HTML, CSS, JavaScript, SVG icons, and interaction patterns from preserved Vector95 and ProcGen FM examples to your project's framework. Guidance covers keyboard navigation, focus, disabled states, cancellation, typography, and display scaling.\n\nUse GUI95 to build a settings dialog, restyle an Electron utility, or review a retro interface's appearance and behavior. The companion browser desktop shows the patterns in working Explorer, Paint, Display Properties, Media Player, and Help examples.\n\nThe reference files are bundled; neither source application needs to be installed. GUI95 supplies implementation guidance and examples, not a drop-in component library or an operating-system emulator. Generated changes still need testing in the target application. Original material is MIT licensed; bundled third-party fonts and theme material retain their own notices. Independent project, not affiliated with or endorsed by Microsoft.",
+    "developerName": "Stephen Lavelle",
+    "category": "Developer Tools",
+    "capabilities": ["Build retro web interfaces", "Restyle Electron interfaces", "Implement classic widgets", "Review keyboard and focus behavior"],
+    "websiteURL": "https://increpare.github.io/gui95/",
+    "supportURL": "https://github.com/increpare/gui95/issues",
+    "privacyPolicyURL": "https://github.com/increpare/gui95/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/increpare/gui95/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Build a Windows 95-style settings dialog with tabs, keyboard navigation, and Apply/Cancel behavior.",
+      "Restyle this Electron utility with classic gray controls, crisp bevels, and readable typography.",
+      "Review this retro interface's menus, focus states, disabled controls, and keyboard behavior."
+    ],
+    "brandColor": "#008080",
+    "brandColorDark": "#55CCCC",
+    "composerIcon": "./assets/gui95.svg",
+    "logo": "./assets/gui95.svg",
+    "screenshots": ["./assets/desktop.png"]
+  },
+  "extensions": {
+    "com.openai": {
+      "publication": {
+        "countries": [],
+        "release_notes": "Initial GUI95 plugin package: classic interface implementation guidance, preserved widget references, SVG icons, font notices, and an interactive desktop companion."
+      }
+    }
+  }
+}

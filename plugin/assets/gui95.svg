@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" shape-rendering="crispEdges">
+  <title>GUI95</title>
+  <rect width="128" height="128" fill="#008080"/>
+  <rect x="12" y="20" width="108" height="96" fill="#004848"/>
+  <rect x="8" y="12" width="108" height="96" fill="#000"/>
+  <path d="M8 108V12h108v4H12v92z" fill="#fff"/>
+  <path d="M12 104V16h100v88z" fill="#c0c0c0"/>
+  <path d="M12 104h100V16h-4v84H12z" fill="#808080"/>
+  <rect x="16" y="20" width="88" height="16" fill="#000080"/>
+  <rect x="88" y="24" width="12" height="8" fill="#c0c0c0"/>
+  <path d="M24 48h32v40H24v-8h24v-8H24zm8 8v8h16v-8zM64 48h32v8H72v8h24v24H64v-8h24v-8H64z" fill="#000080" fill-rule="evenodd"/>
+</svg>
