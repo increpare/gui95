@@ -10,6 +10,16 @@ Raise `version` in `.claude-plugin/plugin.json` for each release, in step with t
 
 To list GUI95 in Anthropic's directory, submit the repository as a plugin bundle at [claude.ai/directory/manage](https://claude.ai/directory/manage), following the [submission guide](https://claude.com/docs/plugins/submit). The bundle is the repository root, so leave the plugin path empty. Listing details come from `plugin.json` and the README. Submission requires a paid Claude plan and a GitHub account connected to claude.ai with push access to the repository, which must be public before the listing goes live. Each version is validated and scanned, and a person reviews new listings.
 
+The directory icon is `.claude-plugin/icon.png`, a 1024 px rendering of `plugin/assets/gui95.svg` at eight times its size. The directory takes the icon only the first time the plugin is saved or submitted in the portal, so push any icon change before that first save.
+
+The automated scan flags three things that need no change. The plugin runs no code, so each goes to manual review as is:
+
+- `references/vector95/src/generated/svg-assets.js` is a generated data file of SVG strings on a few long lines. Its generator, `references/vector95/scripts/svg-assets.mjs`, is included.
+- `demo/serve.mjs` reads `PORT` and the archived `references/vector95/electron/main.cjs` reads `VECTOR95_USER_DATA`. Neither is a credential.
+- The archived Vector95 README mentions `npm install`. This is documentation, and the plugin installs no packages.
+
+The archived files are hash-pinned snapshots, so leave them unchanged.
+
 ## Codex build
 
 Run `powershell -File tools/package-plugin.ps1` from the repository root, or use `pwsh -File tools/package-plugin.ps1` with PowerShell on other platforms. This creates `dist/gui95-plugin.zip`. Preserve an older output before rebuilding; the script refuses to overwrite it.
