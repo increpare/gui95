@@ -3,10 +3,15 @@
 //
 // It describes a GUI95 app to the tools that build and install it: the gui95-app.json
 // manifest, the names of release archives, and where an installed copy lives on each system.
+// Run from the repository root, it also packs the app's finished build:
+//   node scripts/gui95-app.mjs pack
 
-import { readFile } from "node:fs/promises";
+import childProcess from "node:child_process";
+import { realpathSync } from "node:fs";
+import { mkdir, readFile, rename, rm, rmdir, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export const MANIFEST = "gui95-app.json";
 export const DIST_DIR = "gui95-dist";
@@ -209,3 +214,134 @@ export function windowsFileTypeEntries(app, appDir) {
     ];
   });
 }
+
+// ---- Packing --------------------------------------------------------------
+
+// Runs a program without a shell. Resolves when it exits 0, rejects with what it said otherwise.
+function runTool(command, args) {
+  return new Promise((resolve, reject) => {
+    const child = childProcess.spawn(command, args, { stdio: ["ignore", "ignore", "pipe"] });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => { stderr += chunk; });
+    child.on("error", (err) => reject(new Error(`cannot run ${command} (${err.message})`, { cause: err })));
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`${path.basename(command)} exited with code ${code}${stderr.trim() ? `: ${stderr.trim()}` : ""}`));
+    });
+  });
+}
+
+// Windows ships a bsdtar that writes zip files. Another tar earlier on PATH (the GNU tar that
+// comes with MSYS or Git Bash, say) cannot, so the system's own is called by its full path.
+function windowsTar() {
+  const systemRoot = process.env.SystemRoot || process.env.windir || "C:\\Windows";
+  return path.win32.join(systemRoot, "System32", "tar.exe");
+}
+
+async function isDirectory(dir) {
+  return (await stat(dir).catch(() => null))?.isDirectory() ?? false;
+}
+
+// Every archive has one top-level entry: the .app bundle on macOS, <Name>/ elsewhere. The build
+// folder has some other name, so for the length of the tar run it is moved to .stage/<Name> (same
+// volume, so the move is instant) and then moved back, even if tar fails.
+async function createArchive({ app, built, distDir, archive, system }) {
+  if (system === "macos") {
+    await runTool("ditto", ["-c", "-k", "--keepParent", built, archive]);
+    return;
+  }
+  const stageDir = path.join(distDir, ".stage");
+  const staged = path.join(stageDir, app.name);
+  await mkdir(stageDir, { recursive: true });
+  try {
+    await rename(built, staged);
+  } catch (err) {
+    throw new Error(`${app.name}: cannot move the build to ${staged} (${err.message})`, { cause: err });
+  }
+  try {
+    if (system === "windows") await runTool(windowsTar(), ["-a", "-c", "-f", archive, "-C", stageDir, app.name]);
+    else await runTool("tar", ["-czf", archive, "-C", stageDir, app.name]);
+  } finally {
+    try {
+      await rename(staged, built);
+    } catch (err) {
+      throw new Error(`${app.name}: the build is still at ${staged}; move it back to ${built} (${err.message})`, { cause: err });
+    }
+    await rmdir(stageDir).catch(() => {});   // not recursive: it must never remove a build
+  }
+}
+
+export async function pack(repoRoot, { system = systemName(), arch = process.arch, sign = system === "macos", log = console.log } = {}) {
+  const { apps } = await readManifest(repoRoot);
+  const distDir = path.join(repoRoot, DIST_DIR);
+
+  // Check every app before packing any, so a missing build stops the run with nothing half done.
+  const plan = [];
+  for (const app of apps) {
+    if (!app.builds[system]) {
+      plan.push({ app });
+      continue;
+    }
+    const built = builtAppPath(repoRoot, app, system);
+    if (!(await isDirectory(built))) throw new Error(`${app.name}: no build at ${built}; run the build first.`);
+    plan.push({ app, built, version: await readVersion(repoRoot, app) });
+  }
+
+  const results = [];
+  for (const { app, built, version } of plan) {
+    if (built === undefined) {
+      const skipped = `no ${system} build`;
+      log(`${app.name}: skipped, ${skipped}`);
+      results.push({ app: app.name, skipped });
+      continue;
+    }
+    const archive = path.join(distDir, archiveName({ name: app.name, version, system, arch }));
+    await mkdir(distDir, { recursive: true });
+    await rm(archive, { force: true });
+    try {
+      if (system === "macos" && sign) await runTool("codesign", ["--force", "--deep", "--sign", "-", built]);
+      await createArchive({ app, built, distDir, archive, system });
+    } catch (err) {
+      await rm(archive, { force: true }).catch(() => {});
+      throw err;
+    }
+    log(`${app.name}: ${path.relative(repoRoot, archive)}`);
+    results.push({ app: app.name, archive });
+  }
+  return results;
+}
+
+// ---- Command line ---------------------------------------------------------
+
+const COMMANDS = {
+  pack: (repoRoot) => pack(repoRoot),
+};
+
+// Returns the exit code: 0 done, 1 something failed (the message goes to stderr), 2 bad usage.
+export async function main(argv) {
+  const [name, ...rest] = argv;
+  const command = Object.hasOwn(COMMANDS, name) ? COMMANDS[name] : undefined;
+  if (command === undefined || rest.length > 0) {
+    const file = fileURLToPath(import.meta.url);
+    const relative = path.relative(process.cwd(), file);
+    console.error(`Usage: node ${relative.startsWith("..") ? file : relative} <${Object.keys(COMMANDS).join("|")}>`);
+    return 2;
+  }
+  try {
+    await command(process.cwd());
+    return 0;
+  } catch (err) {
+    console.error(err.message);
+    return 1;
+  }
+}
+
+function isEntryScript() {
+  try {
+    return realpathSync.native(process.argv[1]) === realpathSync.native(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryScript()) process.exitCode = await main(process.argv.slice(2));
