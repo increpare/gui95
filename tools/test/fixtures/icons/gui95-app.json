@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "id": "lamp-app",
+      "name": "Lamp App",
+      "version": "package.json",
+      "builds": {
+        "windows": { "dir": "release/win-unpacked", "exe": "Lamp App.exe" }
+      }
+    }
+  ],
+  "icons": [
+    { "name": "app", "svg": "app.svg", "style": "pixel" },
+    { "name": "doc", "svg": "app.svg", "style": "pixel", "document": true }
+  ]
+}
