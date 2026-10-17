@@ -1,8 +1,16 @@
-# GUI95 plugin package
+# GUI95 plugin packages
 
-GUI95 is available as a standalone skill and as a plugin package containing that same skill. A downloadable package does not mean the plugin has been accepted into the public directory. Directory submission and approval are separate steps.
+GUI95 is available as a standalone skill, as a Claude Code plugin, and as a Codex plugin package containing that same skill. A downloadable package does not mean the plugin has been accepted into a public directory. Directory submission and approval are separate steps.
 
-## Build
+## Claude
+
+The repository root is itself a Claude Code plugin. `.claude-plugin/plugin.json` holds the plugin metadata, and `.claude-plugin/marketplace.json` lists it in a single-plugin marketplace named `gui95`. Users install it with `/plugin marketplace add increpare/gui95` and `/plugin install gui95@gui95`. Claude Code loads the root `SKILL.md` as the plugin's only skill and copies the repository, including references and the demo, into its plugin cache. No build step is needed.
+
+Raise `version` in `.claude-plugin/plugin.json` for each release, in step with the Codex manifest. Claude Code compares this value when users run `claude plugin update`, so changes pushed without a new version do not reach existing installations. Run `claude plugin validate . --strict` before pushing.
+
+To list GUI95 in Anthropic's directory, submit the repository as a plugin bundle at [claude.ai/directory/manage](https://claude.ai/directory/manage), following the [submission guide](https://claude.com/docs/plugins/submit). The bundle is the repository root, so leave the plugin path empty. Listing details come from `plugin.json` and the README. Submission requires a paid Claude plan and a GitHub account connected to claude.ai with push access to the repository, which must be public before the listing goes live. Each version is validated and scanned, and a person reviews new listings.
+
+## Codex build
 
 Run `powershell -File tools/package-plugin.ps1` from the repository root, or use `pwsh -File tools/package-plugin.ps1` with PowerShell on other platforms. This creates `dist/gui95-plugin.zip`. Preserve an older output before rebuilding; the script refuses to overwrite it.
 
@@ -15,13 +23,13 @@ The archive contains a single plugin folder with:
 
 The builder checks snapshot integrity, local documentation links, listing text limits, starter-prompt limits, and referenced assets. It preserves the dot-directory manifest on Windows and Linux. It excludes local deployment metadata, Git history, and backups.
 
-## Directory listing
+## Codex directory listing
 
 The display name is **GUI95**, with the subtitle **Build Windows 95-style UIs** and the category **Developer Tools**. The description explains web and Electron use cases, supported controls, keyboard behavior, bundled dependencies, and limitations. Keywords describe the actual subject: Windows 95, retro UI, UI design, widgets, HTML, CSS, JavaScript, Electron, desktop, and accessibility.
 
 Three starter prompts cover a settings dialog, an Electron restyle, and an interaction review. The listing links to the [interactive desktop](https://increpare.github.io/gui95/), [source repository](https://github.com/increpare/gui95), [support tracker](https://github.com/increpare/gui95/issues), and [privacy information](https://github.com/increpare/gui95/blob/main/PRIVACY.md). The package requests no additional country restrictions; platform availability still applies. Search placement and directory acceptance are controlled by the platform.
 
-## Submit
+## Codex submission
 
 Follow the [official plugin submission instructions](https://developers.openai.com/plugins/deploy/submission). Use a verified developer identity matching the publisher and upload the plugin ZIP through the skills-only/package upload flow available to your account. GUI95 has no MCP server; do not enter a demo URL as an MCP endpoint.
 
