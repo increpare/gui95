@@ -12,13 +12,13 @@ To list GUI95 in Anthropic's directory, submit the repository as a plugin bundle
 
 The directory icon is `.claude-plugin/icon.png`, a 1024 px rendering of `plugin/assets/gui95.svg` at eight times its size. The directory takes the icon only the first time the plugin is saved or submitted in the portal, so push any icon change before that first save.
 
-The automated scan flags three things that need no change. The plugin runs no code, so each goes to manual review as is:
+The automated scan holds the plugin for review on three findings. All are false positives that need no change, because the plugin runs no code:
 
-- `references/vector95/src/generated/svg-assets.js` is a generated data file of SVG strings on a few long lines. Its generator, `references/vector95/scripts/svg-assets.mjs`, is included.
-- `demo/serve.mjs` reads `PORT` and the archived `references/vector95/electron/main.cjs` reads `VECTOR95_USER_DATA`. Neither is a credential.
-- The archived Vector95 README mentions `npm install`. This is documentation, and the plugin installs no packages.
+- `UNREAD_ASSET_REFERENCED`: documentation, CSS, manifests, and scripts name the bundled fonts and PNG screenshots. Nothing executes these files; they are reference material.
+- `MCP_FORWARDS_CREDENTIAL_ENV`: the scanner reads JavaScript template literals as credential environment variables. These are `${key}` in `references/vector95/src/app.js` and `canvas-dialog.js`, and `${Object.keys(...)}` in `demo/dist/desktop.js`. It also reads the SVG namespace `http://www.w3.org/2000/svg` and the demo's link to a CHI 1996 paper as remote destinations. Nothing reads the environment or sends data.
+- `RUNTIME_FETCH_EXEC`: both copies of `nudge.svg` are flagged as download-and-execute commands. The icon contains no command; it is the only icon that keeps Vector95's JSON editing metadata.
 
-The archived files are hash-pinned snapshots, so leave them unchanged.
+The flagged archived files are hash-pinned snapshots, so leave them unchanged. Changing only the demo copies would not clear the holds, and a person reviews every new listing anyway.
 
 ## Codex build
 
