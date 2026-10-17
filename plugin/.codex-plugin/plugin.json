@@ -20,8 +20,8 @@
     "capabilities": ["Build retro web interfaces", "Restyle Electron interfaces", "Implement classic widgets", "Review keyboard and focus behavior"],
     "websiteURL": "https://increpare.github.io/gui95/",
     "supportURL": "https://github.com/increpare/gui95/issues",
-    "privacyPolicyURL": "https://github.com/increpare/gui95/blob/main/PRIVACY.md",
-    "termsOfServiceURL": "https://github.com/increpare/gui95/blob/main/LICENSE",
+    "privacyPolicyURL": "https://github.com/increpare/gui95/blob/master/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/increpare/gui95/blob/master/LICENSE",
     "defaultPrompt": [
       "Build a Windows 95-style settings dialog with tabs, keyboard navigation, and Apply/Cancel behavior.",
       "Restyle this Electron utility with classic gray controls, crisp bevels, and readable typography.",
