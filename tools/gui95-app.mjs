@@ -68,8 +68,9 @@ function checkApp(app, field) {
   if (typeof app.id !== "string" || !/^[a-z0-9][a-z0-9-]*$/.test(app.id)) {
     throw invalid(`${field}.id`, "must use lowercase letters, digits and hyphens, and start with a letter or digit");
   }
-  if (!isText(app.name) || /[\\/:*?"<>|]/.test(app.name)) {
-    throw invalid(`${field}.name`, 'must be a name without any of \\ / : * ? " < > |');
+  // A name of only dots and spaces ("." or "..") would resolve to a folder above the app's own.
+  if (!isText(app.name) || /[\\/:*?"<>|]/.test(app.name) || /^[.\s]+$/.test(app.name)) {
+    throw invalid(`${field}.name`, 'must be a name without any of \\ / : * ? " < > |, and with more in it than dots and spaces');
   }
   if (!isText(app.version)) throw invalid(`${field}.version`, "must be the path of a JSON file with a version field");
   if (app.icon !== undefined && !isText(app.icon)) throw invalid(`${field}.icon`, "must be the path of an image");
@@ -164,6 +165,17 @@ export function installPaths(app, system, { env = process.env, home = os.homedir
   throw new Error(`Unknown system: ${system}`);
 }
 
+// An install replaces its whole folder, so the folder must be the app's own: named for the app and
+// nothing above it. Throws if `appDir` is anything else, e.g. when a name of ".." made the path
+// resolve to the folder that holds all the apps.
+export function checkInstallFolder(app, system, appDir) {
+  const leaf = { windows: app.name, macos: `${app.name}.app`, linux: app.id }[system];
+  const folders = system === "windows" ? path.win32 : path.posix;
+  if (leaf === undefined || folders.basename(appDir) !== leaf) {
+    throw new Error(`${app.name}: refusing to install into ${appDir}, which is not a folder named "${leaf}".`);
+  }
+}
+
 // ---- Desktop integration --------------------------------------------------
 
 // A quoted Exec argument backslash-escapes " ` $ \ (Desktop Entry spec); the file's own string
@@ -255,10 +267,6 @@ function windowsTar() {
 
 async function isDirectory(dir) {
   return (await stat(dir).catch(() => null))?.isDirectory() ?? false;
-}
-
-async function isFile(file) {
-  return (await stat(file).catch(() => null))?.isFile() ?? false;
 }
 
 // Checks every app before any is packed or installed, so a missing build stops the run with
@@ -386,22 +394,33 @@ function mentionsFolder(line, dir) {
 
 // macOS and Linux let a folder be renamed while a program runs from it, so a running app is told
 // by its command line instead. If the list of processes cannot be had, the install goes ahead.
-async function isRunningFrom(appDir, env, log) {
+async function isRunningFrom(appDir, env, warn) {
   try {
     const processes = await runTool("ps", ["-A", "-o", "args="], { env, capture: true });
     return processes.split(/\r?\n/).some((line) => mentionsFolder(line, appDir));
   } catch (err) {
-    log(`warning: cannot tell whether the app is running (${err.message})`);
+    warn(`warning: cannot tell whether the app is running (${err.message})`);
     return false;
   }
 }
 
-// An integration step the app works without. A tool that is missing or fails is reported and skipped.
-async function runOptionalTool(command, args, purpose, { env, log }) {
+// Desktop integration only makes the installed app easier to reach, and by the time it runs the
+// app is installed. So on every system a step that fails is reported through `warn` and the steps
+// after it (and the other apps) still run; it never fails the install.
+async function integrationStep(purpose, step, warn) {
   try {
-    await runTool(command, args, { env });
+    await step();
   } catch (err) {
-    log(err.cause?.code === "ENOENT"
+    warn(`warning: ${purpose} failed (${err.message})`);
+  }
+}
+
+// The same for a step that runs a program, with a plainer message when the program is not there.
+async function integrationTool(command, args, purpose, { env, timeout, warn }) {
+  try {
+    await runTool(command, args, { env, timeout });
+  } catch (err) {
+    warn(err.cause?.code === "ENOENT"
       ? `warning: ${command} is not installed, so ${purpose} was skipped`
       : `warning: ${purpose} failed (${err.message})`);
   }
@@ -431,44 +450,43 @@ Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; pu
 [Gui95Shell]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
 `;
 
-function runPowerShell(script, variables, env) {
+function runPowerShell(script, variables, purpose, { env, warn }) {
   const powershell = windowsSystem32(path.win32.join("WindowsPowerShell", "v1.0", "powershell.exe"), env);
-  return runTool(powershell, ["-NoProfile", "-NonInteractive", "-EncodedCommand", Buffer.from(script, "utf16le").toString("base64")],
-    { env: { ...env, ...variables }, timeout: 30000 });
+  return integrationTool(powershell, ["-NoProfile", "-NonInteractive", "-EncodedCommand", Buffer.from(script, "utf16le").toString("base64")],
+    purpose, { env: { ...env, ...variables }, timeout: 30000, warn });
 }
 
-async function integrateOnWindows({ app, appDir, launcher, env }) {
+async function integrateOnWindows({ app, appDir, launcher, env, warn }) {
   const exe = path.win32.join(appDir, buildFor(app, "windows").exe);
-  await mkdir(path.win32.dirname(launcher), { recursive: true });
-  try {
-    await runPowerShell(SHORTCUT_SCRIPT, { GUI95_SHORTCUT_PATH: launcher, GUI95_SHORTCUT_TARGET: exe, GUI95_SHORTCUT_FOLDER: appDir }, env);
-  } catch (err) {
-    throw new Error(`${app.name}: cannot create the Start menu shortcut (${err.message})`, { cause: err });
-  }
+  await integrationStep("creating the Start menu folder", () => mkdir(path.win32.dirname(launcher), { recursive: true }), warn);
+  await runPowerShell(SHORTCUT_SCRIPT, { GUI95_SHORTCUT_PATH: launcher, GUI95_SHORTCUT_TARGET: exe, GUI95_SHORTCUT_FOLDER: appDir },
+    "creating the Start menu shortcut", { env, warn });
   const entries = windowsFileTypeEntries(app, appDir);
   if (entries.length === 0) return;
-  try {
-    await runPowerShell(REGISTRY_SCRIPT, { GUI95_REGISTRY_DATA: Buffer.from(JSON.stringify(entries)).toString("base64") }, env);
-  } catch (err) {
-    throw new Error(`${app.name}: cannot register its file types (${err.message})`, { cause: err });
-  }
+  await runPowerShell(REGISTRY_SCRIPT, { GUI95_REGISTRY_DATA: Buffer.from(JSON.stringify(entries)).toString("base64") },
+    "registering the file types", { env, warn });
 }
 
-async function integrateOnMac({ appDir, env, log }) {
-  await runOptionalTool(LSREGISTER, ["-f", appDir], "registering the app with Launch Services", { env, log });
+async function integrateOnMac({ appDir, env, warn }) {
+  await integrationTool(LSREGISTER, ["-f", appDir], "registering the app with Launch Services", { env, warn });
 }
 
-async function integrateOnLinux({ repoRoot, app, appDir, launcher, env, home, log }) {
+async function integrateOnLinux({ repoRoot, app, appDir, launcher, env, home, warn }) {
   const posix = path.posix;
   const dataHome = linuxDataHome(env, home);
-  await copyFile(path.join(repoRoot, app.icon), posix.join(appDir, "gui95-icon.png"));
-  await mkdir(posix.dirname(launcher), { recursive: true });
-  await writeFile(launcher, desktopEntry(app, appDir));
   const mimeTypes = [...new Set((app.fileTypes ?? []).map((fileType) => fileType.mime))];
-  const tool = (command, args, purpose) => runOptionalTool(command, args, purpose, { env, log });
+  const tool = (command, args, purpose) => integrationTool(command, args, purpose, { env, warn });
+
+  await integrationStep("copying the icon", () => copyFile(path.join(repoRoot, app.icon), posix.join(appDir, "gui95-icon.png")), warn);
+  await integrationStep("writing the desktop entry", async () => {
+    await mkdir(posix.dirname(launcher), { recursive: true });
+    await writeFile(launcher, desktopEntry(app, appDir));
+  }, warn);
   if (mimeTypes.length > 0) {
-    await mkdir(posix.join(dataHome, "mime", "packages"), { recursive: true });
-    await writeFile(posix.join(dataHome, "mime", "packages", `gui95-${app.id}.xml`), mimeXml(app));
+    await integrationStep("writing the MIME definition", async () => {
+      await mkdir(posix.join(dataHome, "mime", "packages"), { recursive: true });
+      await writeFile(posix.join(dataHome, "mime", "packages", `gui95-${app.id}.xml`), mimeXml(app));
+    }, warn);
     await tool("update-mime-database", [posix.join(dataHome, "mime")], "updating the MIME database");
   }
   await tool("update-desktop-database", [posix.join(dataHome, "applications")], "updating the desktop database");
@@ -499,10 +517,10 @@ async function stageCopy({ built, version, app, system, env, sign, appDir, resou
 
 // Step 3: moves an installed copy out of the way. Resolves with whether there was one. Refuses
 // when the app is running, and then leaves the installed copy as it is.
-async function moveOldAside({ app, appDir, old, system, env, log }) {
+async function moveOldAside({ app, appDir, old, system, env, warn }) {
   if (!(await pathExists(appDir))) return false;
   const running = new Error(`Close ${app.name} and run make install again.`);
-  if (system !== "windows" && (await isRunningFrom(appDir, env, log))) throw running;
+  if (system !== "windows" && (await isRunningFrom(appDir, env, warn))) throw running;
   await removeTree(old);
   try {
     await renameFolder(appDir, old, system);
@@ -512,8 +530,9 @@ async function moveOldAside({ app, appDir, old, system, env, log }) {
   return true;
 }
 
-async function installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log }) {
+async function installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log, warn }) {
   const { appDir, resourcesDir, launcher } = installPaths(app, system, { env, home });
+  checkInstallFolder(app, system, appDir);     // before anything is renamed or removed
   const staging = appDir + STAGING_SUFFIX;
   const old = appDir + OLD_SUFFIX;
 
@@ -521,7 +540,7 @@ async function installApp({ repoRoot, app, built, version, system, env, home, in
 
   let movedOld;
   try {
-    movedOld = await moveOldAside({ app, appDir, old, system, env, log });
+    movedOld = await moveOldAside({ app, appDir, old, system, env, warn });
   } catch (err) {
     await removeTree(staging).catch(() => {});
     throw err;
@@ -534,25 +553,27 @@ async function installApp({ repoRoot, app, built, version, system, env, home, in
     await removeTree(staging).catch(() => {});
     throw new Error(`${app.name}: cannot move the new copy to ${appDir} (${err.message})`, { cause: err });
   }
-  await removeTree(old).catch((err) => log(`warning: cannot delete the old copy at ${old} (${err.message})`));
+  await removeTree(old).catch((err) => warn(`warning: cannot delete the old copy at ${old} (${err.message})`));
+  log(`${app.name}: installed in ${appDir}`);
 
+  // Step 5. The app is installed, so a step that fails is only a warning (each step catches its own;
+  // this catches anything they did not foresee).
   if (integrate) {
     const integrateOn = { windows: integrateOnWindows, macos: integrateOnMac, linux: integrateOnLinux }[system];
-    await integrateOn({ repoRoot, app, appDir, launcher, env, home, log });
+    try {
+      await integrateOn({ repoRoot, app, appDir, launcher, env, home, warn });
+    } catch (err) {
+      warn(`warning: desktop integration for ${app.name} failed (${err.message})`);
+    }
   }
   return appDir;
 }
 
-export async function install(repoRoot, { system = systemName(), env = process.env, home = os.homedir(), integrate = true, sign = system === "macos", log = console.log } = {}) {
+// Warnings go to `warn` (stderr unless told otherwise), progress to `log`. Only a failure to install
+// a copy ends the run with an error; a desktop integration step that fails never does.
+export async function install(repoRoot, { system = systemName(), env = process.env, home = os.homedir(), integrate = true, sign = system === "macos", log = console.log, warn = console.error } = {}) {
   const { apps } = await readManifest(repoRoot);
   const plan = await planBuilds(repoRoot, apps, system);
-  if (system === "linux" && integrate) {
-    for (const { app, skipped } of plan) {
-      if (skipped !== undefined) continue;
-      const icon = path.join(repoRoot, app.icon);     // a linux build makes the manifest require one
-      if (!(await isFile(icon))) throw new Error(`${app.name}: no icon at ${icon}; its desktop entry needs one.`);
-    }
-  }
 
   const results = [];
   for (const { app, built, version, skipped } of plan) {
@@ -561,8 +582,7 @@ export async function install(repoRoot, { system = systemName(), env = process.e
       results.push({ app: app.name, skipped });
       continue;
     }
-    const appDir = await installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log });
-    log(`${app.name}: installed in ${appDir}`);
+    const appDir = await installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log, warn });
     results.push({ app: app.name, appDir });
   }
   return results;

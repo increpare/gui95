@@ -127,6 +127,10 @@ test("readVersion rejects a version file without a version", async () => {
 const broken = [
   ["name is empty", (a) => { a.name = ""; }, /name/],
   ["name has a forbidden character", (a) => { a.name = "Example: App"; }, /name/],
+  // These resolve to the folder above (or the folder itself) when joined onto a path.
+  ["name is a single dot", (a) => { a.name = "."; }, /name/],
+  ["name is two dots", (a) => { a.name = ".."; }, /name/],
+  ["name is only dots and spaces", (a) => { a.name = " . . "; }, /name/],
   ["version is missing", (a) => { delete a.version; }, /version/],
   ["builds is empty", (a) => { a.builds = {}; }, /builds/],
   ["builds has an unknown system", (a) => { a.builds.freebsd = { dir: "x", exe: "y" }; }, /builds.*freebsd/],
@@ -375,7 +379,7 @@ function fakeTools(t, behave = () => ({})) {
   t.mock.method(childProcess, "spawn", (command, args, options) => {
     calls.push([command, ...args]);
     envs.push(options?.env);
-    const { stdout = "", stderr = "", code = 0, error, run } = behave(command, args) ?? {};
+    const { stdout = "", stderr = "", code = 0, error, run } = behave(command, args, options) ?? {};
     run?.();
     const child = new EventEmitter();
     child.stdout = new EventEmitter();
@@ -432,9 +436,11 @@ test("install copies the build, writes the marker and replaces an older copy", a
   fs.mkdirSync(appDir + ".gui95-new", { recursive: true });      // left by an interrupted run
   fs.mkdirSync(appDir + ".gui95-old", { recursive: true });      // so is this
   const lines = [];
-  const results = await h.install(repo, { system, env, home, integrate: false, sign: false, log: (line) => lines.push(line) });
+  const warnings = [];
+  const results = await h.install(repo, { system, env, home, integrate: false, sign: false, log: (line) => lines.push(line), warn: (line) => warnings.push(line) });
   assert.deepEqual(results, [{ app: "Example App", appDir }]);
   assert.deepEqual(lines, [`Example App: installed in ${appDir}`]);
+  assert.deepEqual(warnings, []);
   assert.equal(fs.existsSync(path.join(appDir, "stale.txt")), false);
   assert.equal(fs.existsSync(appDir + ".gui95-new"), false);
   assert.equal(fs.existsSync(appDir + ".gui95-old"), false);
@@ -495,14 +501,29 @@ test("install reports a missing build and installs nothing", async (t) => {
   assert.equal(fs.existsSync(env.XDG_DATA_HOME), false);
   assert.deepEqual(spawned.calls, []);
 });
-test("install on Linux needs the icon the desktop entry shows, and checks before it installs", async (t) => {
+test("install on Linux warns about a missing icon, and still installs and integrates", async (t) => {
   const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
   fs.rmSync(path.join(repo, "icon.png"));
   const spawned = fakeTools(t);
-  await assert.rejects(h.install(repo, { system: "linux", env, home, log() {} }), /Example App: .*icon.*icon\.png/);
-  assert.equal(fs.existsSync(env.XDG_DATA_HOME), false);
-  assert.deepEqual(spawned.calls, []);
-  await h.install(repo, { system: "linux", env, home, integrate: false, log() {} });   // without integration there is no icon to copy
+  const warnings = [];
+  const [result] = await h.install(repo, { system: "linux", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.ok(fs.existsSync(result.appDir));
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: copying the icon failed \(.*icon\.png/);
+  assert.ok(fs.existsSync(h.installPaths((await h.readManifest(repo)).apps[0], "linux", { env, home }).launcher));
+  assert.equal(spawned.calls.length, 3);       // the steps after the icon all ran
+});
+test("install on Linux carries on after a step that fails, and says which", async (t) => {
+  const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
+  const { launcher } = h.installPaths((await h.readManifest(repo)).apps[0], "linux", { env, home });
+  fs.mkdirSync(launcher, { recursive: true });        // a folder where the desktop entry should go
+  const spawned = fakeTools(t);
+  const warnings = [];
+  await h.install(repo, { system: "linux", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: writing the desktop entry failed/);
+  assert.ok(fs.existsSync(path.join(env.XDG_DATA_HOME, "mime", "packages", "gui95-example-app.xml")));
+  assert.equal(spawned.calls.length, 3);
 });
 
 test("install on Linux writes the launcher and registers the file types", async (t) => {
@@ -546,19 +567,33 @@ test("install on Linux skips a missing tool with a warning and installs anyway",
   const gone = Object.assign(new Error("spawn xdg-mime ENOENT"), { code: "ENOENT" });
   const spawned = fakeTools(t, (command) => (command === "xdg-mime" ? { error: gone } : {}));
   const lines = [];
-  const results = await h.install(repo, { system: "linux", env, home, log: (line) => lines.push(line) });
+  const warnings = [];
+  const results = await h.install(repo, { system: "linux", env, home, log: (line) => lines.push(line), warn: (line) => warnings.push(line) });
   assert.equal(results.length, 1);
   assert.equal(spawned.calls.length, 3);
-  const warnings = lines.filter((line) => line.startsWith("warning:"));
   assert.equal(warnings.length, 1);
-  assert.match(warnings[0], /xdg-mime.*not installed/);
+  assert.match(warnings[0], /^warning: .*xdg-mime.*not installed/);
+  assert.deepEqual(lines, [`Example App: installed in ${results[0].appDir}`]);     // warnings stay out of the normal output
 });
 test("install on Linux warns, and carries on, when a tool fails", async (t) => {
   const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
-  fakeTools(t, (command) => (command === "update-mime-database" ? { code: 1, stderr: "bad XML\n" } : {}));
-  const lines = [];
-  await h.install(repo, { system: "linux", env, home, log: (line) => lines.push(line) });
-  assert.ok(lines.some((line) => /^warning: .*update-mime-database exited with code 1: bad XML/.test(line)), lines.join("\n"));
+  const spawned = fakeTools(t, (command) => (command === "update-mime-database" ? { code: 1, stderr: "bad XML\n" } : {}));
+  const warnings = [];
+  await h.install(repo, { system: "linux", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: .*update-mime-database exited with code 1: bad XML/);
+  assert.equal(spawned.calls.length, 3);
+});
+test("install on Linux writes warnings to stderr unless told otherwise", async (t) => {
+  const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
+  fakeTools(t, (command) => (command === "update-mime-database" ? { code: 1 } : {}));
+  const errors = t.mock.method(console, "error", () => {});
+  const logged = t.mock.method(console, "log", () => {});
+  await h.install(repo, { system: "linux", env, home });
+  assert.equal(errors.mock.callCount(), 1);
+  assert.match(errors.mock.calls[0].arguments[0], /^warning: /);
+  assert.equal(logged.mock.callCount(), 1);                  // only the line saying where the app went
+  assert.match(logged.mock.calls[0].arguments[0], /^Example App: installed in /);
 });
 test("install without integration runs no tool and writes no launcher", async (t) => {
   const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
@@ -611,6 +646,42 @@ test("install on macOS keeps the old copy and removes the staging copy when sign
   assert.equal(fs.existsSync(appDir + ".gui95-new"), false);
 });
 
+test("install on macOS warns, and still succeeds, when the app cannot be registered", async (t) => {
+  const { repo, env, home } = await fakeInstallSetup({ system: "macos" });
+  fakeTools(t, (command, args) => (command === LSREGISTER ? { code: 1, stderr: "lsregister: nope\n" } : fakeDitto(command, args)));
+  const warnings = [];
+  const [result] = await h.install(repo, { system: "macos", env, home, sign: false, log() {}, warn: (line) => warnings.push(line) });
+  assert.ok(fs.existsSync(result.appDir));
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: registering the app with Launch Services failed \(.*lsregister exited with code 1: lsregister: nope/);
+});
+test("install on macOS warns, and still succeeds, when lsregister is not there", async (t) => {
+  const { repo, env, home } = await fakeInstallSetup({ system: "macos" });
+  const gone = Object.assign(new Error(`spawn ${LSREGISTER} ENOENT`), { code: "ENOENT" });
+  fakeTools(t, (command, args) => (command === LSREGISTER ? { error: gone } : fakeDitto(command, args)));
+  const warnings = [];
+  await h.install(repo, { system: "macos", env, home, sign: false, log() {}, warn: (line) => warnings.push(line) });
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: .*lsregister is not installed, so registering the app with Launch Services was skipped/);
+});
+
+test("install goes on with the next app when a desktop integration step of the one before fails", async (t) => {
+  const { repo, env, home } = await fakeInstallSetup({ system: "linux" });
+  const manifest = JSON.parse(fs.readFileSync(path.join(repo, h.MANIFEST), "utf8"));
+  manifest.apps.push({ id: "other-app", name: "Other App", version: "package.json", icon: "icon.png", builds: { linux: { dir: "release/other", exe: "other-app" } } });
+  fs.writeFileSync(path.join(repo, h.MANIFEST), JSON.stringify(manifest));
+  fs.mkdirSync(path.join(repo, "release", "other"), { recursive: true });
+  fs.writeFileSync(path.join(repo, "release", "other", "other-app"), "x");
+  const spawned = fakeTools(t, (command) => (command === "update-mime-database" ? { code: 1, stderr: "bad XML\n" } : {}));
+  const warnings = [];
+  const results = await h.install(repo, { system: "linux", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.deepEqual(results.map((result) => result.app), ["Example App", "Other App"]);
+  for (const result of results) assert.ok(fs.existsSync(result.appDir), result.appDir);
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.equal(spawned.calls.filter(([command]) => command === "update-desktop-database").length, 2);
+  assert.ok(fs.existsSync(path.join(env.XDG_DATA_HOME, "applications", "gui95-other-app.desktop")));
+});
+
 // Where the app runs from is told by the process list; the Windows way (a locked folder) is tested above.
 for (const system of ["linux", "macos"]) {
   test(`install on ${system} refuses while a process runs from the app folder`, async (t) => {
@@ -645,11 +716,12 @@ for (const system of ["linux", "macos"]) {
   test(`install on ${system} goes ahead, with a warning, when it cannot list the processes`, async (t) => {
     const { repo, env, home } = await fakeInstallSetup({ system });
     fakeTools(t, (command, args) => (command === "ps" ? { code: 1, stderr: "ps: nope\n" } : fakeDitto(command, args)));
-    const options = { system, env, home, sign: false, integrate: false };
-    await h.install(repo, { ...options, log() {} });
-    const lines = [];
-    await h.install(repo, { ...options, log: (line) => lines.push(line) });
-    assert.ok(lines.some((line) => /^warning: .*running/.test(line)), lines.join("\n"));
+    const options = { system, env, home, sign: false, integrate: false, log() {} };
+    await h.install(repo, { ...options, warn() {} });
+    const warnings = [];
+    await h.install(repo, { ...options, warn: (line) => warnings.push(line) });
+    assert.equal(warnings.length, 1, warnings.join("\n"));
+    assert.match(warnings[0], /^warning: .*running/);
   });
 }
 
@@ -689,10 +761,86 @@ test("install on Windows leaves the registry alone for an app without file types
   assert.ok(spawned.envs[0].GUI95_SHORTCUT_PATH);
   assert.equal(spawned.envs[0].GUI95_REGISTRY_DATA, undefined);
 });
-test("install on Windows says what failed when PowerShell does", { skip: process.platform !== "win32" }, async (t) => {
-  const { repo, env, home } = await fakeInstallSetup({ withoutFileTypes: true });
-  fakeTools(t, () => ({ code: 1, stderr: "Exception calling Save\n" }));
-  await assert.rejects(h.install(repo, { system: "windows", env, home, log() {} }), /Example App: .*Start menu shortcut.*Exception calling Save/);
+test("install on Windows warns when the shortcut cannot be made, and still registers the file types", { skip: process.platform !== "win32" }, async (t) => {
+  const { repo, env, home } = await fakeInstallSetup();
+  const spawned = fakeTools(t, (command, args, options) => (options.env.GUI95_SHORTCUT_PATH ? { code: 1, stderr: "Exception calling Save\n" } : {}));
+  const lines = [];
+  const warnings = [];
+  const [result] = await h.install(repo, { system: "windows", env, home, log: (line) => lines.push(line), warn: (line) => warnings.push(line) });
+  assert.ok(fs.existsSync(result.appDir));
+  assert.deepEqual(lines, [`Example App: installed in ${result.appDir}`]);
+  assert.equal(spawned.calls.length, 2);
+  assert.ok(spawned.envs[1].GUI95_REGISTRY_DATA, "the file types step must still run");
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: creating the Start menu shortcut failed \(.*Exception calling Save/);
+});
+test("install on Windows warns when the file types cannot be registered, after making the shortcut", { skip: process.platform !== "win32" }, async (t) => {
+  const { repo, env, home } = await fakeInstallSetup();
+  const spawned = fakeTools(t, (command, args, options) => (options.env.GUI95_REGISTRY_DATA ? { code: 1, stderr: "Access is denied\n" } : {}));
+  const warnings = [];
+  const [result] = await h.install(repo, { system: "windows", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.ok(fs.existsSync(result.appDir));
+  assert.equal(spawned.calls.length, 2);
+  assert.equal(warnings.length, 1, warnings.join("\n"));
+  assert.match(warnings[0], /^warning: registering the file types failed \(.*Access is denied/);
+});
+test("install on Windows warns twice, and still succeeds, when PowerShell is not there", { skip: process.platform !== "win32" }, async (t) => {
+  const { repo, env, home } = await fakeInstallSetup();
+  const gone = Object.assign(new Error("spawn powershell.exe ENOENT"), { code: "ENOENT" });
+  const spawned = fakeTools(t, () => ({ error: gone }));
+  const warnings = [];
+  const [result] = await h.install(repo, { system: "windows", env, home, log() {}, warn: (line) => warnings.push(line) });
+  assert.ok(fs.existsSync(result.appDir));
+  assert.equal(spawned.calls.length, 2);
+  assert.equal(warnings.length, 2, warnings.join("\n"));
+  assert.match(warnings[0], /powershell\.exe is not installed, so creating the Start menu shortcut was skipped/);
+  assert.match(warnings[1], /powershell\.exe is not installed, so registering the file types was skipped/);
+});
+
+// ---- the install folder is always the app's own -----------------------------------
+
+const winEnv = { LOCALAPPDATA: "C:\\L", APPDATA: "C:\\R" };
+test("checkInstallFolder accepts the folder installPaths gives each system", () => {
+  for (const system of ["windows", "macos", "linux"]) {
+    const { appDir } = h.installPaths(example, system, { env: winEnv, home: "/home/s" });
+    assert.doesNotThrow(() => h.checkInstallFolder(example, system, appDir), system);
+  }
+});
+test("checkInstallFolder refuses a name that resolves to a folder above the app's own", () => {
+  for (const name of [".", ".."]) {
+    const app = { ...example, name };
+    const { appDir } = h.installPaths(app, "windows", { env: winEnv });
+    assert.throws(() => h.checkInstallFolder(app, "windows", appDir), (err) => {
+      assert.match(err.message, /refusing to install/);
+      assert.ok(err.message.includes(appDir), err.message);
+      return true;
+    }, name);
+  }
+});
+test("checkInstallFolder refuses any folder that is not named for the app", () => {
+  const { appDir: windows } = h.installPaths(example, "windows", { env: winEnv });
+  const { appDir: mac } = h.installPaths(example, "macos", { env: {}, home: "/Users/s" });
+  const { appDir: linux } = h.installPaths(example, "linux", { env: {}, home: "/home/s" });
+  assert.throws(() => h.checkInstallFolder(example, "windows", path.win32.dirname(windows)), /refusing to install/);
+  assert.throws(() => h.checkInstallFolder(example, "windows", windows + "2"), /refusing to install/);
+  assert.throws(() => h.checkInstallFolder(example, "macos", path.posix.dirname(mac)), /refusing to install/);
+  assert.throws(() => h.checkInstallFolder(example, "macos", mac.replace(/\.app$/, "")), /refusing to install/);
+  assert.throws(() => h.checkInstallFolder(example, "linux", path.posix.dirname(linux)), /refusing to install/);
+  assert.throws(() => h.checkInstallFolder({ ...example, id: ".." }, "linux", path.posix.dirname(linux)), /refusing to install/);
+});
+test("install rejects a manifest name that would climb out of GUI95 before it touches anything", { skip: process.platform !== "win32" }, async (t) => {
+  const { repo, env, home } = await fakeInstallSetup();
+  const manifest = JSON.parse(fs.readFileSync(path.join(repo, h.MANIFEST), "utf8"));
+  manifest.apps[0].name = "..";
+  fs.writeFileSync(path.join(repo, h.MANIFEST), JSON.stringify(manifest));
+  const programs = path.join(env.LOCALAPPDATA, "Programs");
+  fs.mkdirSync(programs, { recursive: true });
+  fs.writeFileSync(path.join(programs, "precious.txt"), "not part of any app");
+  const spawned = fakeTools(t);
+  await assert.rejects(h.install(repo, { system: "windows", env, home, log() {} }), /^Error: gui95-app\.json: .*name/);
+  assert.ok(fs.existsSync(path.join(programs, "precious.txt")));
+  assert.equal(fs.existsSync(programs + ".gui95-old"), false);
+  assert.deepEqual(spawned.calls, []);
 });
 
 function powershellPath() {
@@ -733,6 +881,19 @@ test("main install puts the build in place and prints one line per app", { skip:
   assert.equal(run.status, 0, run.stderr);
   const { appDir } = h.installPaths((await h.readManifest(repo)).apps[0], h.systemName(), { env, home });
   assert.equal(run.stdout.trim(), `Example App: installed in ${appDir}`);
+  assert.ok(fs.existsSync(path.join(appDir, builtFile(h.systemName()))));
+});
+test("main install exits 0 and puts its warnings on stderr when desktop integration fails", { skip: h.systemName() === "macos" }, async () => {
+  const { repo, env, home } = await fakeInstallSetup({ withoutFileTypes: true });
+  // Break the integration without leaving the sandbox: on Windows the Start menu folder cannot be
+  // made below a file; on Linux the icon the desktop entry shows is gone.
+  if (process.platform === "win32") fs.writeFileSync(env.APPDATA, "a file, not a folder");
+  else fs.rmSync(path.join(repo, "icon.png"));
+  const run = runHelperWithEnv(repo, env, "install");
+  assert.equal(run.status, 0, run.stderr);
+  const { appDir } = h.installPaths((await h.readManifest(repo)).apps[0], h.systemName(), { env, home });
+  assert.equal(run.stdout.trim(), `Example App: installed in ${appDir}`);
+  assert.match(run.stderr, /^warning: /m);
   assert.ok(fs.existsSync(path.join(appDir, builtFile(h.systemName()))));
 });
 test("main install exits 1 and says why when the build is missing", async (t) => {
