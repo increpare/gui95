@@ -10,21 +10,40 @@ The demo includes Explorer, Paint, Display Properties, Media Player, and searcha
 
 ## Start here
 
-The **GUI95** Codex skill uses these [instructions](SKILL.md) to guide reuse in other projects. Once installed, invoke it with `$gui95`, for example: “Use $gui95 to build a settings dialog for this app.”
+The **GUI95** skill uses these [instructions](SKILL.md) to guide Claude or Codex when reusing these widgets in other projects. Install it in the assistant you use, then ask for a Windows 95-style interface.
 
-To install, ask Codex:
+### Claude Code
+
+Add this repository as a plugin marketplace, then install the plugin:
+
+```text
+/plugin marketplace add increpare/gui95
+/plugin install gui95@gui95
+```
+
+Claude uses the skill when a task calls for a Windows 95-style interface; you can also ask for GUI95 by name. Third-party marketplaces do not update automatically, so run `claude plugin update gui95@gui95` to get a new release. To install without the marketplace, extract the release ZIP's `gui95` folder into `~/.claude/skills/`.
+
+### Claude apps
+
+Download the [release ZIP](https://github.com/increpare/gui95/releases/latest/download/gui95.zip) and upload it as a custom skill in Claude's settings; code execution must be enabled. See [Anthropic's custom skill instructions](https://support.claude.com/en/articles/12512198-creating-custom-skills). Team and Enterprise owners can also make it available to their organization.
+
+### Codex
+
+Ask Codex:
 
 > Use $skill-installer to install GUI95 from https://github.com/increpare/gui95 (the skill is at the repository root).
 
-Or download the release ZIP and extract its `gui95` folder into `~/.agents/skills/`. Codex detects local skills automatically; restart it if the skill does not appear. GUI95 was previously named `win95-ui`; remove an old installation from skill discovery before installing the renamed version.
+Or download the release ZIP and extract its `gui95` folder into `~/.agents/skills/`. Codex detects local skills automatically; restart it if the skill does not appear. Once installed, invoke it with `$gui95`. GUI95 was previously named `win95-ui`; remove an old installation from skill discovery before installing the renamed version.
 
-Example prompts:
+### Example prompts
 
-- “Use $gui95 to build a settings dialog with tabs, keyboard navigation, and Apply/Cancel behavior.”
-- “Use $gui95 to restyle this Electron utility with classic gray controls and crisp typography.”
-- “Use $gui95 to review this interface's menus, focus states, and disabled controls.”
+In Codex, write `$gui95` in place of GUI95.
 
-The standalone skill can be installed immediately. A separate plugin package contains the same skill plus directory metadata, an icon, and starter prompts. GUI95 is not yet listed in OpenAI's plugin directory. See the [plugin packaging guide](docs/plugin-submission.md).
+- “Use GUI95 to build a settings dialog with tabs, keyboard navigation, and Apply/Cancel behavior.”
+- “Use GUI95 to restyle this Electron utility with classic gray controls and crisp typography.”
+- “Use GUI95 to review this interface's menus, focus states, and disabled controls.”
+
+The standalone skill can be installed immediately. This repository is also a Claude Code plugin marketplace, and a separate Codex plugin package contains the same skill plus directory metadata, an icon, and starter prompts. GUI95 is not yet listed in Anthropic's or OpenAI's plugin directories. See the [plugin packaging guide](docs/plugin-submission.md).
 
 | Find | Open |
 | --- | --- |
@@ -64,6 +83,8 @@ powershell -File tools/package-skill.ps1
 ```
 
 Packaging produces `dist/gui95/` and `dist/gui95.zip`. Preserve or remove an old package before rebuilding; the script refuses to overwrite it. The archive includes the skill, references, demo, and notices, but excludes local hosting metadata and backup packages.
+
+The Claude Code marketplace and plugin manifests are in `.claude-plugin/`. Check them with `claude plugin validate . --strict`.
 
 The source snapshots are dated 14 October 2026. The verifier checks their hashes and authored documentation links; it does not run the original applications. The collection script requires explicit source checkout paths and refuses to overwrite an existing manifest. Review any source refresh as a new edition.
 

@@ -1,0 +1,15 @@
+{
+  "name": "gui95",
+  "description": "GUI95: a skill for building Windows 95-style interfaces.",
+  "owner": {
+    "name": "Stephen Lavelle",
+    "url": "https://github.com/increpare"
+  },
+  "plugins": [
+    {
+      "name": "gui95",
+      "source": "./",
+      "description": "Build or restyle Windows 95-style web and Electron interfaces with classic controls, menus, dialogs, and keyboard behavior."
+    }
+  ]
+}

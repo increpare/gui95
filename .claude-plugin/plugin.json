@@ -1,0 +1,13 @@
+{
+  "name": "gui95",
+  "version": "1.1.0",
+  "description": "Build or restyle Windows 95-inspired web and Electron interfaces with classic controls, menus, dialogs, crisp bevels, and keyboard behavior. GUI95 is a vibe-coded skill and reference collection by Stephen Lavelle.",
+  "author": {
+    "name": "Stephen Lavelle",
+    "url": "https://github.com/increpare"
+  },
+  "homepage": "https://increpare.github.io/gui95/",
+  "repository": "https://github.com/increpare/gui95",
+  "license": "MIT",
+  "keywords": ["windows95", "win95", "retro-ui", "ui-design", "widgets", "html", "css", "javascript", "electron", "desktop", "accessibility", "vibe-coded"]
+}
