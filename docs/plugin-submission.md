@@ -27,7 +27,7 @@ The builder checks snapshot integrity, local documentation links, listing text l
 
 The display name is **GUI95**, with the subtitle **Build Windows 95-style UIs** and the category **Developer Tools**. The description explains web and Electron use cases, supported controls, keyboard behavior, bundled dependencies, and limitations. Keywords describe the actual subject: Windows 95, retro UI, UI design, widgets, HTML, CSS, JavaScript, Electron, desktop, and accessibility.
 
-Three starter prompts cover a settings dialog, an Electron restyle, and an interaction review. The listing links to the [interactive desktop](https://increpare.github.io/gui95/), [source repository](https://github.com/increpare/gui95), [support tracker](https://github.com/increpare/gui95/issues), and [privacy information](https://github.com/increpare/gui95/blob/main/PRIVACY.md). The package requests no additional country restrictions; platform availability still applies. Search placement and directory acceptance are controlled by the platform.
+Three starter prompts cover a settings dialog, an Electron restyle, and an interaction review. The listing links to the [interactive desktop](https://increpare.github.io/gui95/), [source repository](https://github.com/increpare/gui95), [support tracker](https://github.com/increpare/gui95/issues), and [privacy information](https://github.com/increpare/gui95/blob/master/PRIVACY.md). The package requests no additional country restrictions; platform availability still applies. Search placement and directory acceptance are controlled by the platform.
 
 ## Codex submission
 
