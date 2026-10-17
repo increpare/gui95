@@ -205,6 +205,32 @@ test("pixel style keeps translucent colours hard", () => {
   const img = pixel(square('<rect width="16" height="16" fill="#000" fill-opacity=".5"/>'));
   assert.deepEqual(px(img, 3, 3), [0, 0, 0, 128]);
 });
+test("pixel style blends a translucent paint with what is below it", () => {
+  // A 50% black square over a white one is grey and opaque, not a see-through hole.
+  const svg = square('<rect width="16" height="16" fill="#fff"/><rect width="16" height="16" fill="#000" fill-opacity=".5"/>');
+  assert.ok(near(px(pixel(svg), 3, 3), [127, 127, 127, 255], 1), String(px(pixel(svg), 3, 3)));
+  assert.deepEqual(px(pixel(svg), 3, 3), px(smooth(svg), 3, 3));
+  // A half-opaque blue group over red is purple: the red stays.
+  const group = square('<rect width="16" height="16" fill="#f00"/><g opacity=".5"><rect width="16" height="16" fill="#00f"/></g>');
+  assert.ok(near(px(pixel(group), 3, 3), [128, 0, 128, 255], 1), String(px(pixel(group), 3, 3)));
+  assert.deepEqual(px(pixel(group), 3, 3), px(smooth(group), 3, 3));
+  // Over part of what is below, only that part changes.
+  const half = pixel(square('<rect width="8" height="16" fill="#f00"/><rect width="16" height="16" fill="#00f" fill-opacity=".5"/>'));
+  assert.ok(near(px(half, 3, 3), [128, 0, 128, 255], 1));
+  assert.deepEqual(px(half, 12, 3), [0, 0, 255, 128]);
+  // The colour that covers most of a pixel wins, blended colours included.
+  const edge = pixel(square('<rect width="16" height="16" fill="#fff"/><rect width="8.6" height="16" fill="#000" fill-opacity=".5"/>'));
+  assert.ok(near(px(edge, 8, 3), [128, 128, 128, 255], 1), String(px(edge, 8, 3)));
+  assert.deepEqual(px(edge, 9, 3), [255, 255, 255, 255]);
+  // Groups nest, and the later of two equal shares wins.
+  const nested = pixel(square('<rect width="16" height="16" fill="#fff"/><g opacity=".5"><g opacity=".5"><rect width="16" height="16"/></g></g>'));
+  assert.ok(near(px(nested, 8, 8), [191, 191, 191, 255], 1), String(px(nested, 8, 8)));
+  const tie = pixel(square('<rect width="8.5" height="16" fill="#f00" fill-opacity=".5"/><rect x="8.5" width="7.5" height="16" fill="#00f" fill-opacity=".5"/>'));
+  assert.deepEqual(px(tie, 8, 3), [0, 0, 255, 128]);
+  // Also inside a group, whose layer is composited onto the picture.
+  const groupTie = pixel(square('<g opacity=".5"><rect width="8.5" height="16" fill="#f00"/><rect x="8.5" width="7.5" height="16" fill="#00f"/></g>'));
+  assert.deepEqual(px(groupTie, 8, 3), [0, 0, 255, 128]);
+});
 
 // ---- The rasterizer: smooth style -----------------------------------------------
 
@@ -283,7 +309,7 @@ test("opacity applies to an element and its content as a whole", () => {
   const withFillOpacity = smooth(square('<g opacity=".5"><rect width="16" height="16" fill-opacity=".5"/></g>'));
   assert.equal(px(withFillOpacity, 8, 8)[3], 64);
   assert.equal(smooth(square('<g opacity="0"><rect width="16" height="16"/></g>')).data.every((v) => v === 0), true);
-  // The pixel style cannot blend, so the opacity goes into each paint's colour.
+  // The pixel style composites groups the same way, then keeps each pixel's colour hard.
   const pixelGroup = pixel(square('<g opacity=".5"><rect width="16" height="16" fill="#000"/><rect width="8" height="16" fill="#f00"/></g>'));
   assert.deepEqual(px(pixelGroup, 3, 4), [255, 0, 0, 128]);
   assert.deepEqual(px(pixelGroup, 12, 4), [0, 0, 0, 128]);
@@ -379,10 +405,10 @@ test("transforms: translate, scale and matrix, applied in order", () => {
   const commas = pixel(square('<rect width="8" height="8" transform="translate(8,8),scale(.5,.5)"/>'));
   assert.equal(px(commas, 9, 9)[3], 255);
 });
-test("strokes have round joins and scale with the transform", () => {
-  const stroked = pixel(square('<rect x="6" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="6"/>'));
+test("strokes scale with the transform and have a width", () => {
+  const stroked = pixel(square('<rect x="6" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="6" stroke-linejoin="round"/>'));
   assert.equal(px(stroked, 5, 5)[3], 255);
-  assert.equal(px(stroked, 3, 3)[3], 0);          // the corner is rounded, not mitred
+  assert.equal(px(stroked, 3, 3)[3], 0);          // the corner is rounded
   assert.equal(px(stroked, 8, 4)[3], 255);
   assert.equal(px(stroked, 8, 1)[3], 0);
   const hollow = pixel(square('<rect x="4" y="4" width="8" height="8" fill="none" stroke="#000" stroke-width="2"/>'));
@@ -417,8 +443,64 @@ test("a stroke of width 0 or none draws nothing", () => {
   assert.equal(px(pixel(square('<path d="M2 8H14" stroke="#000" stroke-width="0"/>')), 8, 8)[3], 0);
   assert.equal(px(pixel(square('<path d="M2 8H14" stroke="none" stroke-width="3"/>')), 8, 8)[3], 0);
 });
-test("stroke-linejoin round is accepted", () => {
-  assert.equal(px(pixel(square('<path d="M2 8H14" stroke="#000" stroke-width="2" stroke-linejoin="round"/>')), 8, 8)[3], 255);
+// A thick open line with a sharp corner at (8, 4): a miter reaches up to y = 0.67, a round join to y = 2
+// and a bevel to y = 2.8.
+const corner = (attributes = "", wrap = (body) => body) =>
+  pixel(square(wrap(`<path d="M2 12L8 4L14 12" fill="none" stroke="#000" stroke-width="4" ${attributes}/>`)));
+test("stroke joins are miters unless stated", () => {
+  assert.equal(px(corner(), 8, 1)[3], 255);                    // the miter tip
+  assert.equal(px(corner('stroke-linejoin="miter"'), 8, 1)[3], 255);
+  assert.equal(px(corner(), 8, 2)[3], 255);
+  assert.equal(px(corner('stroke-linejoin="round"'), 8, 1)[3], 0);   // no tip
+  assert.equal(px(corner('stroke-linejoin="round"'), 8, 2)[3], 255); // but the rounded top
+  assert.equal(px(corner('stroke-linejoin="bevel"'), 8, 1)[3], 0);
+  assert.equal(px(corner('stroke-linejoin="bevel"'), 8, 2)[3], 0);    // the corner is cut off flat
+  assert.equal(px(corner('stroke-linejoin="bevel"'), 8, 3)[3], 255);
+  const box = (join) => pixel(square(`<rect x="6" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="6" ${join}/>`));
+  assert.equal(px(box(""), 3, 3)[3], 255);                     // a mitred corner is square
+  assert.equal(px(box('stroke-linejoin="round"'), 3, 3)[3], 0);
+  assert.equal(px(box('stroke-linejoin="bevel"'), 3, 3)[3], 0);
+  assert.equal(px(box('stroke-linejoin="bevel"'), 5, 5)[3], 255);
+  assert.equal(px(box(""), 2, 8)[3], 0);
+});
+test("a very sharp corner falls back to a bevel beyond the miter limit", () => {
+  // The corner at (8, 2) is 9.5 degrees wide: its miter is 12.04 stroke widths long.
+  const spike = (attributes) => pixel(square(`<path d="M7 14L8 2L9 14" fill="none" stroke="#000" stroke-width="2" ${attributes}/>`));
+  assert.equal(px(spike(""), 8, 1)[3], 0);                     // the default limit is 4
+  assert.equal(px(spike('stroke-miterlimit="4"'), 8, 1)[3], 0);
+  assert.equal(px(spike('stroke-miterlimit="12"'), 8, 1)[3], 0);
+  assert.equal(px(spike('stroke-miterlimit="12.1"'), 8, 1)[3], 255);
+  assert.equal(px(spike('stroke-miterlimit="40"'), 8, 1)[3], 255);
+  assert.equal(px(spike('stroke-miterlimit="40" stroke-linejoin="bevel"'), 8, 1)[3], 0);
+  assert.equal(px(spike('stroke-miterlimit="40" stroke-linejoin="round"'), 8, 0)[3], 0);   // a round join ends one half width above the bend
+  assert.equal(px(spike('stroke-miterlimit="40"'), 8, 0)[3], 255);
+  assert.equal(px(spike(""), 8, 3)[3], 255);                   // the bevelled corner itself is drawn
+  // Either side of the default limit of 4: a miter 3.49 stroke widths long is kept, one of 5.10 is cut.
+  const lean = (dx, attributes = "") => pixel(square(`<path d="M${8 - dx} 14L8 4L${8 + dx} 14" fill="none" stroke="#000" stroke-width="2" ${attributes}/>`));
+  assert.equal(px(lean(3), 8, 2)[3], 255);
+  assert.equal(px(lean(2), 8, 2)[3], 0);
+  assert.equal(px(lean(2, 'stroke-miterlimit="6"'), 8, 2)[3], 255);
+  assert.equal(px(lean(3, 'stroke-miterlimit="3"'), 8, 2)[3], 0);
+});
+test("stroke-linejoin and stroke-miterlimit are inherited", () => {
+  assert.equal(px(corner("", (body) => `<g stroke-linejoin="round">${body}</g>`), 8, 1)[3], 0);
+  assert.equal(px(corner('stroke-linejoin="miter"', (body) => `<g stroke-linejoin="round">${body}</g>`), 8, 1)[3], 255);
+  assert.equal(px(corner("", (body) => `<g stroke-linejoin="bevel"><g>${body}</g></g>`), 8, 2)[3], 0);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" stroke-linejoin="round"><path d="M2 12L8 4L14 12" fill="none" stroke="#000" stroke-width="4"/></svg>`;
+  assert.equal(px(pixel(svg), 8, 1)[3], 0);
+  const spike = (outer, inner = "") => pixel(square(`<g ${outer}><path d="M7 14L8 2L9 14" fill="none" stroke="#000" stroke-width="2" ${inner}/></g>`));
+  assert.equal(px(spike('stroke-miterlimit="40"'), 8, 1)[3], 255);
+  assert.equal(px(spike('stroke-miterlimit="40"', 'stroke-miterlimit="2"'), 8, 1)[3], 0);
+});
+test("joins use the stroke's width after the transform", () => {
+  const scaled = pixel(square('<g transform="scale(2)"><path d="M1 6L4 2L7 6" fill="none" stroke="#000" stroke-width="2"/></g>'));
+  assert.equal(px(scaled, 8, 1)[3], 255);                      // the same corner as above, so the same miter tip
+});
+test("an open line turning back on itself ends flat, or round with a round join", () => {
+  const back = (join) => pixel(square(`<path d="M2 8H12H2" fill="none" stroke="#000" stroke-width="4" ${join}/>`));
+  assert.equal(px(back(""), 13, 8)[3], 0);
+  assert.equal(px(back('stroke-linejoin="bevel"'), 13, 8)[3], 0);
+  assert.equal(px(back('stroke-linejoin="round"'), 13, 8)[3], 255);
 });
 test("zero-sized shapes draw nothing", () => {
   assert.equal(px(pixel(square('<rect width="0" height="8"/><rect width="8" height="0"/><circle r="0" cx="4" cy="4"/>')), 3, 3)[3], 0);
@@ -502,7 +584,6 @@ test("unsupported attributes are named", () => {
   refused('stroke-dasharray="2 1"', "stroke-dasharray");
   refused('stroke-linecap="round"', "stroke-linecap");
   refused('stroke-opacity=".5"', "stroke-opacity");
-  refused('stroke-miterlimit="2"', "stroke-miterlimit");
   refused('rx="2"', "rx");
   refused('visibility="hidden"', "visibility");
   refused('inkscape:label="x"', "inkscape:label");
@@ -517,7 +598,11 @@ test("unsupported attribute values are named", () => {
   assert.throws(() => pixel(square('<rect width="4" height="4" transform="rotate(45)"/>')), /rotate/);
   assert.throws(() => pixel(square('<rect width="4" height="4" transform="skewX(3)"/>')), /skewX/);
   assert.throws(() => pixel(square('<rect width="4" height="4" transform="translate(1"/>')), /transform/);
-  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-linejoin="miter"/>')), /stroke-linejoin/);
+  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-linejoin="arcs"/>')), /stroke-linejoin.*arcs/);
+  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-linejoin="miter-clip"/>')), /stroke-linejoin.*miter-clip/);
+  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-linejoin="inherit"/>')), /stroke-linejoin/);
+  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-miterlimit="0.5"/>')), /stroke-miterlimit/);
+  assert.throws(() => pixel(square('<rect width="4" height="4" stroke="#000" stroke-miterlimit="4px"/>')), /stroke-miterlimit/);
   assert.throws(() => pixel(square('<rect width="4" height="4" width="4px"/>')), /width/);
   assert.throws(() => pixel(square('<rect width="50%" height="4"/>')), /50%/);
   assert.throws(() => pixel(square('<rect width="4" height="4" opacity="2"/>')), /opacity/);
@@ -599,6 +684,13 @@ test("documentSvg starts the page from SVG's defaults", () => {
   // The page itself sets fill="none" and so on; the icon must not inherit them.
   const img = pixel(g.documentSvg(square('<rect width="16" height="16"/>')));
   assert.deepEqual(px(img, 8, 9), [0, 0, 0, 255]);
+  // The page has round joins, but the picture on it joins like the picture alone: with miters.
+  const line = (root) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" ${root}><path d="M2 12L8 4L14 12" fill="none" stroke="#000" stroke-width="4"/></svg>`;
+  const onPage = (root) => smooth(g.documentSvg(line(root)), 128).data;
+  assert.deepEqual(onPage(""), onPage('stroke-linejoin="miter"'));
+  assert.notDeepEqual(onPage(""), onPage('stroke-linejoin="round"'));
+  assert.deepEqual(onPage('stroke-miterlimit="2"'), onPage('stroke-miterlimit="2" stroke-linejoin="miter"'));
+  assert.notDeepEqual(onPage(""), onPage('stroke-miterlimit="1"'));
 });
 test("documentSvg refuses something that is not an SVG", () => {
   assert.throws(() => g.documentSvg("<html/>"), /<svg>/);

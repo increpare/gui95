@@ -12,9 +12,9 @@
 //
 // Styles:
 //   pixel   draws 16, 24, 32, 48 px and `master` px (default 32; 16, 32, 64, ... 1024) directly,
-//           each pixel taking the colour that covers most of it, and enlarges that `master`
-//           drawing by whole numbers for every larger size, so the hard-edged look survives
-//           at 1024 px.
+//           each pixel taking the colour that covers most of it (translucent paints are blended
+//           with what is below them first, as in smooth), and enlarges that `master` drawing by
+//           whole numbers for every larger size, so the hard-edged look survives at 1024 px.
 //   smooth  draws every size directly, antialiased by supersampling (8 x 8 samples per pixel up
 //           to 256 px, 4 x 4 above), the samples' colours averaged with their alpha.
 // `document: true` puts the picture at half size on a Windows 95 document page. With a pixel
@@ -23,15 +23,15 @@
 // The SVG may use: the root <svg> with a viewBox; <g>; <path> (M L H V C S Q T Z, absolute and
 // relative); <rect> (no rounded corners); <circle>; <ellipse>; <polygon>; transform (translate,
 // scale, matrix); fill, fill-rule, fill-opacity, opacity, stroke, stroke-width, stroke-linejoin
-// (round) and display (none or inline); colours #rgb, #rrggbb, none, black and white. Fill,
-// fill-rule, fill-opacity, stroke, stroke-width and stroke-linejoin are inherited as in SVG.
+// (miter, round or bevel), stroke-miterlimit and display (none or inline); colours #rgb, #rrggbb,
+// none, black and white. Fill, fill-rule, fill-opacity, stroke, stroke-width, stroke-linejoin and
+// stroke-miterlimit are inherited as in SVG.
 // <metadata>, <title> and <desc> are skipped, and so are comments and attributes that only
 // label or size the picture (id, class, data-*, width and height of the root, ...). Anything
 // else is refused with an error naming it, so a feature the icons cannot show never drops out
-// silently. Two simplifications: strokes always have round joins and plain ends, and a stroke's
-// width scales with the square root of the transform's area scale. An element's opacity applies
-// to it and its content as a whole; the pixel style has no blending, so there it is multiplied
-// into the alpha of each fill and stroke instead.
+// silently. Two simplifications: strokes have plain (butt) ends, and a stroke's width scales with
+// the square root of the transform's area scale. Joins are as in SVG: miter by default, with a
+// miter limit of 4. An element's opacity applies to it and its content as a whole.
 
 import { realpathSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -406,7 +406,7 @@ function shapeGeometry(element, attributes) {
   return [];
 }
 
-const PRESENTATION = ["fill", "fill-rule", "fill-opacity", "opacity", "stroke", "stroke-width", "stroke-linejoin", "display"];
+const PRESENTATION = ["fill", "fill-rule", "fill-opacity", "opacity", "stroke", "stroke-width", "stroke-linejoin", "stroke-miterlimit", "display"];
 const GEOMETRY = {
   svg: ["viewBox", "width", "height"],
   g: ["transform"],
@@ -443,8 +443,16 @@ function inherit(parent, attributes) {
     state.strokeWidth = numberAttribute(attributes, "stroke-width");
     if (state.strokeWidth < 0) throw new Error(`Invalid stroke-width "${attributes["stroke-width"]}": it cannot be negative`);
   }
-  if (attributes["stroke-linejoin"] !== undefined && attributes["stroke-linejoin"].trim() !== "round") {
-    throw new Error(`Unsupported stroke-linejoin "${attributes["stroke-linejoin"]}": strokes always have round joins, so use round or leave it out`);
+  if (attributes["stroke-linejoin"] !== undefined) {
+    const join = attributes["stroke-linejoin"].trim();
+    if (join !== "miter" && join !== "round" && join !== "bevel") {
+      throw new Error(`Unsupported stroke-linejoin "${attributes["stroke-linejoin"]}": use miter, round or bevel`);
+    }
+    state.join = join;
+  }
+  if (attributes["stroke-miterlimit"] !== undefined) {
+    state.miterLimit = numberAttribute(attributes, "stroke-miterlimit");
+    if (state.miterLimit < 1) throw new Error(`Invalid stroke-miterlimit "${attributes["stroke-miterlimit"]}": it must be at least 1`);
   }
   if (attributes.transform !== undefined) state.matrix = multiply(parent.matrix, parseTransform(attributes.transform));
   return state;
@@ -483,7 +491,7 @@ function readSvg(text) {
       if (!allowed.includes(attribute) && !HARMLESS.test(attribute)) throw new Error(`Unsupported attribute ${attribute} on <${name}>`);
     }
     if (name === "svg") viewBox = parseViewBox(attributes);
-    const parent = stack.at(-1)?.state ?? { fill: [0, 0, 0], fillOpacity: 1, evenOdd: false, stroke: null, strokeWidth: 1, matrix: IDENTITY };
+    const parent = stack.at(-1)?.state ?? { fill: [0, 0, 0], fillOpacity: 1, evenOdd: false, stroke: null, strokeWidth: 1, join: "miter", miterLimit: 4, matrix: IDENTITY };
     const state = inherit(parent, attributes);
     const opacity = attributes.opacity === undefined ? 1 : parseOpacity(attributes.opacity, "opacity");
     const display = attributes.display?.trim();
@@ -508,6 +516,8 @@ function readSvg(text) {
         evenOdd: state.evenOdd,
         stroke: state.stroke,
         strokeWidth: state.strokeWidth,
+        join: state.join,
+        miterLimit: state.miterLimit,
       });
     }
     if (!tag.selfClosing) stack.push({ name, state, items: content });
@@ -578,8 +588,11 @@ function addPolygon(edges, points, reverseIfNegative = false) {
 }
 
 // A stroke as the union of convex pieces, all wound the same way so that a nonzero fill merges them: a
-// rectangle along each line, and a round wedge on the outside of each bend.
-function addStroke(edges, { points, closed }, halfWidth) {
+// rectangle along each line, and a wedge on the outside of each bend, shaped by the join: a miter
+// (the outer edges extended to a point, unless that point is more than `miterLimit` stroke widths
+// from the bend, when it is cut off as a bevel), a bevel (a triangle) or a round one (a pie slice).
+// The ends of open lines are flat.
+function addStroke(edges, { points, closed }, halfWidth, join, miterLimit) {
   const p = [];
   for (let i = 0; i < points.length; i += 2) {
     if (p.length === 0 || Math.hypot(points[i] - p.at(-2), points[i + 1] - p.at(-1)) > 1e-9) p.push(points[i], points[i + 1]);
@@ -608,7 +621,8 @@ function addStroke(edges, { points, closed }, halfWidth) {
     if (Math.abs(turn) < 1e-6) continue;
     const wedge = [];
     if (Math.abs(turn) > Math.PI - 1e-3) {
-      // A line that turns back on itself ends in a round cap: a whole circle.
+      // A line that turns back on itself: a round join is a whole circle, the others end flat.
+      if (join !== "round") continue;
       const corners = Math.max(8, Math.ceil((2 * Math.PI) / step));
       for (let k = 0; k < corners; k++) {
         const angle = (2 * Math.PI * k) / corners;
@@ -618,11 +632,22 @@ function addStroke(edges, { points, closed }, halfWidth) {
       // The outside of the bend is away from the side it turns toward.
       wedge.push(vx, vy);
       const side = turn > 0 ? -1 : 1;
-      const [ax, ay] = [-d1y * halfWidth * side, d1x * halfWidth * side];
-      const pieces = Math.ceil(Math.abs(turn) / step);
-      for (let k = 0; k <= pieces; k++) {
-        const angle = (turn * k) / pieces;
-        wedge.push(vx + ax * Math.cos(angle) - ay * Math.sin(angle), vy + ax * Math.sin(angle) + ay * Math.cos(angle));
+      const [ax, ay] = [-d1y * halfWidth * side, d1x * halfWidth * side]; // The outer corner of the first line,
+      const [bx, by] = [-d2y * halfWidth * side, d2x * halfWidth * side]; // and of the second.
+      if (join === "round") {
+        const pieces = Math.ceil(Math.abs(turn) / step);
+        for (let k = 0; k <= pieces; k++) {
+          const angle = (turn * k) / pieces;
+          wedge.push(vx + ax * Math.cos(angle) - ay * Math.sin(angle), vy + ax * Math.sin(angle) + ay * Math.cos(angle));
+        }
+      } else {
+        wedge.push(vx + ax, vy + ay);
+        // The miter is 1 / cos(turn / 2) stroke widths long, and ends at the bend plus (a + b) / (1 + cos turn).
+        if (join === "miter" && 1 / Math.cos(Math.abs(turn) / 2) <= miterLimit) {
+          const reach = 1 / (1 + Math.cos(turn));
+          wedge.push(vx + (ax + bx) * reach, vy + (ay + by) * reach);
+        }
+        wedge.push(vx + bx, vy + by);
       }
     }
     addPolygon(edges, wedge, true);
@@ -695,10 +720,12 @@ function coveredSpans(paint, y, spans) {
 function over(bytes, i, r, g, b, alpha) {
   const below = bytes[i + 3];
   if (below === 0) {
+    const a = Math.round(alpha * 255);
+    if (a === 0) return;
     bytes[i] = r;
     bytes[i + 1] = g;
     bytes[i + 2] = b;
-    bytes[i + 3] = Math.round(alpha * 255);
+    bytes[i + 3] = a;
     return;
   }
   const kept = (below / 255) * (1 - alpha);
@@ -709,10 +736,15 @@ function over(bytes, i, r, g, b, alpha) {
   bytes[i + 3] = Math.round(total * 255);
 }
 
-// A layer of samples drawn over another, its alpha scaled by `opacity`.
+// A layer of samples drawn over another, its alpha scaled by `opacity`. The pixel style's layers
+// also carry the id of the paint on top of each sample.
 function composite(layer, target, opacity) {
-  for (let i = 0; i < layer.length; i += 4) {
-    if (layer[i + 3] !== 0) over(target, i, layer[i], layer[i + 1], layer[i + 2], (layer[i + 3] / 255) * opacity);
+  const { bytes } = layer;
+  for (let s = 0; s < layer.words.length; s++) {
+    const i = s * 4;
+    if (bytes[i + 3] === 0) continue;
+    over(target.bytes, i, bytes[i], bytes[i + 1], bytes[i + 2], (bytes[i + 3] / 255) * opacity);
+    if (target.ids) target.ids[s] = layer.ids[s];
   }
 }
 
@@ -722,33 +754,24 @@ function drawScene({ viewBox: [minX, minY, width, height], items }, size, style)
   const scale = Math.min(size / width, size / height);
   const view = [scale, 0, 0, scale, (size - width * scale) / 2 - minX * scale, (size - height * scale) / 2 - minY * scale];
 
-  // Every fill and stroke becomes a paint. A group with an opacity is drawn as one: on a layer of its
-  // own in the smooth style; in the pixel style, which has no blending, its opacity is folded into the
-  // alpha of the paints inside it. The pixel style also needs the distinct colours, colour 0 being nothing.
-  const colors = [[0, 0, 0, 0]];
-  const colorIndex = new Map();
-  const colorOf = [0]; // The colour of each paint id.
+  // Every fill and stroke becomes a paint, numbered in painting order. A group with an opacity is
+  // drawn as one, on a layer of its own that is then composited with that opacity.
+  let paintCount = 0;
   const addPaint = (edges, evenOdd, rgb, alpha) => {
     const a = Math.round(alpha * 255);
-    const paint = a === 0 ? null : makePaint(edges, evenOdd, [...rgb, a], colorOf.length);
+    const paint = a === 0 ? null : makePaint(edges, evenOdd, [...rgb, a], paintCount + 1);
     if (paint === null) return [];
-    const key = ((rgb[0] * 256 + rgb[1]) * 256 + rgb[2]) * 256 + a;
-    if (!colorIndex.has(key)) colorIndex.set(key, colors.push(paint.color) - 1);
-    colorOf.push(colorIndex.get(key));
+    paintCount++;
     const word = new Uint8Array(4);
     word.set(paint.color);
     paint.word = new Uint32Array(word.buffer)[0];
     return [paint];
   };
-  const collect = (list, opacity) => {
+  const collect = (list) => {
     const out = [];
     for (const item of list) {
       if (item.items) {
-        if (!smooth) {
-          out.push(...collect(item.items, opacity * item.opacity));
-          continue;
-        }
-        const inner = collect(item.items, 1);
+        const inner = collect(item.items);
         if (inner.length > 0) {
           out.push({ opacity: item.opacity, items: inner, yFrom: Math.min(...inner.map((i) => i.yFrom)), yTo: Math.max(...inner.map((i) => i.yTo)) });
         }
@@ -761,35 +784,40 @@ function drawScene({ viewBox: [minX, minY, width, height], items }, size, style)
       if (item.fill) {
         const edges = newEdges();
         for (const { points } of outlines) addPolygon(edges, points);
-        out.push(...addPaint(edges, item.evenOdd, item.fill, item.fillAlpha * opacity));
+        out.push(...addPaint(edges, item.evenOdd, item.fill, item.fillAlpha));
       }
       if (item.stroke && item.strokeWidth > 0) {
         const edges = newEdges();
-        for (const outline of outlines) addStroke(edges, outline, (item.strokeWidth * Math.sqrt(area)) / 2);
-        out.push(...addPaint(edges, false, item.stroke, opacity));
+        for (const outline of outlines) addStroke(edges, outline, (item.strokeWidth * Math.sqrt(area)) / 2, item.join, item.miterLimit);
+        out.push(...addPaint(edges, false, item.stroke, 1));
       }
     }
     return out;
   };
-  const picture = collect(items, 1);
+  const picture = collect(items);
 
   // One row of pixels at a time: S lines of samples, each paint's spans painted over the one before.
+  // A sample is RGBA bytes in straight alpha; the pixel style keeps beside it the id of the paint on top.
   const rowSamples = size * S;
   const newLayer = () => {
-    const words = new Uint32Array(rowSamples * S); // The paint's id (pixel style) or its RGBA bytes (smooth).
-    return { words, bytes: new Uint8Array(words.buffer) };
+    const words = new Uint32Array(rowSamples * S);
+    return { words, bytes: new Uint8Array(words.buffer), ids: smooth ? null : new Uint32Array(rowSamples * S) };
+  };
+  const clear = (layer) => {
+    layer.words.fill(0);
+    layer.ids?.fill(0);
   };
   const layers = [newLayer()]; // The picture's own, then one for each depth of group.
   const spans = [];
   const draw = (list, depth, row) => {
-    const { words, bytes } = layers[depth];
+    const { words, bytes, ids } = layers[depth];
     for (const item of list) {
       if (item.yTo <= row || item.yFrom >= row + 1) continue;
       if (item.items) {
         const layer = (layers[depth + 1] ??= newLayer());
-        layer.words.fill(0);
+        clear(layer);
         draw(item.items, depth + 1, row);
-        composite(layer.bytes, bytes, item.opacity);
+        composite(layer, layers[depth], item.opacity);
         continue;
       }
       const [r, g, b, a] = item.color;
@@ -800,21 +828,22 @@ function drawScene({ viewBox: [minX, minY, width, height], items }, size, style)
           const from = line * rowSamples + Math.max(0, Math.ceil(spans[k] * S - 0.5));
           const to = line * rowSamples + Math.min(rowSamples, Math.ceil(spans[k + 1] * S - 0.5));
           if (to <= from || to > (line + 1) * rowSamples) continue;
-          if (!smooth) words.fill(item.id, from, to);
-          else if (a === 255) words.fill(item.word, from, to);
+          if (a === 255) words.fill(item.word, from, to);
           else for (let i = from; i < to; i++) over(bytes, i * 4, r, g, b, a / 255);
+          ids?.fill(item.id, from, to);
         }
       }
     }
   };
 
-  const { words: samples, bytes } = layers[0];
+  const { words, bytes, ids } = layers[0];
   const data = new Uint8Array(size * size * 4);
-  const votes = new Int32Array(colors.length);
-  const latest = new Int32Array(colors.length);
-  const seen = [];
+  const colors = []; // The distinct colours of one pixel's samples (pixel style): the colour word, ...
+  const shares = []; // ... how many samples have it, ...
+  const latest = []; // ... the last paint among them, ...
+  const first = []; // ... and where one of them is.
   for (let row = 0; row < size; row++) {
-    samples.fill(0);
+    clear(layers[0]);
     draw(picture, 0, row);
     for (let x = 0; x < size; x++) {
       const out = (row * size + x) * 4;
@@ -838,21 +867,29 @@ function drawScene({ viewBox: [minX, minY, width, height], items }, size, style)
         data.set([Math.round(r / alpha), Math.round(g / alpha), Math.round(b / alpha), coverage], out);
       } else {
         // The colour on most of the pixel's samples wins; of equal shares, the one painted last.
-        seen.length = 0;
+        let kinds = 0;
         for (let line = 0; line < S; line++) {
-          for (let i = line * rowSamples + x * S, end = i + S; i < end; i++) {
-            const id = samples[i];
-            const color = colorOf[id];
-            if (votes[color]++ === 0) seen.push(color);
-            if (id > latest[color]) latest[color] = id;
+          for (let s = line * rowSamples + x * S, end = s + S; s < end; s++) {
+            const empty = bytes[s * 4 + 3] === 0;
+            const color = empty ? 0 : words[s];
+            let k = 0;
+            while (k < kinds && colors[k] !== color) k++;
+            if (k === kinds) {
+              colors[k] = color;
+              shares[k] = 0;
+              latest[k] = 0;
+              first[k] = s * 4;
+              kinds++;
+            }
+            shares[k]++;
+            if (!empty && ids[s] > latest[k]) latest[k] = ids[s];
           }
         }
-        let best = seen[0];
-        for (const color of seen) {
-          if (votes[color] > votes[best] || (votes[color] === votes[best] && latest[color] > latest[best])) best = color;
+        let best = 0;
+        for (let k = 1; k < kinds; k++) {
+          if (shares[k] > shares[best] || (shares[k] === shares[best] && latest[k] > latest[best])) best = k;
         }
-        for (const color of seen) votes[color] = latest[color] = 0;
-        data.set(colors[best], out);
+        if (colors[best] !== 0) data.set(bytes.subarray(first[best], first[best] + 4), out);
       }
     }
   }
@@ -912,7 +949,7 @@ export function documentSvg(svg) {
   const number = (value) => String(+value.toFixed(6));
   // The picture's own <svg> becomes a group that starts from SVG's defaults and keeps what the
   // picture sets there; what only sizes it (width, height, viewBox, xmlns, ...) is dropped.
-  const group = { fill: "#000", stroke: "none", "stroke-width": "1" };
+  const group = { fill: "#000", stroke: "none", "stroke-width": "1", "stroke-linejoin": "miter", "stroke-miterlimit": "4" };
   for (const [name, value] of Object.entries(root.attributes)) {
     if (!/^(?:id|version|width|height|viewBox|xmlns(?::.+)?|data-.+)$/.test(name)) group[name] = value;
   }
