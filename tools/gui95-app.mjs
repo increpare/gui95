@@ -3,14 +3,17 @@
 //
 // It describes a GUI95 app to the tools that build and install it: the gui95-app.json
 // manifest, the names of release archives, and where an installed copy lives on each system.
-// Run from the repository root, it also packs the app's finished build:
+// Run from the repository root, it also packs the app's finished build and installs it for the
+// current user:
 //   node scripts/gui95-app.mjs pack
+//   node scripts/gui95-app.mjs install
 
 import childProcess from "node:child_process";
 import { realpathSync } from "node:fs";
-import { mkdir, readFile, rename, rm, rmdir, stat } from "node:fs/promises";
+import { copyFile, cp, lstat, mkdir, readFile, rename, rm, rmdir, stat, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { setTimeout as sleep } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
 
 export const MANIFEST = "gui95-app.json";
@@ -127,6 +130,11 @@ export function builtAppPath(repoRoot, app, system) {
   return system === "macos" ? path.join(repoRoot, build.dir, build.bundle) : path.join(repoRoot, build.dir);
 }
 
+// Where a Linux user's application data lives: $XDG_DATA_HOME, or ~/.local/share without it.
+function linuxDataHome(env, home) {
+  return env.XDG_DATA_HOME || path.posix.join(home, ".local", "share");
+}
+
 export function installPaths(app, system, { env = process.env, home = os.homedir() } = {}) {
   if (system === "windows") {
     const win = path.win32;
@@ -145,7 +153,7 @@ export function installPaths(app, system, { env = process.env, home = os.homedir
     return { appDir, resourcesDir: posix.join(appDir, "Contents", "Resources"), launcher: null };
   }
   if (system === "linux") {
-    const dataHome = env.XDG_DATA_HOME || posix.join(home, ".local", "share");
+    const dataHome = linuxDataHome(env, home);
     const appDir = posix.join(dataHome, "gui95", app.id);
     return {
       appDir,
@@ -215,32 +223,61 @@ export function windowsFileTypeEntries(app, appDir) {
   });
 }
 
-// ---- Packing --------------------------------------------------------------
+// ---- Running programs and checking the builds -----------------------------
 
-// Runs a program without a shell. Resolves when it exits 0, rejects with what it said otherwise.
-function runTool(command, args) {
+// Runs a program without a shell, in `env` (the caller's own when not given). Resolves with what
+// it printed to stdout (only kept when `capture` is set) once it exits 0, rejects with what it
+// said otherwise. `timeout` stops a program that hangs.
+function runTool(command, args, { env, capture = false, timeout } = {}) {
   return new Promise((resolve, reject) => {
-    const child = childProcess.spawn(command, args, { stdio: ["ignore", "ignore", "pipe"] });
+    const child = childProcess.spawn(command, args, { env, timeout, stdio: ["ignore", capture ? "pipe" : "ignore", "pipe"] });
+    let stdout = "";
     let stderr = "";
+    if (capture) child.stdout.on("data", (chunk) => { stdout += chunk; });
     child.stderr.on("data", (chunk) => { stderr += chunk; });
     child.on("error", (err) => reject(new Error(`cannot run ${command} (${err.message})`, { cause: err })));
-    child.on("close", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`${path.basename(command)} exited with code ${code}${stderr.trim() ? `: ${stderr.trim()}` : ""}`));
+    child.on("close", (code, signal) => {
+      if (code === 0) resolve(stdout);
+      else reject(new Error(`${path.basename(command)} exited with code ${code ?? signal}${stderr.trim() ? `: ${stderr.trim()}` : ""}`));
     });
   });
+}
+
+function windowsSystem32(file, env = process.env) {
+  return path.win32.join(env.SystemRoot || env.windir || "C:\\Windows", "System32", file);
 }
 
 // Windows ships a bsdtar that writes zip files. Another tar earlier on PATH (the GNU tar that
 // comes with MSYS or Git Bash, say) cannot, so the system's own is called by its full path.
 function windowsTar() {
-  const systemRoot = process.env.SystemRoot || process.env.windir || "C:\\Windows";
-  return path.win32.join(systemRoot, "System32", "tar.exe");
+  return windowsSystem32("tar.exe");
 }
 
 async function isDirectory(dir) {
   return (await stat(dir).catch(() => null))?.isDirectory() ?? false;
 }
+
+async function isFile(file) {
+  return (await stat(file).catch(() => null))?.isFile() ?? false;
+}
+
+// Checks every app before any is packed or installed, so a missing build stops the run with
+// nothing half done. An app without a build for the system is planned as skipped.
+async function planBuilds(repoRoot, apps, system) {
+  const plan = [];
+  for (const app of apps) {
+    if (!app.builds[system]) {
+      plan.push({ app, skipped: `no ${system} build` });
+      continue;
+    }
+    const built = builtAppPath(repoRoot, app, system);
+    if (!(await isDirectory(built))) throw new Error(`${app.name}: no build at ${built}; run the build first.`);
+    plan.push({ app, built, version: await readVersion(repoRoot, app) });
+  }
+  return plan;
+}
+
+// ---- Packing --------------------------------------------------------------
 
 // Every archive has one top-level entry: the .app bundle on macOS, <Name>/ elsewhere. The build
 // folder has some other name, so for the length of the tar run it is moved to .stage/<Name> (same
@@ -275,22 +312,11 @@ export async function pack(repoRoot, { system = systemName(), arch = process.arc
   const { apps } = await readManifest(repoRoot);
   const distDir = path.join(repoRoot, DIST_DIR);
 
-  // Check every app before packing any, so a missing build stops the run with nothing half done.
-  const plan = [];
-  for (const app of apps) {
-    if (!app.builds[system]) {
-      plan.push({ app });
-      continue;
-    }
-    const built = builtAppPath(repoRoot, app, system);
-    if (!(await isDirectory(built))) throw new Error(`${app.name}: no build at ${built}; run the build first.`);
-    plan.push({ app, built, version: await readVersion(repoRoot, app) });
-  }
+  const plan = await planBuilds(repoRoot, apps, system);
 
   const results = [];
-  for (const { app, built, version } of plan) {
-    if (built === undefined) {
-      const skipped = `no ${system} build`;
+  for (const { app, built, version, skipped } of plan) {
+    if (skipped !== undefined) {
       log(`${app.name}: skipped, ${skipped}`);
       results.push({ app: app.name, skipped });
       continue;
@@ -311,10 +337,242 @@ export async function pack(repoRoot, { system = systemName(), arch = process.arc
   return results;
 }
 
+// ---- Installing -----------------------------------------------------------
+
+// The new copy is built next to the installed one as <appDir>.gui95-new and only then swapped in,
+// the old one waiting as <appDir>.gui95-old until the swap is done.
+const STAGING_SUFFIX = ".gui95-new";
+const OLD_SUFFIX = ".gui95-old";
+const LSREGISTER = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
+
+// Renaming a folder fails on Windows while a program uses it or a file in it. Antivirus scanners
+// do that briefly to fresh files, so a blocked rename is tried again for about a second.
+const BLOCKED_RENAME = new Set(["EBUSY", "EPERM", "EACCES"]);
+const RENAME_ATTEMPTS = 10;
+const RENAME_RETRY_MS = 100;
+
+const removeTree = (dir) => rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+
+async function pathExists(file) {
+  try {
+    await lstat(file);
+    return true;
+  } catch (err) {
+    if (err.code === "ENOENT") return false;
+    throw err;
+  }
+}
+
+async function renameFolder(from, to, system) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await rename(from, to);
+      return;
+    } catch (err) {
+      if (system !== "windows" || !BLOCKED_RENAME.has(err.code) || attempt === RENAME_ATTEMPTS) throw err;
+      await sleep(RENAME_RETRY_MS);
+    }
+  }
+}
+
+// Is `dir` named in `line`, as a whole path? A longer name that merely starts the same way (the
+// folder of "example-app" next to the one of "example") is another app.
+function mentionsFolder(line, dir) {
+  for (let at = line.indexOf(dir); at !== -1; at = line.indexOf(dir, at + 1)) {
+    if (!/[\w.-]/.test(line[at + dir.length] ?? "")) return true;
+  }
+  return false;
+}
+
+// macOS and Linux let a folder be renamed while a program runs from it, so a running app is told
+// by its command line instead. If the list of processes cannot be had, the install goes ahead.
+async function isRunningFrom(appDir, env, log) {
+  try {
+    const processes = await runTool("ps", ["-A", "-o", "args="], { env, capture: true });
+    return processes.split(/\r?\n/).some((line) => mentionsFolder(line, appDir));
+  } catch (err) {
+    log(`warning: cannot tell whether the app is running (${err.message})`);
+    return false;
+  }
+}
+
+// An integration step the app works without. A tool that is missing or fails is reported and skipped.
+async function runOptionalTool(command, args, purpose, { env, log }) {
+  try {
+    await runTool(command, args, { env });
+  } catch (err) {
+    log(err.cause?.code === "ENOENT"
+      ? `warning: ${command} is not installed, so ${purpose} was skipped`
+      : `warning: ${purpose} failed (${err.message})`);
+  }
+}
+
+// The scripts get their data from the environment, never inside the script text, so no path or name
+// can end up as PowerShell code.
+const SHORTCUT_SCRIPT = `
+$ErrorActionPreference = 'Stop'
+$link = (New-Object -ComObject WScript.Shell).CreateShortcut($env:GUI95_SHORTCUT_PATH)
+$link.TargetPath = $env:GUI95_SHORTCUT_TARGET
+$link.WorkingDirectory = $env:GUI95_SHORTCUT_FOLDER
+$link.IconLocation = $env:GUI95_SHORTCUT_TARGET + ',0'
+$link.Save()
+`;
+
+// GUI95_REGISTRY_DATA is the base64 of a JSON array of { key, name, value }, all under HKCU.
+const REGISTRY_SCRIPT = `
+$ErrorActionPreference = 'Stop'
+$entries = ConvertFrom-Json ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($env:GUI95_REGISTRY_DATA)))
+foreach ($entry in $entries) {
+  $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($entry.key)
+  try { $key.SetValue($entry.name, [string]$entry.value, [Microsoft.Win32.RegistryValueKind]::String) }
+  finally { $key.Dispose() }
+}
+Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class Gui95Shell { [DllImport("shell32.dll")] public static extern void SHChangeNotify(uint eventId, uint flags, IntPtr item1, IntPtr item2); }'
+[Gui95Shell]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
+`;
+
+function runPowerShell(script, variables, env) {
+  const powershell = windowsSystem32(path.win32.join("WindowsPowerShell", "v1.0", "powershell.exe"), env);
+  return runTool(powershell, ["-NoProfile", "-NonInteractive", "-EncodedCommand", Buffer.from(script, "utf16le").toString("base64")],
+    { env: { ...env, ...variables }, timeout: 30000 });
+}
+
+async function integrateOnWindows({ app, appDir, launcher, env }) {
+  const exe = path.win32.join(appDir, buildFor(app, "windows").exe);
+  await mkdir(path.win32.dirname(launcher), { recursive: true });
+  try {
+    await runPowerShell(SHORTCUT_SCRIPT, { GUI95_SHORTCUT_PATH: launcher, GUI95_SHORTCUT_TARGET: exe, GUI95_SHORTCUT_FOLDER: appDir }, env);
+  } catch (err) {
+    throw new Error(`${app.name}: cannot create the Start menu shortcut (${err.message})`, { cause: err });
+  }
+  const entries = windowsFileTypeEntries(app, appDir);
+  if (entries.length === 0) return;
+  try {
+    await runPowerShell(REGISTRY_SCRIPT, { GUI95_REGISTRY_DATA: Buffer.from(JSON.stringify(entries)).toString("base64") }, env);
+  } catch (err) {
+    throw new Error(`${app.name}: cannot register its file types (${err.message})`, { cause: err });
+  }
+}
+
+async function integrateOnMac({ appDir, env, log }) {
+  await runOptionalTool(LSREGISTER, ["-f", appDir], "registering the app with Launch Services", { env, log });
+}
+
+async function integrateOnLinux({ repoRoot, app, appDir, launcher, env, home, log }) {
+  const posix = path.posix;
+  const dataHome = linuxDataHome(env, home);
+  await copyFile(path.join(repoRoot, app.icon), posix.join(appDir, "gui95-icon.png"));
+  await mkdir(posix.dirname(launcher), { recursive: true });
+  await writeFile(launcher, desktopEntry(app, appDir));
+  const mimeTypes = [...new Set((app.fileTypes ?? []).map((fileType) => fileType.mime))];
+  const tool = (command, args, purpose) => runOptionalTool(command, args, purpose, { env, log });
+  if (mimeTypes.length > 0) {
+    await mkdir(posix.join(dataHome, "mime", "packages"), { recursive: true });
+    await writeFile(posix.join(dataHome, "mime", "packages", `gui95-${app.id}.xml`), mimeXml(app));
+    await tool("update-mime-database", [posix.join(dataHome, "mime")], "updating the MIME database");
+  }
+  await tool("update-desktop-database", [posix.join(dataHome, "applications")], "updating the desktop database");
+  for (const mime of mimeTypes) {
+    await tool("xdg-mime", ["default", `gui95-${app.id}.desktop`, mime], `making ${app.name} the default for ${mime}`);
+  }
+}
+
+// Step 1 and 2: the staging copy of the build, with the marker in its resources folder.
+async function stageCopy({ built, version, app, system, env, sign, appDir, resourcesDir, staging }) {
+  const there = system === "windows" ? path.win32 : path.posix;
+  await removeTree(staging);
+  await mkdir(there.dirname(appDir), { recursive: true });
+  try {
+    if (system === "macos") await runTool("ditto", [built, staging], { env });
+    else await cp(built, staging, { recursive: true, verbatimSymlinks: true });
+    const stagedResources = staging + resourcesDir.slice(appDir.length);    // the same folder, inside the staging copy
+    await mkdir(stagedResources, { recursive: true });
+    const marker = { id: app.id, name: app.name, version, installedAt: new Date().toISOString() };
+    await writeFile(there.join(stagedResources, MARKER), `${JSON.stringify(marker, null, 2)}\n`);
+    // Signing comes last: the marker is part of the bundle, and any change after it breaks the signature.
+    if (sign) await runTool("codesign", ["--force", "--deep", "--sign", "-", staging], { env });
+  } catch (err) {
+    await removeTree(staging).catch(() => {});
+    throw err;
+  }
+}
+
+// Step 3: moves an installed copy out of the way. Resolves with whether there was one. Refuses
+// when the app is running, and then leaves the installed copy as it is.
+async function moveOldAside({ app, appDir, old, system, env, log }) {
+  if (!(await pathExists(appDir))) return false;
+  const running = new Error(`Close ${app.name} and run make install again.`);
+  if (system !== "windows" && (await isRunningFrom(appDir, env, log))) throw running;
+  await removeTree(old);
+  try {
+    await renameFolder(appDir, old, system);
+  } catch (err) {
+    throw system === "windows" && BLOCKED_RENAME.has(err.code) ? new Error(running.message, { cause: err }) : err;
+  }
+  return true;
+}
+
+async function installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log }) {
+  const { appDir, resourcesDir, launcher } = installPaths(app, system, { env, home });
+  const staging = appDir + STAGING_SUFFIX;
+  const old = appDir + OLD_SUFFIX;
+
+  await stageCopy({ built, version, app, system, env, sign, appDir, resourcesDir, staging });
+
+  let movedOld;
+  try {
+    movedOld = await moveOldAside({ app, appDir, old, system, env, log });
+  } catch (err) {
+    await removeTree(staging).catch(() => {});
+    throw err;
+  }
+
+  try {
+    await renameFolder(staging, appDir, system);
+  } catch (err) {
+    if (movedOld) await rename(old, appDir).catch(() => {});      // the installed copy comes back
+    await removeTree(staging).catch(() => {});
+    throw new Error(`${app.name}: cannot move the new copy to ${appDir} (${err.message})`, { cause: err });
+  }
+  await removeTree(old).catch((err) => log(`warning: cannot delete the old copy at ${old} (${err.message})`));
+
+  if (integrate) {
+    const integrateOn = { windows: integrateOnWindows, macos: integrateOnMac, linux: integrateOnLinux }[system];
+    await integrateOn({ repoRoot, app, appDir, launcher, env, home, log });
+  }
+  return appDir;
+}
+
+export async function install(repoRoot, { system = systemName(), env = process.env, home = os.homedir(), integrate = true, sign = system === "macos", log = console.log } = {}) {
+  const { apps } = await readManifest(repoRoot);
+  const plan = await planBuilds(repoRoot, apps, system);
+  if (system === "linux" && integrate) {
+    for (const { app, skipped } of plan) {
+      if (skipped !== undefined) continue;
+      const icon = path.join(repoRoot, app.icon);     // a linux build makes the manifest require one
+      if (!(await isFile(icon))) throw new Error(`${app.name}: no icon at ${icon}; its desktop entry needs one.`);
+    }
+  }
+
+  const results = [];
+  for (const { app, built, version, skipped } of plan) {
+    if (skipped !== undefined) {
+      log(`${app.name}: skipped, ${skipped}`);
+      results.push({ app: app.name, skipped });
+      continue;
+    }
+    const appDir = await installApp({ repoRoot, app, built, version, system, env, home, integrate, sign, log });
+    log(`${app.name}: installed in ${appDir}`);
+    results.push({ app: app.name, appDir });
+  }
+  return results;
+}
+
 // ---- Command line ---------------------------------------------------------
 
 const COMMANDS = {
   pack: (repoRoot) => pack(repoRoot),
+  install: (repoRoot) => install(repoRoot),
 };
 
 // Returns the exit code: 0 done, 1 something failed (the message goes to stderr), 2 bad usage.
