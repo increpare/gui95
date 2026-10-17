@@ -24,7 +24,7 @@ foreach ($item in @('README.md', 'QA.md', 'serve.mjs', 'dist')) {
     Copy-Item -LiteralPath (Join-Path $sourceRoot ('demo/' + $item)) -Destination (Join-Path $skillRoot 'demo') -Recurse
 }
 New-Item -ItemType Directory -Path (Join-Path $skillRoot 'tools') -Force | Out-Null
-foreach ($item in @('verify-reference.ps1', 'package-skill.ps1', 'collect-reference.ps1')) {
+foreach ($item in @('verify-reference.ps1', 'package-skill.ps1', 'collect-reference.ps1', 'gui95-app.mjs', 'gui95-icons.mjs')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $item) -Destination (Join-Path $skillRoot 'tools')
 }
 & (Join-Path $skillRoot 'tools/verify-reference.ps1')

@@ -115,7 +115,7 @@ Self-extracting packages perform extraction before the application can become us
 
 Measure startup from the user's launch action through to a visible, usable window, including work performed by any launcher before the app process starts. Main-process or renderer timings alone can omit extraction and make a slow launch look fast. Test the actual default shortcut and an associated-file launch as well as the executable itself.
 
-This principle was adopted in Vector95 after its portable package's opening delay became unacceptable. Its default build now produces an unpacked app and a stable shortcut; portable packaging is opt-in. Apply the principle in consuming apps while keeping the archived source snapshots unchanged.
+This principle was adopted in Vector95 after its portable package's opening delay became unacceptable. Its default build now produces an unpacked app and a stable shortcut; portable packaging is opt-in. Apply the principle in consuming apps while keeping the archived source snapshots unchanged. The [desktop delivery standard](desktop-delivery.md) turns it into one set of make targets, a compressed copy and a per-user install for Windows, macOS and Linux.
 
 ## Verification when reusing a pattern
 

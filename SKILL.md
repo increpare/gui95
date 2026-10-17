@@ -28,7 +28,7 @@ Use the target project's existing architecture. Extract only the controls needed
 
 For Windows Electron apps using System95, read the design guide's colored-text-fringe section. Its main-process startup setting is not carried by CSS; verify the actual GPU-enabled app after a full relaunch. A browser page cannot set its host's Chromium switches.
 
-When desktop packaging or startup is part of the request, use the guide's unpacked-app and stable-launch-path recommendations unless the user or project specifies otherwise. Do not change packaging merely to restyle a control.
+When desktop packaging or startup is part of the request, use the guide's unpacked-app and stable-launch-path recommendations unless the user or project specifies otherwise. To build, package and install a desktop app on Windows, macOS and Linux, follow the [desktop delivery standard](docs/desktop-delivery.md): the same make targets in every app, and two dependency-free scripts, [`tools/gui95-app.mjs`](tools/gui95-app.mjs) for the compressed copy and the per-user install and [`tools/gui95-icons.mjs`](tools/gui95-icons.mjs) for icons made from SVG, which each app copies unchanged. Do not change packaging merely to restyle a control.
 
 ## Reuse and verify
 
