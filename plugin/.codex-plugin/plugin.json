@@ -30,14 +30,13 @@
     "brandColor": "#008080",
     "brandColorDark": "#55CCCC",
     "composerIcon": "./assets/gui95.svg",
-    "logo": "./assets/gui95.svg",
-    "screenshots": ["./assets/desktop.png"]
+    "logo": "./assets/gui95.svg"
   },
   "extensions": {
     "com.openai": {
       "publication": {
         "countries": [],
-        "release_notes": "Add integration guidance for menu input ownership, dialog lifecycle and frameless captions, multi-row tabs, floating previews and pixel zoom, scrollbars, native themes, tree controls, and desktop build and test workflows. Preserved reference snapshots are unchanged."
+        "release_notes": "Add integration guidance for menu input ownership, dialog lifecycle and frameless captions, multi-row tabs, floating previews and pixel zoom, scrollbars, native themes, tree controls, and desktop build and test workflows. Omit listing screenshots for skills-only directory uploads. Preserved reference snapshots are unchanged."
       }
     }
   }

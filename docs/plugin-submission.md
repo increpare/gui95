@@ -27,11 +27,11 @@ Run `powershell -File tools/package-plugin.ps1` from the repository root, or use
 The archive contains a single plugin folder with:
 
 - `.codex-plugin/plugin.json`: listing metadata and skill discovery path.
-- `assets/`: the original GUI95 icon and desktop screenshot.
+- `assets/`: the original GUI95 icon.
 - `skills/gui95/`: the complete standalone skill, bundled references, demo, and notices.
 - Root license and privacy information.
 
-The builder checks snapshot integrity, local documentation links, listing text limits, starter-prompt limits, and referenced assets. It preserves the dot-directory manifest on Windows and Linux. It excludes local deployment metadata, Git history, and backups.
+The builder checks snapshot integrity, local documentation links, listing text limits, starter-prompt limits, and referenced assets. It rejects `interface.screenshots` before creating output: OpenAI's skills-only upload validator excludes listing screenshots, which require an MCP server with custom UI. Keep example screenshots inside the skill's documentation and reference material instead. See the [submission error reference](https://developers.openai.com/plugins/deploy/submission-errors). The builder preserves the dot-directory manifest on Windows and Linux. It excludes local deployment metadata, Git history, and backups.
 
 ## Codex directory listing
 
@@ -43,6 +43,18 @@ Three starter prompts cover a settings dialog, an Electron restyle, and an inter
 
 Follow the [official plugin submission instructions](https://developers.openai.com/plugins/deploy/submission). Use a verified developer identity matching the publisher and upload the plugin ZIP through the skills-only/package upload flow available to your account. GUI95 has no MCP server; do not enter a demo URL as an MCP endpoint.
 
+**Portal availability checked 18 October 2026:** The portal accepted GUI95 1.1.1 as a skills-only draft and discovered the skill, but blocked submission with "We are not accepting more skills-only submissions at this time." Upload support does not establish eligibility to publish. Recheck the portal before planning a public skills-only listing; the [plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines) reserve additional eligibility requirements for these submissions.
+
 Review automated metadata and skill findings, correct the source package, rebuild, and upload the corrected version. Check the imported listing and publisher identity before submitting. Complete any required policy attestations after reviewing their actual wording. Publish only after approval.
 
 The ordinary `gui95.zip` release is the direct-install skill archive. The directory upload archive is `gui95-plugin.zip`; they are different formats.
+
+## OpenAI updates and usage feedback
+
+The optional hosted service and its separate remote-plugin package are described in the [MCP service guide](mcp-service.md). The standalone skills-only package remains available independently.
+
+The public OpenAI directory takes a package snapshot. Changes to bundled skills, references, listing metadata, or assets require a complete new ZIP uploaded to the existing plugin, followed by the applicable checks, review, and publication. A repository URL in the manifest identifies the source; it does not make the public listing track repository changes. Repo marketplaces are a separate distribution route. See the [submission and update instructions](https://developers.openai.com/plugins/deploy/submission).
+
+A hosted MCP server can return current guidance or reference files through live tool calls. Updates to those results can be deployed on the server while preserving its published tool contract; tool definition changes go through MCP scans. Skills imported from an MCP server are still submission-time snapshots: changing them requires another scan and plugin version. See [MCP server review and update rules](https://developers.openai.com/plugins/deploy/app-review) and [importing skills from MCP](https://developers.openai.com/plugins/build/mcp-server#import-skills-from-the-mcp-server).
+
+Server requests can support aggregate measurements of requested topics, errors, and response times, plus feedback that users explicitly choose to send. They do not reveal the rest of a user's conversation or prove that a generated interface worked. If adding a server, document the collected data and retention in the privacy policy, collect only what is needed, and provide a clear user-facing feedback action. An existing skills-only plugin cannot currently gain an MCP server through the update flow, so decide on the server architecture before publishing.

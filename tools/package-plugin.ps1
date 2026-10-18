@@ -5,12 +5,15 @@ $archivePath = Join-Path $sourceRoot 'dist/gui95-plugin.zip'
 if ((Test-Path -LiteralPath $pluginRoot) -or (Test-Path -LiteralPath $archivePath)) {
     throw 'A plugin package already exists in dist. Preserve it before rebuilding.'
 }
+$sourceManifest = Get-Content -LiteralPath (Join-Path $sourceRoot 'plugin/.codex-plugin/plugin.json') -Raw | ConvertFrom-Json
+if ($sourceManifest.interface.PSObject.Properties.Name -contains 'screenshots') {
+    throw 'Skills-only directory packages must omit interface.screenshots; listing screenshots require an MCP server with custom UI.'
+}
 & (Join-Path $PSScriptRoot 'verify-reference.ps1')
 New-Item -ItemType Directory -Path $pluginRoot -Force | Out-Null
 foreach ($item in @('.codex-plugin', 'assets')) {
     Copy-Item -LiteralPath (Join-Path $sourceRoot ('plugin/' + $item)) -Destination $pluginRoot -Recurse -Force
 }
-Copy-Item -LiteralPath (Join-Path $sourceRoot 'docs/gui95.png') -Destination (Join-Path $pluginRoot 'assets/desktop.png')
 foreach ($item in @('LICENSE', 'PRIVACY.md')) {
     Copy-Item -LiteralPath (Join-Path $sourceRoot $item) -Destination $pluginRoot
 }
@@ -33,7 +36,7 @@ if ($manifest.interface.displayName.Length -gt 30 -or $manifest.interface.shortD
 foreach ($prompt in $manifest.interface.defaultPrompt) {
     if ($prompt.Length -gt 128) { throw 'Starter prompt exceeds 128 characters.' }
 }
-foreach ($asset in (@($manifest.interface.logo, $manifest.interface.composerIcon) + @($manifest.interface.screenshots))) {
+foreach ($asset in @($manifest.interface.logo, $manifest.interface.composerIcon)) {
     if (!(Test-Path -LiteralPath (Join-Path $pluginRoot $asset) -PathType Leaf)) { throw "Missing listing asset: $asset" }
 }
 # Unlike Compress-Archive, this preserves dot-directories on every platform.

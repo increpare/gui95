@@ -1,0 +1,18 @@
+{
+  "name": "gui95-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Live GUI95 reference tools and an explicit agent feedback inbox.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "feedback": "node admin.mjs feedback",
+    "usage": "node admin.mjs usage"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.7"
+  }
+}
