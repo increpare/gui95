@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- Original GUI95 example.
+MIT License
+
+Copyright (c) 2026 Stephen Lavelle
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Message box and safe default — GUI95</title><style>
+:root{color-scheme:light;--face:#c0c0c0;--ink:#000;--paper:#fff;--light:#fff;--edge:#808080;--shadow:#000;--selection:#000080;--selected-text:#fff;font:13px Tahoma,'Microsoft Sans Serif',sans-serif;background:#008080;color:var(--ink)}
+*{box-sizing:border-box}body{margin:0;padding:20px}button,input,select,textarea{font:inherit;color:inherit}button,a,input,select,textarea,[tabindex]{touch-action:manipulation}button{min-height:27px;min-width:74px;background:var(--face);border:0;border-radius:0;padding:4px 12px;box-shadow:inset -1px -1px var(--shadow),inset 1px 1px var(--light),inset -2px -2px var(--edge),inset 2px 2px #dfdfdf}button:active:not(:disabled),button[aria-pressed=true]{box-shadow:inset 1px 1px var(--shadow),inset -1px -1px var(--light),inset 2px 2px var(--edge);background:#b6b6b6}button:disabled{color:#737373;text-shadow:1px 1px #fff}button.default{outline:1px solid var(--ink);outline-offset:1px}button:focus-visible,[tabindex]:focus-visible,a:focus-visible{outline:1px dotted currentColor;outline-offset:-5px}input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--selection);outline-offset:1px}input:not([type=checkbox],[type=radio],[type=range],[type=color]),textarea,select,.sunken{border:0;border-radius:0;background:var(--paper);padding:5px;box-shadow:inset 1px 1px var(--edge),inset -1px -1px var(--light),inset 2px 2px var(--shadow),inset -2px -2px #dfdfdf}input:disabled,select:disabled,textarea:disabled{background:var(--face);color:#666}input[readonly]{background:var(--face)}input[type=checkbox],input[type=radio]{accent-color:var(--selection);width:15px;height:15px;vertical-align:middle;margin:3px 5px 3px 0}input[type=range]{accent-color:var(--selection);min-width:150px}input[type=number]{width:90px}input[type=color]{width:70px;height:30px}select{min-width:120px}textarea{width:100%;resize:both}label{display:inline-flex;align-items:center;gap:5px}fieldset{min-width:0;border:2px groove #fff;margin:0;padding:12px}legend{padding:0 5px}.window{max-width:920px;margin:auto;background:var(--face);padding:3px;box-shadow:inset -1px -1px #000,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf}.caption{background:var(--selection);color:var(--selected-text);font-weight:bold;padding:5px 7px;display:flex;align-items:center;justify-content:space-between;gap:10px}.caption h1{font-size:1em;margin:0}.content{padding:15px}.crumb{margin:0 0 14px}.crumb a{color:#000080}.stage{padding:22px;min-height:190px;background:var(--face);border:2px groove white;position:relative}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.stack{display:grid;gap:12px}.actions{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}.field{display:grid;gap:5px;align-content:start}.field input,.field select{max-width:100%}.hint{font-size:.94em;color:#333;line-height:1.5}.result{padding:7px;border:1px solid var(--edge);margin:14px 0;min-height:31px;overflow-wrap:anywhere}.guide{line-height:1.6}.guide h2{font-size:1.1em;margin-bottom:3px}.guide p{margin-top:3px}a{color:#000080}code{background:#ddd;font-size:12px}hr{border:0;border-top:1px solid var(--edge);border-bottom:1px solid var(--light)}[hidden]{display:none!important}.selected,[aria-selected=true]:not([role=tab]){background:var(--selection)!important;color:var(--selected-text)}[role=tablist]{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:0}[role=tab]{min-width:75px;border-radius:3px 3px 0 0}[role=tab][aria-selected=true]{font-weight:bold;box-shadow:inset 1px 1px #fff,inset -1px 0 #000;background:var(--face);position:relative;z-index:1}[role=tabpanel]{border:2px outset #ddd;padding:16px;min-height:110px}[role=toolbar]{display:flex;gap:4px;flex-wrap:wrap;padding:5px;border:2px groove white}[role=toolbar] button{min-width:40px}.list{list-style:none;margin:0;padding:3px;background:white;border:2px inset #ddd;max-height:210px;overflow:auto}.list>li,.list>[role=option]{padding:6px;cursor:default}.list:focus-visible{outline-offset:2px}dialog{border:2px outset #ddd;background:var(--face);color:var(--ink);padding:3px;max-width:calc(100vw - 30px);max-height:calc(100vh - 30px);width:460px;overflow:auto;font:inherit}dialog::backdrop{background:#0005}.dialog-body{padding:16px}.error{color:#800000;min-height:1.5em}.swatch{width:28px;height:28px;padding:0;min-width:28px;border:2px outset #ddd;box-shadow:none}.swatch[aria-checked=true]{outline:2px dotted #000;outline-offset:2px}.menu{list-style:none;position:absolute;margin:0;padding:3px;background:var(--face);border:2px outset #ddd;min-width:215px;z-index:5;box-shadow:2px 2px #0005}.menu button{display:flex;align-items:center;gap:10px;width:100%;box-shadow:none;text-align:left;min-height:28px;padding:4px 9px;background:transparent}.menu button:focus,.menu button:hover:not(:disabled){background:var(--selection);color:white;outline:none}.menu .mark{width:14px;flex:none}.menu .key{margin-left:auto;color:inherit}.menu hr{margin:4px}.menu button:disabled{color:#737373;text-shadow:1px 1px #fff}.pane{border:2px inset white;background:white;padding:12px;overflow:auto;min-width:0}table{border-collapse:collapse;width:100%;background:white}th,td{text-align:left;padding:6px;border-bottom:1px solid #ddd}th{background:var(--face)}th button{width:100%;text-align:left;min-width:60px}.scrollbox{overflow:auto;resize:both;width:100%;height:145px;border:2px inset white;background:white;padding:8px}.scrollbox::-webkit-scrollbar{width:17px;height:17px}.scrollbox::-webkit-scrollbar-track{background:repeating-conic-gradient(#ddd 0% 25%,#fff 0% 50%) 0/2px 2px}.scrollbox::-webkit-scrollbar-thumb{background:var(--face);border:2px outset #ddd}.scrollbox::-webkit-scrollbar-button{background:var(--face);border:2px outset #ddd}progress{height:24px;width:100%;accent-color:navy}progress::-webkit-progress-bar{background:#ddd;border:2px inset white}progress::-webkit-progress-value{background:repeating-linear-gradient(90deg,navy 0 8px,transparent 8px 10px)}.gallery{max-width:1120px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px}.card{border:2px groove white;padding:13px;line-height:1.5}.card h3{margin:0 0 7px;font-size:1.05em}.card p{margin:6px 0}.count{float:right}.badge{font-size:11px;background:#eee;padding:2px 4px}.catalog-nav{display:flex;gap:15px;flex-wrap:wrap;margin:15px 0}.preview{width:100%;height:470px;border:2px inset white;background:var(--face)}.print-only{display:none}
+.stage dialog:not(:modal){max-width:100%}
+#menubar{display:flex;border-bottom:2px groove white}#menubar>button{min-width:48px;background:transparent;box-shadow:none}#menubar>button[aria-expanded=true]{box-shadow:inset 1px 1px var(--edge),inset -1px -1px white}#menubar>button:focus-visible{outline:1px dotted var(--ink)}
+progress{appearance:none;display:block;border:0;border-radius:0;height:24px;background:#ddd}progress::-webkit-progress-bar{height:100%;background:#ddd;border:2px inset white;border-radius:0}progress::-webkit-progress-value{height:100%;border-radius:0;background:repeating-linear-gradient(90deg,navy 0 8px,transparent 8px 10px)}progress:indeterminate::-webkit-progress-bar{background:repeating-linear-gradient(135deg,#ddd 0 8px,#888 8px 16px)}progress::-moz-progress-bar{background:repeating-linear-gradient(90deg,navy 0 8px,transparent 8px 10px)}
+input[type=checkbox],input[type=radio]{appearance:none;flex:none;position:relative;background:var(--paper);border:0;box-shadow:inset 1px 1px var(--edge),inset -1px -1px var(--light),inset 2px 2px var(--shadow),inset -2px -2px #dfdfdf}
+input[type=checkbox]:checked::after{content:'';position:absolute;left:4px;top:2px;width:5px;height:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg)}
+input[type=checkbox]:indeterminate::after{content:'';position:absolute;left:4px;top:6px;width:7px;height:3px;background:currentColor;border:0;transform:none}
+input[type=radio]{border-radius:50%}input[type=radio]:checked::after{content:'';position:absolute;inset:5px;background:currentColor;border-radius:50%}
+input[type=checkbox]:disabled,input[type=radio]:disabled{background:var(--face);color:var(--edge)}
+input[type=range]{appearance:none;background:transparent;height:24px}input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--face);border:2px inset white}input[type=range]::-webkit-slider-thumb{appearance:none;width:13px;height:23px;background:var(--face);border:2px outset white;margin-top:-12px}input[type=range][aria-orientation=vertical]::-webkit-slider-runnable-track{width:4px;height:100%}input[type=range][aria-orientation=vertical]::-webkit-slider-thumb{width:23px;height:13px;margin-top:0;margin-left:-12px}input[type=range]::-moz-range-track{height:3px;border:2px inset white;background:var(--face)}input[type=range]::-moz-range-thumb{border-radius:0;width:10px;height:20px;background:var(--face);border:2px outset white}input[type=range]:disabled{opacity:.6}
+@media(max-width:550px){body{padding:6px}.content{padding:10px}.stage{padding:12px}.row{gap:9px}dialog{width:calc(100vw - 24px)}.caption{padding:6px}.cards{grid-template-columns:1fr}}
+@media(forced-colors:active){button,.window,.sunken,input,select,textarea,.menu,.pane{border:1px solid ButtonText;box-shadow:none}.selected,[aria-selected=true]:not([role=tab]){background:Highlight!important;color:HighlightText!important}button[aria-pressed=true]{border:3px double ButtonText}.caption{background:Highlight;color:HighlightText}}
+@media(forced-colors:active){input[type=checkbox],input[type=radio]{appearance:auto}input[type=checkbox]::after,input[type=radio]::after{display:none}input[type=range]{appearance:auto}input[type=range]::-webkit-slider-thumb{appearance:auto}}
+@media(forced-colors:active){.caption{forced-color-adjust:none;background:Highlight;color:HighlightText}.caption button{forced-color-adjust:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+@media print{body{background:white;padding:0}.window{box-shadow:none}.caption,.crumb,.guide,.result,.no-print{display:none}.stage{border:0}.print-only{display:block}}
+</style></head><body><main class="window"><header class="caption"><h1>Message box and safe default</h1><span>GUI95</span></header><div class="content"><p class="crumb"><a href="index.html">Widget index</a> / Windows and dialogs · <a href="message.html" download>Download this HTML</a></p><div class="stage" id="stage">
+<button id="show">Delete selected file…</button><dialog id="box" aria-labelledby="title" aria-describedby="question"><div class="caption"><span id="title">Delete file</span></div><form method="dialog" class="dialog-body"><p id="question">Permanently delete “Letter.txt” from this demonstration?</p><div class="actions"><button value="delete">Delete file</button><button value="cancel" class="default" autofocus>Cancel</button></div></form></dialog></div><p class="result" id="result" role="status" aria-live="polite">Ready — try the example.</p><div class="guide"><h2>States and behavior</h2><p>Question, destructive action, safe initial focus/default and explicit outcome.</p><h2>Keyboard</h2><p>Enter initially cancels; Tab reaches Delete; Escape cancels; focus returns to the trigger.</p><h2>Scope and adaptation</h2><p>Action labels say what will happen. A destructive choice should not become the initial default merely because it is visually primary. Nothing on disk is removed.</p><h2>Sources</h2><p><a href="https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf" target="_blank" rel="noopener">Microsoft preliminary guide (1995), chapters 7–8</a> · <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/" target="_blank" rel="noopener">Modern browser accessibility pattern</a></p><p class="hint">Original implementation; system colors are represented by CSS variables. The default 13 px system-font stack is a readable browser adaptation. The 1995 source is preliminary, not a final product specification. Test the target browser and native host before shipping.</p></div></div></main><script>(()=>{'use strict';const context=(function helpers() {
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const report = message => { $('#result').textContent = message; };
+  const on = (target, event, fn) => target.addEventListener(event, fn);
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const tabs = root => {
+    const buttons = $$('[role=tab]', root);
+    const select = button => buttons.forEach(item => {
+      const active = item === button;
+      item.tabIndex = active ? 0 : -1;
+      item.setAttribute('aria-selected', String(active));
+      document.getElementById(item.getAttribute('aria-controls')).hidden = !active;
+    });
+    buttons.forEach((button, i) => {
+      on(button, 'click', () => select(button));
+      on(button, 'keydown', event => {
+        let next;
+        if (event.key === 'ArrowRight') next = (i + 1) % buttons.length;
+        if (event.key === 'ArrowLeft') next = (i + buttons.length - 1) % buttons.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = buttons.length - 1;
+        if (next === undefined) return;
+        event.preventDefault(); select(buttons[next]); buttons[next].focus();
+      });
+    });
+  };
+  const dialog = (trigger, box) => {
+    on(trigger, 'click', () => box.showModal());
+    on(box, 'close', () => { trigger.focus(); report(`Dialog result: ${box.returnValue || 'cancel'}`); });
+    on(box, 'cancel', () => { box.returnValue = 'cancel'; });
+  };
+  // A compact local scope; no globals or application engine are required.
+  return {$, $$, report, on, clamp, tabs, dialog};
+})();(({$,dialog,on,report})=>{dialog($('#show'),$('#box'));on($('#box'),'close',()=>report($('#box').returnValue==='delete'?'Demonstration file deleted.':'Kept the file.'));})(context);})();</script></body></html>

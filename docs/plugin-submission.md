@@ -12,7 +12,7 @@ To list GUI95 in Anthropic's directory, submit the repository as a plugin bundle
 
 The directory icon is `.claude-plugin/icon.png`, a 1024 px rendering of `plugin/assets/gui95.svg` at eight times its size. The directory takes the icon only the first time the plugin is saved or submitted in the portal, so push any icon change before that first save.
 
-The automated scan holds the plugin for review on three findings. All are false positives that need no change, because the plugin runs no code:
+The recorded automated scan holds the standalone reference plugin for review on three findings. These concern static bundled references; the separate MCP package described below has its own executable service and review:
 
 - `UNREAD_ASSET_REFERENCED`: documentation, CSS, manifests, and scripts name the bundled fonts and PNG screenshots. Nothing executes these files; they are reference material.
 - `MCP_FORWARDS_CREDENTIAL_ENV`: the scanner reads JavaScript template literals as credential environment variables. These are `${key}` in `references/vector95/src/app.js` and `canvas-dialog.js`, and `${Object.keys(...)}` in `demo/dist/desktop.js`. It also reads the SVG namespace `http://www.w3.org/2000/svg` and the demo's link to a CHI 1996 paper as remote destinations. Nothing reads the environment or sends data.
@@ -41,7 +41,7 @@ Three starter prompts cover a settings dialog, an Electron restyle, and an inter
 
 ## Codex submission
 
-Follow the [official plugin submission instructions](https://developers.openai.com/plugins/deploy/submission). Use a verified developer identity matching the publisher and upload the plugin ZIP through the skills-only/package upload flow available to your account. GUI95 has no MCP server; do not enter a demo URL as an MCP endpoint.
+Follow the [official plugin submission instructions](https://developers.openai.com/plugins/deploy/submission). Use a verified developer identity matching the publisher and upload the standalone plugin ZIP through the skills-only/package upload flow available to your account. That package has no MCP endpoint. The optional [hosted MCP service](mcp-service.md) has a separate remote-plugin bundle; a demo URL is not an MCP endpoint.
 
 **Portal availability checked 18 October 2026:** The portal accepted GUI95 1.1.1 as a skills-only draft and discovered the skill, but blocked submission with "We are not accepting more skills-only submissions at this time." Upload support does not establish eligibility to publish. Recheck the portal before planning a public skills-only listing; the [plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines) reserve additional eligibility requirements for these submissions.
 
