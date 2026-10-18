@@ -1,6 +1,24 @@
 # Lessons from GUI95 integrations
 
-Follow-up guidance from a source and changelist review on **18 October 2026**. These are adaptations to consider when extracting the preserved controls, not changes to the 14 October snapshots or claims of fresh runtime verification. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
+Follow-up guidance from source and changelist review and consumer integrations, updated **18 October 2026**. These are adaptations to consider when extracting the preserved controls. Runtime observations concern the reported consuming host; they do not establish new passing results for the 14 October snapshots or the collection's examples. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
+
+## Reading surfaces: type size and control roles
+
+The archived 11–12px UI rules are examples of compact interface styling. A reading-heavy editor also needs a deliberate scale for annotation prose, dictionary articles, citations and secondary metadata. Review all of those surfaces together: increasing paragraph text while leaving counts and source links at 9–11px can preserve the original usability problem. The [typography guidance](design-guide.md#reading-text-and-user-sizing) distinguishes period evidence from example defaults chosen for a modern host.
+
+Use a shared content type scale and explicit roles for smaller metadata and larger reading text. Scope it to the relevant panes so that changing feedback size leaves document text, application controls and PDF zoom on their intended scales. Expose larger, smaller and reset commands with keyboard access, validate restored values, and remember the preference across full process restarts. Changing this preference must not modify the document, affect Undo, or mark a clean file dirty. Retain selection and focus when activating the commands.
+
+Bevels communicate actions and states. A broad rule for every `button` can turn quiet annotation markers, citation links and loading indicators into noisy push buttons. Use concrete command-control classes or shell regions for raised controls. Keep the marker lane and reading surface unobtrusive while carrying the theme through the complete inspector, including expanded feedback sections and details.
+
+Check a full passage with real notes and dictionary results, including a genuinely pending processing state. Verify text sizes and rendering, quiet markers, expanded details, citation activation, and keyboard focus. A Windows Electron 44.9.0 consumer checked readability, sizing commands, persistence and layout at 100%, 125%, 150% and 200% display scales, including content at twice its default size. That observation does not verify another app's font, cascade or layout.
+
+## File dialogs: remember the last successful folder
+
+For standalone file-based apps, persist the last successfully opened or saved directory across full app restarts. Use it for subsequent Open and new-document Save dialogs. A shared folder is a useful default; distinct import/export workflows can justify separate histories. Save As should retain the current document's folder and filename, and ordinary Save should keep writing the existing target.
+
+Update the preference after the document has actually been read, validated or written successfully. Canceled choosers and failed operations must not replace the last successful folder. Validate remembered directories before reuse and fall back to a useful location such as Documents when a folder is missing, inaccessible or on an unavailable drive. Store the preference in the app's per-user data, with a safe replacement write. A preference-write failure must not make a completed document save appear to have failed; the current session can still retain its folder.
+
+Check both Open-to-Save and Save-to-Open behavior, Save As names, cancellation, failed reads/writes, paths containing spaces or non-ASCII characters, unavailable folders and damaged preferences. Relaunch the process with the same isolated test profile to verify persistence. Native dialogs can retain some state themselves, but a test that merely reopens a dialog in one process does not establish the app's restart behavior.
 
 ## Menus: keyboard focus survives a resting pointer
 
@@ -15,6 +33,14 @@ If two headings share a mnemonic, provide a deliberate way to cycle between them
 Keyboard ownership includes buttons, sliders, checkboxes, and tree disclosure controls, as well as text fields. Let Space activate a focused button and arrows operate a focused value control before application shortcuts claim those keys. Scope canvas nudges and preview keys to their actual command target. Decide which actions repeat: held nudges may repeat, while a held toggle usually should not toggle repeatedly. Preserve an accessible keyboard route if pointer-focused toolbar controls are removed from the ordinary tab sequence.
 
 Define when typed drafts commit before commands and gestures read application state. A spin button that deliberately prevents focus changes will not blur another pending numeric field; settle that field explicitly before stepping the target. Read the target's current text when appropriate, and avoid committing the same value twice. A drag must start from the committed typed geometry rather than stale model coordinates. Check the resulting undo order as well as the displayed value.
+
+## Pointer gestures: keep ownership through UI refreshes
+
+A drag can refresh selection, geometry and inspector fields on every move. Retain the pressed element and resize handle while updating their appearance; rebuilding them creates an avoidable interruption risk. Keep the gesture's base document and preview separate, commit once on release, and discard the preview on cancellation.
+
+Pointer capture is useful for following a pointer outside a control, but test the full lifecycle in the actual host. One Windows Electron integration still observed capture loss after retaining the pressed nodes; stable node reuse alone did not fix it. Document-level move/up handling, guarded by an active gesture, allowed the edit to complete. If a fallback is needed, scope it to the initiating pointer and make its finish path idempotent. Define cancellation for pointer cancellation, Escape and window deactivation so a preview cannot remain active or be committed twice. Hover movement after a gesture has ended must not keep changing the document.
+
+Exercise real pointer press/move/release sequences, not just synthetic clicks or direct model updates. Move and resize through the UI refresh, test a selection of several objects, cross the original control's bounds, and cancel mid-gesture. Check final document values and Undo, then move the idle pointer again to confirm that the gesture ended. Record host and automation limitations separately; a passing captured-pointer test does not establish behavior after capture is interrupted.
 
 ## Dialogs: close is an application lifecycle boundary
 
@@ -44,9 +70,30 @@ Scope preview navigation keys to the preview's focus or active context, and pres
 
 Define what **1:1** means. One source pixel per CSS pixel and one source pixel per physical display pixel are different at a device pixel ratio other than 1. When the preview promises physical pixel mapping, compute its CSS dimensions from `raster dimensions × zoom / devicePixelRatio` and update them when that ratio changes. Keep integer zoom steps for intentional pixel enlargement. Check fit layouts in both narrow and wide preview windows and verify the promised mapping in the real host.
 
+## Split panes: scrollbars belong to their content
+
+A document scrollbar should sit on the edge of the document pane, before a sibling inspector. Placing a document and its inspector inside one scrolling grid gives the outer scrollbar misleading ownership. Make independently scrolling panes siblings in a bounded layout, with zero minimum sizes on the relevant grid and flex children. Keep a document's aligned annotation lane in the same scroll container as its text.
+
+Choose feedback placement deliberately. A desktop inspector can remain anchored at the top while its contents follow the selection. Reusing a web editor's active-verse placement routine can make that inspector drift or jump as the document scrolls. Disable that positioning routine for a fixed inspector rather than fighting its per-frame inline offsets with CSS. Keep its caption outside its scrolling body, show a body scrollbar only when needed, and contain wheel scrolling at the pane boundary. Offer smooth scrolling only where it serves the interaction; do not add animated inspector following as decoration.
+
+Scrolling or geometry-only updates must not rebuild unchanged feedback and lose the reader's position or focus. Remeasure annotation markers separately from rendering note contents. Verify a long document with real feedback: wheel over each pane, continue at its scroll limits, change the selected verse, use keyboard document navigation, and check marker alignment. Sample the inspector position during subsequent frames to catch drifting, and repeat with enlarged text and narrow or short windows. These are consumer layout choices, not a replacement for the preserved web editor's interaction model.
+
 ## Scrollbars: check the target Chromium selector behavior
 
 Carry the generated arrow assets with the CSS, then inspect the actual scrollbar. In an observed Windows Chromium integration, scrollbar state pseudo-classes such as `:vertical` and `:start` failed behind a `:where()` ancestor, leaving arrows missing, and `:double-button` did not match the unwanted extra buttons. A concrete app-scoping selector and explicit `:start:increment` / `:end:decrement` rules fixed that implementation.
+
+A second Windows Electron integration applied directional SVG images to all generated button slots but put the sizing, centering and `background-repeat: no-repeat` base only on `:single-button`. Extra slots then tiled the tiny arrow image. Apply the complete base to `::-webkit-scrollbar-button` and hide unwanted positions explicitly in the target host. For example, retain the pattern's directional images and add:
+
+```css
+.gui95 ::-webkit-scrollbar-button {
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.gui95 ::-webkit-scrollbar-button:increment:start,
+.gui95 ::-webkit-scrollbar-button:decrement:end {
+  display: none;
+}
+```
 
 Do not assume every Chromium or operating-system theme behaves identically. Check both axes, one intended arrow button at each end, short and long content, disabled ends, thumb dragging, and fractional display scales. A screenshot of the main toolbar does not verify scrollbars.
 
@@ -55,6 +102,12 @@ Do not assume every Chromium or operating-system theme behaves identically. Chec
 When a panel contains a long form and essential actions, make the form body the scrolling region and keep the action footer outside it. Give nested flex/grid children `min-height: 0` and `min-width: 0`, and allow the footer its required space. Choose a minimum window size that still accommodates the fixed controls.
 
 Test short windows as well as narrow ones, especially the reduced CSS work area at 200% display scale. Confirm that action buttons are visible, unobscured, and clickable without an automatic scroll, and that scrolling the form leaves them in place. If the viewport cannot fit the fixed regions, provide a reachable fallback rather than silently clipping them.
+
+Enlarged content text is a separate stress case. Size grid tracks for the actual in-flow children. A panel with one scrolling child can need `grid-template-rows: minmax(0, 1fr)`; carrying over an `auto` header track after its header became absolutely positioned can let that child grow beyond the panel. Give the scrolling region a constrained height and zero minimum sizes, then contain painting at the workspace boundary. Verify that the final content is reachable through the intended scroll region.
+
+Recheck saved pixel split positions when a tall window becomes short. A shared splitter may stop handling resize events below its web/mobile breakpoint while a desktop stylesheet continues consuming its pixel variable. Use a consistent splitter policy, clamp against the current available height, or use a proportional layout where that saved value no longer applies. Keep enabled pointer and keyboard behavior consistent with that policy.
+
+Bounds assertions alone miss content painted over a footer whose own rectangle is correct. Hit-test essential footer controls, confirm that the analysis region remains inside its panel, and scroll to its final content. Fractional Windows display scales can round client dimensions by a pixel; allow a small measurement tolerance and wait for native resize and compositor presentation before recording screenshots.
 
 ## Native themes: shared tokens, transparent overlays, and atlas aliases
 
@@ -85,6 +138,14 @@ Check the shell the user actually launches from, the selected npm launcher, and 
 Keep optional diagnostics off the path to a usable window. Fetch an external tool's version lazily when an About or diagnostics surface needs it, with a bounded wait and a useful unavailable state. A hung optional probe should not prevent the main UI from appearing.
 
 Tests that launch Electron directly bypass npm lifecycle hooks such as `prestart`. Generate required ignored icons and other build inputs explicitly before that launch; otherwise a clean checkout can fail while a developer's checkout passes because old outputs happen to exist. Test this prerequisite in a clean fixture or isolated checkout. Keep hidden background automation distinct from visible checks of native appearance, focus, and window behavior.
+
+### Bundled readers: measure the first usable page
+
+Measure cold document open, a citation jump to a distant page, wheel navigation and return to an already visited tab in the packaged app. A fast toolbar or a loading placeholder does not establish that the requested page is readable. Keep decoding off the repeated interaction path where possible, retain page/zoom/scroll state, and load nearby pages with a bounded cache.
+
+For immutable scanned manuals, preparing page images at build time is one useful option. Key cached derivatives to the source hash and rendering parameters. Weigh the larger installed assets and the document's text/search/accessibility needs; retain source documents and their notices, and keep a runtime reader for document types that need it. This is a consumer-specific optimization, not a requirement to rasterize every PDF.
+
+Preserve normal wheel scrolling, continuous page navigation and mouse panning where appropriate; use an explicit zoom gesture and retain pointer anchoring. Check reduced-motion preferences when adding smooth scrolling. A file-availability `HEAD` route should return metadata without unnecessarily fetching or decoding the full document body.
 
 ## Reuse and verification scope
 

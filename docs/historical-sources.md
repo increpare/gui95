@@ -31,8 +31,11 @@ Useful places to compare widgets:
 
 - [PDF page 116](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=116): menu access keys.
 - [PDF page 149](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=149): common toolbar images.
+- [PDF pages 286–287](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=286): font roles, legibility and use of the user's system font; followed by dimensionality.
 - [PDF page 290](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=290): field borders, followed by status and grouping borders.
 - [PDF pages 291–296](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=291): pressed, option-set, unavailable, and focus appearances.
+- [PDF page 298](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=298): 8-point MS Sans Serif as the default interface font, adjustment to user font settings, system metrics and dialog base units.
+- [PDF pages 317–319](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=317): scaling custom information, application zoom and testing with enlarged system fonts.
 
 PDF links use one-based viewer page numbers. The draft's printed pagination is irregular in places, so do not substitute the final book's page numbers.
 

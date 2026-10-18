@@ -37,6 +37,8 @@ Use [Vector95 `classic.css`](../references/vector95/src/classic.css), search `--
 
 A toolbar mode and a momentary push button need different state handling. ProcGen FM expresses persistent states with `aria-pressed`; its tabs use `aria-selected`. Vector95 uses application state and active classes. Preserve the distinction even when the edges look similar.
 
+Scope raised-button styling to command controls. An annotation marker, source citation, or processing message can use a quiet flat treatment within a reading surface. A semantic HTML `button` does not automatically need a bevel. Style the surrounding inspector coherently with gray faces, hard separators, square disclosures and readable text wells; review every feedback panel and its expanded states when adapting a theme. See the [reading-surface lessons](integration-lessons.md#reading-surfaces-type-size-and-control-roles).
+
 The historical draft also describes border families and pressed, unavailable, focused, and option-set appearances. Use it to compare intent, with its prerelease status in mind: [Microsoft, February 1995, chapter 13](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=290).
 
 ## Typography and measurements
@@ -55,6 +57,16 @@ Vector95's current body rule uses **Tahoma, Microsoft Sans Serif, Arial**, at **
 | Toolbar icon source | 16 × 16 viewBox | Transport glyphs displayed at 12 × 12 px |
 
 Treat these as a coherent scale, not isolated magic numbers. Test enlarged text and display scaling. Keep readable labels and useful hit targets when adapting to touch. The radio's mobile interface is a separate adaptation, not evidence of 1995 phone design.
+
+### Reading text and user sizing
+
+**Period evidence:** Microsoft's February 1995 preliminary guide specifies 8-point MS Sans Serif for common interface text and requires adapting the interface to the user's chosen system fonts and metrics. Its accessibility section also discusses application zoom and testing enlarged system fonts. See [font and size, PDF page 298](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=298) and [accessibility, PDF pages 317–319](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=317). These are draft-era instructions, not a universal CSS font-size prescription.
+
+**Implementation lesson, 18 October 2026:** Choose reading text for its apparent size and legibility in the intended host. CSS pixels, physical display pixels and points are different measures; Windows display scaling can compensate for higher DPI, and bitmap and outline fonts can differ at the same nominal size. Check the rendered text, including Latin diacritics, rather than treating a matching number as proof of readability.
+
+Keep explanatory prose, dictionary entries and substantial feedback on a content type scale with a remembered text-size control. A consuming editor used 16px explanatory text, 14px secondary information and 20px serif dictionary text as larger defaults; those are an example adaptation, not required sizes for every app. Its View commands and keyboard shortcuts resized the content without changing document data or marking a document dirty. Keep captions, controls, counters and citation labels legible when they accompany that content.
+
+Check content at twice its default size independently of 100%, 125%, 150% and 200% display scaling. Allow the panes to widen, wrap and scroll as needed. The [integration lessons](integration-lessons.md#small-windows-keep-the-next-action-reachable) cover grid tracks, saved split positions and unobscured footers.
 
 ### Colored text fringes on Windows
 
@@ -92,6 +104,18 @@ Sources: [Chromium's `disable-lcd-text` switch](https://chromium.googlesource.co
 The menu handles keyboard events in the capture phase while open and avoids taking over when a dialog is open. This prevents a letter intended for a menu from also switching the drawing tool. Its configurable menu key and command-search behavior are Vector95 extensions.
 
 ProcGen FM's [`radio.js`](../references/sausage-music/web/site/radio.js) is a simpler alternative built around HTML `details` menus. Study `closeMenus`, `openMenu`, and the adjacent keyboard handlers. Do not assume it has all of Vector95's submenu and command-search features.
+
+### File menu and recently opened files
+
+**GUI95 default, 18 October 2026:** Apps that open and save files should provide recently opened files near the bottom of the **File** menu. Put ordinary file commands first (New, Open, Close, Save, Save As, and applicable import, export, or print commands), then a separator, a recent-files group, another separator, and **Exit** as the final item. Omit commands that do not apply to the app.
+
+Prefer a short list directly in the File menu so each file takes one selection to reopen. A Recent Files submenu is also appropriate for long histories or distinct groups such as recent files and recent projects; keep the group in the same position above Exit. Use numeric access keys (`1`, `2`, and so on), with the most recently opened file first. Constrain long filenames to the available menu width with an ellipsis and retain the full path in a tooltip; one long entry must not push the whole menu offscreen. Do not put the group between Open and Save or append it below Exit. When the history is empty, use one disabled `(No recent files)` entry and keep the surrounding groups tidy.
+
+**Historical basis and limits:** The [February 1995 preliminary interface guide, PDF page 108](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=108) explicitly places Exit last, preceded by a separator. Its [cascading-menu guidance, PDF page 114](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=114) permits submenus to save space, recommends using them sparingly, and advises against them for frequent, repetitive commands. Those sections do not prescribe an inline-versus-submenu rule for recent files.
+
+Microsoft's [Office 95 compatibility checklist, updated January 1997](https://techshelps.github.io/MSDN/BACKGRND/html/msdn_win95app.htm), lists the most recently used list, a separator, and Exit in that order. This is Office 95 logo guidance, not a universal Windows requirement; the table does not explicitly distinguish inline entries from a submenu. [Microsoft Systems Journal, August 1999](https://jacobfilipp.com/MSJ/c0899.html), describes the ordinary MFC inline list and implements additional recent-file lists as submenus, citing Visual C++'s separate files/projects histories. Both forms occur in period Microsoft material. The preference for a short inline list is a GUI95 design choice, not a Microsoft prohibition on submenus. For a native macOS menu, retain the platform's application-menu Quit command.
+
+Verify empty and populated history, newest-first ordering, numbered keyboard activation, and reopening through the normal file-open flow. Check that long filenames remain usable and Escape restores focus. This guidance does not change the archived menu implementations.
 
 ## Dialogs and fields
 

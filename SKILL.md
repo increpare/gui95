@@ -11,6 +11,7 @@ Use this collection to implement the user's requested interface in their chosen 
 
 Read the [design guide](docs/design-guide.md) and [reuse guide](docs/reuse.md), then use the [widget catalogue](docs/widgets.md) to locate only the controls needed for the task.
 
+- For an independent control or dialog starting point, use the [coverage index](docs/widget-coverage.md) and [standalone widget gallery](demo/dist/widgets/index.html). Each HTML file includes its own behavior, states, keyboard contract and limits; read those before copying. Native file/print facilities and rich text are explicitly scoped browser adapters.
 - For dense editors and multiwindow workspaces, use Vector95's CSS, menus, dialog patterns, and SVG sources.
 - For compact utilities and players, use ProcGen FM's markup, CSS, and interaction handlers.
 - For a working browser demonstration, inspect [the demo guide](demo/README.md) and [desktop page](demo/dist/index.html). It is a modern adaptation, with Tahoma at 12 px by default; do not copy its full desktop into a task that needs one widget.
@@ -18,9 +19,11 @@ Read the [design guide](docs/design-guide.md) and [reuse guide](docs/reuse.md), 
 
 ## Carry appearance and behavior together
 
+For apps that open and save files, follow the [File-menu convention](docs/design-guide.md#file-menu-and-recently-opened-files): a separated recent-files group near the bottom, above a separated final Exit command. Prefer short numbered inline lists; submenus also suit long or grouped histories and occur in period Microsoft material.
+
 Read the relevant markup, final CSS cascade, handlers, and preserved test examples before extracting a pattern. Adapt dependencies to the consuming app and scope global CSS. Preserve generated scrollbar arrows and namespace reused SVG IDs where multiple instances can collide.
 
-For menus, dialogs, tabs, floating previews, scrollbars, or native themes, consult the [integration lessons](docs/integration-lessons.md). They cover later fixes beyond the archived edition: resting-pointer menu focus, synchronous dialog cleanup, frameless-caption modality, tab reflow, preview geometry and pixel mapping, reachable action footers, and theme atlas aliases. Use their host-specific qualifications and regression checks; they are guidance, not new bundled components.
+For reading panes, menus, dialogs, tabs, floating previews, scrollbars, or native themes, consult the [integration lessons](docs/integration-lessons.md). They cover later fixes beyond the archived edition, including readable and remembered text sizes, quiet annotation controls, persistent file-dialog folders, input ownership, dialog lifecycle, tab reflow, preview geometry, scrolling, and reachable panels. Use their host-specific qualifications and regression checks; they are guidance, not new bundled components.
 
 Keep the gray control face, hard light/dark bevels, navy selection, compact typography, dotted keyboard focus, and embossed disabled labels coherent. Momentary press, persistent toggle, selection, and keyboard focus are separate states. Retain semantic controls, labels, disabled behavior, keyboard navigation, cancellation, and focus restoration. Keep text-entry keys working when menus or application shortcuts share those keys.
 
@@ -38,6 +41,6 @@ For Windows build failures, also check the [build-shell environment lesson](docs
 
 Read [provenance](docs/provenance.md) and [third-party notices](THIRD-PARTY-NOTICES.md) before transferring code, fonts, or artwork. The root [MIT license](LICENSE) covers Stephen Lavelle's material distributed here, including his archived application excerpts. Retain source identity and applicable notices. The bundled font recreations retain CC BY-SA 3.0; the root MIT license does not replace third-party terms or relicense the complete upstream applications.
 
-Verify the states and interactions affected by the change, including keyboard use and restored focus. For visual work, check long labels, narrow windows, and 100%, 125%, 150%, and 200% display scales where the available host supports them. Native window behavior and Electron text rendering need checks in the intended desktop host. Report checks that could not be performed; archived screenshots and tests are evidence to study, not new passing results.
+Verify the states and interactions affected by the change, including keyboard use and restored focus. For visual work, check long labels, short and narrow windows, and 100%, 125%, 150%, and 200% display scales where the available host supports them. Check enlarged content text independently of display scaling, and test remembered settings after a full app restart. Native window behavior and Electron text rendering need checks in the intended desktop host. Report checks that could not be performed; archived screenshots and tests are evidence to study, not new passing results.
 
 Keep the archived source unchanged. Put adaptations in the consuming project. When maintaining this reference collection itself, use its snapshot manifest and `tools/verify-reference.ps1` to check integrity and local documentation links.

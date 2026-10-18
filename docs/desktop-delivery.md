@@ -20,6 +20,16 @@ Repositories keep their other targets. An app with no web version has nothing to
 
 The free-port rule is the server's job: listen on the usual port and, when Node reports `EADDRINUSE`, listen on port `0` instead and print the address from `server.address()`, so the printed address is the one in use.
 
+### Repositories with several apps
+
+Choose deliberately which app or suite plain `make` builds. Keep other apps as named targets unless the requested default is the complete suite. Sharing an engine or an Electron dependency directory does not make every companion app part of that default.
+
+GNU Make merges prerequisites from repeated ordinary target rules. An `all: editor` rule followed by a Windows-only `all: legacy-player` rule builds both on Windows; the later rule does not replace the earlier dependencies. Setting `.DEFAULT_GOAL := all` selects the goal but does not change that merging. Inspect every rule for the default goal, including conditional ones, when introducing or renaming an app.
+
+Keep the default target, README instructions and final completion message consistent. Print the intended app's name, actual output path and applicable launch instructions after the build and archive succeed. A companion app's final success message can conceal an otherwise successful primary build and send the user to the wrong executable. Check `gui95-app.json` too: the delivery helper enumerates its configured apps for this host, so the build must produce the app set that its pack/install commands expect.
+
+Verify plain `make` itself on the intended host and read its complete output through the final lines. Testing only `make editor` misses dependencies attached to `all`. Check the explicit companion targets separately, using a dry run when no new package is needed. For a supported suite default, report every requested app clearly rather than leaving only whichever package ran last as the apparent result.
+
 ## Portable Makefiles
 
 The same Makefile has to work under GNU Make on all three systems.
@@ -187,6 +197,14 @@ Once the copy is in place, `install` makes the app easy to reach:
 
 Desktop integration is a convenience. A step that fails prints a warning on stderr and the rest still run, for every system, and `install` exits 0 once the app copy is in place. Only a failure to install the copy itself ends the run with an error.
 
+### Replacing an installed app safely
+
+Keep packaging output separate from the installed directory and use the helper's complete-copy/swap path for replacement. A packager that recursively removes its previous output can delete some installed files before Windows refuses a locked executable, DLL or archive. A failed build or update must leave the previous installation usable.
+
+Prepare and verify the new build before interrupting the user's session. If replacement is blocked by the running app, retain the prepared copy and explain that the app must close before retrying. Let its normal Save/Discard/Cancel flow protect the document; do not terminate the process to release locks or assume that closing requires saving. Keep per-user documents, recovery drafts and preferences outside the replacement directory.
+
+Verify the installed copy and normal stable launcher after replacement. Keep automated test profiles separate from the everyday profile, and confirm the actual visible window before claiming a successful relaunch. An incomplete process inventory from a restricted test environment is not evidence that no desktop instance is running.
+
 ### The installed marker
 
 Every installed copy carries a file named `gui95-installed.json` in its resources folder: `<folder>/resources/` on Windows and Linux, `<Name>.app/Contents/Resources/` on macOS. It records which app and version were installed:
@@ -209,7 +227,7 @@ if (installed) {
 }
 ```
 
-For the same reason the build makes no launch points for the build folder: no shortcut to it and no registration of its bundle with the system. A build can still be started directly for testing. Pin the installed copy to the taskbar or Dock once; later installs replace it in place, so the pin keeps working. A test build and the installed copy still share user data and the single-instance lock.
+For the same reason the build makes no launch points for the build folder: no shortcut to it and no registration of its bundle with the system. A build can still be started directly for testing. Pin the installed copy to the taskbar or Dock once; later installs replace it in place, so the pin keeps working. Ordinary test launches and the installed copy share user data and the single-instance lock by default; automated checks should explicitly select an isolated test profile.
 
 ## Platform conventions
 

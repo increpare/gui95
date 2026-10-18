@@ -2,11 +2,17 @@
 
 ## Choose the right starting point
 
+For one control or a small dialog, begin with the [independent examples](widget-coverage.md). Each generated HTML file opens by itself and includes its markup, styles, initializer, behavior notes and limits. Use the archived app sources below for richer workspace context; do not copy a whole application to obtain one control.
+
 For a compact utility or player, begin with ProcGen FM's [radio stylesheet](../references/sausage-music/web/site/radio.css) and [markup](../references/sausage-music/web/site/radio.html). For a desktop editor, begin with Vector95's [classic stylesheet](../references/vector95/src/classic.css), [menu controller](../references/vector95/src/menus.js), and [widget catalogue](widgets.md).
 
 Read [the design guide](design-guide.md) before copying styles. It records the actual typography, the late CSS overrides, and the distinction between momentary press, persistent selection, and keyboard focus.
 
 Check the [integration lessons](integration-lessons.md) for later corrections to the control you are extracting. In particular, the archived menu, dialog, tab, preview, and scrollbar patterns predate some consumer fixes. Preserve the host-specific caveats and use the supplied regression scenarios when adapting them.
+
+**Reading-heavy apps:** Use the [content typography and control-role guidance](integration-lessons.md#reading-surfaces-type-size-and-control-roles) when the interface contains substantial explanations, annotations or dictionary text. Choose readable defaults, keep markers and processing states quiet, and remember text-size preferences. Test content enlargement independently of display scaling.
+
+**Standalone file workflows:** Carry [remembered Open/Save folders](integration-lessons.md#file-dialogs-remember-the-last-successful-folder) with the dialogs. Verify full process restarts, Save As names, cancellation and unavailable locations.
 
 **Windows Electron font rendering:** When reusing the bundled System95 bitmap-style font, read the [colored-text-fringe note](design-guide.md#colored-text-fringes-on-windows). Set Chromium's `disable-lcd-text` switch in the main process before startup and verify the actual GPU-enabled desktop app. The stylesheet alone does not carry this setting, and CSS font-smoothing is insufficient on Windows.
 
@@ -21,6 +27,22 @@ Check the [integration lessons](integration-lessons.md) for later corrections to
 5. Verify pointer and keyboard use, all states, focus restoration, long labels, resizing, and fractional display scaling in the new app.
 
 A native HTML button, input, or dialog gives a better starting point than a visually similar generic element. Keep semantic labels and value/state attributes current. Where Vector95 intentionally prioritizes drawing shortcuts over ordinary toolbar control behavior, decide whether that suits the new app.
+
+## Verify a reading-heavy desktop adaptation
+
+Use the cases relevant to the extracted interface. Consumer test results establish that consumer's behavior; they do not certify the archived patterns or a new extraction.
+
+| Area | Regression to exercise |
+| --- | --- |
+| Reading text | Full prose and dictionary content, secondary metadata, pending processing and expanded notes; larger/smaller/reset commands; preference restored after restart; clean documents stay clean. |
+| Enlarged layout | Default and twice-default content text at supported display scales; short and narrow windows; saved split positions; final content reachable; footers visible and unobscured. |
+| Pane ownership | Document scrollbar beside its own content, fixed inspector position, independent wheel scrolling without chaining, retained position in unchanged notes, aligned annotation markers and keyboard document navigation. |
+| Scrollbars | Both axes, one intended arrow at each end, no repeated SVG fill, arrow clicks and thumb dragging. |
+| File dialogs | Open-to-Save and Save-to-Open folders, current Save As name, failed/canceled operations, removed folders and full restart. |
+| Desktop delivery | Build and verify a staged copy while preserving the installed copy; running-app replacement fails safely; normal close/cancel and the stable launcher still work. |
+| Bundled readers | Cold first readable page, distant citation, wheel navigation, pan/zoom and retained tab position, with an appropriately bounded page cache. |
+
+Run automated desktop checks with an isolated per-user data directory so they cannot replace a working document's recovery draft or preferences. Confirm the normal launcher and visible window separately in the intended desktop session. See [safe replacement](desktop-delivery.md#replacing-an-installed-app-safely) for the install boundary.
 
 ## Brief for a future project
 

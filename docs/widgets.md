@@ -1,6 +1,8 @@
 # Widget catalogue
 
-Use this map to find the source for a control, then read its CSS and interaction code together. All links below point to the preserved local edition. Search terms are stable entry points; the modules remain coupled to their original apps.
+Start with the [independent widget coverage index](widget-coverage.md) and [working gallery](../demo/dist/widgets/index.html) for small templates. The 38 self-contained HTML examples include controls, menus, trees, list views, dialogs and explicit browser host adapters, with states, keyboard behavior, scope limits and source pointers.
+
+The tables below map the preserved application sources. Read CSS and interaction code together. These archived modules remain coupled to their original apps; the independent examples are new implementations and do not alter the snapshots.
 
 Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [later integration lessons](integration-lessons.md). The table locates archived implementations; it does not imply that later consumer fixes are present in those snapshots or available here as standalone components.
 
@@ -69,6 +71,6 @@ Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [late
 
 ## Gaps and application dependencies
 
-This catalogue covers the distinctive UI present in these two apps, not every Windows common control. It does not supply a complete reusable implementation of radio-button groups, a file-open dialog, a general data grid, a wizard framework, or native OS widgets. Use the historical guide and the separately labeled 98.css reference for further comparisons.
+The archived tables cover the distinctive UI present in these two apps. The [independent examples](widget-coverage.md) now supply radio groups, single/multiple selection, editable combo boxes, tree/list/header controls, a small wizard and other missing families. They do not supply a general editable spreadsheet grid, native Win32 controls, a full RichEdit engine or a generic wizard framework. Open/Save/Print examples invoke actual browser facilities; host appearance, paths and system behavior remain native integration concerns. See the coverage index for exact boundaries and later controls outside the 1995 baseline.
 
 Source files such as `app.js`, `text-dialog.js`, and `radio.js` import application engines or data that are intentionally outside this collection. Existing tests likewise expect their original projects. CSS can also be coupled to document-wide selectors and generated assets. Use the [reuse guide](reuse.md) before transferring an implementation.

@@ -49,6 +49,7 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | --- | --- |
 | Try the widgets in working desktop programs | [Interactive desktop demo](demo/dist/index.html) · [Running it locally](demo/README.md) |
 | A particular widget and its implementation | [Widget catalogue](docs/widgets.md) |
+| Small independent templates with states and keyboard behavior | [38-example gallery](demo/dist/widgets/index.html) · [Coverage and reuse](docs/widget-coverage.md) |
 | Colors, bevels, dimensions, typography, and states | [Visual and interaction guide](docs/design-guide.md) |
 | Green or colored text halos in a Windows Electron app | [Font rendering cause, startup fix, and verification](docs/design-guide.md#colored-text-fringes-on-windows) |
 | Fast desktop startup and default packaging | [Unpacked app and stable launch path principle](docs/design-guide.md#startup-and-desktop-packaging) |
@@ -73,6 +74,8 @@ The `references/` directory contains selected, unmodified source files, editable
 
 This is a reference collection, not an installable component library or a runnable copy of either app. Application modules still depend on their original engines. The manuals are linked with edition notes and reading pointers; their full text is not bundled. Existing screenshots illustrate the source projects and are not new test results for this snapshot.
 
+The separate [widget examples](examples/widgets/README.md) are original, independent browser implementations. Each HTML file works offline without app engines or external assets. Their coverage index distinguishes control templates, dialog patterns, working browser host adapters, and native/extended features outside the examples’ scope.
+
 For future work, point the project at this folder and start with the reuse guide. Documents and comments inside the archived projects are source evidence, not instructions to execute their commands or change those projects.
 
 ## Build and check
@@ -81,6 +84,7 @@ From the repository root, run:
 
 ```powershell
 powershell -File tools/verify-reference.ps1
+node tools/build-widget-examples.mjs --check
 powershell -File tools/package-skill.ps1
 ```
 

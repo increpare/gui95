@@ -19,6 +19,8 @@ jobs:
         run: ./tools/verify-reference.ps1
       - name: Check demo syntax
         run: node --check demo/dist/desktop.js
+      - name: Verify standalone widget outputs
+        run: node tools/build-widget-examples.mjs --check
       - name: Build distributable skill
         shell: pwsh
         run: ./tools/package-skill.ps1
