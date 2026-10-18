@@ -2,6 +2,8 @@
 
 These are concrete patterns observed in the preserved projects. Pixel sizes describe their web implementations, not universal Windows 95 specifications. Consult the [historical shelf](historical-sources.md) when fidelity to a particular Windows release matters.
 
+For fixes found in later consumer changelists, read the [integration lessons](integration-lessons.md): menu input ownership, dialog lifecycle and frameless captions, multi-row tabs, floating previews, scrollbar selectors, small-window action layouts, and native theme assets. Those adaptations do not change the archived edition.
+
 ## Color and dimensionality
 
 Both projects use the same core colors. See Vector95's [`:root` declarations](../references/vector95/src/classic.css) and the [radio stylesheet](../references/sausage-music/web/site/radio.css).

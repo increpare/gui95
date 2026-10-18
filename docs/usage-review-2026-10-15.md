@@ -2,6 +2,8 @@
 
 Public summary, 15 October 2026. These lessons come from integrations into editors, music tools, and small desktop utilities. They are improvement proposals, not claims of new runtime verification. The private audit's conversation excerpts and machine-specific paths are omitted.
 
+**Follow-up, 18 October 2026:** The [integration lessons](integration-lessons.md) turn additional consumer fixes into guidance for menus, dialogs, tabs, previews, scrollbars, native themes, and build environments. The proposals below remain the historical priority list; the follow-up does not claim to supply independent example components or refresh the source snapshots.
+
 ## Improvements to prioritize
 
 | Priority | Improvement | What a useful result looks like |

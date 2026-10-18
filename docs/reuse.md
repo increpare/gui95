@@ -6,6 +6,8 @@ For a compact utility or player, begin with ProcGen FM's [radio stylesheet](../r
 
 Read [the design guide](design-guide.md) before copying styles. It records the actual typography, the late CSS overrides, and the distinction between momentary press, persistent selection, and keyboard focus.
 
+Check the [integration lessons](integration-lessons.md) for later corrections to the control you are extracting. In particular, the archived menu, dialog, tab, preview, and scrollbar patterns predate some consumer fixes. Preserve the host-specific caveats and use the supplied regression scenarios when adapting them.
+
 **Windows Electron font rendering:** When reusing the bundled System95 bitmap-style font, read the [colored-text-fringe note](design-guide.md#colored-text-fringes-on-windows). Set Chromium's `disable-lcd-text` switch in the main process before startup and verify the actual GPU-enabled desktop app. The stylesheet alone does not carry this setting, and CSS font-smoothing is insufficient on Windows.
 
 **Desktop launch performance:** Follow the [startup and packaging principle](design-guide.md#startup-and-desktop-packaging): use an unpacked app as the default build and launch target, provide a stable shortcut, and point file associations at the unpacked executable. Keep self-extracting packages opt-in and include their extraction delay in any startup measurement.
@@ -35,3 +37,5 @@ Keep preserved source files unchanged within an edition. Add adaptations to a se
 `tools/verify-reference.ps1` checks each archived file against its recorded hash and checks local links in the authored documentation. It does not launch the source apps or claim that their UI tests passed.
 
 The [consumer usage review](usage-review-2026-10-15.md) records repeated corrections from other projects, prioritized improvements, and a lightweight feedback checklist. Use it when reviewing a new integration; distinguish observed problems and verified fixes from proposed improvements.
+
+When harvesting changelists, inspect relevant diffs and current source as well as `GUI95:` trailers: older useful fixes may have no trailer. Record the source revision and distinguish current-branch work, unmerged branches, uncommitted experiments, and work already integrated into the core. Keep private source evidence in the private audit and generalize the public guidance. A changelist review does not replace runtime checks or update the installed skill automatically.

@@ -55,6 +55,7 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | Original Windows design guidelines and manuals | [Historical reading shelf](docs/historical-sources.md) |
 | A reference brief to use in another project | [Reuse guide](docs/reuse.md) |
 | Lessons from projects using the widgets and prioritized improvements | [Usage review, 15 October 2026](docs/usage-review-2026-10-15.md) |
+| Later menu, dialog, tab, preview, scrollbar, and native theme corrections | [Integration lessons, 18 October 2026](docs/integration-lessons.md) |
 | Fonts, source attribution, and snapshot details | [Provenance and notices](docs/provenance.md) |
 
 ## The reference apps

@@ -1,6 +1,6 @@
 {
   "name": "gui95",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Build or restyle Windows 95-inspired web and Electron interfaces with classic controls, menus, dialogs, crisp bevels, and keyboard behavior. GUI95 is a vibe-coded skill and reference collection by Stephen Lavelle.",
   "author": {
     "name": "Stephen Lavelle",

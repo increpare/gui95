@@ -2,6 +2,8 @@
 
 Use this map to find the source for a control, then read its CSS and interaction code together. All links below point to the preserved local edition. Search terms are stable entry points; the modules remain coupled to their original apps.
 
+Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [later integration lessons](integration-lessons.md). The table locates archived implementations; it does not imply that later consumer fixes are present in those snapshots or available here as standalone components.
+
 ## Core controls
 
 | Pattern | Reference | Search for | What makes it useful |
