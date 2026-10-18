@@ -6,6 +6,8 @@ The public endpoint is **https://ded.increpare.com/gui95/mcp**. The initial refe
 
 ## Tools and feedback
 
+Agents keep a task report in the consuming project and return it to the user at handoff; see the [feedback workflow and template](feedback.md). Sending a finding to the service inbox is a separate, authorized action.
+
 - `list_gui95_materials` is the starting point for a new app: it returns the recommended workflow, quality guides, control families and a paginated public inventory. Filter by kind/query to browse guides, widgets, source, tools, verification, assets, notices or demo files.
 - `search_gui95` searches guidance, behavior, examples, source, tools, tests and assets. It recognizes common control names and returns kinds, hashes, source links and reference/download URLs. Widget hits include `widget_id`. Their descriptive metadata is indexed without repeating every template’s shared CSS and license boilerplate.
 - `get_gui95_widget` retrieves a complete independent HTML template by ID (code included by default), with states, keys, scope and host limits, historical/current source pointers, authoring and verification paths, related controls, notices and preview/download URLs. `include_code: false` returns the compact description first. There are 38 templates in this edition; the manifest drives discovery as the collection grows.

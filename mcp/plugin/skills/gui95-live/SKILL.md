@@ -7,6 +7,14 @@ description: Build, restyle, or review Windows 95-inspired web and Electron inte
 
 Use the connected GUI95 MCP tools for the user's requested interface.
 
+## Record feedback as you work
+
+During implementation or review, keep one running report in the consuming project at `docs/gui95-feedback/<date>-<task>.md`. Read `docs/feedback.md` with read_gui95_reference for the template. Record UI problems, user corrections, failed approaches, and missing or unclear guidance as they occur. Retain resolved findings and distinguish observed behavior, suspected causes, verified fixes, and checks not run.
+
+Before finishing, consolidate the report and link it in the final response with unresolved issues and reusable lessons. If no findings arose, say so; an empty report is unnecessary. With no writable project, return the report in the final response. When committing reusable lessons in a consuming app, add `GUI95:` trailers using the guide; when maintaining GUI95 itself, update its docs directly. Returning the report to the user does not require submitting it to the MCP inbox.
+
+## Retrieve, adapt, and verify
+
 1. Start a new app with list_gui95_materials. It returns the recommended workflow, control families, quality guides and a paginated inventory. Filter by kind or query to browse guides, widgets, source, tools, verification, assets or notices.
 2. Search for controls or behavior with search_gui95. A widget hit includes widget_id; call get_gui95_widget to retrieve its complete self-contained HTML, states, keyboard contract, scope/host limits, historical and modern sources, source/verification paths, and working preview/download URLs. Prefer the independent example when one widget is sufficient.
 3. Read matching guidance with read_gui95_reference: design/reuse guides, integration lessons, historical reading shelf/audit, example QA and notices. Follow next_cursor.line and next_cursor.column when a response is bounded; long/minified source remains fully retrievable. An audit records proposals, and archived tests/screenshots are evidence rather than new passing results.

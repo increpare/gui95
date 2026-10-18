@@ -7,6 +7,12 @@ description: Build or restyle Windows 95-style web and Electron interfaces using
 
 Use this collection to implement the user's requested interface in their chosen project and framework. Resolve the links below relative to this skill folder. The bundled source is a reference collection, not a component package; several modules depend on engines that are not included.
 
+## Record feedback as you work
+
+During GUI95 implementation or review, keep one running report in the consuming project at `docs/gui95-feedback/<date>-<task>.md`, following the [feedback guide and template](docs/feedback.md). Record UI problems, user corrections, failed approaches, and unclear or missing guidance as they occur. Retain resolved findings, distinguish observations from suspected causes, and record fixes, evidence, and checks not run.
+
+Before finishing, consolidate the report and link it in the final response with a brief summary of unresolved issues and reusable lessons. If there were no findings, say so; an empty report is unnecessary. When committing reusable lessons in a consuming app, include `GUI95:` trailers as described in the guide. When maintaining GUI95 itself, update its docs directly.
+
 ## Optional maintained build kit
 
 For new apps or standalone controls, consult [the build kit](docs/build-kit.md) and its [local CLI](kit/README.md). It supplies scoped components, original CC0 icons, structured layouts, shared commands, browser/Electron starters and local verification. When connected to GUI95 MCP, call `list_gui95_kits` to discover the current release and retrieve only the required artifacts. Verify download hashes and run checks in the consuming app; preserved source and screenshots remain evidence rather than passing results. Keep new CC0 artwork separate from existing artwork/font licenses.

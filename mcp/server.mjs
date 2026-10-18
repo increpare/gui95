@@ -11,7 +11,7 @@ import { createStore, createRateLimiter } from "./store.mjs";
 import { createKit } from "./kit.mjs";
 import { registerKitTools } from "./kit-tools.mjs";
 
-export const VERSION = "1.1.0";
+export const VERSION = "1.2.0";
 export const instructions = [
   "Use GUI95 to build, restyle, or review Windows 95-inspired web and Electron interfaces.",
   "Call list_gui95_kits for standalone components, original CC0 icons, structured layouts, browser/Electron starters and local verification. Fetch evidence, repairs and version guidance with the specialized tools. Download complete artifacts and verify their hashes before integrating.",

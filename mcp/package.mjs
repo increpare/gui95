@@ -63,7 +63,7 @@ manifest.interface.websiteURL = "https://ded.increpare.com/gui95/";
 manifest.interface.privacyPolicyURL = "https://ded.increpare.com/gui95/privacy";
 manifest.interface.capabilities = ["Find current GUI95 guidance", "Get complete widget templates", "Get standalone controls and original CC0 icons", "Generate layouts and browser/Electron starters", "Find precise evidence, repairs and version guidance", "Retrieve icons, fonts and screenshots", "Read source, tooling and verification", "Review keyboard and focus behavior", "Share authorized agent feedback"];
 manifest.extensions["com.openai"].review = { test_cases: JSON.parse(await readFile(path.join(here, "review-cases.json"), "utf8")) };
-manifest.extensions["com.openai"].publication.release_notes = "Expose complete widget templates, source, tooling, verification and reusable assets alongside versioned build kits, generators, evidence and repairs through fourteen MCP tools, with byte-exact downloads, sandboxed previews, explicit feedback and retention.";
+manifest.extensions["com.openai"].publication.release_notes = "Require running UI feedback reports and a final handoff, retaining resolved problems, failed approaches, verification evidence and reusable lessons. Include complete widget templates, source, assets and desktop tooling alongside versioned build kits, generators, evidence and repairs through fourteen MCP tools. Sending feedback to the private inbox remains a separate authorized action.";
 delete manifest.interface.screenshots;
 const pluginFiles = new Map([
   ["gui95-mcp/.codex-plugin/plugin.json", Buffer.from(JSON.stringify(manifest, null, 2) + "\n")],
