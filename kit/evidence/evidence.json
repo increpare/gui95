@@ -461,8 +461,8 @@
     "local_refs": [
       {
         "path": "docs/reuse.md",
-        "start_line": 11,
-        "end_line": 13,
+        "start_line": 15,
+        "end_line": 15,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       }
     ]

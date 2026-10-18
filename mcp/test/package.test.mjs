@@ -34,6 +34,7 @@ test('deployment tar excludes host metadata and preserves a runnable standalone 
   const start=cursor+30+nameLength+extraLength,target=path.join(standalone,name);
   await mkdir(path.dirname(target),{recursive:true});await writeFile(target,zip.subarray(start,start+size));cursor=start+size;
  }
+ for(const name of ['demo/dist/widgets/index.html','demo/dist/widgets/combobox.html','examples/widgets/controls.mjs','examples/widgets/check.mjs','tools/build-widget-examples.mjs']) assert.ok((await readFile(path.join(standalone,name))).length,'Full kit includes linked public widget material: '+name);
  const childEnv={...process.env};delete childEnv.NODE_TEST_CONTEXT;
  const evidence=spawnSync(process.execPath,['--test','kit/test/evidence.test.mjs'],{cwd:standalone,encoding:'utf8',env:childEnv});
  assert.equal(evidence.status,0,evidence.stdout+evidence.stderr);

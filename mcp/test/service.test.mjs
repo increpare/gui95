@@ -122,7 +122,7 @@ test("real MCP client initializes, searches, reads, and submits authorized feedb
   t.after(async () => { await client.close(); listener.closeAllConnections(); await new Promise((resolve) => listener.close(resolve)); await service.close(); });
   await client.connect(new StreamableHTTPClientTransport(new URL(base + "/mcp")));
   const listed = await client.listTools();
-  assert.equal(listed.tools.length, 11);
+  assert.deepEqual(listed.tools.map(tool => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_asset", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_repairs", "get_gui95_widget", "list_gui95_kits", "list_gui95_materials", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
   const feedbackTool = listed.tools.find((tool) => tool.name === "submit_gui95_feedback");
   assert.equal(feedbackTool.annotations.readOnlyHint, false);
   const sentinel = "menu keyboard focus private-query-sentinel";

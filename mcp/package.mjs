@@ -1,4 +1,4 @@
-import { mkdir, cp, readFile, writeFile, readdir, stat } from "node:fs/promises";
+import { mkdir, cp, readFile, writeFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash, randomUUID } from "node:crypto";
@@ -12,6 +12,8 @@ const root = path.dirname(here);
 const nameIndex = process.argv.indexOf("--plugin-name");
 const pluginName = nameIndex < 0 ? "gui95-mcp" : process.argv[nameIndex + 1];
 if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pluginName ?? "") || pluginName.length > 64) throw new Error("Invalid --plugin-name.");
+const generated=spawnSync(process.execPath,[path.join(root,'tools/build-widget-examples.mjs'),'--check'],{encoding:'utf8'});
+if(generated.status!==0)throw new Error('Build/check standalone widget examples before packaging: '+generated.stdout+generated.stderr);
 const catalog = await loadCatalog(root);
 const releaseName = "gui95-mcp-" + VERSION + "-" + new Date().toISOString().replace(/[:.]/g, "-") + "-" + randomUUID().slice(0, 8);
 const dist = path.join(root, "dist");
@@ -23,7 +25,7 @@ const service = path.join(deployment, "service");
 const content = path.join(deployment, "content");
 await mkdir(service, { recursive: true });
 await mkdir(content);
-for (const name of ["server.mjs", "catalog.mjs", "kit.mjs", "kit-tools.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "package-lock.json"]) {
+for (const name of ["server.mjs", "catalog.mjs", "content.mjs", "kit.mjs", "kit-tools.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "package-lock.json"]) {
   await cp(path.join(here, name), path.join(service, name));
 }
 await cp(path.join(root, "kit"), path.join(deployment, "kit"), { recursive: true, filter: (source) => !source.split(path.sep).some((part) => ["node_modules", "test-results", "playwright-report", "artifacts"].includes(part) || part.startsWith("._")) });
@@ -34,18 +36,13 @@ const dependencies = path.join(here, "node_modules");
 if (!(await stat(dependencies)).isDirectory()) throw new Error("Install locked MCP dependencies before packaging.");
 await cp(dependencies, path.join(service, "node_modules"), { recursive: true, dereference: true });
 await cp(path.join(here, "deploy"), path.join(deployment, "deploy"), { recursive: true });
-for (const name of ["SKILL.md", "README.md", "LICENSE", "THIRD-PARTY-NOTICES.md", "PRIVACY.md"]) await cp(path.join(root, name), path.join(content, name));
-await mkdir(path.join(content, "docs"));
-for (const entry of await readdir(path.join(root, "docs"), { withFileTypes: true })) {
-  if (entry.isFile() && [".md", ".png"].includes(path.extname(entry.name))) await cp(path.join(root, "docs", entry.name), path.join(content, "docs", entry.name));
-}
-const snapshotPath = "references/snapshot-manifest.json";
-const snapshot = JSON.parse(await readFile(path.join(root, snapshotPath), "utf8"));
-for (const name of [snapshotPath, ...snapshot.files.map((file) => file.path)]) {
+// Ship exactly the inventoried bytes, including binary assets and standalone demos.
+// No independent copy list can silently omit newly published guidance or templates.
+for (const [name,file] of catalog.files) {
   const destination = path.join(content, name);
   if (!path.resolve(destination).startsWith(path.resolve(content) + path.sep)) throw new Error("Unsafe content destination.");
   await mkdir(path.dirname(destination), { recursive: true });
-  await cp(path.join(root, name), destination);
+  await writeFile(destination,file.bytes);
 }
 await writeFile(path.join(deployment, "RELEASE.json"), JSON.stringify({ version: VERSION, content_revision: catalog.revision, created_at: new Date().toISOString() }, null, 2) + "\n");
 await cp(path.join(root, "docs/mcp-service.md"), path.join(deployment, "DEPLOYMENT.md"));
@@ -58,15 +55,15 @@ if (tar.status !== 0) throw new Error("Deployment archive failed: " + tar.stderr
 const manifest = JSON.parse(await readFile(path.join(root, "plugin/.codex-plugin/plugin.json"), "utf8"));
 manifest.name = pluginName;
 manifest.version = VERSION;
-manifest.description = "Current GUI95 interface guidance and preserved source references through a hosted MCP server, with an explicit private agent feedback inbox.";
+manifest.description = "Complete GUI95 guidance, independent widget templates, source, tools, assets and verification through a hosted MCP server, with an explicit private agent feedback inbox.";
 manifest.mcpServers = "./.mcp.json";
 manifest.interface.shortDescription = "Live Windows 95 UI guidance";
-manifest.interface.longDescription = "Build or restyle Windows 95-inspired web and Electron interfaces using current GUI95 guidance and preserved Vector95 and ProcGen FM examples. Search controls and integration lessons, read bounded source excerpts, and adapt the relevant markup, CSS, and interaction behavior to your framework.\n\nThe hosted service can receive concise, authorized feedback written by an agent or a human. Reports distinguish tested results from observations and suggestions, and stay in a private maintainer inbox. No report automatically changes guidance. Do not submit private code, conversations, credentials, or personal information.\n\nThe service stores aggregate tool and reference counts without search text or user identifiers. Feedback and counters expire after 90 calendar days. Neither source application needs to be installed. The optional versioned build kit supplies standalone controls, original CC0 icons, generators and app starters. Run its local checks in the target app and retain the relevant source notices. Bundled third-party notices apply. Independent project, not affiliated with Microsoft.";
+manifest.interface.longDescription = "Build high-quality Windows 95-inspired web and Electron interfaces with the complete public GUI95 reference. Browse control families, get independent runnable HTML templates with states and keyboard rules, preview them, and retrieve original app source, build/icon tools, verification, icons, fonts, screenshots and notices. Adapt only the markup, CSS and behavior needed by your framework.\n\nThe hosted service can receive concise, authorized feedback written by an agent or a human. Reports distinguish tested results from observations and suggestions, and stay in a private maintainer inbox. No report automatically changes guidance. Do not submit private code, conversations, credentials, or personal information.\n\nThe service stores aggregate tool and reference counts without search text or user identifiers. Feedback and counters expire after 90 calendar days. Neither source application needs to be installed. The optional versioned build kit supplies standalone controls, original CC0 icons, layout generators, browser/Electron starters, precise evidence, repairs and version guidance. Run its local checks in the target app and retain the relevant source notices. Bundled third-party notices apply. Independent project, not affiliated with Microsoft.";
 manifest.interface.websiteURL = "https://ded.increpare.com/gui95/";
 manifest.interface.privacyPolicyURL = "https://ded.increpare.com/gui95/privacy";
-manifest.interface.capabilities = ["Get standalone controls and original CC0 icons", "Generate layouts and browser/Electron starters", "Find precise evidence, repairs and version guidance", "Share authorized agent feedback"];
+manifest.interface.capabilities = ["Find current GUI95 guidance", "Get complete widget templates", "Get standalone controls and original CC0 icons", "Generate layouts and browser/Electron starters", "Find precise evidence, repairs and version guidance", "Retrieve icons, fonts and screenshots", "Read source, tooling and verification", "Review keyboard and focus behavior", "Share authorized agent feedback"];
 manifest.extensions["com.openai"].review = { test_cases: JSON.parse(await readFile(path.join(here, "review-cases.json"), "utf8")) };
-manifest.extensions["com.openai"].publication.release_notes = "GUI95 build kits: standalone components and local checks, original CC0 icons, layout and app generators, precise evidence, repairs and version guidance, alongside the private feedback inbox.";
+manifest.extensions["com.openai"].publication.release_notes = "Expose complete widget templates, source, tooling, verification and reusable assets alongside versioned build kits, generators, evidence and repairs through fourteen MCP tools, with byte-exact downloads, sandboxed previews, explicit feedback and retention.";
 delete manifest.interface.screenshots;
 const pluginFiles = new Map([
   ["gui95-mcp/.codex-plugin/plugin.json", Buffer.from(JSON.stringify(manifest, null, 2) + "\n")],
@@ -123,7 +120,7 @@ end.writeUInt32LE(centralBytes.length, 12);
 end.writeUInt32LE(offset, 16);
 const zipName = "gui95-mcp-plugin.zip";
 await writeFile(path.join(output, zipName), Buffer.concat([...locals, centralBytes, end]));
-const kit = createKit({ root: path.join(root, "kit") });
+const kit = createKit({ root: path.join(root, "kit"), catalog });
 const kitExport = await kit.fullKit();
 const iconExport = await kit.iconPack();
 const kitName = "gui95-build-kit.zip";

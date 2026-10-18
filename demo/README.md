@@ -2,6 +2,8 @@
 
 Open `dist/index.html` directly in a modern browser, or run `node serve.mjs` in this directory and visit [the local preview](http://127.0.0.1:1995). No installation or build is required. Audio begins only after Play is pressed.
 
+For individual controls, open the [standalone widget gallery](dist/widgets/index.html), or visit `/widgets/` on that local server. Its 38 examples open independently and include behavior, keyboard, source and scope notes. See [coverage](../docs/widget-coverage.md) and the [separate widget verification record](../examples/widgets/QA.md). The desktop’s older verification record does not certify the new examples.
+
 The demo puts controls into small working programs:
 
 - Explorer: folders, object selection, icon/detail views, resizable split pane, source images, and reference topics.

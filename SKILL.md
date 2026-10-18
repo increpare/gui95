@@ -15,12 +15,15 @@ For new apps or standalone controls, consult [the build kit](docs/build-kit.md) 
 
 Read the [design guide](docs/design-guide.md) and [reuse guide](docs/reuse.md), then use the [widget catalogue](docs/widgets.md) to locate only the controls needed for the task.
 
+- For an independent control or dialog starting point, use the [coverage index](docs/widget-coverage.md) and [standalone widget gallery](demo/dist/widgets/index.html). Each HTML file includes its own behavior, states, keyboard contract and limits; read those before copying. Native file/print facilities and rich text are explicitly scoped browser adapters.
 - For dense editors and multiwindow workspaces, use Vector95's CSS, menus, dialog patterns, and SVG sources.
 - For compact utilities and players, use ProcGen FM's markup, CSS, and interaction handlers.
 - For a working browser demonstration, inspect [the demo guide](demo/README.md) and [desktop page](demo/dist/index.html). It is a modern adaptation, with Tahoma at 12 px by default; do not copy its full desktop into a task that needs one widget.
 - For period-specific questions, consult [the historical reading shelf](docs/historical-sources.md). Distinguish original Microsoft guidance, prerelease documents, and modern adaptations.
 
 ## Carry appearance and behavior together
+
+For apps that open and save files, follow the [File-menu convention](docs/design-guide.md#file-menu-and-recently-opened-files): a separated recent-files group near the bottom, above a separated final Exit command. Prefer short numbered inline lists; submenus also suit long or grouped histories and occur in period Microsoft material.
 
 Read the relevant markup, final CSS cascade, handlers, and preserved test examples before extracting a pattern. Adapt dependencies to the consuming app and scope global CSS. Preserve generated scrollbar arrows and namespace reused SVG IDs where multiple instances can collide.
 

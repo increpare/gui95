@@ -160,3 +160,11 @@ test('update manifests have bounded validation and never echo arbitrary nested i
   assert.ok(JSON.stringify(bad).length < 2000);
   assert.equal(checkUpdates({ schema_version: 1, components: {} }).status, 'ok');
 });
+
+
+test('packaging citation includes the desktop launch and packaging guidance', () => {
+  const evidence = catalog().getEvidence('packaging-resource-layout');
+  const ref = evidence.local_refs.find(ref => ref.path === 'docs/reuse.md');
+  const lines = readFileSync(new URL('../../' + ref.path, import.meta.url), 'utf8').split('\n');
+  assert.match(lines.slice(ref.start_line - 1, ref.end_line).join('\n'), /Desktop launch performance.*unpacked app/);
+});

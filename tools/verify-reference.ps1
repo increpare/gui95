@@ -22,6 +22,9 @@ if (Test-Path -LiteralPath (Join-Path $referenceRoot 'SKILL.md')) {
     $documents += Get-Item -LiteralPath (Join-Path $referenceRoot 'SKILL.md')
 }
 $documents += Get-ChildItem -LiteralPath (Join-Path $referenceRoot 'docs') -File -Filter '*.md'
+if (Test-Path -LiteralPath (Join-Path $referenceRoot 'examples/widgets')) {
+    $documents += Get-ChildItem -LiteralPath (Join-Path $referenceRoot 'examples/widgets') -File -Filter '*.md'
+}
 $linkCount = 0
 foreach ($doc in $documents) {
     $content = Get-Content -LiteralPath $doc.FullName -Raw

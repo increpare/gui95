@@ -163,6 +163,12 @@ export function createKit({root=path.dirname(fileURLToPath(import.meta.url)),pub
         }
       }
       await walk(root,'kit');
+      if(catalog) {
+        // Keep downloads aligned with the same public inventory as reference tools.
+        for(const [name,file] of catalog.files) files.push({path:name,data:file.bytes});
+        fullKitFiles=files;
+        return bundle(files,{type:'full-kit'});
+      }
       for(const name of ['gui95-app.mjs','gui95-icons.mjs']) files.push({path:'tools/'+name,text:await readFile(path.join(root,'../tools',name),'utf8')});
       for(const name of ['LICENSE','THIRD-PARTY-NOTICES.md']) files.push({path:name,text:await readFile(path.join(root,'..',name),'utf8')});
       const repository=contentRoot;
