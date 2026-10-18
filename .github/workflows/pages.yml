@@ -14,11 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - name: Install MCP service dependencies
+        run: npm --prefix mcp ci --ignore-scripts --no-audit --no-fund
+      - name: Test MCP service and HTTP protocol
+        run: npm --prefix mcp test
       - name: Verify reference hashes and documentation
         shell: pwsh
         run: ./tools/verify-reference.ps1
       - name: Check demo syntax
         run: node --check demo/dist/desktop.js
+      - name: Verify standalone widget outputs
+        run: node tools/build-widget-examples.mjs --check
+      - name: Build complete MCP deployment and remote-plugin bundles
+        run: node mcp/package.mjs
       - name: Build distributable skill
         shell: pwsh
         run: ./tools/package-skill.ps1

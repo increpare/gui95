@@ -1,0 +1,53 @@
+import {example as e} from './shared.mjs';
+
+const file = `<div id="file-menu" role="menu" aria-label="File" class="menu" hidden>
+<button role="menuitem" tabindex="-1" data-key="n"><span class="mark"></span><span><u>N</u>ew</span><span class="key">Ctrl+N</span></button>
+<button role="menuitem" tabindex="-1" data-key="o"><span class="mark"></span><span><u>O</u>pen…</span></button>
+<button role="menuitem" tabindex="-1" disabled><span class="mark"></span><span>Save</span></button><hr role="separator">
+<button role="menuitem" tabindex="-1" data-key="1"><span class="mark"></span><span><u>1</u> Letter.txt</span></button>
+<button role="menuitem" tabindex="-1" data-key="2"><span class="mark"></span><span><u>2</u> Sketch.bmp</span></button><hr role="separator">
+<button role="menuitem" tabindex="-1" data-key="x"><span class="mark"></span><span>E<u>x</u>it example</span></button></div>`;
+const view = `<div id="view-menu" role="menu" aria-label="View" class="menu" hidden>
+<button role="menuitemcheckbox" aria-checked="true" tabindex="-1" data-key="g"><span class="mark">✓</span><span><u>G</u>rid</span></button>
+<button role="menuitem" tabindex="-1" data-sub="zoom-menu" aria-haspopup="menu" aria-expanded="false" data-key="z"><span class="mark"></span><span><u>Z</u>oom</span><span class="key">▶</span></button></div>
+<div id="zoom-menu" role="menu" aria-label="Zoom" class="menu" hidden>
+<button role="menuitemradio" aria-checked="true" tabindex="-1" data-key="1"><span class="mark">●</span><span><u>1</u>00%</span></button>
+<button role="menuitemradio" aria-checked="false" tabindex="-1" data-key="2"><span class="mark"></span><span><u>2</u>00%</span></button></div>`;
+
+function setup({$,$$,on,report,clamp}) {
+ const bar=$('#menubar'),target=$('#context-target'),roots=bar?$$(':scope > button',bar):[],menus=$$('[role=menu]');let stack=[],previous=null,armed=false,altPending=false,timer,lastPoint=null;
+ const items=menu=>$$(':scope > button:not(:disabled)',menu);
+ const resetBar=()=>{armed=false;roots.forEach((b,i)=>{b.tabIndex=i===0?0:-1;b.setAttribute('aria-expanded','false');});};
+ const hideAfter=n=>{while(stack.length>n){const menu=stack.pop();menu.hidden=true;const owner=$(`[data-sub="${menu.id}"]`);if(owner)owner.setAttribute('aria-expanded','false');}clearTimeout(timer);};
+ const close=(restore=true)=>{hideAfter(0);resetBar();if(restore&&previous?.isConnected)previous.focus();};
+ const focusBar=button=>{armed=true;roots.forEach(b=>b.tabIndex=b===button?0:-1);button.focus();};
+ const position=(menu,x,y)=>{menu.hidden=false;const stage=$('#menu-host'),bounds=stage.getBoundingClientRect();menu.style.left=clamp(x-bounds.left,0,Math.max(0,stage.clientWidth-menu.offsetWidth))+'px';menu.style.top=Math.max(0,y-bounds.top)+'px';};
+ const openRoot=(button,focus=true)=>{if(!stack.length&&!armed)previous=document.activeElement;hideAfter(0);roots.forEach(b=>b.setAttribute('aria-expanded',b===button));focusBar(button);const menu=document.getElementById(button.dataset.menu),rect=button.getBoundingClientRect();position(menu,rect.left,rect.bottom);stack=[menu];if(focus)items(menu)[0].focus();};
+ const openSub=(button,focus=true)=>{hideAfter(1);const menu=document.getElementById(button.dataset.sub),rect=button.getBoundingClientRect(),parent=button.closest('[role=menu]').getBoundingClientRect();position(menu,parent.right-3,rect.top-3);button.setAttribute('aria-expanded','true');stack.push(menu);if(focus)items(menu)[0].focus();};
+ const activate=button=>{if(button.dataset.sub){openSub(button);return;}const role=button.getAttribute('role');if(role==='menuitemcheckbox'){const value=button.getAttribute('aria-checked')!=='true';button.setAttribute('aria-checked',value);$('.mark',button).textContent=value?'✓':'';report(`Grid: ${value?'on':'off'}`);}else if(role==='menuitemradio'){$$('[role=menuitemradio]',button.parentElement).forEach(x=>{x.setAttribute('aria-checked',x===button);$('.mark',x).textContent=x===button?'●':'';});report(`Zoom: ${button.textContent.replace('●','').trim()}`);}else report(`Command: ${button.textContent.replace('Ctrl+N','').trim()}`);close();};
+ roots.forEach((button,i)=>{on(button,'click',()=>{if(stack.length&&button.getAttribute('aria-expanded')==='true'){hideAfter(0);focusBar(button);}else openRoot(button);});on(button,'pointermove',ev=>{if(stack.length&&lastPoint!==`${ev.clientX},${ev.clientY}`&&button.getAttribute('aria-expanded')!=='true')openRoot(button,false);lastPoint=`${ev.clientX},${ev.clientY}`;});on(button,'keydown',ev=>{if(['ArrowDown','ArrowUp','Enter',' '].includes(ev.key)){ev.preventDefault();openRoot(button);if(ev.key==='ArrowUp')items(stack[0]).at(-1).focus();}else if(['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)){ev.preventDefault();const n=ev.key==='Home'?0:ev.key==='End'?roots.length-1:(i+(ev.key==='ArrowRight'?1:roots.length-1))%roots.length;if(stack.length)openRoot(roots[n]);else focusBar(roots[n]);}});});
+ menus.forEach(menu=>{items(menu).forEach(button=>{on(button,'click',()=>activate(button));on(button,'pointermove',ev=>{const point=`${ev.clientX},${ev.clientY}`;if(lastPoint===point)return;lastPoint=point;clearTimeout(timer);button.focus();if(button.dataset.sub)timer=setTimeout(()=>openSub(button,false),350);else if(menu===stack[0])hideAfter(1);});});on(menu,'pointerleave',()=>clearTimeout(timer));on(menu,'keydown',ev=>{const current=document.activeElement,list=items(menu),i=list.indexOf(current);if(['ArrowDown','ArrowUp','Home','End'].includes(ev.key)){ev.preventDefault();list[ev.key==='Home'?0:ev.key==='End'?list.length-1:(i+(ev.key==='ArrowDown'?1:list.length-1))%list.length].focus();}else if(ev.key==='ArrowRight'){ev.preventDefault();if(current.dataset.sub)openSub(current);else if(roots.length){const index=roots.findIndex(x=>x.getAttribute('aria-expanded')==='true');openRoot(roots[(index+1)%roots.length]);}}else if(ev.key==='ArrowLeft'){ev.preventDefault();if(stack.length>1){const owner=$(`[data-sub="${stack.at(-1).id}"]`);hideAfter(1);owner.focus();}else if(roots.length){const index=roots.findIndex(x=>x.getAttribute('aria-expanded')==='true');openRoot(roots[(index+roots.length-1)%roots.length]);}}else if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate(current);}else if(ev.key.length===1&&!ev.ctrlKey&&!ev.altKey&&!ev.metaKey){const item=list.find(x=>x.dataset.key===ev.key.toLowerCase());if(item){ev.preventDefault();activate(item);}}});});
+ on(document,'keydown',ev=>{
+  if(ev.key==='Alt'&&!ev.ctrlKey){altPending=true;return;}
+  if(ev.altKey&&roots.length){altPending=false;const button=roots.find(x=>x.dataset.key===ev.key.toLowerCase());if(button){ev.preventDefault();openRoot(button);}return;}
+  if(ev.key==='F10'&&!ev.shiftKey&&roots.length){ev.preventDefault();previous=document.activeElement;if(armed||stack.length)close();else focusBar(roots[0]);}
+  if(ev.key==='Escape'&&(armed||stack.length)){ev.preventDefault();if(stack.length>1){const owner=$(`[data-sub="${stack.at(-1).id}"]`);hideAfter(1);owner.focus();}else if(stack.length&&roots.length){hideAfter(0);const active=roots.find(x=>x.getAttribute('aria-expanded')==='true')||roots[0];roots.forEach(x=>x.setAttribute('aria-expanded','false'));focusBar(active);}else close();}
+  if(ev.key==='Tab'&&(armed||stack.length)){hideAfter(0);resetBar();if(previous?.isConnected)previous.focus();}
+ });
+ on(document,'keyup',ev=>{if(ev.key==='Alt'&&altPending&&roots.length){ev.preventDefault();altPending=false;if(armed||stack.length)close();else{previous=document.activeElement;focusBar(roots[0]);}}});
+ on(document,'pointerdown',ev=>{if((stack.length||armed)&&!ev.target.closest('[role=menu],[role=menubar]'))close(false);});
+ if(target){const context=(x,y)=>{previous=target;hideAfter(0);const menu=$('#context-menu');position(menu,x,y);stack=[menu];items(menu)[0].focus();};on(target,'contextmenu',ev=>{ev.preventDefault();context(ev.clientX,ev.clientY);});on(target,'keydown',ev=>{if((ev.shiftKey&&ev.key==='F10')||ev.key==='ContextMenu'){ev.preventDefault();const r=target.getBoundingClientRect();context(r.left+12,r.top+24);}});}
+}
+
+export default [
+e('menus','Menu bar, submenus and recent files','Navigation and data',`
+<label class="field">Document name (try Alt while editing) <input id="document-name" value="Letter.txt"></label><div id="menu-host" style="position:relative;margin-top:14px;min-height:290px"><div id="menubar" role="menubar" aria-label="Application"><button role="menuitem" aria-haspopup="menu" aria-expanded="false" data-menu="file-menu" data-key="f" tabindex="0"><u>F</u>ile</button><button role="menuitem" aria-haspopup="menu" aria-expanded="false" data-menu="view-menu" data-key="v" tabindex="-1"><u>V</u>iew</button></div>${file}${view}<p>Commands report their result below. “Exit example” does not close your browser.</p></div>`,
+setup,'Menu-bar mode, dropdown, delayed pointer submenu, disabled item, check mark, exclusive radio mark and numbered inline MRU group.',
+'Alt alone or F10 focuses the bar; Alt+F/V opens a menu. Arrows navigate; Enter/Space activates; underlined letters select. Escape closes one layer at a time, then exits the bar and restores focus. Tab leaves.',
+'The 1995 draft describes staged menu dismissal and sparse cascades. Short inline MRUs above a separated final Exit match period examples; long/grouped histories may use a submenu. ARIA and the 350 ms pointer delay are explicit browser choices. Ctrl+N is illustrative menu text, not a registered browser shortcut.','menubar'),
+e('context-menu','Context menus','Navigation and data',`
+<div id="menu-host" style="position:relative;min-height:250px"><button id="context-target" style="min-width:160px;height:60px">Selected document</button><p>Right-click the document or use the keyboard context-menu key.</p><div id="context-menu" class="menu" role="menu" aria-label="Document commands" hidden><button role="menuitem" tabindex="-1" data-key="o"><span class="mark"></span><span><u>O</u>pen document</span></button><button role="menuitem" tabindex="-1" data-key="r"><span class="mark"></span><span><u>R</u>ename…</span></button><button role="menuitem" tabindex="-1" disabled><span class="mark"></span><span>Delete (locked)</span></button></div></div>`,
+setup,'Pointer and keyboard invocation, disabled command, bounded horizontal placement and focus restoration.',
+'Shift+F10 or the context-menu key opens for the focused document; Up/Down, Home/End and mnemonic letters navigate; Enter selects; Escape restores focus.',
+'A context menu supplements visible commands in a real app. This sample uses no menu bar; browser context menus outside its target remain available.','menubar'),
+];

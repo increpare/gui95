@@ -1,0 +1,702 @@
+{
+  "schema": 1,
+  "license": "MIT",
+  "examples": [
+    {
+      "id": "buttons",
+      "title": "Push buttons and default action",
+      "family": "Basic controls",
+      "states": "Normal, pressed, focused, disabled, and default action. The default outline is separate from keyboard focus.",
+      "keys": "Tab moves focus; Space activates a focused button. Enter in the name field submits the form.",
+      "note": "A default action must be safe in context. Browser form submission supplies Enter behavior; this is not a global Enter shortcut.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+        }
+      ],
+      "file": "buttons.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "toggle",
+      "title": "Toggle buttons",
+      "family": "Basic controls",
+      "states": "Off/on, pressed feedback, focus, and disabled on state.",
+      "keys": "Space or Enter toggles the focused button.",
+      "note": "Keep the label stable and expose its persistent state with aria-pressed. A momentary command needs no aria-pressed.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+        }
+      ],
+      "file": "toggle.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "checkbox",
+      "title": "Checkboxes and mixed state",
+      "family": "Basic controls",
+      "states": "Unchecked, checked, mixed aggregate, focused, disabled checked.",
+      "keys": "Tab visits each enabled checkbox; Space toggles. Activating a mixed parent selects all children.",
+      "note": "Mixed describes an aggregate, not a third saved boolean. Setting indeterminate is separate from checked.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/"
+        }
+      ],
+      "file": "checkbox.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "radio",
+      "title": "Radio-button groups",
+      "family": "Basic controls",
+      "states": "One selected option, focus, and disabled option. The legend labels the choice as a whole.",
+      "keys": "Tab enters or leaves the group; arrow keys choose among enabled options; Space selects.",
+      "note": "Native inputs with a shared name supply mutual exclusion and keyboard behavior. Separate unrelated groups need different names.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+        }
+      ],
+      "file": "radio.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "text",
+      "title": "Text fields and validation",
+      "family": "Basic controls",
+      "states": "Editable, read-only (selectable), disabled, password, and invalid with a connected explanation.",
+      "keys": "Native selection, clipboard, Home/End and text editing keys remain available. Enter submits.",
+      "note": "Do not intercept typing to implement application shortcuts. Validation appears beside the field and uses browser constraint validation.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "text.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "multiline",
+      "title": "Multiline text",
+      "family": "Basic controls",
+      "states": "Multiple lines, selection, scrolling, focus and resize.",
+      "keys": "Enter inserts a new line; Tab moves to Save. Native Ctrl+A/C/X/V and navigation work.",
+      "note": "This is plain text. RichEdit, embedded objects and document formatting need a separate editor integration.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "multiline.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "spinner",
+      "title": "Numeric field and spin control",
+      "family": "Basic controls",
+      "states": "Editable, increment/decrement, minimum/maximum and invalid typed values.",
+      "keys": "Up/Down changes one step; typing and native text selection work. Tab exits.",
+      "note": "A native number input avoids inventing text editing rules. Its arrow artwork is browser dependent; paired custom spin buttons must preserve the same labeled field and bounds.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/"
+        }
+      ],
+      "file": "spinner.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "select",
+      "title": "Drop-down selection",
+      "family": "Basic controls",
+      "states": "Closed/open, selected option, disabled option and disabled control.",
+      "keys": "Native arrows, type-ahead, Alt+Down and Escape behavior follow the browser and host.",
+      "note": "The popup belongs to the browser or OS. Do not promise pixel-identical option menus on every host.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "select.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "combobox",
+      "title": "Editable combo box",
+      "family": "Basic controls",
+      "states": "Free text, filtered suggestions, active suggestion distinct from committed value, empty results, closed popup.",
+      "keys": "Down/Up opens and moves suggestions; Enter accepts; Escape dismisses without replacing text; Tab leaves. Home/End edit text.",
+      "note": "A modern ARIA adaptation. DOM focus stays in the field while aria-activedescendant names the current option. Native edit keys are not captured.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/"
+        }
+      ],
+      "file": "combobox.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "listbox",
+      "title": "Single-selection list box",
+      "family": "Basic controls",
+      "states": "Selected row, focus, scroll and disabled item. Selection does not activate the document.",
+      "keys": "Arrows, Home/End and type-ahead choose an item; Tab reaches Open; Enter activates the button.",
+      "note": "This native list deliberately keeps selection and the explicit Open action separate.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/"
+        }
+      ],
+      "file": "listbox.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "multiselect",
+      "title": "Multiple-selection list box",
+      "family": "Basic controls",
+      "states": "Discontiguous selections, range selection and empty selection.",
+      "keys": "Native modifier+arrow/Space selection varies by platform; Ctrl+A selects all on Windows. Tab leaves.",
+      "note": "The native multiple select retains host keyboard behavior; custom lists must choose and document a selection model.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/"
+        }
+      ],
+      "file": "multiselect.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "groupbox",
+      "title": "Group boxes and labels",
+      "family": "Basic controls",
+      "states": "Etched group, legend interrupting the border, labels, enabled and disabled groups.",
+      "keys": "The group itself adds no Tab stop. Tab and arrows operate the contained controls.",
+      "note": "Use fieldset and legend for a related set. Borders alone do not provide the group name to assistive technology.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "groupbox.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "slider",
+      "title": "Horizontal and vertical sliders",
+      "family": "Feedback and layout",
+      "states": "Horizontal/vertical, value, bounds, focus and disabled.",
+      "keys": "Native arrows change a step; Home/End reach bounds. The vertical slider uses Up to increase.",
+      "note": "CSS writing-mode is a modern browser adaptation; verify orientation and keys in each browser you support.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/slider/"
+        }
+      ],
+      "file": "slider.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "progress",
+      "title": "Progress bars",
+      "family": "Feedback and layout",
+      "states": "Determinate, indeterminate, complete and canceled.",
+      "keys": "The bar is not a Tab stop. Buttons operate this manually advanced demonstration.",
+      "note": "Use a real job’s measurements in an app; do not invent percentages. Announce milestones instead of every animation frame.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "progress.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "scrollbars",
+      "title": "Scrollbars and scrolling regions",
+      "family": "Feedback and layout",
+      "states": "Two axes, thumb, track, focus and resizable viewport.",
+      "keys": "Focus the region; arrows/Page Up/Page Down scroll. Wheel and touch retain native behavior.",
+      "note": "WebKit scrollbar styling is approximate and platform dependent. Arrow glyphs and always-visible bars are not guaranteed; use native overflow before implementing a custom scrollbar.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "scrollbars.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "tooltip",
+      "title": "Tooltips and status help",
+      "family": "Feedback and layout",
+      "states": "Delayed hover/focus hint, Escape dismissal, supplemental status text.",
+      "keys": "Tab focuses the command; Escape dismisses its tooltip; Enter or Space runs it.",
+      "note": "The button has a meaningful visible label without a tooltip. Essential instructions must remain visible. This noninteractive tooltip uses aria-describedby.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/"
+        }
+      ],
+      "file": "tooltip.html",
+      "authoring_path": "examples/widgets/controls.mjs"
+    },
+    {
+      "id": "tabs",
+      "title": "Tabs and tab panels",
+      "family": "Navigation and data",
+      "states": "Selected tab, inactive tabs, focus, persistent values in hidden panels.",
+      "keys": "Tab enters the active tab; Left/Right and Home/End select tabs; Tab enters the active panel.",
+      "note": "Automatic activation is appropriate for these local, instant panels. Later guidance discourages multiple rows; use a layout that keeps labels readable.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+        }
+      ],
+      "file": "tabs.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "toolbar",
+      "title": "Toolbar buttons and groups",
+      "family": "Navigation and data",
+      "states": "Commands, toggles, separator, disabled command and one Tab stop.",
+      "keys": "Tab enters/leaves; Left/Right and Home/End move within the toolbar; Space/Enter activates.",
+      "note": "Text labels make this sample self-contained. Icon-only versions need accessible names and visible tooltip/status help.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/"
+        }
+      ],
+      "file": "toolbar.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "tree",
+      "title": "Tree view",
+      "family": "Navigation and data",
+      "states": "Expanded/collapsed branches, visible focus and single selection; children retain their state when a parent closes.",
+      "keys": "Up/Down visits visible rows; Right expands or enters a branch; Left collapses or reaches its parent; Home/End and type-ahead navigate; Enter opens.",
+      "note": "This tree chooses selection-follows-focus. Multiselect trees and drag-and-drop are separate interaction models, not implied by this sample.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/"
+        }
+      ],
+      "file": "tree.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "listview",
+      "title": "List view and sortable columns",
+      "family": "Navigation and data",
+      "states": "Details/icons, selected item, focus and ascending/descending sort; selection survives reordering.",
+      "keys": "Tab visits sort buttons and the selected row; arrows and Home/End change row; Enter opens. Header buttons sort.",
+      "note": "A compact single-selection file list, not an editable spreadsheet grid. The responsive icon view uses linear arrow navigation. Use a full grid model for editable cells.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/grid/"
+        }
+      ],
+      "file": "listview.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "header",
+      "title": "Column header and resizing",
+      "family": "Navigation and data",
+      "states": "Sort direction, bounded width, pointer resizing, focus and keyboard resizing.",
+      "keys": "Focus the separator; Left/Right changes width 5%; Home/End reaches bounds; Escape cancels an active pointer drag.",
+      "note": "The column divider uses the modern separator pattern and exposes its width. Sorting remains a separate button.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/"
+        }
+      ],
+      "file": "header.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "splitter",
+      "title": "Resizable split panes",
+      "family": "Feedback and layout",
+      "states": "Bounded pane widths, pointer capture, keyboard focus and canceled drag.",
+      "keys": "Tab reaches the divider; Left/Right adjusts 5%; Home/End reaches limits; Escape cancels an active drag.",
+      "note": "The divider is not a scroll bar. Touch resizing uses pointer events; minimum widths keep both panes reachable.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/"
+        }
+      ],
+      "file": "splitter.html",
+      "authoring_path": "examples/widgets/navigation.mjs"
+    },
+    {
+      "id": "menus",
+      "title": "Menu bar, submenus and recent files",
+      "family": "Navigation and data",
+      "states": "Menu-bar mode, dropdown, delayed pointer submenu, disabled item, check mark, exclusive radio mark and numbered inline MRU group.",
+      "keys": "Alt alone or F10 focuses the bar; Alt+F/V opens a menu. Arrows navigate; Enter/Space activates; underlined letters select. Escape closes one layer at a time, then exits the bar and restores focus. Tab leaves.",
+      "note": "The 1995 draft describes staged menu dismissal and sparse cascades. Short inline MRUs above a separated final Exit match period examples; long/grouped histories may use a submenu. ARIA and the 350 ms pointer delay are explicit browser choices. Ctrl+N is illustrative menu text, not a registered browser shortcut.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/"
+        }
+      ],
+      "file": "menus.html",
+      "authoring_path": "examples/widgets/menus.mjs"
+    },
+    {
+      "id": "context-menu",
+      "title": "Context menus",
+      "family": "Navigation and data",
+      "states": "Pointer and keyboard invocation, disabled command, bounded horizontal placement and focus restoration.",
+      "keys": "Shift+F10 or the context-menu key opens for the focused document; Up/Down, Home/End and mnemonic letters navigate; Enter selects; Escape restores focus.",
+      "note": "A context menu supplements visible commands in a real app. This sample uses no menu bar; browser context menus outside its target remain available.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/"
+        }
+      ],
+      "file": "context-menu.html",
+      "authoring_path": "examples/widgets/menus.mjs"
+    },
+    {
+      "id": "modal",
+      "title": "Modal dialog and focus restoration",
+      "family": "Windows and dialogs",
+      "states": "Closed/open modal, default action, validation, cancellation, inert background and restored focus.",
+      "keys": "Tab stays within the native dialog; Enter submits the field; Escape cancels; closing returns focus to Rename document.",
+      "note": "Native HTML dialog supplies browser modality. Electron caption buttons and other native host windows require separate coordination; CSS cannot block host window controls.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+        }
+      ],
+      "file": "modal.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "modeless",
+      "title": "Modeless Find dialog",
+      "family": "Windows and dialogs",
+      "states": "Open without blocking the document, repeated search, wraparound, match-case and not found.",
+      "keys": "Tab can leave the dialog for the document. Enter runs Find next; Escape closes when focus is in the dialog; Close restores its trigger.",
+      "note": "HTML dialog.show() is modeless. This example stays in document flow rather than pretending to manage native desktop window stacking.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "modeless.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "properties",
+      "title": "Property sheet with Apply and Cancel",
+      "family": "Windows and dialogs",
+      "states": "Cross-page draft, Apply enabled only when changed, OK commit/close, Cancel rollback since last Apply, explicit caption Close decision.",
+      "keys": "Arrows switch tabs; Tab enters fields; Escape inside the sheet acts as Cancel. Caption Close offers Apply, Discard, or Keep editing when dirty.",
+      "note": "A fixed-object modeless property sheet. Apply commits every page and Cancel never undoes an earlier Apply. The draft’s distinct Close behavior is modeled explicitly here; it is not a requirement to prompt on every dialog’s X.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+        }
+      ],
+      "file": "properties.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "message",
+      "title": "Message box and safe default",
+      "family": "Windows and dialogs",
+      "states": "Question, destructive action, safe initial focus/default and explicit outcome.",
+      "keys": "Enter initially cancels; Tab reaches Delete; Escape cancels; focus returns to the trigger.",
+      "note": "Action labels say what will happen. A destructive choice should not become the initial default merely because it is visually primary. Nothing on disk is removed.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+        }
+      ],
+      "file": "message.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "wizard",
+      "title": "Wizard with validation and backtracking",
+      "family": "Windows and dialogs",
+      "states": "First/middle/final step, required input, preserved draft while going Back, Finish commit and Cancel discard.",
+      "keys": "Tab operates the current page. Back/Next are explicit buttons; Escape cancels. Step heading receives focus when the page changes.",
+      "note": "This is an original small workflow, not a generic wizard framework. Page transitions validate only the information needed to proceed.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "wizard.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "color",
+      "title": "Palette, color well and color dialog",
+      "family": "Specialized controls",
+      "states": "Swatches, RGB values, preview draft, committed well, validation and cancel rollback.",
+      "keys": "Tab reaches the palette and numeric fields; arrows select a palette color; native number arrows edit components; Escape cancels.",
+      "note": "A deliberately small browser color dialog. It does not emulate the native Windows custom-color store, hue/saturation plane, system palette or color management.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        },
+        {
+          "label": "Modern browser accessibility pattern",
+          "url": "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+        }
+      ],
+      "file": "color.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "font",
+      "title": "Font dialog with sample",
+      "family": "Specialized controls",
+      "states": "Family, size, bold/italic, live draft sample, commit and cancel.",
+      "keys": "Native select, numeric and checkbox keys work; Escape cancels; focus returns to Choose font.",
+      "note": "Browser CSS requests fonts; fallback depends on installed fonts. This is not native font enumeration or a RichEdit formatting engine.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "font.html",
+      "authoring_path": "examples/widgets/dialogs.mjs"
+    },
+    {
+      "id": "window",
+      "title": "Window shell, system menu, move and size",
+      "family": "Windows and dialogs",
+      "states": "Active caption, system menu, normal/minimized/maximized/restored bounds, close/reopen, move/size and cancellation.",
+      "keys": "Alt+Space within the sample opens its system menu. Choose Move or Size, then arrows (Shift for 1 px), Enter to keep, Escape to revert. Caption buttons are labeled.",
+      "note": "A browser child-window pattern, not OS window chrome or full MDI management. Native Electron controls must use host APIs. This sample constrains geometry to its workspace.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "window.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "open-file",
+      "title": "Open file through the browser",
+      "family": "Host integrations",
+      "states": "No selection, chosen file, successful read, preview limit and read failure. Canceling the host picker keeps the existing document.",
+      "keys": "Tab reaches the native file input; activate it to open the host picker. Picker navigation and cancellation belong to the browser/OS.",
+      "note": "A working host adapter, not a drawn Windows 95 file dialog. A browser cannot enumerate arbitrary folders or guarantee native MRU/filter behavior. Only a user-selected file is read.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "open-file.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "save-file",
+      "title": "Save file through the browser",
+      "family": "Host integrations",
+      "states": "Edited content/name and a real UTF-8 text download request.",
+      "keys": "Tab reaches Save; Space or Enter requests the download. Destination prompts follow browser settings.",
+      "note": "The browser may download immediately or ask for a destination. A download request is not proof a file was saved. For overwrite confirmation, persistent paths and native Save As, use a host adapter.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "save-file.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "print",
+      "title": "Print through the browser",
+      "family": "Host integrations",
+      "states": "Screen/print layouts and print-dialog lifecycle.",
+      "keys": "Activate Print to use the host dialog; its controls and Escape behavior are native.",
+      "note": "Page Setup, Print Setup, printer capabilities and actual job completion need host integration. afterprint also fires when printing is canceled.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "print.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "hotkey",
+      "title": "Hot-key input",
+      "family": "Specialized controls",
+      "states": "Recorded chord, empty value, canceled capture and invalid chord.",
+      "keys": "Modified keys record a shortcut; Tab always leaves; Escape reverts to the value at focus entry.",
+      "note": "A browser capture field, not the Windows hot-key common control. Reserved OS/browser chords may never reach the page. A consuming app must validate conflicts and registration failures.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "hotkey.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "rich-text",
+      "title": "Rich text editing boundary",
+      "family": "Host integrations",
+      "states": "Editable rich content, selection, multiline input, browser clipboard and undo.",
+      "keys": "Native contenteditable editing keys apply. Tab leaves the editor; the example registers no formatting shortcuts.",
+      "note": "This is a browser adapter with basic editing only, not a reusable RichEdit/RTF engine. Production formatting, reliable undo, safe paste/import and serialization need a dedicated editor or native RichEdit. Never insert untrusted HTML directly.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "rich-text.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    },
+    {
+      "id": "animation",
+      "title": "Animation display",
+      "family": "Specialized controls",
+      "states": "Static initial image, explicit play/stop and accessible description.",
+      "keys": "Tab reaches Play; Space/Enter toggles playback.",
+      "note": "Original SVG artwork and Web Animations replace the period AVI animation control. Motion never auto-starts; this sample carries no AVI decoding or native common-control implementation.",
+      "sources": [
+        {
+          "label": "Microsoft preliminary guide (1995), chapters 7–8",
+          "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf"
+        }
+      ],
+      "file": "animation.html",
+      "authoring_path": "examples/widgets/host.mjs"
+    }
+  ]
+}

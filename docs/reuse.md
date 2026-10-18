@@ -2,6 +2,8 @@
 
 ## Choose the right starting point
 
+For one control or a small dialog, begin with the [independent examples](widget-coverage.md). Each generated HTML file opens by itself and includes its markup, styles, initializer, behavior notes and limits. Use the archived app sources below for richer workspace context; do not copy a whole application to obtain one control.
+
 For a compact utility or player, begin with ProcGen FM's [radio stylesheet](../references/sausage-music/web/site/radio.css) and [markup](../references/sausage-music/web/site/radio.html). For a desktop editor, begin with Vector95's [classic stylesheet](../references/vector95/src/classic.css), [menu controller](../references/vector95/src/menus.js), and [widget catalogue](widgets.md).
 
 Read [the design guide](design-guide.md) before copying styles. It records the actual typography, the late CSS overrides, and the distinction between momentary press, persistent selection, and keyboard focus.
