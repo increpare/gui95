@@ -21,7 +21,7 @@
 - [x] Add `kit/cli.mjs` commands for inventory, component/icon extraction, layout/starter generation, evidence, repair, update and verification. Validate before writing and refuse overwriting existing output. Package shared component assets and helper scripts into generated app projects.
 - [x] Update `mcp/package.mjs`, plugin workflow, root skill/docs and service smoke checks. Exclude OS metadata in the archive process itself and test tar extraction through a fresh content root. Add Caddy deployment documentation and annotate real platform verification limits.
 - [x] Run the whole Node suite, browser suite, generated-project checks, snapshot integrity and full extracted deployment. Review the diff against all seven requirements and resolve issues before committing.
-- [ ] Push the feature branch and create/attach a draft PR based on PR #4's branch. Build from the committed revision, upload to a fresh private release directory, install via the existing user-service script, verify local and public endpoints, artifacts, content hashes, private state and rollback paths.
+- [x] Push the feature branch and create/attach a draft PR based on PR #4's branch. Build from the committed revision, upload to a fresh private release directory, install via the existing user-service script, verify local and public endpoints, artifacts, content hashes, private state and rollback paths.
 
 ## API checks
 
