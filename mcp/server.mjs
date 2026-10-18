@@ -8,10 +8,13 @@ import { createHash, randomBytes } from "node:crypto";
 import { isIP } from "node:net";
 import { loadCatalog, materialKinds } from "./catalog.mjs";
 import { createStore, createRateLimiter } from "./store.mjs";
+import { createKit } from "./kit.mjs";
+import { registerKitTools } from "./kit-tools.mjs";
 
-export const VERSION = "1.0.0";
+export const VERSION = "1.1.0";
 export const instructions = [
   "Use GUI95 to build, restyle, or review Windows 95-inspired web and Electron interfaces.",
+  "Call list_gui95_kits for standalone components, original CC0 icons, structured layouts, browser/Electron starters and local verification. Fetch evidence, repairs and version guidance with the specialized tools. Download complete artifacts and verify their hashes before integrating.",
   "For a new app, start with list_gui95_materials: it includes a workflow, quality guides, control families and the full public inventory.",
   "Search current guidance. Widget hits include a widget_id: get_gui95_widget returns its complete runnable HTML, states, keyboard rules, scope, sources, verification and preview/download links.",
   "Use get_gui95_asset for icons, fonts and screenshots; read_gui95_reference for source, tools, tests and notices. Follow next_cursor including its column to retrieve long source without loss.",
@@ -36,10 +39,11 @@ export async function createApplication(options = {}) {
   const host = options.host ?? process.env.GUI95_HOST ?? "127.0.0.1";
   const catalog = await loadCatalog(contentRoot);
   const store = await createStore(stateDir);
+  const kit = createKit({ root: options.kitRoot ?? path.join(here, "../kit"), publicURL: publicURL.href, catalog, contentRoot });
   const app = createMcpExpressApp({ host, allowedHosts: [publicURL.hostname, "127.0.0.1", "localhost", "[::1]"] });
   app.disable("x-powered-by");
   const rate = createRateLimiter();
-  const previewRate = createRateLimiter({limit:600,windowMs:60000});
+  const assetRate = createRateLimiter({ limit: 600 });
   const feedbackRate = createRateLimiter({ limit: 5, windowMs: 3600000 });
   const salt = randomBytes(32);
   function clientKey(req) {
@@ -48,10 +52,10 @@ export async function createApplication(options = {}) {
     if (["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(address) && isIP(req.headers["x-real-ip"] ?? "")) address = req.headers["x-real-ip"];
     return createHash("sha256").update(salt).update(address).digest("hex");
   }
-  const referenceURL = (name) => new URL("reference?path=" + encodeURIComponent(name), publicURL).href;
+  const referenceURL = (name) => new URL("reference?path=" + encodeURIComponent(name) + "&sha256=" + catalog.files.get(name).sha256, publicURL).href;
   const downloadURL = (name) => new URL("asset?path=" + encodeURIComponent(name), publicURL).href;
   const previewURL = (name) => name.startsWith('demo/dist/') ? new URL('preview/'+name.slice('demo/dist/'.length),publicURL).href : undefined;
-  const link = item => ({...item,url:referenceURL(item.path),download_url:downloadURL(item.path),...(previewURL(item.path)?{preview_url:previewURL(item.path)}:{})});
+  const link = item => ({...item,upstream_context_url:item.source_url,source_url:referenceURL(item.path),url:referenceURL(item.path),download_url:downloadURL(item.path),...(previewURL(item.path)?{preview_url:previewURL(item.path)}:{})});
   const result = (data) => ({ content: [{ type: "text", text: JSON.stringify(data) }], structuredContent: data });
   function mcpServer() {
     const server = new McpServer({ name: "gui95", version: VERSION }, { instructions });
@@ -129,21 +133,56 @@ export async function createApplication(options = {}) {
       return { ...(await store.submit({ ...report, content_revision: catalog.revision })), status: "received",
         message: "Saved to the maintainer's private inbox for review. This does not change GUI95 automatically." };
     });
+    registerKitTools(tool, kit);
     return server;
   }
   app.use((req, res, next) => {
     res.setHeader("Cache-Control", "no-store");
     res.setHeader("X-Content-Type-Options", "nosniff");
-    const publicRead=req.method==='GET'&&(req.path===basePath+'/asset'||req.path.startsWith(basePath+'/preview/'));
+    const publicRead = req.method === "GET" && (req.path === basePath + "/asset" || req.path.startsWith(basePath + "/preview/"));
     if (req.headers.origin && req.headers.origin !== publicURL.origin && !publicRead) return res.status(403).json({ error: "Origin not allowed." });
-    if (!(publicRead?previewRate:rate)(clientKey(req))) return res.status(429).setHeader("Retry-After", "60").json({ error: "Too many requests." });
+    const requestRate = req.method === "GET" && (publicRead || req.path.startsWith(basePath + "/icons") || req.path.startsWith(basePath + "/kit/") || req.path === basePath + "/kit.zip") ? assetRate : rate;
+    if (!requestRate(clientKey(req))) return res.status(429).setHeader("Retry-After", "60").json({ error: "Too many requests." });
     next();
   });
-  app.get(basePath + "/healthz", (_req, res) => res.json({ status: "ok", version: VERSION, content_revision: catalog.revision, references: catalog.files.size,widgets:catalog.widgets.size }));
+  app.get(basePath + "/icons", async (_req, res, next) => {
+    try {
+      const found = await kit.icons({limit:500});
+      const items = found.icons.map(icon => '<figure><img width="32" height="32" src="' + basePath + '/icons/' + icon.name + '.png?size=32" alt=""><figcaption>' + icon.name + '</figcaption></figure>').join('');
+      res.type("text/html").send('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GUI95 CC0 icons</title><link rel="stylesheet" href="' + basePath + '/kit/components/gui95.css"><style>body{padding:20px}main{max-width:1100px;margin:auto}.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}figure{margin:0;padding:12px;text-align:center;border:1px solid #808080}img{image-rendering:pixelated}figcaption{margin-top:8px;overflow-wrap:anywhere}</style><body class="gui95"><main><h1>Original GUI95 CC0 icons</h1><p>' + found.icons.length + ' semantic icons · 16 and 32 pixels · normal, selected and disabled states · SVG and PNG</p><p><a href="' + basePath + '/icons.zip">Download icon pack</a> · <a href="' + basePath + '/icons/contact-sheet.png">All sizes and states</a> · <a href="' + basePath + '/kit.zip">Download build kit</a></p><div class="icons">' + items + '</div></main></body></html>');
+    } catch (error) { next(error); }
+  });
+  app.get(basePath + "/icons/contact-sheet.png", async (_req, res, next) => {
+    try { res.type("image/png").send((await kit.iconSheet()).png); } catch(error) { next(error); }
+  });
+  app.get(basePath + "/icons.zip", async (_req, res, next) => {
+    try { const result = await kit.iconPack(); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-cc0-icons-1.0.0.zip"').send(kit.artifacts.get(result.artifact.id).bytes); }
+    catch (error) { next(error); }
+  });
+  app.get(new RegExp("^" + basePath + "/icons/([a-zA-Z0-9.-]+)\\.(svg|png)$"), async (req, res) => {
+    try { const icon = await kit.iconFile({name:req.params[0],format:req.params[1],size:Number(req.query.size ?? 16),state:req.query.state ?? "normal",document:req.query.document === "true"}); res.type(icon.mimeType).send(icon.data); }
+    catch { res.status(404).type("text/plain").send("Unknown icon or variant."); }
+  });
+  app.get(basePath + "/kit.json", (_req, res) => res.json(kit.inventory()));
+  app.get(basePath + "/artifacts/:id.zip", (req, res) => {
+    const artifact = kit.artifacts.get(req.params.id);
+    if (!artifact) return res.status(404).json({ error: "Artifact expired or unknown. Regenerate the same request to obtain a fresh download." });
+    res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-' + artifact.id + '.zip"').send(artifact.bytes);
+  });
+  app.get(basePath + "/kit.zip", async (_req, res, next) => {
+    try { const bundle = await kit.fullKit(); const artifact = kit.artifacts.get(bundle.artifact.id); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-build-kit-1.0.0.zip"').send(artifact.bytes); }
+    catch (error) { next(error); }
+  });
+  app.get(new RegExp("^" + basePath + "/kit/(.+)$"), async (req, res, next) => {
+    try { const file = await kit.publicFile(req.params[0]); if (!file) return res.status(404).type("text/plain").send("Unknown kit file."); res.type(file.mimeType).send(file.bytes); }
+    catch (error) { next(error); }
+  });
+  app.get(basePath + "/healthz", (_req, res) => res.json({ status: "ok", version: VERSION, content_revision: catalog.revision, references: catalog.files.size, widgets: catalog.widgets.size }));
   app.get(basePath + "/privacy", (_req, res) => res.type("text/plain").send(catalog.files.get("PRIVACY.md").text));
   app.get(basePath + "/reference", (req, res) => {
     const file = catalog.files.get(req.query.path);
     if (!file) return res.status(404).type("text/plain").send("Unknown reference.");
+    if (req.query.sha256 && req.query.sha256 !== file.sha256) return res.status(409).type("text/plain").send("Reference changed since this citation was issued. Request fresh evidence.");
     if (!file.lines) return res.status(400).type('text/plain').send('Binary asset: use get_gui95_asset or the asset download URL.');
     res.type("text/plain").send(file.text);
   });
@@ -167,7 +206,7 @@ export async function createApplication(options = {}) {
     res.type(file.mime_type).send(file.bytes);
   });
   app.get([basePath, basePath + "/"], (_req, res) => {
-    res.type("text/html").send('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GUI95 MCP</title><main><h1>GUI95 MCP</h1><p>Complete Windows 95-style interface guidance, independent widget templates, source, tools, assets, verification, and an explicit agent feedback inbox.</p><p>MCP endpoint: <code>' + basePath + '/mcp</code></p><p>Feedback is private, labelled by verification, and reviewed before it changes guidance. AI agents can report reusable lessons with the user’s authorization.</p><p><a href="' + basePath + '/privacy">Privacy and retention</a> · <a href="https://github.com/increpare/gui95/issues">Support</a> · <a href="' + basePath + '/preview/widgets/">Widget gallery</a> · <a href="' + basePath + '/preview/index.html">Desktop demo</a></p></main></html>');
+    res.type("text/html").send('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GUI95 MCP</title><main><h1>GUI95 MCP</h1><p>Standalone Windows 95-style components, original CC0 icons, layout and app generators, local verification, precise evidence, and preserved source examples.</p><p>MCP endpoint: <code>' + basePath + '/mcp</code></p><p><a href="' + basePath + '/kit.zip">Download build kit</a> · <a href="' + basePath + '/kit/components/gallery.html">Component gallery</a> · <a href="' + basePath + '/icons">CC0 icon library</a> · <a href="' + basePath + '/kit.json">Kit inventory</a></p><p>Feedback is private, labelled by verification, and reviewed before it changes guidance. AI agents can report reusable lessons with the user’s authorization.</p><p><a href="' + basePath + '/privacy">Privacy and retention</a> · <a href="https://github.com/increpare/gui95/issues">Support</a> · <a href="' + basePath + '/preview/widgets/">Widget gallery</a> · <a href="' + basePath + '/preview/index.html">Desktop demo</a></p></main></html>');
   });
   app.post(basePath + "/mcp", async (req, res) => {
     if (req.body?.method === "tools/call" && req.body?.params?.name === "submit_gui95_feedback" && !feedbackRate(clientKey(req))) {
@@ -189,7 +228,7 @@ export async function createApplication(options = {}) {
   app.use((error, _req, res, _next) => res.status(error.status === 413 ? 413 : 400).json({ error: "Invalid request body." }));
   const pruning = setInterval(() => { void store.prune().catch(() => console.error("GUI95 data retention cleanup failed.")); }, 3600000);
   pruning.unref();
-  return { app, catalog, store, close: async () => { clearInterval(pruning); await store.flush(); } };
+  return { app, catalog, store, kit, close: async () => { clearInterval(pruning); kit.artifacts.close(); await store.flush(); } };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
