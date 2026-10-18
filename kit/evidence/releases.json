@@ -1,0 +1,102 @@
+[
+  {
+    "id": "menu",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "dialog",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "splitter",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "tree",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "toolbar",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "number-field",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "ui-control",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "electron-shell",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "integration-guidance",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "save-lifecycle",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "integration-guidance",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "packaging",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "integration-guidance",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  },
+  {
+    "id": "scaling",
+    "latest": "1.0.0",
+    "released_versions": [
+      "1.0.0"
+    ],
+    "kind": "integration-guidance",
+    "compatibility": "unverified",
+    "note": "Initial build-kit catalog. A version match does not establish consumer, browser, operating-system, or Electron compatibility."
+  }
+]

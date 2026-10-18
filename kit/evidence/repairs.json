@@ -1,0 +1,371 @@
+[
+  {
+    "id": "menu-stationary-pointer",
+    "title": "Keyboard menu selection jumps beneath a stationary pointer",
+    "components": [
+      "menu"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "Opening or navigating a menu by keyboard unexpectedly changes the active command.",
+      "A submenu closes without intentional pointer movement."
+    ],
+    "cause": "Layout can place a new menu item beneath the resting pointer and emit a pointerover event that steals keyboard ownership.",
+    "minimal_fix": "Retain keyboard input ownership until pointer coordinates actually change; restore intentional pointer navigation and press-and-drag activation on genuine movement.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "stationary pointer preserves keyboard submenu ownership; movement resumes pointer navigation",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "menu-pointer-ownership",
+      "menu-web-keyboard"
+    ],
+    "limitations": "Applies to integrations of the v1 API, not a declaration that every v1 menu is broken. Keep the pointer parked over the menu during the regression."
+  },
+  {
+    "id": "dialog-immediate-reopen",
+    "title": "Closed dialog cannot reopen immediately",
+    "components": [
+      "dialog"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "Closing and immediately opening the same dialog leaves it invisible or ignored.",
+      "A completed dialog still owns an application stack or pending promise."
+    ],
+    "cause": "Application cleanup waits for a later native close event while commands already observe stale open state.",
+    "minimal_fix": "Call one idempotent finish path synchronously from the application close operation; remove the stack entry, settle callers, update inert regions, and restore logical focus. Retain native close as a fallback.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "dialog close settles immediately, permits synchronous reopen and restores opener focus",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "dialog-close-lifecycle",
+      "dialog-web-focus"
+    ],
+    "limitations": "The consumer must settle its own promises and command guards. The generic dialog cannot infer document-specific completion semantics."
+  },
+  {
+    "id": "dialog-escape-falls-through",
+    "title": "Held Escape closes a lower dialog unexpectedly",
+    "components": [
+      "dialog"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "One held Escape dismisses a confirmation and then the dialog underneath.",
+      "Nested close handling returns focus to the wrong opener."
+    ],
+    "cause": "Repeated keyboard input or event propagation is handled again after the top dialog has been removed.",
+    "minimal_fix": "Let only the top dialog handle the current Escape and consume it; ignore repeated Escape until a new key press, and restore the correct opener when the top entry settles.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "nested dialogs consume one Escape and ignore repeated Escape on the lower dialog",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "dialog-close-lifecycle",
+      "dialog-web-focus"
+    ],
+    "limitations": "Verify native cancellation and application-managed dialogs in the target host. Focus behavior changes when an opener has been removed."
+  },
+  {
+    "id": "splitter-bounds-and-keyboard",
+    "title": "Splitter cannot be operated by keyboard or escapes pane bounds",
+    "components": [
+      "splitter"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "A pointer drag collapses a pane beyond its declared minimum.",
+      "The divider can only be moved by dragging."
+    ],
+    "cause": "Pointer-only movement bypasses a shared bounded value model, or the focusable separator does not expose and operate its range.",
+    "minimal_fix": "Use one clamped value update for keyboard and pointer changes; expose separator name, orientation, controls, and values. Track capture and pointer cancellation without leaving a stuck drag.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "splitter keyboard and pointer resizing stay within both pane bounds",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "splitter-web-keyboard"
+    ],
+    "limitations": "APG splitter review is incomplete. Choose pane minima and collapse policy for the consumer; this record does not prove screen-reader support."
+  },
+  {
+    "id": "tree-logical-navigation",
+    "title": "Tree disclosure keys lose the hierarchy",
+    "components": [
+      "tree"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "Right/Left do not expand or reach the logical child/parent.",
+      "Rebuilding a branch loses focused item identity."
+    ],
+    "cause": "Focus order is derived from unrelated application commands or stale DOM positions rather than the visible hierarchy.",
+    "minimal_fix": "Keep stable node IDs, owned child groups, truthful expansion state, and visible-node order; use Right/Left for expand/child/collapse/parent and Up/Down for visible siblings and descendants.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "tree arrows expand, enter a child and return to the logical parent",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "tree-web-keyboard"
+    ],
+    "limitations": "Selection and activation policy remain explicit consumer choices. Archived layer-panel behavior is an example, not a general tree contract."
+  },
+  {
+    "id": "toolbar-focused-controls",
+    "title": "Toolbar keys interfere with native controls or skip toggles",
+    "components": [
+      "toolbar"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "Keyboard users cannot reach the toolbar controls.",
+      "Arrow keys or Space unexpectedly trigger workspace commands.",
+      "Toggle visuals disagree with aria-pressed."
+    ],
+    "cause": "The toolbar or application intercepts keys without recognizing the focused control, or roving focus and pressed state drift from the control model.",
+    "minimal_fix": "Maintain one reachable toolbar tab stop, skip disabled controls deliberately, expose pressed state from the same model as the visual state, and reserve text/value editing keys before application shortcuts run.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "toolbar arrows skip disabled controls and exclusive toggles expose pressed state",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "toolbar-web-keyboard"
+    ],
+    "limitations": "The available case covers toolbar navigation and toggles. Consumers must also exercise native text fields, sliders, Space activation, and application shortcut routing."
+  },
+  {
+    "id": "number-draft-before-step",
+    "title": "Spin button steps from a stale numeric value",
+    "components": [
+      "number-field"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "A typed value is discarded when an increase/decrease button is pressed.",
+      "Stepping commits twice or produces the wrong undo order."
+    ],
+    "cause": "The step button preserves focus and prevents blur, so the pending text draft has not reached the numeric model before stepping.",
+    "minimal_fix": "Parse and settle the pending draft explicitly before applying a step; clamp through one value path, emit one commit per logical action, and keep native text editing intact.",
+    "regression_cases": [
+      {
+        "file": "kit/test/components.test.mjs",
+        "name": "bounded numbers commit typed drafts before stepping and clamp to declared range",
+        "command": "node --test kit/test/components.test.mjs",
+        "status": "available"
+      }
+    ],
+    "evidence_ids": [
+      "number-field-web-editing",
+      "toolbar-web-keyboard"
+    ],
+    "limitations": "Decimal precision, invalid-input policy, and undo integration are consumer responsibilities. Other pending fields need their own explicit settling policy."
+  },
+  {
+    "id": "electron-overbroad-preload",
+    "title": "Renderer has broader native privileges than required",
+    "components": [
+      "electron-shell"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "Renderer code can invoke arbitrary IPC channels or Node APIs.",
+      "Unexpected navigation loads content with native privileges."
+    ],
+    "cause": "Node integration, disabled isolation, an unrestricted bridge, or unchecked IPC/navigation makes the privilege boundary broader than the application needs.",
+    "minimal_fix": "Use isolation and sandboxing, keep Node integration disabled for remote content, expose specific validated preload methods, validate IPC senders, and deny unexpected navigation and window creation.",
+    "regression_cases": [
+      {
+        "file": null,
+        "name": "host rejects an untrusted IPC sender, arbitrary channel, navigation, and new-window URL",
+        "command": null,
+        "status": "consumer_required"
+      }
+    ],
+    "evidence_ids": [
+      "electron-renderer-isolation",
+      "electron-narrow-bridge"
+    ],
+    "limitations": "Requires a consumer Electron integration test and threat-specific review. No security compatibility or native runtime test is claimed by this catalog."
+  },
+  {
+    "id": "save-pending-revision",
+    "title": "Save-and-Close discards edits made during a pending save",
+    "components": [
+      "save-lifecycle"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "The dirty marker disappears although edits occurred after serialization.",
+      "Save-and-Close closes after writing an older revision."
+    ],
+    "cause": "Save completion marks the current model clean instead of recording only the revision that was serialized.",
+    "minimal_fix": "Capture revision identity with the serialized bytes, mark that revision saved only after success, keep subsequent revisions dirty, and recheck dirty state before closing.",
+    "regression_cases": [
+      {
+        "file": null,
+        "name": "edit while native save is pending keeps the new revision dirty and prevents Save-and-Close",
+        "command": null,
+        "status": "consumer_required"
+      }
+    ],
+    "evidence_ids": [
+      "save-revision",
+      "electron-close-guard"
+    ],
+    "limitations": "The consuming app must implement the revision and write protocol. A close-cancellation API alone does not provide asynchronous save safety."
+  },
+  {
+    "id": "packaging-clean-inputs",
+    "title": "Clean Electron launch misses generated assets",
+    "components": [
+      "packaging"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "An app works in a developer checkout but fails to launch in a clean test or package.",
+      "A generated icon or other ignored input is missing."
+    ],
+    "cause": "The test launches Electron directly and bypasses the npm lifecycle hook that normally generates prerequisites.",
+    "minimal_fix": "Generate declared build inputs explicitly before direct launch and packaging, then verify the complete resource tree in a clean fixture.",
+    "regression_cases": [
+      {
+        "file": null,
+        "name": "clean checkout generates required ignored inputs before direct Electron launch",
+        "command": null,
+        "status": "consumer_required"
+      }
+    ],
+    "evidence_ids": [
+      "packaging-generated-inputs",
+      "packaging-resource-layout"
+    ],
+    "limitations": "Do not copy a consumer’s older build workaround without checking its current delivery command. The catalog has not run native packaging."
+  },
+  {
+    "id": "scaling-pixel-mapping",
+    "title": "A 1:1 preview changes meaning with display scale",
+    "components": [
+      "scaling"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "One source pixel occupies multiple physical pixels despite a physical 1:1 promise.",
+      "Moving the window to another display changes preview sharpness or mapping."
+    ],
+    "cause": "The preview equates CSS pixels with physical display pixels or does not update after devicePixelRatio changes.",
+    "minimal_fix": "Define the 1:1 promise. For physical mapping, size CSS content from raster dimensions times zoom divided by devicePixelRatio, then update when that ratio changes and verify the real host.",
+    "regression_cases": [
+      {
+        "file": null,
+        "name": "physical 1:1 raster preview updates after DPR changes and preserves the advertised mapping",
+        "command": null,
+        "status": "consumer_required"
+      }
+    ],
+    "evidence_ids": [
+      "scaling-device-pixels"
+    ],
+    "limitations": "The formula is integration guidance for a physical-pixel promise. A CSS-pixel promise uses different dimensions; fractional rasterization still needs visual inspection."
+  },
+  {
+    "id": "scaling-clipped-actions",
+    "title": "Short windows hide essential actions",
+    "components": [
+      "scaling",
+      "dialog"
+    ],
+    "scope": "integration-guidance",
+    "applicable_versions": {
+      "min": "1.0.0",
+      "max_exclusive": "2.0.0"
+    },
+    "symptoms": [
+      "OK, Cancel, or Apply is clipped at increased display scale.",
+      "Scrolling the form also scrolls essential actions out of reach."
+    ],
+    "cause": "The form and footer share an unconstrained scrolling region, or flex/grid children refuse to shrink.",
+    "minimal_fix": "Keep a constrained scrolling body and a fixed action footer, give nested flex/grid children min-height/min-width zero where appropriate, and choose a usable minimum or reachable fallback.",
+    "regression_cases": [
+      {
+        "file": null,
+        "name": "short and narrow windows at supported display scales keep action buttons visible and clickable",
+        "command": null,
+        "status": "consumer_required"
+      }
+    ],
+    "evidence_ids": [
+      "scaling-reachable-actions"
+    ],
+    "limitations": "Requires layout and pointer checks in the consumer. A single full-size screenshot does not verify short-window reachability."
+  }
+]

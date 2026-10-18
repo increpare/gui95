@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 
@@ -9,12 +9,42 @@ const client = new Client({ name: "gui95-deployment-check", version: "1.0.0" });
 try {
   await client.connect(new StreamableHTTPClientTransport(endpoint));
   const tools = await client.listTools();
-  assert.deepEqual(tools.tools.map((tool) => tool.name).sort(), ["read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
+  assert.deepEqual(tools.tools.map((tool) => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_repairs", "list_gui95_kits", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
   const search = await client.callTool({ name: "search_gui95", arguments: { query: "menu keyboard focus", limit: 2 } });
   assert.ok(search.structuredContent?.results.length);
   const read = await client.callTool({ name: "read_gui95_reference", arguments: { path: "docs/widgets.md", line_count: 5 } });
   assert.ok(read.structuredContent?.text.includes("Widget catalogue"));
   const output = { endpoint: endpoint.href, tools: tools.tools.length, references: "passed", content_revision: read.structuredContent.content_revision };
+  const invoke = async (name, args = {}) => {
+    const response = await client.callTool({ name, arguments: args });
+    assert.notEqual(response.isError, true, JSON.stringify(response));
+    return response.structuredContent;
+  };
+  const inventory = await invoke("list_gui95_kits");
+  assert.equal(inventory.components.length, 6);
+  const component = await invoke("get_gui95_component", { component: "menu" });
+  const download = new URL(component.artifact.url);
+  download.host = endpoint.host;
+  download.protocol = endpoint.protocol;
+  const response = await fetch(download);
+  assert.equal(response.status, 200);
+  const archive = Buffer.from(await response.arrayBuffer());
+  assert.equal(createHash("sha256").update(archive).digest("hex"), component.artifact.sha256);
+  const icons = await invoke("get_gui95_icons", { query: "save", limit: 2 });
+  assert.ok(icons.icons.length);
+  const icon = await invoke("get_gui95_icons", { name: icons.icons[0].name, format: "svg", size: 16 });
+  assert.equal(icon.icon.license, "CC0-1.0");
+  const layout = await invoke("generate_gui95_layout", { type: "properties", title: "Synthetic deployment layout", fields: [{ id: "name", label: "Name", type: "text" }] });
+  assert.ok(layout.files.some(file => file.path.endsWith(".html")));
+  const starter = await invoke("generate_gui95_starter", { template: "utility", name: "Synthetic Check", id: "synthetic-check" });
+  assert.ok(starter.files.some(file => file.path === "package.json"));
+  const evidence = await invoke("get_gui95_evidence", { query: "dialog", limit: 3 });
+  assert.ok(evidence.items.length);
+  const repairs = await invoke("get_gui95_repairs", { query: "pointer" });
+  assert.ok(repairs.items.length);
+  const updates = await invoke("check_gui95_updates", { manifest: { schema_version: 1, components: { menu: "1.0.0" } } });
+  assert.equal(updates.components[0].status, "current");
+  output.build_kit = { version: inventory.kit_version, components: inventory.components.length, artifact_hash: "verified", icons: "CC0 SVG passed", layout: "passed", starter: "passed", evidence: "passed", repairs: "passed", updates: "passed" };
   if (process.argv.includes("--feedback")) {
     const feedback = await client.callTool({ name: "submit_gui95_feedback", arguments: {
       consent: true, client_report_id: randomUUID(), source: "agent", category: "worked_well",

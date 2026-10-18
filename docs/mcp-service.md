@@ -2,7 +2,7 @@
 
 The optional MCP service serves current guidance and preserved reference excerpts, and accepts explicit agent or human feedback for maintainer review. The standalone skill remains usable without a server.
 
-The intended public endpoint is **https://ded.increpare.com/gui95/mcp**. This is a deployment target, not a claim that the service is live. The source, locked dependencies, tests, deployment templates, and package builder are under the repository's `mcp/` directory.
+The public endpoint is **https://ded.increpare.com/gui95/mcp**. The initial reference service was deployed and verified on 18 October 2026; build-kit source and verification are documented in [the build-kit guide](build-kit.md). The source, locked dependencies, tests, deployment templates, and package builder are under the repository's `mcp/` directory.
 
 ## Tools and feedback
 
@@ -43,3 +43,11 @@ The bundle's `service/smoke.mjs` checks a live endpoint with the real MCP client
 Read private reports on the server with `GUI95_STATE_DIR="$HOME/.local/state/gui95-mcp" node service/admin.mjs feedback`; use `usage` for aggregate counters and `--since YYYY-MM-DD` to narrow either export. These commands require the server account's filesystem access; they are not public HTTP endpoints.
 
 Keep old release directories until the new one passes its checks. To roll back, restore the saved service unit pointing at the previous release and restart that user service, leaving the persistent data directory intact.
+
+## Existing Caddy deployment
+
+The inspected Debian 12 host uses Caddy 2.6.2 and Node 24.21.0. Existing SSH access works on port 22 for locus and the administrator account. The GUI95 user service listens at 127.0.0.1:3295; user lingering is enabled. Its release is outside the document root, and state stays at ~/.local/state/gui95-mcp.
+
+The current Caddy HTTPS site matches host ded.increpare.com and paths /gui95 and /gui95/*. It redirects the bare path, preserves the complete proxy path, overwrites X-Real-IP, enforces a 100 KB request body limit, and disables access logging with `skip_log` (the directive name in Caddy 2.6). Keep using this existing route for build-kit endpoints. Validate the candidate Caddyfile before reload and keep backups on the server.
+
+The builder excludes macOS xattrs and AppleDouble files. Its extracted-archive regression check compares the served content revision with RELEASE.json and runs the standalone CLI. New releases must pass that check before upload. The hosted full-kit and icon downloads contain complete runtime/assets; local browser dependencies are installed separately from the kit lockfile.

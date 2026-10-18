@@ -7,6 +7,10 @@ description: Build or restyle Windows 95-style web and Electron interfaces using
 
 Use this collection to implement the user's requested interface in their chosen project and framework. Resolve the links below relative to this skill folder. The bundled source is a reference collection, not a component package; several modules depend on engines that are not included.
 
+## Optional maintained build kit
+
+For new apps or standalone controls, consult [the build kit](docs/build-kit.md) and its [local CLI](kit/README.md). It supplies scoped components, original CC0 icons, structured layouts, shared commands, browser/Electron starters and local verification. When connected to GUI95 MCP, call `list_gui95_kits` to discover the current release and retrieve only the required artifacts. Verify download hashes and run checks in the consuming app; preserved source and screenshots remain evidence rather than passing results. Keep new CC0 artwork separate from existing artwork/font licenses.
+
 ## Choose the reference
 
 Read the [design guide](docs/design-guide.md) and [reuse guide](docs/reuse.md), then use the [widget catalogue](docs/widgets.md) to locate only the controls needed for the task.

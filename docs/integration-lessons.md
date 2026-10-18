@@ -91,3 +91,9 @@ Tests that launch Electron directly bypass npm lifecycle hooks such as `prestart
 Carry these decisions into the consuming app and add checks for the specific regression. Keep archived sources and their manifest unchanged. Existing consumer test code is evidence of an intended regression check, not a passing result for a new extraction.
 
 See the [design guide](design-guide.md) for the base visual rules and [reuse guide](reuse.md) for extraction and attribution. Desktop packaging, grayscale text startup settings, and stable launch paths remain covered there; do not duplicate a consumer's older build workaround without checking the current delivery guidance.
+
+## Maintained components: repair roving focus when availability changes
+
+In the maintained build kit, command state can disable the control that currently owns a toolbar's Tab stop. Recompute the enabled, visible entry when disabled, aria-disabled, hidden or inert state changes, while preserving the current entry if it remains available. Otherwise every remaining enabled button can retain tabindex=-1 and Tab skips the whole toolbar. Apply the same availability rule when entering a tree branch: skip a disabled first child and reach an available sibling. Keep native value-control arrows and button Space owned by the focused control.
+
+The kit's real browser regressions exercise these state changes and verify that destroy disconnects the observers. This is new maintained-kit behavior, not a claim that the preserved application snapshots contain those fixes. Menu checkbox/radio state also needs a visible current-color mark; an aria-checked value alone does not draw the checked state.

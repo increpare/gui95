@@ -5,6 +5,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { loadCatalog } from "./catalog.mjs";
 import { VERSION } from "./server.mjs";
+import { createKit } from "./kit.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.dirname(here);
@@ -22,9 +23,13 @@ const service = path.join(deployment, "service");
 const content = path.join(deployment, "content");
 await mkdir(service, { recursive: true });
 await mkdir(content);
-for (const name of ["server.mjs", "catalog.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "package-lock.json"]) {
+for (const name of ["server.mjs", "catalog.mjs", "kit.mjs", "kit-tools.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "package-lock.json"]) {
   await cp(path.join(here, name), path.join(service, name));
 }
+await cp(path.join(root, "kit"), path.join(deployment, "kit"), { recursive: true, filter: (source) => !source.split(path.sep).some((part) => ["node_modules", "test-results", "playwright-report", "artifacts"].includes(part) || part.startsWith("._")) });
+await mkdir(path.join(deployment, "tools"));
+for (const name of ["gui95-app.mjs", "gui95-icons.mjs"]) await cp(path.join(root, "tools", name), path.join(deployment, "tools", name));
+for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.md"]) await cp(path.join(root, name), path.join(deployment, name));
 const dependencies = path.join(here, "node_modules");
 if (!(await stat(dependencies)).isDirectory()) throw new Error("Install locked MCP dependencies before packaging.");
 await cp(dependencies, path.join(service, "node_modules"), { recursive: true, dereference: true });
@@ -47,7 +52,7 @@ await cp(path.join(root, "docs/mcp-service.md"), path.join(deployment, "DEPLOYME
 const deployedCatalog = await loadCatalog(content);
 if (deployedCatalog.revision !== catalog.revision) throw new Error("Content changed while packaging; retry from a stable checkout.");
 const tarName = "gui95-mcp-deploy.tar.gz";
-const tar = spawnSync("tar", ["-czf", path.join(output, tarName), "-C", output, "gui95-mcp"], { encoding: "utf8" });
+const tar = spawnSync("tar", ["--no-xattrs", "-czf", path.join(output, tarName), "-C", output, "gui95-mcp"], { encoding: "utf8", env: { ...process.env, COPYFILE_DISABLE: "1" } });
 if (tar.status !== 0) throw new Error("Deployment archive failed: " + tar.stderr);
 
 const manifest = JSON.parse(await readFile(path.join(root, "plugin/.codex-plugin/plugin.json"), "utf8"));
@@ -56,12 +61,12 @@ manifest.version = VERSION;
 manifest.description = "Current GUI95 interface guidance and preserved source references through a hosted MCP server, with an explicit private agent feedback inbox.";
 manifest.mcpServers = "./.mcp.json";
 manifest.interface.shortDescription = "Live Windows 95 UI guidance";
-manifest.interface.longDescription = "Build or restyle Windows 95-inspired web and Electron interfaces using current GUI95 guidance and preserved Vector95 and ProcGen FM examples. Search controls and integration lessons, read bounded source excerpts, and adapt the relevant markup, CSS, and interaction behavior to your framework.\n\nThe hosted service can receive concise, authorized feedback written by an agent or a human. Reports distinguish tested results from observations and suggestions, and stay in a private maintainer inbox. No report automatically changes guidance. Do not submit private code, conversations, credentials, or personal information.\n\nThe service stores aggregate tool and reference counts without search text or user identifiers. Feedback and counters expire after 90 calendar days. Neither source application needs to be installed. GUI95 is reference guidance, not a drop-in widget library; changes still need testing in the target app. Bundled third-party notices apply. Independent project, not affiliated with Microsoft.";
+manifest.interface.longDescription = "Build or restyle Windows 95-inspired web and Electron interfaces using current GUI95 guidance and preserved Vector95 and ProcGen FM examples. Search controls and integration lessons, read bounded source excerpts, and adapt the relevant markup, CSS, and interaction behavior to your framework.\n\nThe hosted service can receive concise, authorized feedback written by an agent or a human. Reports distinguish tested results from observations and suggestions, and stay in a private maintainer inbox. No report automatically changes guidance. Do not submit private code, conversations, credentials, or personal information.\n\nThe service stores aggregate tool and reference counts without search text or user identifiers. Feedback and counters expire after 90 calendar days. Neither source application needs to be installed. The optional versioned build kit supplies standalone controls, original CC0 icons, generators and app starters. Run its local checks in the target app and retain the relevant source notices. Bundled third-party notices apply. Independent project, not affiliated with Microsoft.";
 manifest.interface.websiteURL = "https://ded.increpare.com/gui95/";
 manifest.interface.privacyPolicyURL = "https://ded.increpare.com/gui95/privacy";
-manifest.interface.capabilities = ["Find current GUI95 guidance", "Read preserved implementation excerpts", "Review keyboard and focus behavior", "Share authorized agent feedback"];
+manifest.interface.capabilities = ["Get standalone controls and original CC0 icons", "Generate layouts and browser/Electron starters", "Find precise evidence, repairs and version guidance", "Share authorized agent feedback"];
 manifest.extensions["com.openai"].review = { test_cases: JSON.parse(await readFile(path.join(here, "review-cases.json"), "utf8")) };
-manifest.extensions["com.openai"].publication.release_notes = "Initial live GUI95 reference service with bounded reads, explicit agent feedback, aggregate counters, retry-safe reports, and 90-day retention.";
+manifest.extensions["com.openai"].publication.release_notes = "GUI95 build kits: standalone components and local checks, original CC0 icons, layout and app generators, precise evidence, repairs and version guidance, alongside the private feedback inbox.";
 delete manifest.interface.screenshots;
 const pluginFiles = new Map([
   ["gui95-mcp/.codex-plugin/plugin.json", Buffer.from(JSON.stringify(manifest, null, 2) + "\n")],
@@ -118,7 +123,15 @@ end.writeUInt32LE(centralBytes.length, 12);
 end.writeUInt32LE(offset, 16);
 const zipName = "gui95-mcp-plugin.zip";
 await writeFile(path.join(output, zipName), Buffer.concat([...locals, centralBytes, end]));
+const kit = createKit({ root: path.join(root, "kit") });
+const kitExport = await kit.fullKit();
+const iconExport = await kit.iconPack();
+const kitName = "gui95-build-kit.zip";
+const iconsName = "gui95-cc0-icons.zip";
+await writeFile(path.join(output, kitName), kit.artifacts.get(kitExport.artifact.id).bytes);
+await writeFile(path.join(output, iconsName), kit.artifacts.get(iconExport.artifact.id).bytes);
+kit.artifacts.close();
 const checksumLines = [];
-for (const name of [tarName, zipName]) checksumLines.push(createHash("sha256").update(await readFile(path.join(output, name))).digest("hex") + "  " + name);
+for (const name of [tarName, zipName, kitName, iconsName]) checksumLines.push(createHash("sha256").update(await readFile(path.join(output, name))).digest("hex") + "  " + name);
 await writeFile(path.join(output, "SHA256SUMS"), checksumLines.join("\n") + "\n");
-console.log(JSON.stringify({ output, deployment: path.join(output, tarName), plugin: path.join(output, zipName), content_revision: catalog.revision }, null, 2));
+console.log(JSON.stringify({ output, deployment: path.join(output, tarName), plugin: path.join(output, zipName), kit: path.join(output, kitName), icons: path.join(output, iconsName), content_revision: catalog.revision }, null, 2));

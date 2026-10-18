@@ -1,0 +1,555 @@
+[
+  {
+    "id": "historical-menu-access-keys",
+    "topic": "menu",
+    "title": "Unique, visible menu access keys",
+    "claim": "The February 1995 draft shows underlined access-key letters in menu titles and asks for a unique access key per title.",
+    "source": {
+      "kind": "historical-primary",
+      "title": "The Windows Interface Guidelines — A Guide for Designing Software",
+      "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=116",
+      "section": "Chapter 7, Menu Titles, Figure 7.4",
+      "edition": "February 1995 preliminary draft",
+      "version": "1995-02-13",
+      "pages": {
+        "system": "pdf-viewer-one-based",
+        "values": [
+          116
+        ]
+      },
+      "checked": "2026-10-18"
+    },
+    "applicability": "Use for the historical mnemonic appearance and menu-title vocabulary.",
+    "limitations": "This is preliminary Microsoft documentation, not the final 1995 printed handbook. Viewer page 116 is not a final-book printed page.",
+    "local_refs": [
+      {
+        "path": "docs/historical-sources.md",
+        "start_line": 24,
+        "end_line": 37,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/src/menus.js",
+        "start_line": 90,
+        "end_line": 116,
+        "sha256": "8631fe89ae6fbdac95e06311b79b11bd5fac2d98368ef2e9dd4359a62e288fd9",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "historical-published-edition",
+    "topic": "design",
+    "title": "Identify the final 1995 handbook before citing it",
+    "claim": "Microsoft’s reading list identifies Windows Interface Guidelines for Software Design as Microsoft Press, 1995, ISBN 1-55615-679-0.",
+    "source": {
+      "kind": "bibliographic-primary",
+      "title": "Other Resources | Microsoft Learn",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/appuistart/other-resources#reading-list",
+      "section": "Reading List: Windows Interface Guidelines for Software Design",
+      "edition": "Bibliography, last updated 2020-09-08",
+      "version": "1995 book identification",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Use to distinguish the published handbook from the February preliminary draft.",
+    "limitations": "The bibliography verifies edition identity; it supplies no control dimensions or page-level design evidence. Do not cite it as a widget specification.",
+    "local_refs": [
+      {
+        "path": "docs/historical-sources.md",
+        "start_line": 5,
+        "end_line": 22,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "menu-web-keyboard",
+    "topic": "menu",
+    "title": "Web menu focus and submenu keys",
+    "claim": "The APG menu pattern places focus on an item when a menu opens, uses arrow keys within the composite, and returns focus to the invoking context or parent item on Escape.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Menu and Menubar Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Modern web application command menus with menu/menubar roles and deliberate composite focus management.",
+    "limitations": "APG is modern authoring guidance, not a Windows 95 appearance standard or proof of assistive-technology interoperability.",
+    "local_refs": [
+      {
+        "path": "references/vector95/src/menus.js",
+        "start_line": 270,
+        "end_line": 335,
+        "sha256": "8631fe89ae6fbdac95e06311b79b11bd5fac2d98368ef2e9dd4359a62e288fd9",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "menu-pointer-ownership",
+    "topic": "menu",
+    "title": "Keyboard menu ownership survives a stationary pointer",
+    "claim": "The local integration review identifies layout-induced pointerover as a cause of keyboard menu focus changes; it recommends retaining keyboard ownership until actual pointer movement.",
+    "source": {
+      "kind": "local-integration-guidance",
+      "title": "Lessons from GUI95 integrations",
+      "url": null,
+      "section": "Menus: keyboard focus survives a resting pointer",
+      "edition": "18 October 2026 integration review",
+      "version": null,
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Consumers where keyboard-opened menus can appear beneath the resting pointer.",
+    "limitations": "This follow-up guidance does not change the preserved menu source. Verify mouse press-and-drag and keyboard behavior in the consuming host.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 5,
+        "end_line": 11,
+        "purpose": "Local source of the integration lesson; served bytes/hash must identify this edition."
+      }
+    ]
+  },
+  {
+    "id": "dialog-web-focus",
+    "topic": "dialog",
+    "title": "Modal dialog focus entry, containment, and return",
+    "claim": "The APG modal-dialog pattern moves focus inside on opening, contains Tab navigation, closes on Escape, and normally returns focus to the opener with documented workflow exceptions.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Dialog (Modal) Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Web modal dialogs, including deliberate initial focus and a visible closing control.",
+    "limitations": "APG is modern web guidance, not Windows 95 styling. aria-modal does not itself block interaction or implement focus behavior.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 19,
+        "end_line": 29,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/src/app.js",
+        "start_line": 4890,
+        "end_line": 4926,
+        "sha256": "057b08b5e46263eb1f8fec041f24c0ed3a31d278fad88bb21417eb01bdb359d4",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "dialog-native-inert",
+    "topic": "dialog",
+    "title": "Native modal dialogs make the containing document inert",
+    "claim": "HTMLDialogElement.showModal() puts the dialog in the top layer and makes other elements in the same document inert, excluding the dialog and its descendants.",
+    "source": {
+      "kind": "host-api",
+      "title": "HTMLDialogElement: showModal() | MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal",
+      "section": "Description; Exceptions",
+      "edition": "Living MDN Web API reference",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Native HTML dialogs in browsers and Electron renderers; an HTML caption outside the dialog is affected too.",
+    "limitations": "This API reference is not Windows 95 guidance. Only the containing document is blocked; custom Electron caption and native window behavior require host checks.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 25,
+        "end_line": 29,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "dialog-close-lifecycle",
+    "topic": "dialog",
+    "title": "Close settles application dialog state immediately",
+    "claim": "The local review recommends an idempotent finish path in the application close operation so a delayed native close event cannot strand a stack, promise, or command guard.",
+    "source": {
+      "kind": "local-integration-guidance",
+      "title": "Lessons from GUI95 integrations",
+      "url": null,
+      "section": "Dialogs: close is an application lifecycle boundary",
+      "edition": "18 October 2026 integration review",
+      "version": null,
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Dialog wrappers that keep their own stack, pending callers, inert regions, or command guards.",
+    "limitations": "This is integration guidance, not an assertion that native close events always have one fixed timing across hosts. Test reopen and nested Escape locally.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 19,
+        "end_line": 23,
+        "purpose": "Local source of the lifecycle lesson; not a preserved passing test."
+      }
+    ]
+  },
+  {
+    "id": "splitter-web-keyboard",
+    "topic": "splitter",
+    "title": "Focusable splitters expose bounds and keyboard movement",
+    "claim": "The APG splitter pattern describes arrow-key movement for variable splitters and a focusable separator exposing a name, controlled pane, and minimum, maximum, and current values.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Window Splitter Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "A variable pane splitter in a modern web interface; select the keyboard axis from splitter orientation.",
+    "limitations": "The APG page explicitly says review/example work remains incomplete. It is not a Windows 95 standard, a complete implementation, or a compatibility result.",
+    "local_refs": [
+      {
+        "path": "references/vector95/src/app.js",
+        "start_line": 6988,
+        "end_line": 7040,
+        "sha256": "057b08b5e46263eb1f8fec041f24c0ed3a31d278fad88bb21417eb01bdb359d4",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "tree-web-keyboard",
+    "topic": "tree",
+    "title": "Tree focus follows visible hierarchy",
+    "claim": "The APG vertical-tree pattern uses Right to expand or enter a child, Left to collapse or reach a parent, and Up/Down to move among visible nodes; focus and selection are distinct concepts.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Tree View Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Modern hierarchical trees with an explicit single- or multi-select policy and truthful expansion state.",
+    "limitations": "This is not a Windows 95 appearance standard. A layer panel’s painting, locking, and drag policy does not establish a general tree selection contract.",
+    "local_refs": [
+      {
+        "path": "references/vector95/src/layer-ui.js",
+        "start_line": 44,
+        "end_line": 82,
+        "sha256": "0443582cf0f3a58d4210d12320740d7d6d5e3992df5c40b70127f5bfe0e8b867",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 67,
+        "end_line": 71,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "toolbar-web-keyboard",
+    "topic": "toolbar",
+    "title": "Toolbar navigation reserves control editing keys",
+    "claim": "APG recommends a single tab stop and arrow navigation for a toolbar, while allowing the other arrow axis to operate embedded controls such as spinbuttons or sliders.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Toolbar Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "A named group of at least three controls using role=toolbar and a deliberate roving focus policy.",
+    "limitations": "This is modern authoring guidance, not Windows 95 styling. Resolve conflicts for text fields and value controls; arrow navigation is not a reason to intercept every key.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 13,
+        "end_line": 17,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/tests/ui/keyboard-focus.spec.mjs",
+        "start_line": 72,
+        "end_line": 95,
+        "sha256": "8d7fc50b636adb2705a58802885c81708d0d4b8196deecc095d3abc811a80cbf",
+        "purpose": "Preserved test intent only; this archived app test has not been rerun."
+      }
+    ]
+  },
+  {
+    "id": "number-field-web-editing",
+    "topic": "number-field",
+    "title": "Spinbutton keys preserve native text editing",
+    "claim": "APG spinbuttons increase/decrease on Up/Down, retain focus in the text field, expose value and range semantics, and preserve platform text-editing keys.",
+    "source": {
+      "kind": "modern-accessibility",
+      "title": "Spinbutton Pattern | W3C WAI-ARIA APG",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/",
+      "section": "Keyboard Interaction; WAI-ARIA Roles, States, and Properties",
+      "edition": "Living WAI-ARIA Authoring Practices Guide",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Bounded numeric controls with an editable text field and optional increase/decrease buttons.",
+    "limitations": "This is modern web guidance, not a Windows 95 standard. Parsing, decimal precision, invalid drafts, commit timing, and undo remain application choices.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 13,
+        "end_line": 17,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/src/app.js",
+        "start_line": 6645,
+        "end_line": 6704,
+        "sha256": "057b08b5e46263eb1f8fec041f24c0ed3a31d278fad88bb21417eb01bdb359d4",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "electron-renderer-isolation",
+    "topic": "electron-shell",
+    "title": "Keep renderer privileges narrow and isolated",
+    "claim": "Electron recommends disabling Node integration for remote content, enabling context isolation and process sandboxing, limiting navigation/window creation, and validating IPC senders.",
+    "source": {
+      "kind": "host-api",
+      "title": "Security | Electron",
+      "url": "https://www.electronjs.org/docs/latest/tutorial/security",
+      "section": "Checklist; sections 2–4, 13–14, and 17",
+      "edition": "Current Electron documentation",
+      "version": "latest documentation; no runtime version pinned",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Electron shells that render GUI95 web content or pass native commands through IPC.",
+    "limitations": "Current host security guidance, not a Windows 95 standard or a security audit. Runtime defaults and supported APIs depend on the chosen Electron version.",
+    "local_refs": [
+      {
+        "path": "references/vector95/electron/main.cjs",
+        "start_line": 194,
+        "end_line": 220,
+        "sha256": "7a25c47fb491b828030c6d813869cab6e5c15b3ec11e32323def0474c8911914",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/electron/main.cjs",
+        "start_line": 227,
+        "end_line": 228,
+        "sha256": "7a25c47fb491b828030c6d813869cab6e5c15b3ec11e32323def0474c8911914",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "electron-narrow-bridge",
+    "topic": "electron-shell",
+    "title": "Expose narrow IPC wrappers through contextBridge",
+    "claim": "Electron’s contextBridge documentation warns against exposing the entire ipcRenderer and demonstrates a wrapper for a specific message; bridged data has supported-type and copying limits.",
+    "source": {
+      "kind": "host-api",
+      "title": "contextBridge | Electron",
+      "url": "https://www.electronjs.org/docs/latest/api/context-bridge#exposing-ipcrenderer",
+      "section": "Exposing ipcRenderer; Parameter / Error / Return Type support",
+      "edition": "Current Electron documentation",
+      "version": "latest documentation; no runtime version pinned",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Preload APIs for native window and document actions in an isolated renderer.",
+    "limitations": "Current Electron API guidance, not historical styling. A narrow bridge still needs argument validation and trusted-sender checks in main-process handlers.",
+    "local_refs": [
+      {
+        "path": "references/vector95/electron/preload.cjs",
+        "start_line": 1,
+        "end_line": 26,
+        "sha256": "3e7553bcd092049a06cf2ffcc8e4b5c751698c72cc953b9db60368795ad8c8a0",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "electron-close-guard",
+    "topic": "save-lifecycle",
+    "title": "Electron native close can be cancelled before unload",
+    "claim": "BrowserWindow emits close before DOM beforeunload/unload; calling event.preventDefault() cancels that close.",
+    "source": {
+      "kind": "host-api",
+      "title": "BrowserWindow | Electron",
+      "url": "https://www.electronjs.org/docs/latest/api/browser-window#event-close",
+      "section": "Event: 'close'",
+      "edition": "Current Electron documentation",
+      "version": "latest documentation; no runtime version pinned",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Electron hosts coordinating a native window close with pending save or confirmation work.",
+    "limitations": "The API supplies a close cancellation boundary, not an asynchronous save protocol. Save revision accounting and repeated-close guards remain app responsibilities.",
+    "local_refs": [
+      {
+        "path": "references/vector95/electron/main.cjs",
+        "start_line": 229,
+        "end_line": 234,
+        "sha256": "7a25c47fb491b828030c6d813869cab6e5c15b3ec11e32323def0474c8911914",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "save-revision",
+    "topic": "save-lifecycle",
+    "title": "A completed save covers the serialized revision",
+    "claim": "The local integration review requires marking only the serialized revision as saved, retaining newer edits as dirty, and rechecking dirty state before completing Save-and-Close.",
+    "source": {
+      "kind": "local-integration-guidance",
+      "title": "Lessons from GUI95 integrations",
+      "url": null,
+      "section": "Document commands: an asynchronous save covers one revision",
+      "edition": "18 October 2026 integration review",
+      "version": null,
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Asynchronous native or browser saves where editing can continue while a write is pending.",
+    "limitations": "Application lifecycle guidance, not a reusable document engine. Serialization, revision identity, recovery, cancellation, and write guarantees must be supplied and tested by the consumer.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 73,
+        "end_line": 75,
+        "purpose": "Local primary source for the save revision lesson."
+      }
+    ]
+  },
+  {
+    "id": "packaging-resource-layout",
+    "topic": "packaging",
+    "title": "Distribute a complete packaged Electron application",
+    "claim": "Electron’s manual packaging guide places app files under its resources/app directory, or app.asar under resources, and describes rebranding the executable or application bundle.",
+    "source": {
+      "kind": "host-api",
+      "title": "Application Packaging | Electron",
+      "url": "https://www.electronjs.org/docs/latest/tutorial/application-distribution",
+      "section": "Manual packaging; With an app source code archive (asar); Rebranding with downloaded binaries",
+      "edition": "Current Electron documentation",
+      "version": "latest documentation; no runtime version pinned",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Desktop delivery planning and checking whether launch files and resources accompany the executable.",
+    "limitations": "Current packaging guidance, not Windows 95 styling. A renamed executable alone is not the described app directory; code signing and per-platform installers need separate validation.",
+    "local_refs": [
+      {
+        "path": "docs/reuse.md",
+        "start_line": 11,
+        "end_line": 13,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "packaging-generated-inputs",
+    "topic": "packaging",
+    "title": "Direct Electron tests need generated build inputs",
+    "claim": "The local review notes that a direct Electron test launch bypasses npm prestart hooks, so generated icons and other ignored inputs must be prepared explicitly for a clean checkout.",
+    "source": {
+      "kind": "local-integration-guidance",
+      "title": "Lessons from GUI95 integrations",
+      "url": null,
+      "section": "Startup and tests: optional work and generated assets",
+      "edition": "18 October 2026 integration review",
+      "version": null,
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Test or packaging commands that launch Electron without the application’s normal npm lifecycle.",
+    "limitations": "This does not establish that every app needs generated icons, or that an archived build succeeds. Check the actual consumer scripts and clean fixture.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 83,
+        "end_line": 87,
+        "purpose": "Local primary source; no new desktop test result is asserted."
+      }
+    ]
+  },
+  {
+    "id": "scaling-device-pixels",
+    "topic": "scaling",
+    "title": "CSS pixels and physical pixels differ at non-unit DPR",
+    "claim": "devicePixelRatio relates physical pixels to CSS pixels; page zoom can change it, and moving between displays can require observing a new value.",
+    "source": {
+      "kind": "host-api",
+      "title": "Window: devicePixelRatio | MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio",
+      "section": "Description; Monitoring screen resolution or zoom level changes",
+      "edition": "Living MDN Web API reference",
+      "version": "Living page checked 2026-10-18",
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Pixel previews, canvas backing stores, and explicit physical-pixel mapping across display scaling changes.",
+    "limitations": "API meaning is not a Windows 95 standard or a guarantee of crisp fractional-scale rendering. The application must define its 1:1 promise and test its real host.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 37,
+        "end_line": 45,
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      },
+      {
+        "path": "references/vector95/src/artwork-preview.js",
+        "start_line": 1,
+        "end_line": 60,
+        "sha256": "516c3028d98ccaed6d9ec8f6a0521df2caa43285a5b40b38feec64fa665d46db",
+        "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
+      }
+    ]
+  },
+  {
+    "id": "scaling-reachable-actions",
+    "topic": "scaling",
+    "title": "Short scaled windows keep fixed actions reachable",
+    "claim": "The local integration review keeps the form body scrollable and the action footer outside it, with shrinking flex/grid children, to avoid clipping actions in short windows.",
+    "source": {
+      "kind": "local-integration-guidance",
+      "title": "Lessons from GUI95 integrations",
+      "url": null,
+      "section": "Small windows: keep the next action reachable",
+      "edition": "18 October 2026 integration review",
+      "version": null,
+      "pages": null,
+      "checked": "2026-10-18"
+    },
+    "applicability": "Dialogs or panels whose CSS workspace shrinks at increased display scale or reduced native window height.",
+    "limitations": "This is layout guidance, not evidence that an arbitrary minimum size works. Verify button visibility and hit targets at the consumer’s supported sizes and scales.",
+    "local_refs": [
+      {
+        "path": "docs/integration-lessons.md",
+        "start_line": 53,
+        "end_line": 57,
+        "purpose": "Local primary source for short-window layout."
+      }
+    ]
+  }
+]
