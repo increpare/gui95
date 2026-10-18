@@ -162,7 +162,7 @@ gui95-dist/
 
 File names follow `<Name>-<version>-<windows|macos|linux>-<architecture>.<ext>`, with any spaces in the name replaced by hyphens, the version read from the app's `version` file and the architecture the computer's own (`x64` or `arm64`): `Example-App-1.2.0-windows-x64.zip`. Each archive has one top-level entry: `<Name>/` on Windows and Linux, the `.app` bundle on macOS.
 
-On Windows and Linux `pack` briefly moves the build folder into `gui95-dist/.stage/` while it writes the archive, and moves it back afterwards, so do not run the app from its build folder while packing.
+On Windows and Linux `pack` briefly moves the build folder into `gui95-dist/.stage/` while it writes the archive, and moves it back afterwards, so do not run the app from its build folder while packing. A `pack` that is stopped part way (Ctrl-C) can leave the build in `.stage/`; the next `pack` moves it back, or deletes it when the build folder has been built again since.
 
 The copies are unsigned: there is no developer certificate and no notarization. The macOS build is signed only ad hoc, without an identity, so someone who downloads that copy will see a security warning. macOS builds made this way are for Apple silicon only.
 
@@ -176,7 +176,7 @@ The copies are unsigned: there is no developer certificate and no notarization. 
 | macOS | `~/Applications/GUI95/<Name>.app` | Spotlight, Launchpad and the Dock. |
 | Linux | `~/.local/share/gui95/<id>/` | The desktop's app menu, through `~/.local/share/applications/gui95-<id>.desktop`. `$XDG_DATA_HOME` replaces `~/.local/share` when it is set. |
 
-The new copy is made next to the installed one, as `<folder>.gui95-new`, and swapped in only when it is complete; the old copy waits as `<folder>.gui95-old` until the swap is done. A leftover from an interrupted run is cleared by the next install, and the installed copy is put back if the swap fails. If the app is running, `install` stops, leaves the installed copy as it was, and says `Close Example App and run make install again.` On Windows a running app is noticed because its folder cannot be renamed; on macOS and Linux `install` looks for a process started from the installed folder.
+The new copy is made next to the installed one, as `<folder>.gui95-new`, and swapped in only when it is complete; the old copy waits as `<folder>.gui95-old` until the swap is done. A leftover from an interrupted run is cleared by the next install, and the installed copy is put back if the swap fails. If even that fails, `install` says where the previous copy is, and the next install moves it back before it does anything else. If the app is running, `install` stops, leaves the installed copy as it was, and says `Close Example App and run make install again.` On Windows a running app is noticed because its folder cannot be renamed; on macOS and Linux `install` looks for a process started from the installed folder.
 
 Once the copy is in place, `install` makes the app easy to reach:
 

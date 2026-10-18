@@ -269,6 +269,36 @@ async function isDirectory(dir) {
   return (await stat(dir).catch(() => null))?.isDirectory() ?? false;
 }
 
+// Renaming a folder fails on Windows while a program uses it or a file in it. Antivirus scanners
+// do that briefly to fresh files, so a blocked rename is tried again for about a second.
+const BLOCKED_RENAME = new Set(["EBUSY", "EPERM", "EACCES"]);
+const RENAME_ATTEMPTS = 10;
+const RENAME_RETRY_MS = 100;
+
+const removeTree = (dir) => rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+
+async function pathExists(file) {
+  try {
+    await lstat(file);
+    return true;
+  } catch (err) {
+    if (err.code === "ENOENT") return false;
+    throw err;
+  }
+}
+
+async function renameFolder(from, to, system) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await rename(from, to);
+      return;
+    } catch (err) {
+      if (system !== "windows" || !BLOCKED_RENAME.has(err.code) || attempt === RENAME_ATTEMPTS) throw err;
+      await sleep(RENAME_RETRY_MS);
+    }
+  }
+}
+
 // Checks every app before any is packed or installed, so a missing build stops the run with
 // nothing half done. An app without a build for the system is planned as skipped.
 async function planBuilds(repoRoot, apps, system) {
@@ -287,6 +317,8 @@ async function planBuilds(repoRoot, apps, system) {
 
 // ---- Packing --------------------------------------------------------------
 
+const stagedBuild = (distDir, app) => path.join(distDir, ".stage", app.name);
+
 // Every archive has one top-level entry: the .app bundle on macOS, <Name>/ elsewhere. The build
 // folder has some other name, so for the length of the tar run it is moved to .stage/<Name> (same
 // volume, so the move is instant) and then moved back, even if tar fails.
@@ -295,12 +327,13 @@ async function createArchive({ app, built, distDir, archive, system }) {
     await runTool("ditto", ["-c", "-k", "--keepParent", built, archive]);
     return;
   }
-  const stageDir = path.join(distDir, ".stage");
-  const staged = path.join(stageDir, app.name);
+  const staged = stagedBuild(distDir, app);
+  const stageDir = path.dirname(staged);
   await mkdir(stageDir, { recursive: true });
   try {
-    await rename(built, staged);
+    await renameFolder(built, staged, system);
   } catch (err) {
+    await rmdir(stageDir).catch(() => {});
     throw new Error(`${app.name}: cannot move the build to ${staged} (${err.message})`, { cause: err });
   }
   try {
@@ -308,7 +341,7 @@ async function createArchive({ app, built, distDir, archive, system }) {
     else await runTool("tar", ["-czf", archive, "-C", stageDir, app.name]);
   } finally {
     try {
-      await rename(staged, built);
+      await renameFolder(staged, built, system);
     } catch (err) {
       throw new Error(`${app.name}: the build is still at ${staged}; move it back to ${built} (${err.message})`, { cause: err });
     }
@@ -316,10 +349,35 @@ async function createArchive({ app, built, distDir, archive, system }) {
   }
 }
 
+// A pack killed while tar runs (Ctrl-C ends it before it can move the build back) leaves the build
+// in .stage/<Name>. The next pack moves that build back to its folder or, when the folder has been
+// built again since, removes it as an old build. This runs before the builds are checked, so that
+// a build waiting in .stage counts as there.
+async function recoverStagedBuild({ app, built, distDir, system }) {
+  const staged = stagedBuild(distDir, app);
+  if (!(await pathExists(staged))) return;
+  if (await pathExists(built)) {
+    await removeTree(staged);
+  } else {
+    try {
+      await mkdir(path.dirname(built), { recursive: true });
+      await renameFolder(staged, built, system);
+    } catch (err) {
+      throw new Error(`${app.name}: cannot move the build left at ${staged} back to ${built} (${err.message})`, { cause: err });
+    }
+  }
+  await rmdir(path.dirname(staged)).catch(() => {});   // only when empty, as above
+}
+
 export async function pack(repoRoot, { system = systemName(), arch = process.arch, sign = system === "macos", log = console.log } = {}) {
   const { apps } = await readManifest(repoRoot);
   const distDir = path.join(repoRoot, DIST_DIR);
 
+  if (system !== "macos") {        // a macOS bundle is archived where it is, never staged
+    for (const app of apps) {
+      if (app.builds[system]) await recoverStagedBuild({ app, built: builtAppPath(repoRoot, app, system), distDir, system });
+    }
+  }
   const plan = await planBuilds(repoRoot, apps, system);
 
   const results = [];
@@ -352,36 +410,6 @@ export async function pack(repoRoot, { system = systemName(), arch = process.arc
 const STAGING_SUFFIX = ".gui95-new";
 const OLD_SUFFIX = ".gui95-old";
 const LSREGISTER = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
-
-// Renaming a folder fails on Windows while a program uses it or a file in it. Antivirus scanners
-// do that briefly to fresh files, so a blocked rename is tried again for about a second.
-const BLOCKED_RENAME = new Set(["EBUSY", "EPERM", "EACCES"]);
-const RENAME_ATTEMPTS = 10;
-const RENAME_RETRY_MS = 100;
-
-const removeTree = (dir) => rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
-
-async function pathExists(file) {
-  try {
-    await lstat(file);
-    return true;
-  } catch (err) {
-    if (err.code === "ENOENT") return false;
-    throw err;
-  }
-}
-
-async function renameFolder(from, to, system) {
-  for (let attempt = 1; ; attempt++) {
-    try {
-      await rename(from, to);
-      return;
-    } catch (err) {
-      if (system !== "windows" || !BLOCKED_RENAME.has(err.code) || attempt === RENAME_ATTEMPTS) throw err;
-      await sleep(RENAME_RETRY_MS);
-    }
-  }
-}
 
 // Is `dir` named in `line`, as a whole path? A longer name that merely starts the same way (the
 // folder of "example-app" next to the one of "example") is another app.
@@ -515,6 +543,18 @@ async function stageCopy({ built, version, app, system, env, sign, appDir, resou
   }
 }
 
+// Before anything else: a run whose swap and rollback both failed leaves the previous copy as
+// <appDir>.gui95-old with no <appDir>. That copy goes back in place first, so that this install
+// treats it as the installed copy (and puts it back if this run fails too) rather than deleting it.
+async function restoreOldCopy({ app, appDir, old, system }) {
+  if ((await pathExists(appDir)) || !(await pathExists(old))) return;
+  try {
+    await renameFolder(old, appDir, system);
+  } catch (err) {
+    throw new Error(`${app.name}: cannot move the previous copy at ${old} back to ${appDir} (${err.message})`, { cause: err });
+  }
+}
+
 // Step 3: moves an installed copy out of the way. Resolves with whether there was one. Refuses
 // when the app is running, and then leaves the installed copy as it is.
 async function moveOldAside({ app, appDir, old, system, env, warn }) {
@@ -536,6 +576,7 @@ async function installApp({ repoRoot, app, built, version, system, env, home, in
   const staging = appDir + STAGING_SUFFIX;
   const old = appDir + OLD_SUFFIX;
 
+  await restoreOldCopy({ app, appDir, old, system });
   await stageCopy({ built, version, app, system, env, sign, appDir, resourcesDir, staging });
 
   let movedOld;
@@ -549,11 +590,15 @@ async function installApp({ repoRoot, app, built, version, system, env, home, in
   try {
     await renameFolder(staging, appDir, system);
   } catch (err) {
-    if (movedOld) await rename(old, appDir).catch(() => {});      // the installed copy comes back
+    // The installed copy comes back. If even that fails it stays where it is, and the message says
+    // where; the next install moves it back before it does anything else.
+    const rollback = movedOld ? await renameFolder(old, appDir, system).then(() => null, (failure) => failure) : null;
     await removeTree(staging).catch(() => {});
-    throw new Error(`${app.name}: cannot move the new copy to ${appDir} (${err.message})`, { cause: err });
+    const failed = `${app.name}: cannot move the new copy to ${appDir} (${err.message})`;
+    if (rollback) throw new Error(`${failed}, nor put the previous copy back (${rollback.message}); the previous copy is at ${old}`, { cause: err });
+    throw new Error(failed, { cause: err });
   }
-  await removeTree(old).catch((err) => warn(`warning: cannot delete the old copy at ${old} (${err.message})`));
+  if (movedOld) await removeTree(old).catch((err) => warn(`warning: cannot delete the old copy at ${old} (${err.message})`));
   log(`${app.name}: installed in ${appDir}`);
 
   // Step 5. The app is installed, so a step that fails is only a warning (each step catches its own;

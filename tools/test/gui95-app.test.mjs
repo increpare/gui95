@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import childProcess from "node:child_process";
 import { EventEmitter, once } from "node:events";
 import fs from "node:fs";
+import fsPromises from "node:fs/promises";
+import { syncBuiltinESMExports } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import * as h from "../gui95-app.mjs";
@@ -263,14 +265,40 @@ test("pack reports the archiver's complaint and removes the half-written archive
   assert.deepEqual(fs.readdirSync(path.join(repo, h.DIST_DIR)), []);
   assert.ok(fs.existsSync(path.join(repo, "release", "linux-unpacked", "example-app")));
 });
-test("pack leaves the build alone when it cannot stage it",{ skip: h.systemName() === "macos" }, async () => {
+// A pack killed while tar runs (Ctrl-C ends node before it moves the build back) leaves the build
+// in .stage/<Name>. The next pack has to cope with that, whether or not the build was made again.
+test("pack moves back a build that a killed pack left in .stage, and packs it", { skip: h.systemName() === "macos" }, async () => {
+  const repo = fakeBuiltRepo();
+  const built = await hostBuilt(repo);
+  const staged = path.join(repo, h.DIST_DIR, ".stage", "Example App");
+  fs.mkdirSync(path.dirname(staged), { recursive: true });
+  fs.renameSync(built, staged);
+  const [result] = await h.pack(repo, packOptions);
+  assert.ok(fs.existsSync(path.join(built, "resources", "x.txt")));
+  assert.ok(listArchive(result.archive).includes("Example App/resources/x.txt"));
+  assert.equal(fs.existsSync(path.join(repo, h.DIST_DIR, ".stage")), false);
+});
+test("pack removes an old build that a killed pack left in .stage, and packs the fresh one", { skip: h.systemName() === "macos" }, async () => {
   const repo = fakeBuiltRepo();
   const staged = path.join(repo, h.DIST_DIR, ".stage", "Example App");
   fs.mkdirSync(staged, { recursive: true });
   fs.writeFileSync(path.join(staged, "earlier.txt"), "x");
+  const [result] = await h.pack(repo, packOptions);
+  const entries = listArchive(result.archive);
+  assert.ok(entries.includes("Example App/resources/x.txt"), entries.join(", "));
+  assert.equal(entries.some((entry) => entry.includes("earlier.txt")), false, entries.join(", "));
+  assert.ok(fs.existsSync(path.join(await hostBuilt(repo), "resources", "x.txt")));
+  assert.equal(fs.existsSync(path.join(repo, h.DIST_DIR, ".stage")), false);
+});
+// On Windows a folder cannot be renamed while a process works in it.
+test("pack leaves the build alone when it cannot stage it", { skip: process.platform !== "win32" }, async (t) => {
+  const repo = fakeBuiltRepo();
+  const built = await hostBuilt(repo);
+  const holder = await holdOpen(built);
+  t.after(() => stopHolder(holder));
   await assert.rejects(h.pack(repo, packOptions), /Example App: cannot move the build/);
-  assert.ok(fs.existsSync(await hostBuilt(repo)));
-  assert.ok(fs.existsSync(path.join(staged, "earlier.txt")));
+  assert.ok(fs.existsSync(path.join(built, "resources", "x.txt")));
+  assert.equal(fs.existsSync(path.join(repo, h.DIST_DIR, ".stage")), false);
 });
 
 // The macOS and Linux branches cannot run on every host, so these check the commands they would run.
@@ -465,6 +493,76 @@ test("install refuses while the installed app is running and keeps the old copy"
   assert.equal(fs.existsSync(appDir + ".gui95-new"), false);
   assert.equal(fs.existsSync(appDir + ".gui95-old"), false);
 });
+// The helper imports rename from node:fs/promises, so a fake one only reaches it once the built-in
+// module's exports are synced. Records every rename as [from, to]; `refuse(from, to)` returns an
+// error code for a rename that is to fail, or nothing for one that really happens.
+function fakeRenames(t, refuse = () => undefined) {
+  const calls = [];
+  const realRename = fsPromises.rename;
+  const mocked = t.mock.method(fsPromises, "rename", async (from, to) => {
+    calls.push([from, to]);
+    const code = refuse(from, to);
+    if (code !== undefined) throw Object.assign(new Error(`${code}: refused by the test, rename '${from}' -> '${to}'`), { code });
+    return realRename(from, to);
+  });
+  syncBuiltinESMExports();
+  t.after(() => { mocked.mock.restore(); syncBuiltinESMExports(); });
+  return calls;
+}
+// An installed copy holding keep.txt, and the names the install uses next to it.
+async function installedCopySetup() {
+  const { repo, env, home } = await fakeInstallSetup();
+  const system = h.systemName();
+  const { appDir } = h.installPaths((await h.readManifest(repo)).apps[0], system, { env, home });
+  fs.mkdirSync(appDir, { recursive: true });
+  fs.writeFileSync(path.join(appDir, "keep.txt"), "previous copy");
+  const options = { system, env, home, integrate: false, sign: false, log() {}, warn() {} };
+  return { repo, options, appDir, staging: appDir + ".gui95-new", old: appDir + ".gui95-old" };
+}
+test("install puts the installed copy back when the new copy cannot be moved in", async (t) => {
+  const { repo, options, appDir, staging, old } = await installedCopySetup();
+  fakeRenames(t, (from) => (from === staging ? "EIO" : undefined));
+  await assert.rejects(h.install(repo, options), /^Error: Example App: cannot move the new copy to .*EIO/);
+  assert.ok(fs.existsSync(path.join(appDir, "keep.txt")));
+  assert.equal(fs.existsSync(staging), false);
+  assert.equal(fs.existsSync(old), false);
+});
+test("install says where the previous copy is when it cannot put it back, and keeps it", async (t) => {
+  const { repo, options, appDir, staging, old } = await installedCopySetup();
+  fakeRenames(t, (from) => (from === staging || from === old ? "EIO" : undefined));
+  await assert.rejects(h.install(repo, options), (err) => {
+    assert.match(err.message, /^Example App: cannot move the new copy to /);
+    assert.ok(err.message.includes(`previous copy is at ${old}`), err.message);
+    return true;
+  });
+  assert.ok(fs.existsSync(path.join(old, "keep.txt")));
+  assert.equal(fs.existsSync(appDir), false);
+  assert.equal(fs.existsSync(staging), false);
+});
+test("install moves a previous copy left as .gui95-old back before it replaces it", async (t) => {
+  const { repo, options, appDir, staging, old } = await installedCopySetup();
+  fs.renameSync(appDir, old);            // what a failed rollback leaves
+  const renames = fakeRenames(t);
+  await h.install(repo, options);
+  assert.deepEqual(renames, [[old, appDir], [appDir, old], [staging, appDir]]);
+  assert.ok(fs.existsSync(path.join(appDir, builtFile(options.system))));
+  assert.equal(fs.existsSync(path.join(appDir, "keep.txt")), false);
+  assert.equal(fs.existsSync(old), false);
+});
+test("install keeps a previous copy left as .gui95-old, and installs nothing, when it cannot move it back", async (t) => {
+  const { repo, options, appDir, staging, old } = await installedCopySetup();
+  fs.renameSync(appDir, old);
+  fakeRenames(t, (from) => (from === old ? "EIO" : undefined));
+  await assert.rejects(h.install(repo, options), (err) => {
+    assert.match(err.message, /^Example App: cannot move the previous copy at /);
+    assert.ok(err.message.includes(old), err.message);
+    return true;
+  });
+  assert.ok(fs.existsSync(path.join(old, "keep.txt")));
+  assert.equal(fs.existsSync(appDir), false);
+  assert.equal(fs.existsSync(staging), false);
+});
+
 test("install integrates on Windows with a Start menu shortcut", { skip: process.platform !== "win32" }, async (t) => {
   const { repo, env, home } = await fakeInstallSetup({ withoutFileTypes: true });   // no registry writes from tests
   await h.install(repo, { system: "windows", env, home, log() {} });
