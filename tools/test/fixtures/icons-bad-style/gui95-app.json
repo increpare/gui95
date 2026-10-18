@@ -1,0 +1,5 @@
+{
+  "icons": [
+    { "name": "app", "svg": "app.svg", "style": "fancy" }
+  ]
+}

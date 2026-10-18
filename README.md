@@ -52,6 +52,7 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | Colors, bevels, dimensions, typography, and states | [Visual and interaction guide](docs/design-guide.md) |
 | Green or colored text halos in a Windows Electron app | [Font rendering cause, startup fix, and verification](docs/design-guide.md#colored-text-fringes-on-windows) |
 | Fast desktop startup and default packaging | [Unpacked app and stable launch path principle](docs/design-guide.md#startup-and-desktop-packaging) |
+| Build, package and install a desktop app on Windows, macOS and Linux | [Desktop delivery standard](docs/desktop-delivery.md) |
 | Original Windows design guidelines and manuals | [Historical reading shelf](docs/historical-sources.md) |
 | A reference brief to use in another project | [Reuse guide](docs/reuse.md) |
 | Lessons from projects using the widgets and prioritized improvements | [Usage review, 15 October 2026](docs/usage-review-2026-10-15.md) |

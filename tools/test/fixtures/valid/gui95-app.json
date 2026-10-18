@@ -1,0 +1,24 @@
+{
+  "apps": [
+    {
+      "id": "example-app",
+      "name": "Example App",
+      "version": "package.json",
+      "icon": "icon.png",
+      "fileTypes": [
+        {
+          "ext": "exa",
+          "name": "Example document",
+          "mime": "application/x-example",
+          "progId": "ExampleApp.Document",
+          "windowsIcon": "resources/doc.ico"
+        }
+      ],
+      "builds": {
+        "windows": { "dir": "release/win-unpacked", "exe": "Example App.exe" },
+        "macos": { "dir": "release/mac-arm64", "bundle": "Example App.app" },
+        "linux": { "dir": "release/linux-unpacked", "exe": "example-app" }
+      }
+    }
+  ]
+}
