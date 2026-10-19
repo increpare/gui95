@@ -69,6 +69,10 @@ node_modules/.package-lock.json: package-lock.json
 
 Recipe lines start with a tab. `npm run build` is the app's own build script, such as `electron-builder --dir`, and leaves the unpacked app in the folder that `gui95-app.json` names. If the web version has a build step, add it to `all`.
 
+### Keep desktop installation out of npm lifecycle hooks
+
+Name an explicit npm desktop-install action `install:app` (or call the helper from `make install`). Do not name it `install`: both `npm install` and `npm ci` automatically execute the npm `install` lifecycle script. A freshly generated app then tries to install its desktop build before that build exists; an existing app can unexpectedly replace its installed copy while dependencies are being updated. Keep dependency installation and explicit desktop delivery separate actions. See [npm lifecycle operation order](https://docs.npmjs.com/cli/v11/using-npm/scripts#life-cycle-operation-order).
+
 ## `gui95-app.json`
 
 A file named `gui95-app.json` at the repository root describes the apps the repository builds. `pack` and `install` read it, and so does the icon script. A repository can list more than one app.

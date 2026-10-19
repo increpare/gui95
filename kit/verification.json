@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kit_version": "1.0.0",
+  "checked_date": "2026-10-18",
+  "environment": {
+    "os": "macOS",
+    "arch": "arm64",
+    "node": "25.8.1",
+    "chromium": "151.0.7922.34",
+    "playwright": "1.62.1"
+  },
+  "combined_suite": {
+    "tests": 261,
+    "passed": 247,
+    "failed": 0,
+    "skipped": 14,
+    "skipped_scope": "Existing platform-specific desktop helper cases"
+  },
+  "gallery": {
+    "scales": [
+      1,
+      1.25,
+      1.5,
+      2
+    ],
+    "viewports": [
+      "wide",
+      "narrow"
+    ],
+    "assertions": 40,
+    "failures": 0,
+    "screenshots_captured": 8,
+    "visual_review": "Wide and narrow samples inspected"
+  },
+  "native_editor": {
+    "electron": "44.9.0",
+    "electron_builder": "26.15.3",
+    "unpacked_build": "passed",
+    "standard_packaging": "passed",
+    "packaged_startup": "passed",
+    "sandbox": true,
+    "context_isolation": true,
+    "renderer_node_integration": false,
+    "open_save_ipc": "Passed with deterministic native dialog selections and real fixture-file reads/writes",
+    "preferences": "passed",
+    "native_picker_ui": "not automated"
+  },
+  "reference_snapshot_hashes": 109,
+  "scope": "These results apply to the maintained kit fixtures and generated editor. Consumer applications, native Windows/Linux behavior, OS display scaling and screen readers require their own checks."
+}

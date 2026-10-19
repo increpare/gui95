@@ -56,6 +56,8 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | Build, package and install a desktop app on Windows, macOS and Linux | [Desktop delivery standard](docs/desktop-delivery.md) |
 | Original Windows design guidelines and manuals | [Historical reading shelf](docs/historical-sources.md) |
 | A reference brief to use in another project | [Reuse guide](docs/reuse.md) |
+| Record UI problems and return lessons at task handoff | [Feedback workflow and report template](docs/feedback.md) |
+| Complete remote reference: templates, source, tools, assets, verification and feedback | [MCP service guide](docs/mcp-service.md) |
 | Lessons from projects using the widgets and prioritized improvements | [Usage review, 15 October 2026](docs/usage-review-2026-10-15.md) |
 | Later menu, dialog, tab, preview, scrollbar, and native theme corrections | [Integration lessons, 18 October 2026](docs/integration-lessons.md) |
 | Fonts, source attribution, and snapshot details | [Provenance and notices](docs/provenance.md) |
@@ -105,3 +107,7 @@ Issues and small pull requests are welcome. Include the affected control, expect
 Stephen Lavelle's material distributed in this collection is available under the [MIT license](LICENSE), including his bundled Vector95 and ProcGen FM excerpts. Third-party fonts and theme material retain their own licenses and credits; see [third-party notices](THIRD-PARTY-NOTICES.md). Neither application needs to be installed to use the skill. See [privacy information](PRIVACY.md) for the plugin, demo, and support tracker.
 
 GUI95 is an independent project, not affiliated with or endorsed by Microsoft. Microsoft and Windows are trademarks of the Microsoft group of companies.
+
+## Maintained build kit
+
+The [optional build kit](docs/build-kit.md) adds standalone components, local verification, original CC0 icons, layout/command generators, browser/Electron starters, evidence, repairs and version guidance. [Download the kit](https://ded.increpare.com/gui95/kit.zip), [preview icons](https://ded.increpare.com/gui95/icons), or start with [the local CLI](kit/README.md). The preserved reference collection keeps its existing licenses and snapshot identity.

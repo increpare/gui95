@@ -1,0 +1,17 @@
+{
+  "name": "@gui95/build-kit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable GUI95 components and local browser verification",
+  "scripts": {
+    "test:components": "node --test test/components*.mjs",
+    "verify": "node verify/runner.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

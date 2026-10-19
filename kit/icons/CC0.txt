@@ -1,0 +1,20 @@
+GUI95 Original Geometric Icons — CC0 1.0 Universal
+
+To the extent possible under law, the contributors to the GUI95 original geometric
+icon collection have waived all copyright and related or neighboring rights to the
+artwork in kit/icons/artwork.mjs and the icon images generated from it.
+
+This work is published in 2026. You may copy, modify, distribute and
+use the artwork, including commercially, without asking permission or giving credit.
+No trademark rights or endorsement are granted. The artwork is provided without
+warranty. The full legal dedication is CC0 1.0 Universal:
+https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+Provenance: Original geometric compositions authored for the GUI95 build kit.
+No Microsoft icon artwork, archived app icons, or third-party icon packs were copied.
+The small and large compositions are stored in kit/icons/artwork.mjs; large versions
+add original inset/highlight details to the integer-grid silhouette. Per-icon
+provenance and content hashes are included in the generated manifest.
+
+The dedication applies to the artwork. Generator and application source code keep
+the GUI95 repository's source-code license; preserved references keep their own licenses.
