@@ -110,8 +110,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 29,
-        "end_line": 35,
+        "start_line": 35,
+        "end_line": 41,
         "purpose": "Local source of the integration lesson; served bytes/hash must identify this edition."
       }
     ]
@@ -136,8 +136,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 51,
-        "end_line": 61,
+        "start_line": 99,
+        "end_line": 109,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       },
       {
@@ -169,8 +169,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 57,
-        "end_line": 61,
+        "start_line": 105,
+        "end_line": 109,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       }
     ]
@@ -195,8 +195,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 51,
-        "end_line": 55,
+        "start_line": 99,
+        "end_line": 103,
         "purpose": "Local source of the lifecycle lesson; not a preserved passing test."
       }
     ]
@@ -255,8 +255,8 @@
       },
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 126,
-        "end_line": 130,
+        "start_line": 174,
+        "end_line": 178,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       }
     ]
@@ -281,8 +281,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 37,
-        "end_line": 41,
+        "start_line": 43,
+        "end_line": 47,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       },
       {
@@ -314,8 +314,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 37,
-        "end_line": 41,
+        "start_line": 43,
+        "end_line": 47,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       },
       {
@@ -435,8 +435,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 132,
-        "end_line": 134,
+        "start_line": 180,
+        "end_line": 182,
         "purpose": "Local primary source for the save revision lesson."
       }
     ]
@@ -487,8 +487,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 142,
-        "end_line": 146,
+        "start_line": 190,
+        "end_line": 194,
         "purpose": "Local primary source; no new desktop test result is asserted."
       }
     ]
@@ -513,8 +513,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 69,
-        "end_line": 77,
+        "start_line": 117,
+        "end_line": 125,
         "purpose": "Related implementation or guidance; its presence is not a fresh runtime result."
       },
       {
@@ -546,8 +546,8 @@
     "local_refs": [
       {
         "path": "docs/integration-lessons.md",
-        "start_line": 106,
-        "end_line": 110,
+        "start_line": 154,
+        "end_line": 158,
         "purpose": "Local primary source for short-window layout."
       }
     ]

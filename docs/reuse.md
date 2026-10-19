@@ -20,6 +20,8 @@ Check the [integration lessons](integration-lessons.md) for later corrections to
 
 **Caption buttons:** Copy the [shared caption stylesheet](../examples/caption-controls.css) unchanged and follow its [markup, state and verification contract](caption-controls.md). Do not recreate the icons with font characters or app-specific offsets.
 
+**Later editor and player controls:** Review [nonlinear sliders](integration-lessons.md#sliders-nonlinear-position-meaningful-values), [playback controls](integration-lessons.md#playback-controls-show-what-can-be-changed) and [streaming workbenches](integration-lessons.md#streaming-workbenches-preserve-space-and-control-identity) before extracting the older patterns. Keep converted imports on a [new save destination](integration-lessons.md#imported-conversions-need-a-new-save-destination), and verify their [packaged resources](desktop-delivery.md#verify-shipped-commands-and-resources). Inline SVG needs [presentation containment](integration-lessons.md#imported-svg-contain-presentation-rules-before-insertion) as well as ID namespacing.
+
 ## Extract a complete interaction
 
 1. Choose a concrete control and its state model. Define the command, value, focus, disabled state, and cancel behavior.

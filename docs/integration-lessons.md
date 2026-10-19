@@ -26,6 +26,12 @@ Update the preference after the document has actually been read, validated or wr
 
 Check both Open-to-Save and Save-to-Open behavior, Save As names, cancellation, failed reads/writes, paths containing spaces or non-ASCII characters, unavailable folders and damaged preferences. Relaunch the process with the same isolated test profile to verify persistence. Native dialogs can retain some state themselves, but a test that merely reopens a dialog in one process does not establish the app's restart behavior.
 
+### Imported conversions need a new save destination
+
+Opening a foreign format for conversion is different from opening the app's own document. Validate the incoming data and complete the current document's Save/Discard/Cancel flow before replacing it. Once the conversion is accepted, mark the new document unsaved and clear both the renderer's filename binding and the native host's pending/current save destination. Suggest a filename in the receiving app's format. Ordinary Save must then ask for a destination instead of writing converted data over the source file.
+
+Canceling or rejecting the conversion must preserve the existing document and its save target. Keep export destinations separate from the editable document's destination. Test import followed immediately by Save, canceled Save, malformed input, canceled replacement, and native command-line opening; confirm that the original source bytes survive. Exercise the conversion in the packaged app too, following the [shipped-resource checks](desktop-delivery.md#verify-shipped-commands-and-resources).
+
 ## Menus: keyboard focus survives a resting pointer
 
 A menu opened by the keyboard can appear underneath a stationary mouse. The resulting `pointerover` or `pointerenter` can move focus to a different command or close a submenu even though the user has not moved the mouse. Give keyboard navigation ownership until actual pointer movement resumes. Track pointer coordinates or an equivalent input-mode state; keep intentional click and press-and-drag navigation working.
@@ -39,6 +45,48 @@ If two headings share a mnemonic, provide a deliberate way to cycle between them
 Keyboard ownership includes buttons, sliders, checkboxes, and tree disclosure controls, as well as text fields. Let Space activate a focused button and arrows operate a focused value control before application shortcuts claim those keys. Scope canvas nudges and preview keys to their actual command target. Decide which actions repeat: held nudges may repeat, while a held toggle usually should not toggle repeatedly. Preserve an accessible keyboard route if pointer-focused toolbar controls are removed from the ordinary tab sequence.
 
 Define when typed drafts commit before commands and gestures read application state. A spin button that deliberately prevents focus changes will not blur another pending numeric field; settle that field explicitly before stepping the target. Read the target's current text when appropriate, and avoid committing the same value twice. A drag must start from the committed typed geometry rather than stale model coordinates. Check the resulting undo order as well as the displayed value.
+
+### macOS: route Undo and Redo to their owner
+
+A desktop editor can have native text-field history and a separate document history. A native Edit menu with generic Undo/Redo roles alone does not route between them. When an app supplies its own document history, dispatch its Undo/Redo menu actions according to current focus: text entry uses the host's text editing action; the workspace uses the enabled document command. Respect open dialogs and command guards, and avoid handling the same accelerator again in the renderer.
+
+Retain native Cut, Copy, Paste and Select All roles. Use the platform's modifiers and shortcut labels, including Cmd+Shift+Z for Redo on macOS. Verify menu clicks and keyboard accelerators with an edited text field, the workspace and a modal dialog; each must affect only the intended history. The source-reviewed routing is an integration pattern, not a newly verified macOS runtime result. See the [desktop platform conventions](desktop-delivery.md#platform-conventions).
+
+## Sliders: nonlinear position, meaningful values
+
+For a large positive range such as brush diameter, a nonlinear position, such as a logarithmic scale, can give small values useful travel. Keep the stored value, exact numeric entry and accessible value in real units. Use the same forward/inverse mapping for thumb placement and pointer input, account for the thumb's travel, and clamp to exact endpoints. A special zero value needs an explicit mapping; logarithms do not define it. The curve and keyboard increments depend on the control's task, not on a universal GUI95 formula.
+
+Keep keyboard steps predictable in the displayed units, with Home/End reaching the bounds and Page keys making deliberate larger steps. If Shift or another modifier changes drag sensitivity, apply it to movement from the current pointer position so pressing or releasing it does not jump the value. Distinguish grabbing the thumb, clicking the track, and starting a fine drag.
+
+Preview during a drag, commit one completed change, and restore the starting value without an Undo entry on Escape, pointer cancellation or window deactivation. End an old gesture before changing the tool, range or document that the control edits. Check round-trip mapping, small values, endpoints, pointer and keyboard entry, modifier changes mid-drag, cancellation and context switches. These are regression scenarios; the archived slider is not this newer implementation.
+
+### Shared tool controls retain separate defaults
+
+A shared Size field can edit several tools without giving them one persistent size. Restore each tool's saved default on ordinary and temporary switches; changing a selected object's width must not silently replace those defaults. For a spring-loaded tool key, distinguish an unused key choice from a held key actually used for a canvas gesture. Committing an unused choice regardless of press duration avoids slow presses unexpectedly reverting. Persist committed tool state, and verify release after a gesture and switching while a size control has focus.
+
+## Playback controls: show what can be changed
+
+A passive progress meter and an interactive timeline have different contracts. A seekable timeline needs a visible slider thumb, a labeled current position and duration, pointer seeking and keyboard navigation. Preserve the thumb's preview while the pointer moves, commit a seek deliberately, and discard a canceled preview. Disable seeking when the media has no usable duration. Test beginning/end, paused and playing states, canceled drags and rapid successive seeks; a late asynchronous result must not replace a newer requested position.
+
+Give volume a visible reference level and current-value feedback during pointer and keyboard adjustment. If 100% means normal unattenuated output, label that meaning; it need not be the midpoint or maximum of every app's range. Keep the accessible value meaningful, including a muted state, and leave the native range's keyboard behavior available. A tooltip must supplement an accessible label rather than supply the only name.
+
+Separate the loaded media from list selection. Commands beside now-playing information, such as rating the current song, should target that loaded item even after another row is selected. List actions such as exporting a selected item can retain their own target. Keep labels, enabled state and target identity consistent through filtering, sorting and playback changes. Verify with one item playing while another is selected.
+
+## Streaming workbenches: preserve space and control identity
+
+Reserve a bounded results region before background results arrive so the canvas and editors do not move with every update. Reuse cards and their interactive children by stable identity when proof, status or statistics change. Rebuilding a visually identical button still loses focus and can change the target under a resting pointer.
+
+When ranking would reorder a result being used, consider deferring that reordering while the results own keyboard focus or the pointer rests on a card. Continue collecting updates and flush pending changes when that interaction ends; verify that the flush also works when focus leaves a child button. Keep resizing and scrolling within the existing pane constraints.
+
+When adapting a workbench's appearance, test real typing, selection, completion acceptance and dismissal, search, diagnostics and focus in every editor panel. A styled textarea, a source assertion or a screenshot alone does not exercise the editor integration. Check incoming results while a card action has focus, while its pointer target is stationary, and while the user types in another pane; verify canvas bounds, scroll position and eventual updates.
+
+## Imported SVG: contain presentation rules before insertion
+
+An SVG's embedded stylesheet can match the surrounding HTML document after inline insertion. Namespace IDs and local references, but also contain its CSS before mounting or temporarily measuring the artwork. For a supported subset, resolve allowed local presentation rules and inline declarations into attributes on the parsed SVG, then remove stylesheet nodes and unsupported attributes before inserting any of it. Preserve the supported cascade, inherited paint and local references; merely deleting styles can destroy the drawing's appearance.
+
+Define the importer's supported CSS and SVG subset explicitly. A small selector/declaration parser is not a general CSS cascade or complete SVG sanitizer. Preserve the consuming app's policy for scripts, external resources and unsupported constructs, and reject or explain unsupported input. An isolated image or document can be more suitable when inline editing is unnecessary.
+
+Check a drawing containing selectors that match host elements or classes, local class and ID rules, inline overrides and repeated IDs. Confirm both that the supported artwork still paints correctly and that host control styles remain unchanged after import and measurement. The [reuse guide](reuse.md#extract-a-complete-interaction) still applies to the app's own global CSS; imported artwork needs this separate containment step.
 
 ## Pointer gestures: keep ownership through UI refreshes
 

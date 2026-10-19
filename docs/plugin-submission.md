@@ -22,6 +22,8 @@ The flagged archived files are hash-pinned snapshots, so leave them unchanged. C
 
 ## Codex build
 
+The 1.2.1 patch adds reviewed guidance for nonlinear sliders, playback feedback, converted document saves, stable streaming results, imported SVG presentation, macOS Undo/Redo ownership and packaged feature resources. The preserved snapshot edition and the optional build kit and MCP service versions are unchanged.
+
 Run `powershell -File tools/package-plugin.ps1` from the repository root, or use `pwsh -File tools/package-plugin.ps1` with PowerShell on other platforms. This creates `dist/gui95-plugin.zip`. Preserve an older output before rebuilding; the script refuses to overwrite it.
 
 The archive contains a single plugin folder with:

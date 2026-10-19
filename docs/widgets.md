@@ -16,9 +16,9 @@ Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [late
 | Radio transport buttons | [Radio CSS](../references/sausage-music/web/site/radio.css) | `.key`, `.key.on` | Text with small transport glyphs and persistent state |
 | Text and number fields | [Vector95 CSS](../references/vector95/src/classic.css) | `input[type="number"]` | Compact white sunken fields |
 | Checkbox | [Vector95 CSS](../references/vector95/src/classic.css) | `input[type="checkbox"]` | 13 px face and drawn check mark |
-| Slider | [Radio CSS](../references/sausage-music/web/site/radio.css) | `.vol input` | Separate Chromium and Firefox thumb/track styling |
+| Slider | [Radio CSS](../references/sausage-music/web/site/radio.css), [later value/drag guidance](integration-lessons.md#sliders-nonlinear-position-meaningful-values) | `.vol input` | Separate Chromium and Firefox thumb/track styling; newer nonlinear mapping and cancel contract |
 | Group boxes | [Radio CSS](../references/sausage-music/web/site/radio.css) | `fieldset`, `legend` | Etched grouping with an interrupted border at the label |
-| Segmented progress | [Radio CSS](../references/sausage-music/web/site/radio.css), [logic](../references/sausage-music/web/site/radio.js) | `.progress i`, `renderTime` | Repeating navy blocks plus `aria-valuenow` updates |
+| Segmented progress | [Radio CSS](../references/sausage-music/web/site/radio.css), [logic](../references/sausage-music/web/site/radio.js), [interactive playback guidance](integration-lessons.md#playback-controls-show-what-can-be-changed) | `.progress i`, `renderTime` | Repeating navy blocks plus `aria-valuenow` updates; seeking needs a separate slider contract |
 | Scrollbars | [Vector95 CSS](../references/vector95/src/classic.css), [arrow definitions](../references/vector95/src/generated/svg-assets.css) | `::-webkit-scrollbar` | Dithered track, raised thumb, separate arrow glyphs |
 
 ## Windows and workspace
@@ -65,7 +65,7 @@ Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [late
 ## Artwork and source evidence
 
 - [Icon source guide](../references/vector95/src/assets/README.md), [sample toolbar glyph](../references/vector95/src/assets/icons/save.svg), [caption glyph](../references/vector95/src/assets/captions/restore.svg), and [scrollbar arrow](../references/vector95/src/assets/scrollbars/up.svg).
-- [Icon insertion](../references/vector95/src/icons.js) and [asset generation](../references/vector95/scripts/svg-assets.mjs). SVG ID namespacing is part of correct reuse.
+- [Icon insertion](../references/vector95/src/icons.js) and [asset generation](../references/vector95/scripts/svg-assets.mjs). SVG ID namespacing is part of correct reuse; imported artwork also needs [stylesheet containment](integration-lessons.md#imported-svg-contain-presentation-rules-before-insertion).
 - Existing menu screenshots at [100%](../references/vector95/artifacts/controls-1.png), [125%](../references/vector95/artifacts/controls-1.25.png), [150%](../references/vector95/artifacts/controls-1.5.png), and [200%](../references/vector95/artifacts/controls-2.png) display scale. These are prior captures, not a new cross-browser certification.
 - [Workspace screenshot](../references/vector95/artifacts/layer-ui-checks/game-art-scene.png) and [text dialog screenshot](../references/vector95/artifacts/layer-ui-checks/game-art-font-dialog.png).
 - Existing test sources for [control polish](../references/vector95/tests/ui/control-polish.spec.mjs), [keyboard focus](../references/vector95/tests/ui/keyboard-focus.spec.mjs), [status help](../references/vector95/tests/ui/status-help.spec.mjs), [SVG assets](../references/vector95/tests/ui/svg-assets.spec.mjs), [command search](../references/vector95/tests/ui/search-transform.spec.mjs), and [native radio window sizing](../references/sausage-music/web/electron/test/window_controls_test.mjs).

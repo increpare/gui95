@@ -181,6 +181,10 @@ On Windows and Linux `pack` briefly moves the build folder into `gui95-dist/.sta
 
 The copies are unsigned: there is no developer certificate and no notarization. The macOS build is signed only ad hoc, without an identity, so someone who downloads that copy will see a security warning. macOS builds made this way are for Apple silicon only.
 
+### Verify shipped commands and resources
+
+A development page can load modules that the packaged app's resource allowlist omits. When adding an import/export command or worker, include its transitive modules, data, runtime files and styles in the shipped inventory. Verify the packaged executable's actual command, including any native file-dialog bridge and worker path; starting its main window does not establish that the new feature is usable. Test offline where the app promises offline use, with an isolated profile and a representative source document. For a converted foreign document, confirm that Save asks for a new destination and preserves the original file, following the [conversion contract](integration-lessons.md#imported-conversions-need-a-new-save-destination).
+
 ## Installing
 
 `install` installs each app built for this system for the current user. It needs no administrator rights, and it replaces the previous copy in place.
@@ -252,6 +256,8 @@ if (process.platform === "darwin") {
   Menu.setApplicationMenu(Menu.buildFromTemplate([{ role: "appMenu" }, { role: "editMenu" }, { role: "windowMenu" }]));
 }
 ```
+
+This minimal menu suits apps without a separate document Undo history. Editors with both text-field and document histories need [focus-aware Undo/Redo routing](integration-lessons.md#macos-route-undo-and-redo-to-their-owner), while retaining native clipboard roles. Verify menu actions and accelerators in the actual macOS app; inspecting a template on another host does not establish that routing works there.
 
 **Windows**
 
