@@ -25,6 +25,7 @@ Before extracting menus, dialogs, tabs, previews, or scrollbars, check the [late
 
 | Pattern | Reference | Search for | What to preserve |
 | --- | --- | --- | --- |
+| Shared caption buttons | [Copyable stylesheet](../examples/caption-controls.css), [contract](caption-controls.md), [working window](../demo/dist/widgets/window.html) | `gui95-caption-button`, `data-caption-icon` | Fixed pixel icons, complete reset, pressed/focus/disabled states, host Maximize/Restore sync |
 | App caption and controls | [Vector95 CSS](../references/vector95/src/classic.css), [markup](../references/vector95/index.html) | `.app-titlebar`, `.app-controls` | Compact caption, close-button spacing, drag/no-drag regions |
 | Child document windows | [Vector95 app](../references/vector95/src/app.js), [CSS](../references/vector95/src/classic.css) | `addDocument`, `activateDocument`, `.mdi-window` | Active document, caption state, stacking, document identity |
 | Moving and sizing | [Vector95 app](../references/vector95/src/app.js) | `startWindowDrag`, `applyWindowRect` | Pointer lifecycle and stored bounds |

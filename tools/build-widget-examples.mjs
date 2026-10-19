@@ -11,6 +11,7 @@ import host from '../examples/widgets/host.mjs';
 
 const entries=[...controls,...navigation,...menus,...dialogs,...host];
 const root=new URL('../',import.meta.url),out=new URL('demo/dist/widgets/',root);
+const captionCss=await readFile(new URL('examples/caption-controls.css',root),'utf8');
 const license=(await readFile(new URL('LICENSE',root),'utf8')).trim();
 const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const script=code=>code.replaceAll('</script','<\\/script');
@@ -23,7 +24,7 @@ for(const entry of entries){
  if(outputs.has(entry.id+'.html'))throw Error(`Duplicate id ${entry.id}`);
  const sources=entry.sources.map(s=>`<a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.label)}</a>`).join(' · ');
  outputs.set(entry.id+'.html',shell(entry.title,`<main class="window"><header class="caption"><h1>${escape(entry.title)}</h1><span>GUI95</span></header><div class="content"><p class="crumb"><a href="index.html">Widget index</a> / ${escape(entry.family)} · <a href="${entry.id}.html" download>Download this HTML</a></p><div class="stage" id="stage">${entry.body}</div><p class="result" id="result" role="status" aria-live="polite">Ready — try the example.</p><div class="guide"><h2>States and behavior</h2><p>${escape(entry.states)}</p><h2>Keyboard</h2><p>${escape(entry.keys)}</p><h2>Scope and adaptation</h2><p>${escape(entry.note)}</p><h2>Sources</h2><p>${sources}</p><p class="hint">Original implementation; system colors are represented by CSS variables. The default 13 px system-font stack is a readable browser adaptation. The 1995 source is preliminary, not a final product specification. Test the target browser and native host before shipping.</p></div></div></main>`,
- `(()=>{'use strict';const context=(${helpers.toString()})();(${entry.setup.toString()})(context);})();`));
+ `(()=>{'use strict';const context=(${helpers.toString()})();(${entry.setup.toString()})(context);})();`,entry.id==='window'?captionCss:''));
 }
 const families=[...new Set(entries.map(e=>e.family))];
 const cards=families.map(family=>`<section data-family><h2>${escape(family)}</h2><div class="cards">${entries.filter(e=>e.family===family).map(e=>`<article class="card" data-search="${escape((e.title+' '+e.family+' '+e.states).toLowerCase())}"><h3><a href="${e.id}.html">${escape(e.title)}</a></h3><p>${escape(e.states)}</p><div class="row"><button data-preview="${e.id}" data-title="${escape(e.title)}">Preview</button><a href="${e.id}.html" download>HTML</a></div></article>`).join('')}</div></section>`).join('');
@@ -76,6 +77,7 @@ async function emit(url,expected){if(check){let actual;try{actual=await readFile
 if(!check)await mkdir(out,{recursive:true});
 for(const [name,content]of outputs)await emit(new URL(name,out),content);
 await emit(new URL('docs/widget-coverage.md',root),coverage);
+await emit(new URL('demo/dist/caption-controls.css',root),captionCss);
 const existing=await readdir(out);
 for(const name of existing)if(!outputs.has(name)){console.error(`Unexpected generated output: ${name}; remove it explicitly if obsolete.`);failures++;}
 if(failures)process.exitCode=1;else console.log(`${check?'Verified':'Built'} ${entries.length} standalone examples, gallery, manifest, and coverage index.`);

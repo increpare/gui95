@@ -1,6 +1,12 @@
 # Lessons from GUI95 integrations
 
-Follow-up guidance from source and changelist review and consumer integrations, updated **18 October 2026**. These are adaptations to consider when extracting the preserved controls. Runtime observations concern the reported consuming host; they do not establish new passing results for the 14 October snapshots or the collection's examples. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
+Follow-up guidance from source and changelist review and consumer integrations, updated **19 October 2026**. These are adaptations to consider when extracting the preserved controls. Runtime observations concern the reported consuming host; they do not establish new passing results for the 14 October snapshots or the collection's examples. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
+
+## Caption buttons: center icon geometry, not font ink
+
+Text characters used for Minimize, Maximize and Close inherit font-specific baselines and visible bounds. In a consumer, the icons sat too low and the hollow-square maximize glyph was visibly undersized despite equal button rectangles. Use the [shared caption controls](caption-controls.md) with fixed pixel geometry and its complete button reset. Copy the [stylesheet](../examples/caption-controls.css) unchanged; keep app command wiring separate, including actual host Maximize/Restore state. Inspect the final visible glyphs, press offset, keyboard and disabled states at each supported display scale.
+
+The suite follow-up also found odd-height captions placing even-height buttons on half pixels, pressed-button padding moving the icon a second time, a restrictive image policy blocking embedded masks, a server allowlist omitting the new CSS, and canvas/playback shortcuts consuming Enter or Space on a focused caption button. Use the complete shared reset, integer caption layout, an explicit stylesheet route and policy, and native button key ownership. Check the visible ink in the final app cascade; equal button rectangles alone miss these failures.
 
 ## Reading surfaces: type size and control roles
 
@@ -146,6 +152,28 @@ Measure cold document open, a citation jump to a distant page, wheel navigation 
 For immutable scanned manuals, preparing page images at build time is one useful option. Key cached derivatives to the source hash and rendering parameters. Weigh the larger installed assets and the document's text/search/accessibility needs; retain source documents and their notices, and keep a runtime reader for document types that need it. This is a consumer-specific optimization, not a requirement to rasterize every PDF.
 
 Preserve normal wheel scrolling, continuous page navigation and mouse panning where appropriate; use an explicit zoom gesture and retain pointer anchoring. Check reduced-motion preferences when adding smooth scrolling. A file-availability `HEAD` route should return metadata without unnecessarily fetching or decoding the full document body.
+
+## Offline workbenches with workers and WebAssembly
+
+A browser workbench that starts Web Workers and fetches a WebAssembly solver
+needs an origin that supports those operations in its desktop host. A `file://`
+launch is insufficient for apps whose browser version requires HTTP. Serve only
+the packaged web assets through a stable privileged local scheme, including
+the proper JavaScript and `application/wasm` response types. Keep Node access
+disabled in the renderer and expose native file dialogs through a narrow preload
+bridge. A stable origin also keeps recovery storage consistent across launches.
+
+Wait for initial demo or recovery loading to settle before delivering a file
+opened by the operating system. Otherwise the startup fetch can replace the
+user's file after it has opened. Serialize subsequent file deliveries, and
+preserve Save/Discard/Cancel before replacement. Test a cold command-line file
+open as well as opening into an existing instance.
+
+On Windows with Electron 44.7.0, a consumer's packaged desktop check exercised
+offline native solving through this origin, native Open/Save, canceled and failed
+saves, unsaved replacement, recent files after process restart, and restored
+menu focus. This is host-specific evidence; repeat the checks in other desktop
+hosts and do not infer operating-system display-scale coverage from it.
 
 ## Reuse and verification scope
 

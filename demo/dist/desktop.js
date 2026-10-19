@@ -49,7 +49,7 @@ function closeWindow(id,force=false){
 function maximize(id){const el=wins.get(id);if(!el||id==='display')return;const maximized=el.classList.toggle('maximized');
   if(maximized){el.dataset.restore=JSON.stringify({left:el.style.left,top:el.style.top,width:el.style.width,height:el.style.height});}
   else Object.assign(el.style,JSON.parse(el.dataset.restore));
-  const btn=$('[data-window-action="maximize"]',el);btn.setAttribute('aria-label',maximized?'Restore window':'Maximize window');btn.innerHTML=icon(maximized?'restore':'maximize');fitWindow(el);activate(id);
+  const btn=$('[data-window-action="maximize"]',el);btn.setAttribute('aria-label',maximized?'Restore window':'Maximize window');btn.dataset.captionIcon=maximized?'restore':'maximize';fitWindow(el);activate(id);
 }
 function openApp(id){
   closeMenu();closeStart();if(wins.has(id)){activate(id,true);return wins.get(id);}
@@ -60,7 +60,7 @@ function openApp(id){
   if(id==='display'){left=(desktop.clientWidth-app.width)/2;top=(desktop.clientHeight-app.height)/2;}
   if(narrow){left=6;top=82;}
   Object.assign(el.style,{left:`${left}px`,top:`${top}px`,width:`${Math.min(app.width,desktop.clientWidth-12)}px`,height:`${Math.min(app.height,desktop.clientHeight-(narrow?90:20))}px`});
-  el.innerHTML=`<header class="titlebar">${icon(app.icon)}<strong>${esc(app.title)}</strong><div class="caption-controls"><button class="caption-button" data-window-action="minimize" aria-label="Minimize window">${icon('minimize')}</button><button class="caption-button" data-window-action="maximize" aria-label="Maximize window">${icon('maximize')}</button><button class="caption-button" data-window-action="close" aria-label="Close window">${icon('close')}</button></div></header><div class="window-body"></div>${id==='display'?'':['n','e','s','w','ne','nw','se','sw'].map(edge=>`<div class="resize-handle resize-${edge}" data-resize="${edge}" title="Drag border to resize" aria-hidden="true"></div>`).join('')}`;
+  el.innerHTML=`<header class="titlebar">${icon(app.icon)}<strong>${esc(app.title)}</strong><div class="caption-controls gui95-caption-controls"><button type="button" class="gui95-caption-button" data-caption-icon="minimize" data-window-action="minimize" aria-label="Minimize window"></button><button type="button" class="gui95-caption-button" data-caption-icon="maximize" data-window-action="maximize" aria-label="Maximize window"></button><button type="button" class="gui95-caption-button" data-caption-icon="close" data-window-action="close" aria-label="Close window"></button></div></header><div class="window-body"></div>${id==='display'?'':['n','e','s','w','ne','nw','se','sw'].map(edge=>`<div class="resize-handle resize-${edge}" data-resize="${edge}" title="Drag border to resize" aria-hidden="true"></div>`).join('')}`;
   if(id==='display'){$('[data-window-action="minimize"]',el).remove();$('[data-window-action="maximize"]',el).remove();}
   $('#windows').append(el);wins.set(id,el);
   el.addEventListener('pointerdown',()=>activate(id));el.addEventListener('focusin',()=>{if(activeId!==id)activate(id);});

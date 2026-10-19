@@ -22,6 +22,10 @@ Raised controls put light edges at the top and left and dark edges at the bottom
 
 Use [Vector95 `classic.css`](../references/vector95/src/classic.css), search `--raised-lines`, `--sunken-lines`, and `.command-group button.active`. Use the radio's `--raised` and `--sunken` for the smaller inset-shadow implementation.
 
+## Caption icons
+
+Use the [shared caption controls](caption-controls.md) for new HTML title bars. The copyable stylesheet owns button dimensions, bevels and fixed pixel geometry for Minimize, Maximize, Restore and Close. Font characters such as an underscore or hollow square have different ink bounds and baselines; centering their text boxes does not produce consistent icons. This adaptation uses 18 × 18 buttons and a 10 × 10 icon canvas rather than changing the archived 16 × 14 patterns.
+
 ## Control states
 
 | State | Visual treatment in the projects | Behavior to carry with it |

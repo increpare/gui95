@@ -40,8 +40,100 @@ input[type=range]{appearance:none;background:transparent;height:24px}input[type=
 @media(forced-colors:active){.caption{forced-color-adjust:none;background:Highlight;color:HighlightText}.caption button{forced-color-adjust:auto}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 @media print{body{background:white;padding:0}.window{box-shadow:none}.caption,.crumb,.guide,.result,.no-print{display:none}.stage{border:0}.print-only{display:block}}
+/* GUI95 caption controls. MIT, Copyright (c) 2026 Stephen Lavelle.
+   Copy unchanged; see docs/caption-controls.md. No font glyphs or external assets. */
+.gui95-caption-controls {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 2px;
+  -webkit-app-region: no-drag;
+}
+button.gui95-caption-button {
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+  box-shadow: inset 1px 1px #fff, inset -1px -1px #000,
+    inset 2px 2px #dfdfdf, inset -2px -2px #808080;
+  font-size: 0;
+  line-height: 1;
+  text-shadow: none;
+  cursor: default;
+  -webkit-app-region: no-drag;
+}
+button.gui95-caption-button::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  mask: var(--gui95-caption-symbol) center / 10px 10px no-repeat;
+  pointer-events: none;
+}
+button.gui95-caption-button[data-caption-icon="minimize"] {
+  --gui95-caption-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1 7h8v2H1z'/%3E%3C/svg%3E");
+}
+button.gui95-caption-button[data-caption-icon="maximize"] {
+  --gui95-caption-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath fill-rule='evenodd' d='M0 0h10v9H0zM1 2v6h8V2z'/%3E%3C/svg%3E");
+}
+button.gui95-caption-button[data-caption-icon="restore"] {
+  --gui95-caption-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M3 0h7v7H8V6h1V2H4v1H3z'/%3E%3Cpath fill-rule='evenodd' d='M0 3h7v7H0zM1 5v4h5V5z'/%3E%3C/svg%3E");
+}
+button.gui95-caption-button[data-caption-icon="close"] {
+  margin-left: 2px;
+  --gui95-caption-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 0h2v1H0zM8 0h2v1H8zM1 1h2v1H1zM7 1h2v1H7zM2 2h2v1H2zM6 2h2v1H6zM3 3h4v1H3zM4 4h2v2H4zM3 6h4v1H3zM2 7h2v1H2zM6 7h2v1H6zM1 8h2v1H1zM7 8h2v1H7zM0 9h2v1H0zM8 9h2v1H8z'/%3E%3C/svg%3E");
+}
+button.gui95-caption-button:active:not(:disabled) {
+  padding: 0;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px #808080, inset -1px -1px #fff,
+    inset 2px 2px #000, inset -2px -2px #dfdfdf;
+}
+button.gui95-caption-button:active:not(:disabled)::before {
+  transform: translate(1px, 1px);
+}
+button.gui95-caption-button:focus-visible {
+  outline: 1px dotted currentColor;
+  outline-offset: -4px;
+}
+button.gui95-caption-button:disabled {
+  padding: 0;
+  color: #808080;
+  text-shadow: none;
+}
+button.gui95-caption-button:disabled::before {
+  filter: drop-shadow(1px 1px #fff);
+}
+@media (forced-colors: active) {
+  button.gui95-caption-button {
+    forced-color-adjust: none;
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+    box-shadow: none;
+  }
+  button.gui95-caption-button:active:not(:disabled) {
+    background: ButtonFace;
+    box-shadow: none;
+  }
+  button.gui95-caption-button:disabled { color: GrayText; }
+  button.gui95-caption-button:disabled::before { filter: none; }
+}
 </style></head><body><main class="window"><header class="caption"><h1>Window shell, system menu, move and size</h1><span>GUI95</span></header><div class="content"><p class="crumb"><a href="index.html">Widget index</a> / Windows and dialogs · <a href="window.html" download>Download this HTML</a></p><div class="stage" id="stage">
-<div class="row"><button id="reopen" hidden>Restore sample window</button><span class="hint">A child window inside this page; no native desktop control.</span></div><div id="desktop" style="height:320px;position:relative;overflow:hidden;background:#008080;margin-top:12px"><section id="child" class="window" aria-label="Sample document window" style="position:absolute;margin:0;left:15px;top:15px;width:300px;height:220px;min-width:180px"><div id="titlebar" class="caption" style="cursor:move"><button id="system" aria-label="Window menu" aria-haspopup="menu" aria-expanded="false" style="min-width:24px;padding:1px">▤</button><span>Sample document</span><div class="row" style="gap:2px"><button id="min" aria-label="Minimize" style="min-width:24px;padding:1px">_</button><button id="max" aria-label="Maximize" style="min-width:24px;padding:1px">□</button><button id="close" aria-label="Close sample window" style="min-width:24px;padding:1px">×</button></div></div><div id="window-content" class="content"><label class="field">Document name <input value="Untitled" style="width:100%"></label><p>Use the system menu to move or size with arrow keys.</p></div><div id="grip" role="separator" aria-label="Window size" aria-orientation="horizontal" aria-valuemin="180" aria-valuemax="600" aria-valuenow="300" tabindex="0" style="position:absolute;right:2px;bottom:2px;width:20px;height:20px;cursor:nwse-resize;background:repeating-linear-gradient(135deg,#c0c0c0 0 3px,#808080 3px 4px)"></div><div id="window-menu" role="menu" aria-label="Window" class="menu" hidden style="left:2px;top:28px"><button role="menuitem" id="restore-command" tabindex="-1">Restore</button><button role="menuitem" id="move-command" tabindex="-1">Move</button><button role="menuitem" id="size-command" tabindex="-1">Size</button><button role="menuitem" id="close-command" tabindex="-1">Close</button></div></section></div></div><p class="result" id="result" role="status" aria-live="polite">Ready — try the example.</p><div class="guide"><h2>States and behavior</h2><p>Active caption, system menu, normal/minimized/maximized/restored bounds, close/reopen, move/size and cancellation.</p><h2>Keyboard</h2><p>Alt+Space within the sample opens its system menu. Choose Move or Size, then arrows (Shift for 1 px), Enter to keep, Escape to revert. Caption buttons are labeled.</p><h2>Scope and adaptation</h2><p>A browser child-window pattern, not OS window chrome or full MDI management. Native Electron controls must use host APIs. This sample constrains geometry to its workspace.</p><h2>Sources</h2><p><a href="https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf" target="_blank" rel="noopener">Microsoft preliminary guide (1995), chapters 7–8</a></p><p class="hint">Original implementation; system colors are represented by CSS variables. The default 13 px system-font stack is a readable browser adaptation. The 1995 source is preliminary, not a final product specification. Test the target browser and native host before shipping.</p></div></div></main><script>(()=>{'use strict';const context=(function helpers() {
+<div class="row"><button id="reopen" hidden>Restore sample window</button><span class="hint">A child window inside this page; no native desktop control.</span></div><div id="desktop" style="height:320px;position:relative;overflow:hidden;background:#008080;margin-top:12px"><section id="child" class="window" aria-label="Sample document window" style="position:absolute;margin:0;left:15px;top:15px;width:300px;height:220px;min-width:180px"><div id="titlebar" class="caption" style="cursor:move"><button id="system" aria-label="Window menu" aria-haspopup="menu" aria-expanded="false" style="min-width:24px;padding:1px">▤</button><span>Sample document</span><div class="gui95-caption-controls"><button type="button" id="min" class="gui95-caption-button" data-caption-icon="minimize" aria-label="Minimize"></button><button type="button" id="max" class="gui95-caption-button" data-caption-icon="maximize" aria-label="Maximize"></button><button type="button" id="close" class="gui95-caption-button" data-caption-icon="close" aria-label="Close sample window"></button></div></div><div id="window-content" class="content"><label class="field">Document name <input value="Untitled" style="width:100%"></label><p>Use the system menu to move or size with arrow keys.</p></div><div id="grip" role="separator" aria-label="Window size" aria-orientation="horizontal" aria-valuemin="180" aria-valuemax="600" aria-valuenow="300" tabindex="0" style="position:absolute;right:2px;bottom:2px;width:20px;height:20px;cursor:nwse-resize;background:repeating-linear-gradient(135deg,#c0c0c0 0 3px,#808080 3px 4px)"></div><div id="window-menu" role="menu" aria-label="Window" class="menu" hidden style="left:2px;top:28px"><button role="menuitem" id="restore-command" tabindex="-1">Restore</button><button role="menuitem" id="move-command" tabindex="-1">Move</button><button role="menuitem" id="size-command" tabindex="-1">Size</button><button role="menuitem" id="close-command" tabindex="-1">Close</button></div></section></div></div><p class="result" id="result" role="status" aria-live="polite">Ready — try the example.</p><div class="guide"><h2>States and behavior</h2><p>Active caption, system menu, normal/minimized/maximized/restored bounds, close/reopen, move/size and cancellation.</p><h2>Keyboard</h2><p>Alt+Space within the sample opens its system menu. Choose Move or Size, then arrows (Shift for 1 px), Enter to keep, Escape to revert. Caption buttons are labeled.</p><h2>Scope and adaptation</h2><p>A browser child-window pattern, not OS window chrome or full MDI management. Native Electron controls must use host APIs. This sample constrains geometry to its workspace.</p><h2>Sources</h2><p><a href="https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf" target="_blank" rel="noopener">Microsoft preliminary guide (1995), chapters 7–8</a></p><p class="hint">Original implementation; system colors are represented by CSS variables. The default 13 px system-font stack is a readable browser adaptation. The 1995 source is preliminary, not a final product specification. Test the target browser and native host before shipping.</p></div></div></main><script>(()=>{'use strict';const context=(function helpers() {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const report = message => { $('#result').textContent = message; };
@@ -76,7 +168,7 @@ input[type=range]{appearance:none;background:transparent;height:24px}input[type=
   // A compact local scope; no globals or application engine are required.
   return {$, $$, report, on, clamp, tabs, dialog};
 })();(({$,$$,on,clamp,report})=>{const win=$('#child'),desktop=$('#desktop'),bar=$('#titlebar'),menu=$('#window-menu'),sys=$('#system');let rect={x:15,y:15,w:300,h:220},saved={...rect},mode=null,start=null,origin=null,state='normal';
- const apply=()=>{rect.w=clamp(rect.w,180,desktop.clientWidth);rect.h=clamp(rect.h,100,desktop.clientHeight);rect.x=clamp(rect.x,0,desktop.clientWidth-rect.w);rect.y=clamp(rect.y,0,desktop.clientHeight-32);Object.assign(win.style,{left:rect.x+'px',top:rect.y+'px',width:rect.w+'px',height:rect.h+'px'});$('#grip').setAttribute('aria-valuenow',Math.round(rect.w));$('#grip').setAttribute('aria-valuemax',desktop.clientWidth);$('#grip').setAttribute('aria-valuetext',`${Math.round(rect.w)} by ${Math.round(rect.h)} pixels`);};
+ const apply=()=>{$('#max').dataset.captionIcon=state==='max'?'restore':'maximize';$('#max').setAttribute('aria-label',state==='max'?'Restore':'Maximize');rect.w=clamp(rect.w,180,desktop.clientWidth);rect.h=clamp(rect.h,100,desktop.clientHeight);rect.x=clamp(rect.x,0,desktop.clientWidth-rect.w);rect.y=clamp(rect.y,0,desktop.clientHeight-32);Object.assign(win.style,{left:rect.x+'px',top:rect.y+'px',width:rect.w+'px',height:rect.h+'px'});$('#grip').setAttribute('aria-valuenow',Math.round(rect.w));$('#grip').setAttribute('aria-valuemax',desktop.clientWidth);$('#grip').setAttribute('aria-valuetext',`${Math.round(rect.w)} by ${Math.round(rect.h)} pixels`);};
  const hideMenu=()=>{menu.hidden=true;sys.setAttribute('aria-expanded','false');};const restore=()=>{rect={...saved};state='normal';$('#window-content').hidden=false;$('#grip').hidden=false;apply();};
  const begin=kind=>{hideMenu();origin={...rect};mode=kind;sys.focus();report(`${kind}: use arrows, Enter to finish, Escape to cancel.`);};
  on(sys,'click',()=>{menu.hidden=!menu.hidden;sys.setAttribute('aria-expanded',!menu.hidden);if(!menu.hidden)$$('button',menu)[0].focus();});on(menu,'keydown',ev=>{const buttons=$$('button',menu),i=buttons.indexOf(document.activeElement);if(ev.key==='Escape'){ev.preventDefault();hideMenu();sys.focus();}else if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ev.preventDefault();buttons[(i+(ev.key==='ArrowDown'?1:buttons.length-1))%buttons.length].focus();}else if(ev.key==='Tab')hideMenu();});on($('#move-command'),'click',()=>{if(state!=='normal')restore();begin('Move');});on($('#size-command'),'click',()=>{if(state!=='normal')restore();begin('Size');});on($('#restore-command'),'click',()=>{hideMenu();restore();sys.focus();});

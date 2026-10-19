@@ -14,3 +14,11 @@ The generated-output check passed. The reference verifier passed **109 preserved
 No Firefox, WebKit, screen reader, native Electron chrome, native Win32 control, actual printer, native picker UI, production editor engine or durable application persistence was certified. The Open/Save/Print pages deliberately leave those responsibilities to the browser/host. Recheck behavior and visual states in the consuming app.
 
 The runner writes detailed results and screenshots to `.codex_tmp/widget-qa/` by default; these local artifacts are excluded from releases. This record describes this edition, not future edits or a blanket compatibility guarantee.
+
+## Caption follow-up, 19 October 2026
+
+Two focused browser checks passed after adopting the shared caption stylesheet: font-independent dimensions and glyph placement, pointer press feedback, keyboard Maximize/Restore, disabled activation, forced-color captures and device scale factors 1, 1.25, 1.5 and 2; plus the existing child-window move/cancel/maximize/restore/close check. This reran the affected window example, not the full 38-example suite.
+
+The consuming GUI95 Suite passed 52/52 checks across eleven Windows Electron apps, its Puppet95 prototype and this reference desktop at scale factors 1, 1.25, 1.5 and 2. Native checks exercised minimize, maximize, Restore, external host-state updates, Space/Enter activation and Close where the app supports those actions; GPU compositing was enabled in all 44 native runs. Resting controls at all four scales and the Restore, pressed and disabled states were visually inspected. These are Electron startup scale overrides, not four changes to the physical Windows display setting. Separate VCrop, ProcGen FM, packaged PuzzleScript+MIS and packaged Website Manager window-control checks also passed. All eleven finished packages contain an unchanged copy of the shared stylesheet.
+
+Generated output is current; the reference verifier passed 109 snapshot hashes and 253 documentation links. The [shared caption contract](../../docs/caption-controls.md) records the reuse and host-state requirements.

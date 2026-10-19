@@ -18,6 +18,8 @@ Check the [integration lessons](integration-lessons.md) for later corrections to
 
 **Desktop launch performance:** Follow the [startup and packaging principle](design-guide.md#startup-and-desktop-packaging): use an unpacked app as the default build and launch target, provide a stable shortcut, and point file associations at the unpacked executable. Keep self-extracting packages opt-in and include their extraction delay in any startup measurement.
 
+**Caption buttons:** Copy the [shared caption stylesheet](../examples/caption-controls.css) unchanged and follow its [markup, state and verification contract](caption-controls.md). Do not recreate the icons with font characters or app-specific offsets.
+
 ## Extract a complete interaction
 
 1. Choose a concrete control and its state model. Define the command, value, focus, disabled state, and cancel behavior.
