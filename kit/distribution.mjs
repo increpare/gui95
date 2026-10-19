@@ -169,7 +169,7 @@ export function createKit({root=path.dirname(fileURLToPath(import.meta.url)),pub
         fullKitFiles=files;
         return bundle(files,{type:'full-kit'});
       }
-      for(const name of ['gui95-app.mjs','gui95-icons.mjs']) files.push({path:'tools/'+name,text:await readFile(path.join(root,'../tools',name),'utf8')});
+      for(const name of ['gui95-app.mjs','gui95-icons.mjs','gui95-serve.mjs','gui95-distro.mjs']) files.push({path:'tools/'+name,text:await readFile(path.join(root,'../tools',name),'utf8')});
       for(const name of ['LICENSE','THIRD-PARTY-NOTICES.md']) files.push({path:name,text:await readFile(path.join(root,'..',name),'utf8')});
       const repository=contentRoot;
       const snapshot=JSON.parse(await readFile(path.join(repository,'references/snapshot-manifest.json'),'utf8'));

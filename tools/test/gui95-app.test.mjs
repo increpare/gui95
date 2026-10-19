@@ -1002,9 +1002,20 @@ test("main install exits 1 and says why when the build is missing", async (t) =>
   assert.equal(run.stdout, "");
 });
 test("main exits 2 with the usage for a missing or unknown command", () => {
-  for (const args of [[], ["frobnicate"], ["pack", "extra"]]) {
+  for (const args of [[], ["frobnicate"], ["install", "extra"]]) {
     const run = runHelper(fakeRepoWithoutBuild(), ...args);
     assert.equal(run.status, 2, args.join(" "));
-    assert.match(run.stderr, /^Usage: node .*gui95-app\.mjs <pack\|install>$/m);
+    assert.match(run.stderr, /^Usage: node .*gui95-app\.mjs <pack\|install\|paths>$/m);
   }
+});
+
+test('pack can select one app without requiring companion builds', async () => {
+  const repo = fakeBuiltRepo();
+  const manifest = JSON.parse(fs.readFileSync(path.join(repo, 'gui95-app.json'), 'utf8'));
+  manifest.apps.push({ ...manifest.apps[0], id: 'missing-companion', name: 'Missing companion', builds: { windows: { dir: 'missing', exe: 'missing.exe' } } });
+  fs.writeFileSync(path.join(repo, 'gui95-app.json'), JSON.stringify(manifest));
+  const result = await h.pack(repo, { ...packOptions, ids: ['example-app'] });
+  assert.equal(result.length, 1);
+  assert.equal(result[0].app, 'Example App');
+  await assert.rejects(h.pack(repo, { ...packOptions, ids: ['unknown'] }), /Unknown app id/);
 });

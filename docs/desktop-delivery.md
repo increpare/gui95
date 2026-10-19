@@ -1,6 +1,6 @@
 # Desktop delivery standard
 
-This is the standard for building, packaging and installing a GUI95 desktop app on Windows, macOS and Linux. An app that follows it answers the same `make` commands, describes itself in one `gui95-app.json` file, and carries two small scripts that are copied into it unchanged: [`tools/gui95-app.mjs`](../tools/gui95-app.mjs) makes the compressed copy and installs the app, and [`tools/gui95-icons.mjs`](../tools/gui95-icons.mjs) makes the icons from SVG files.
+This is the standard for building, packaging and installing a GUI95 desktop app on Windows, macOS and Linux. An app that follows it answers the same `make` commands, describes itself in one `gui95-app.json` file, and copies the shared helpers unchanged. [`tools/gui95-app.mjs`](../tools/gui95-app.mjs) packs, installs and reports launch paths; [`tools/gui95-icons.mjs`](../tools/gui95-icons.mjs) generates icons; the preview and distribution helpers are described below.
 
 It puts the [startup and packaging principle](design-guide.md#startup-and-desktop-packaging) into practice: the installed app is an unpacked app at a stable path, and installing a new build replaces it in place, so pinned icons, shortcuts and file types keep working across rebuilds. It is written for Electron apps built to an unpacked folder (electron-builder's `--dir` output, for example); the scripts only need that finished folder.
 
@@ -8,27 +8,31 @@ Each computer builds for itself, in its own checkout, so `node_modules`, Electro
 
 ## Make targets
 
-Every app repository answers `make` and `make install`, and `make serve` when it has a web version:
+Every app repository uses these root commands:
 
 | Command | What it does |
 | --- | --- |
-| `make` | Builds the desktop app for the computer it runs on (Windows, macOS or Linux) as an unpacked app in the repository's build folder, and a compressed copy of it for passing on. Also builds the web version, where the app has one. |
-| `make serve` | Does what `make` does, then serves the web version and prints its address. It uses the app's usual port when that is free, and any free port otherwise. |
-| `make install` | Does what `make` does, then installs the app for the current user (see [Installing](#installing)). |
+| `make` / `make help` | Lists commands without building or changing files. |
+| `make desktop` | Builds every desktop app in this repository for the current host and prints absolute executable or bundle paths after completion. Host archives may also be produced for the suite. |
+| `make serve` | Prepares required web assets, including missing or stale WASM, then serves the web version on a free port and prints LAN URLs. It never depends on desktop packaging or a cross-platform build. |
+| `make distro` | Builds host archives and assembles current-version archives produced on other platforms; `GUI95_DIST_INPUT` points to their containing directory. The generated index lists present packages and missing platforms. |
+| `make install` | Builds desktop apps and installs them for the current user. |
 
-Repositories keep their other targets. An app with no web version has nothing to serve and has no `make serve`.
+Repositories keep other explicit targets. Desktop-only apps make `serve` explain that no browser version exists. Reference/library repos explain when no desktop executable exists. Distribution assembly is separate from cross-compilation: macOS bundles and native dependencies must be built and verified on suitable hosts. Missing platforms are reported, never silently represented as built.
 
-The free-port rule is the server's job: listen on the usual port and, when Node reports `EADDRINUSE`, listen on port `0` instead and print the address from `server.address()`, so the printed address is the one in use.
+Copy [the LAN preview helper](../tools/gui95-serve.mjs) into `scripts/gui95-serve.mjs` unchanged. It binds to all IPv4 interfaces, chooses a free port if the preferred port is occupied, and prints active LAN addresses before the offline loopback fallback. Dynamic application servers may import its network utilities while preserving their host/origin checks. Serve only intended web files; reject hidden paths, dependency trees and symlink escapes.
+
+Copy [the distribution assembler](../tools/gui95-distro.mjs) beside the unchanged app helper. It selects archives matching each registered app's current version, accepts optional archives from another directory, writes `gui95-dist/index.json`, and explicitly lists missing platforms.
 
 ### Repositories with several apps
 
-Choose deliberately which app or suite plain `make` builds. Keep other apps as named targets unless the requested default is the complete suite. Sharing an engine or an Electron dependency directory does not make every companion app part of that default.
+The `desktop` target builds all desktop apps in the repo. Keep individual apps as explicit named targets too. Plain `make` always shows help. Register the complete app set in the manifest; an individual app target can call `node scripts/gui95-app.mjs pack <app-id>` to archive only that app without requiring its companions.
 
 GNU Make merges prerequisites from repeated ordinary target rules. An `all: editor` rule followed by a Windows-only `all: legacy-player` rule builds both on Windows; the later rule does not replace the earlier dependencies. Setting `.DEFAULT_GOAL := all` selects the goal but does not change that merging. Inspect every rule for the default goal, including conditional ones, when introducing or renaming an app.
 
 Keep the default target, README instructions and final completion message consistent. Print the intended app's name, actual output path and applicable launch instructions after the build and archive succeed. A companion app's final success message can conceal an otherwise successful primary build and send the user to the wrong executable. Check `gui95-app.json` too: the delivery helper enumerates its configured apps for this host, so the build must produce the app set that its pack/install commands expect.
 
-Verify plain `make` itself on the intended host and read its complete output through the final lines. Testing only `make editor` misses dependencies attached to `all`. Check the explicit companion targets separately, using a dry run when no new package is needed. For a supported suite default, report every requested app clearly rather than leaving only whichever package ran last as the apparent result.
+Verify `make desktop` itself on the intended host and read its complete output through the final lines. Testing only `make editor` misses dependencies attached to `desktop`. Check the explicit companion targets separately, using a dry run when no new package is needed. For a supported suite default, report every requested app clearly rather than leaving only whichever package ran last as the apparent result.
 
 ## Portable Makefiles
 
@@ -49,25 +53,26 @@ NPM := npm.cmd
 else
 NPM ?= npm
 endif
-
-.PHONY: all serve install
-
-all: node_modules/.package-lock.json
-	$(NODE) scripts/gui95-icons.mjs
+.DEFAULT_GOAL := help
+.PHONY: help all desktop serve distro install
+help:
+	@echo "make desktop / serve / distro / install"
+all: desktop
+desktop: node_modules/.package-lock.json
 	$(NPM) run build
 	$(NODE) scripts/gui95-app.mjs pack
-
-serve: all
-	$(NODE) scripts/serve.mjs
-
-install: all
+	$(NODE) scripts/gui95-app.mjs paths
+serve:
+	$(NODE) scripts/gui95-serve.mjs web
+distro: desktop
+	$(NODE) scripts/gui95-distro.mjs
+install: desktop
 	$(NODE) scripts/gui95-app.mjs install
-
-node_modules/.package-lock.json: package-lock.json
+node_modules/.package-lock.json: package.json package-lock.json
 	$(NPM) ci
 ```
 
-Recipe lines start with a tab. `npm run build` is the app's own build script, such as `electron-builder --dir`, and leaves the unpacked app in the folder that `gui95-app.json` names. If the web version has a build step, add it to `all`.
+Recipe lines start with a tab. `npm run build` is the app's own build script, such as `electron-builder --dir`, and leaves the unpacked app in the folder that `gui95-app.json` names. If the web version has a build step, give `serve` that prerequisite. Keep source dependency tracking in the existing web build system so unchanged WASM is reused.
 
 ### Keep desktop installation out of npm lifecycle hooks
 

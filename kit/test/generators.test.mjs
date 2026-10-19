@@ -8,6 +8,9 @@ import { generateLayout } from '../generators/layout.mjs';
 import { createCommandRegistry } from '../generators/commands.mjs';
 import { generateStarter } from '../generators/starters.mjs';
 
+// Node cannot directly spawn a .cmd launcher on Windows. Invoke npm's JS entry.
+const npm = process.platform === 'win32' ? [process.execPath, path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js')] : ['npm'];
+
 const text = (result,name) => result.files.find(f=>f.path===name)?.text;
 test('structured layout escapes labels and serialised values, links labels, and bounds requests',()=>{
   for(const type of ['properties','preferences','inspector','editor']) {
@@ -71,7 +74,7 @@ test('each starter is executable as a web bundle and carries validated delivery 
       assert.equal(text(out,'scripts/gui95-app.mjs'),await readFile(new URL('../../tools/gui95-app.mjs',import.meta.url),'utf8'));
       assert.equal(text(out,'scripts/gui95-icons.mjs'),await readFile(new URL('../../tools/gui95-icons.mjs',import.meta.url),'utf8'));
       const testEnv={...process.env};delete testEnv.NODE_TEST_CONTEXT;
-      const run=spawnSync(process.platform==='win32'?'npm.cmd':'npm',['test'],{cwd:dir,encoding:'utf8',env:testEnv});
+      const run=spawnSync(npm[0],[...npm.slice(1),'test'],{cwd:dir,encoding:'utf8',env:testEnv});
       assert.equal(run.status,0,run.stdout+run.stderr);
       assert.match(run.stdout,/tests 4/,'the independent generated npm test actually executes all four tests');
     } finally {await rm(dir,{recursive:true,force:true});}
@@ -105,7 +108,7 @@ test('clean npm install does not invoke the desktop installer lifecycle',async()
     const pkg=JSON.parse(text(generateStarter({template:'utility',name:'Install Test',id:'install-test'}),'package.json'));
     pkg.devDependencies={};
     await writeFile(path.join(directory,'package.json'),JSON.stringify(pkg));
-    const run=spawnSync(process.platform==='win32'?'npm.cmd':'npm',['install','--offline','--no-audit','--no-fund','--cache',path.join(directory,'cache')],{cwd:directory,encoding:'utf8'});
+    const run=spawnSync(npm[0],[...npm.slice(1),'install','--offline','--no-audit','--no-fund','--cache',path.join(directory,'cache')],{cwd:directory,encoding:'utf8'});
     assert.equal(run.status,0,run.stdout+run.stderr);
     assert.equal(pkg.scripts['install-app'],'node scripts/gui95-app.mjs install');
   }finally{await rm(directory,{recursive:true,force:true});}
