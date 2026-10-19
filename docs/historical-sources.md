@@ -57,6 +57,8 @@ This is the companion for understanding why the interface took its eventual form
 
 [About Common Controls](https://learn.microsoft.com/en-us/windows/win32/controls/common-controls-intro) is current Microsoft Win32 documentation. Use it to navigate native control concepts and APIs; its current contents are not a frozen 1995 SDK reference.
 
+To date a control feature, read its minimum comctl32 version in that reference and the [Common Control Versions](https://learn.microsoft.com/en-us/windows/win32/controls/common-control-versions) page, whose `_WIN32_IE` table pairs 4.70 with `0x0300` (Internet Explorer 3.0) and 4.71 with `0x0400`. An element with no version note is, by Microsoft's convention, in every version of the DLL. For example, the [tree-view styles](https://learn.microsoft.com/en-us/windows/win32/controls/tree-view-control-window-styles) mark `TVS_CHECKBOXES` as 4.70, so check boxes in a tree are 1996 Windows 95 with Internet Explorer 3.0, not the 1995 release; the [integration lessons](integration-lessons.md#tree-check-boxes-what-the-control-did-and-what-the-app-did) record what the style did and did not do.
+
 ## Modern implementation companions
 
 | Project | Useful for | Historical status |

@@ -234,3 +234,50 @@ See the [design guide](design-guide.md) for the base visual rules and [reuse gui
 In the maintained build kit, command state can disable the control that currently owns a toolbar's Tab stop. Recompute the enabled, visible entry when disabled, aria-disabled, hidden or inert state changes, while preserving the current entry if it remains available. Otherwise every remaining enabled button can retain tabindex=-1 and Tab skips the whole toolbar. Apply the same availability rule when entering a tree branch: skip a disabled first child and reach an available sibling. Keep native value-control arrows and button Space owned by the focused control.
 
 The kit's real browser regressions exercise these state changes and verify that destroy disconnects the observers. This is new maintained-kit behavior, not a claim that the preserved application snapshots contain those fixes. Menu checkbox/radio state also needs a visible current-color mark; an aria-checked value alone does not draw the checked state.
+
+## Choosing items from a set: check boxes, not latched buttons
+
+A persistent toolbar button (sunken, with the 2 px checker face) means a tool or a mode, such as Bold or a drawing tool. A grid of dozens of them used to say "include these items" failed in a music player consumer, ProcGen FM. Raised buttons read as commands: clicking a genre could mean "play it now". On and off differed only by the dither and a bevel, which is hard to read across 40 controls. A family heading drawn as a check box over member buttons showed one state two ways. The grid sat in a group box that scrolled, so only about two of six families were ever visible.
+
+Use check boxes for independent on/off choices. For many choices in groups, the consumer compared six mockups and chose a **tree view with check boxes in a sunken white well** in a side column. Each group has a +/- box, a check box and its name, with dotted connector rails to its members. A group's box shows a grey tick when only part of the group is on, and ticking the group switches all its members. Collapsed, the group boxes still summarize the whole selection. The alternatives it rejected:
+
+- **Windows Setup's check list with Details...** (Add/Remove Programs). This is the period pattern for groups with partial selection: a grey shaded box, "n of m selected" and a Details dialog for the members. But it puts a setting behind a dialog inside a dialog, which suits a one-time install, not a setting changed while the app is in use.
+- **Two list boxes with Add -> and <- Remove**, like Customize Toolbar. Good for moving many items at once, but it takes twice the width and two actions to change one item.
+- **Group boxes of check boxes, all visible.** The smallest change, but it costs permanent window height and wraps at narrow widths.
+- **A preset drop-down list.** A useful shortcut for "only this group", not a way to choose individual members.
+
+Group boxes do not scroll. Put scrolling content in a sunken white well with the scrollbar inside it. Draw a check box's focus rectangle round its label text, not round the box. Lay a short list of check boxes in a narrow column in two columns when the labels fit; one long column only takes height from the list beside it.
+
+Draw a mixed check box as the normal tick in `#808080` on the face colour `#c0c0c0` instead of on white. Set `input.indeterminate` from script and style `:indeterminate`. When a check box's click handler re-renders the box's own checked state from the model, do not call `preventDefault`: the browser restores the old state after the handler and undoes the re-render. A refused change (for example, the last item that must stay on) can simply re-render.
+
+For arrow-key navigation over one roving tab stop that spans several grids of controls, such as group headings among button grids, choose the next control by its place on screen: the nearest row above or below, then the nearest centre. A column count breaks across grids of different widths.
+
+The consumer checked the tree and check boxes with pointer and keyboard in Chromium and in its Windows Electron host at 100%, 125%, 150% and 200% scale, including narrow and short windows. That does not verify another app's layout or cascade.
+
+### Tree check boxes: what the control did and what the app did
+
+The Windows 95 tree view (Explorer's folder pane) had no check boxes. Microsoft's [tree-view style reference](https://learn.microsoft.com/en-us/windows/win32/controls/tree-view-control-window-styles) marks `TVS_CHECKBOXES` as comctl32 **4.70**. The header macro that targets 4.70 is `_WIN32_IE` `0x0300`, the Internet Explorer 3.0 common controls of 1996 ([version notes](https://learn.microsoft.com/en-us/windows/win32/controls/common-control-versions)). The style gave **every** item a two-state box, unchecked or checked, drawn from a state image list. Setting an item's state image to zero removed its box. Before 5.80 a box appeared only when the item also had an image.
+
+The control linked no boxes together. A grey partial state needs a third state image supplied by the app, and ticking a group's members (or greying the group) is the app's own logic. Recollections, not checked against a primary source here: Internet Explorer 4's Advanced options tab gave its category headings an icon and no box, with check boxes or radio buttons only on the leaves; backup programs ticked folders and shaded a folder whose files were partly chosen. Treat the headings-without-boxes form as the control used as it came, and the tri-state group box as a period-plausible extension. Without boxes on the headings, a collapsed tree shows nothing of the selection inside it.
+
+Make the tree one tab stop, with the current row carrying the navy selection while the tree has focus:
+
+- Up and Down move over visible, available rows. Home and End reach the first and last.
+- Right opens a closed group, or steps into an open one. Left closes an open group, or climbs from a member to its group. + and - only open and close.
+- Space toggles the current row; an app can give Shift+Space a "keep only this" meaning.
+- Stop propagation for the keys the tree handles, so the app's own Space and arrow shortcuts do not also fire.
+- When a group closes over the current member, move the tab stop (and focus, if the tree has it) to the group.
+
+Keep these rules in a small DOM-free function over the visible rows (group, expanded, parent, available) and test them directly; the DOM layer then only applies the result. Remembering which groups are closed is a per-user convenience.
+
+## Tabs: mark state with the icon, and name them after their buttons
+
+The Windows 95 tab control could show an image beside each tab's label: the [`TCM_SETIMAGELIST`](https://learn.microsoft.com/en-us/windows/win32/controls/tcm-setimagelist) reference gives no minimum DLL version, which by Microsoft's convention means every version. Give each tab a default icon in a **fixed 16-pixel box**, and mark a changing state, such as the list that is currently playing, by swapping that icon for a playing arrow. Adding or removing a marker beside a label changes the tab's width and moves every tab after it; swapping inside a fixed box never does.
+
+Order and name tabs after the buttons that fill them. When Star, Like and Reject put a track into lists, the tabs read Starred, Liked and Rejected, in that order.
+
+Do not give one button a label and meaning that change with a mode. A player's "More tracks" button became "Continuous radio" while a saved list played: one job was a chore scrolling already did, the other a mode switch. Making the endless radio the first tab of one tabbed list, beside the saved lists, removed the button. Every list then plays the same way, from a double-clicked row onward. The radio tab keeps its upcoming tracks where they were left, so double-clicking one of them resumes it, and a menu command (enabled only when relevant) offers the same by keyboard. A status-bar pane names the playing source and position, such as "Liked 2 of 4". A menu loop that mirrors each command's toolbar button must tolerate a command with no button.
+
+## Lists that redraw rows on mousedown: scroll anchoring
+
+When a list box redraws its rows during mousedown (to show a new selection, for instance), Chrome's scroll anchoring can scroll the page between the clicks of a sequence, so the next click lands on the wrong row. Set `overflow-anchor: none` on the scrolling container or page and focus the list with `focus({ preventScroll: true })`. Check by clicking several rows in succession on a page that scrolls.
