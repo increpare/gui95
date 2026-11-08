@@ -24,5 +24,11 @@
     "vibe-coded"
   ],
   "mcpServers": "./.mcp.json",
-  "skills": "./skills/"
+  "skills": "./skills/",
+  "displayName": "GUI95",
+  "icon": "./.claude-plugin/icon.png",
+  "documentationUrl": "https://ded.increpare.com/gui95/",
+  "supportUrl": "https://github.com/increpare/gui95/issues",
+  "privacyPolicyUrl": "https://ded.increpare.com/gui95/privacy",
+  "termsOfServiceUrl": "https://github.com/increpare/gui95/blob/master/LICENSE"
 }
