@@ -1,0 +1,28 @@
+{
+  "name": "gui95",
+  "version": "1.2.4",
+  "description": "Build and review Windows 95-inspired web and Electron interfaces using GUI95’s live guidance, 38 widget templates, source references, assets and build kits. Requires the connected GUI95 reference service.",
+  "author": {
+    "name": "Stephen Lavelle",
+    "url": "https://github.com/increpare"
+  },
+  "homepage": "https://ded.increpare.com/gui95/",
+  "repository": "https://github.com/increpare/gui95",
+  "license": "MIT",
+  "keywords": [
+    "windows95",
+    "win95",
+    "retro-ui",
+    "ui-design",
+    "widgets",
+    "html",
+    "css",
+    "javascript",
+    "electron",
+    "desktop",
+    "accessibility",
+    "vibe-coded"
+  ],
+  "mcpServers": "./.mcp.json",
+  "skills": "./skills/"
+}
