@@ -79,7 +79,7 @@ export async function createApplication(options = {}) {
     }
     tool("search_gui95", {
       title: "Find GUI95 guidance",
-      description: "Find GUI95 control templates, visual/keyboard rules, historical guidance, integration lessons, app source, tools, tests, icons, fonts and screenshots. Widget hits include widget_id for get_gui95_widget; results distinguish guides, widgets, assets and archived material. Search text is not retained. Use only for Windows 95-inspired UI work.",
+      description: "Searches indexed public GUI95 guides, widget templates, historical references, integration lessons, app source, tools, tests, icons, fonts and screenshots. Results identify their kind, public path, hashes and links; widget hits include widget_id. Search text is processed in memory and is not retained.",
       inputSchema: { query: z.string().trim().min(2).max(200), limit: z.number().int().min(1).max(8).default(5) },
       annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false }
     }, async ({ query, limit }) => ({
@@ -88,25 +88,25 @@ export async function createApplication(options = {}) {
     }));
     tool('list_gui95_materials', {
       title:'Browse GUI95 templates and materials',
-      description:'Start here for a new Windows 95-style app. Browse all public GUI95 guides, independent widget templates, source, tools, verification, icons, fonts and screenshots. Includes recommended workflow, quality guides, family coverage and explicit verification limits. Filter by kind/query and follow next_offset.',
+      description: "Browses the public GUI95 inventory of guides, independent widget templates, source, tools, verification, icons, fonts and screenshots. Results include control-family coverage, quality guides, workflow information and verification limits. Supports kind/query filters and pagination through next_offset.",
       inputSchema:{kind:z.enum(materialKinds).default('all'),query:z.string().trim().max(200).default(''),offset:z.number().int().min(0).default(0),limit:z.number().int().min(1).max(100).default(40)},
       annotations:{readOnlyHint:true,destructiveHint:false,openWorldHint:false}
     },async args=>{const listed=catalog.list(args);return {...listed,materials:listed.materials.map(link),gallery_url:previewURL('demo/dist/widgets/index.html')};});
     tool('get_gui95_widget', {
       title:'Get a complete GUI95 widget template',
-      description:'Retrieve an independent runnable HTML template by widget_id from search or listing. Includes complete inline code by default, states, keyboard behavior, scope/host limits, historical and modern source pointers, authoring source, verification notes, related controls and preview/download links. No app engines or external assets are needed. Adapt and test in the target app.',
+      description: "Returns an independent runnable HTML template for a known widget_id. Includes complete inline code by default, states, keyboard behavior, scope/host limits, historical and modern source references, authoring paths, verification notes, related controls and preview/download links. The template is self-contained and has no app-engine or external-asset dependency.",
       inputSchema:{widget_id:z.string().min(1).max(80),include_code:z.boolean().default(true)},
       annotations:{readOnlyHint:true,destructiveHint:false,openWorldHint:false}
     },async({widget_id,include_code})=>{const widget=catalog.widget(widget_id,{includeCode:include_code});return {...widget,template:link(widget.template),notices_url:referenceURL('THIRD-PARTY-NOTICES.md')};});
     tool('get_gui95_asset', {
       title:'Get a GUI95 icon, font or reference image',
-      description:'Retrieve a known public asset path from search/listing, with MIME type, SHA-256, license/notices and download URL. PNG/JPEG/WebP/GIF return MCP image content; SVG/font bytes return base64. Data is inline up to 512 KiB; larger files have download URLs. Font recreations retain their CC BY-SA terms. No arbitrary filesystem access.',
+      description: "Returns an inventoried public GUI95 asset with MIME type, SHA-256, license/notices and download URL. PNG/JPEG/WebP/GIF return MCP image content; SVG/font bytes use base64. Inline data is capped at 512 KiB. Font recreations retain their CC BY-SA terms. Only known public paths are accepted. API documentation: https://github.com/increpare/gui95/blob/master/docs/mcp-service.md",
       inputSchema:{path:z.string().min(1).max(250),include_data:z.boolean().default(true)},
       annotations:{readOnlyHint:true,destructiveHint:false,openWorldHint:false}
     },async({path:name,include_data})=>({...link(catalog.asset(name,{includeData:include_data})),notices_url:referenceURL('THIRD-PARTY-NOTICES.md')}));
     tool("read_gui95_reference", {
       title: "Read a GUI95 reference",
-      description: "Read a known GUI95 guide, source, template, tool, test or notice from search/listing. Bounded to 200 lines/24000 characters; follow next_cursor.line and next_cursor.column to retrieve minified source without loss. Binary assets use get_gui95_asset. No arbitrary filesystem/network access. Read markup, CSS and behavior together. API documentation: https://github.com/increpare/gui95/blob/master/docs/mcp-service.md",
+      description: "Returns a bounded excerpt of a known public GUI95 text reference: a guide, source file, template, tool, test or notice. Responses contain at most 200 lines and 24000 characters. next_cursor.line and next_cursor.column identify the exact continuation point, including within minified lines. Binary and arbitrary private/network paths are outside this tool’s scope. API documentation: https://github.com/increpare/gui95/blob/master/docs/mcp-service.md",
       inputSchema: { path: z.string().min(1).max(250), start_line: z.number().int().min(1).default(1), line_count: z.number().int().min(1).max(200).default(100),start_column:z.number().int().min(0).default(0) },
       annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false }
     }, async ({ path: name, start_line, line_count,start_column }) => ({
@@ -116,7 +116,7 @@ export async function createApplication(options = {}) {
     }));
     tool("submit_gui95_feedback", {
       title: "Send GUI95 feedback to its maintainer",
-      description: "Send an explicitly authorized, concise, sanitized agent or human report to GUI95's private feedback inbox. Useful for missing examples, confusing guidance, tested bugs, reusable lessons, or successful patterns. Do not send secrets, private code, conversations, or private machine paths. Identify actual verification honestly. It does not publish an issue or edit guidance. Reuse client_report_id when retrying an identical report.",
+      description: "Stores an explicitly authorized, concise agent or human report in the private GUI95 feedback inbox. Report categories cover missing references, unclear guidance, bugs, reusable lessons and successful patterns. Requires consent and a verification label. Basic validation rejects some credential and private-path patterns, but is not a complete sanitizer. An identical retry with the same client_report_id is deduplicated. Reports are retained for 90 days; they do not publish issues or change guidance automatically.",
       inputSchema: {
         consent: z.literal(true).describe("The user has authorized sharing this GUI95 feedback with Stephen Lavelle."),
         client_report_id: z.uuid().describe("A new UUID for this report; reuse it for retries."),
