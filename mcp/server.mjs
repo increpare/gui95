@@ -11,7 +11,7 @@ import { createStore, createRateLimiter } from "./store.mjs";
 import { createKit } from "./kit.mjs";
 import { registerKitTools } from "./kit-tools.mjs";
 
-export const VERSION = "1.2.0";
+export const VERSION = "1.2.1";
 export const instructions = [
   "Use GUI95 to build, restyle, or review Windows 95-inspired web and Electron interfaces.",
   "Call list_gui95_kits for standalone components, original CC0 icons, structured layouts, browser/Electron starters and local verification. Fetch evidence, repairs and version guidance with the specialized tools. Download complete artifacts and verify their hashes before integrating.",
@@ -60,7 +60,7 @@ export async function createApplication(options = {}) {
   function mcpServer() {
     const server = new McpServer({ name: "gui95", version: VERSION }, { instructions });
     function tool(name, config, handler) {
-      server.registerTool(name, config, async (args) => {
+      server.registerTool(name, { ...config, annotations: { title: config.title, ...config.annotations } }, async (args) => {
         try {
           const data = await handler(args);
           await store.recordUsage(name, { reference: name === "read_gui95_reference" ? args.path : undefined });
@@ -106,7 +106,7 @@ export async function createApplication(options = {}) {
     },async({path:name,include_data})=>({...link(catalog.asset(name,{includeData:include_data})),notices_url:referenceURL('THIRD-PARTY-NOTICES.md')}));
     tool("read_gui95_reference", {
       title: "Read a GUI95 reference",
-      description: "Read a known GUI95 guide, source, template, tool, test or notice from search/listing. Bounded to 200 lines/24000 characters; follow next_cursor.line and next_cursor.column to retrieve minified source without loss. Binary assets use get_gui95_asset. No arbitrary filesystem/network access. Read markup, CSS and behavior together.",
+      description: "Read a known GUI95 guide, source, template, tool, test or notice from search/listing. Bounded to 200 lines/24000 characters; follow next_cursor.line and next_cursor.column to retrieve minified source without loss. Binary assets use get_gui95_asset. No arbitrary filesystem/network access. Read markup, CSS and behavior together. API documentation: https://github.com/increpare/gui95/blob/master/docs/mcp-service.md",
       inputSchema: { path: z.string().min(1).max(250), start_line: z.number().int().min(1).default(1), line_count: z.number().int().min(1).max(200).default(100),start_column:z.number().int().min(0).default(0) },
       annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false }
     }, async ({ path: name, start_line, line_count,start_column }) => ({

@@ -1,10 +1,12 @@
 {
   "name": "gui95-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "type": "module",
   "description": "Live GUI95 reference tools and an explicit agent feedback inbox.",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test test/*.test.mjs",

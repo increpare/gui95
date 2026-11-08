@@ -2,7 +2,7 @@
 
 The optional MCP service exposes the public materials needed to build high-quality Windows 95-style apps: current and historical guidance, all independent widget templates, original app source, desktop demo, build/icon tooling, tests/QA, icons, fonts, screenshots and notices. It also accepts explicit agent or human feedback for maintainer review. The standalone skill remains usable without a server.
 
-The public endpoint is **https://ded.increpare.com/gui95/mcp**. The initial reference service was deployed and verified on 18 October 2026; build-kit source and verification are documented in [the build-kit guide](build-kit.md). The source, locked dependencies, tests, deployment templates, and package builder are under the repository's `mcp/` directory.
+The public endpoint is **https://ded.increpare.com/gui95/mcp**. The initial reference service was deployed and verified on 18 October 2026; build-kit source and verification are documented in [the build-kit guide](build-kit.md). The source, locked dependencies, tests, deployment templates, and package builder are under the repository's `mcp/` directory. Service 1.2.1 supplies each tool's human-readable name in both its top-level `title` and `annotations.title`, since Claude's connector validator checks the latter. Tool arguments, behavior and component versions are unchanged.
 
 ## Tools and feedback
 
