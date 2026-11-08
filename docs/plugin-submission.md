@@ -22,7 +22,7 @@ The flagged archived files are hash-pinned snapshots, so leave them unchanged. C
 
 ## Codex build
 
-The 1.2.1 patch adds reviewed guidance for nonlinear sliders, playback feedback, converted document saves, stable streaming results, imported SVG presentation, macOS Undo/Redo ownership and packaged feature resources. The preserved snapshot edition and the optional build kit and MCP service versions are unchanged.
+The 1.2.2 documentation patch adds the [8 November consumer harvest](usage-review-2026-11-08.md): embedded layouts, grid/canvas sizing, tab/menu clipping, accessible state marks, progress, asynchronous document ownership, binary imports and responsive readers. It documents two maintained-kit consumer workarounds without claiming a component fix. The preserved snapshot edition and optional build kit and MCP service versions are unchanged; the packaged content revision identifies the updated guidance.
 
 Run `powershell -File tools/package-plugin.ps1` from the repository root, or use `pwsh -File tools/package-plugin.ps1` with PowerShell on other platforms. This creates `dist/gui95-plugin.zip`. Preserve an older output before rebuilding; the script refuses to overwrite it.
 

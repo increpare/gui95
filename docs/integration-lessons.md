@@ -1,6 +1,6 @@
 # Lessons from GUI95 integrations
 
-Follow-up guidance from source and changelist review and consumer integrations, updated **19 October 2026**. These are adaptations to consider when extracting the preserved controls. Runtime observations concern the reported consuming host; they do not establish new passing results for the 14 October snapshots or the collection's examples. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
+Follow-up guidance from source and changelist review and consumer integrations. This collection covers the October harvest; the [8 November follow-up](recent-integration-lessons.md) adds host-panel layouts, grid/canvas sizing, tab and menu clipping, accessible marks, progress, nested trees, asynchronous document ownership and reader performance. These are adaptations to consider when extracting the preserved controls. Runtime observations concern the reported consuming host; they do not establish new passing results for the 14 October snapshots or the collection's examples. Use the affected app's host, accessibility requirements, and interaction model to decide which apply.
 
 ## Caption buttons: center icon geometry, not font ink
 

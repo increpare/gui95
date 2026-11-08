@@ -59,6 +59,7 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | Record UI problems and return lessons at task handoff | [Feedback workflow and report template](docs/feedback.md) |
 | Complete remote reference: templates, source, tools, assets, verification and feedback | [MCP service guide](docs/mcp-service.md) |
 | Lessons from projects using the widgets and prioritized improvements | [Usage review, 15 October 2026](docs/usage-review-2026-10-15.md) |
+| Latest consumer harvest, accepted lessons and verification limits | [Usage review, 8 November 2026](docs/usage-review-2026-11-08.md) |
 | Later menu, dialog, tab, preview, scrollbar, and native theme corrections | [Integration lessons, 18 October 2026](docs/integration-lessons.md) |
 | Fonts, source attribution, and snapshot details | [Provenance and notices](docs/provenance.md) |
 

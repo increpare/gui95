@@ -6,6 +6,8 @@ It puts the [startup and packaging principle](design-guide.md#startup-and-deskto
 
 Each computer builds for itself, in its own checkout, so `node_modules`, Electron runtimes and build folders never mix between systems. The Windows 95 look stays the same on every system; what changes is behavior, covered under [platform conventions](#platform-conventions). Code signing, notarization, installers (`.msi`, NSIS, `.dmg`), app stores, automatic updates and universal or Intel macOS builds are outside this standard.
 
+When a packager copies Electron directly, prepare the installed runtime first and resolve its host-specific runtime root; a macOS app bundle is not the same directory layout as Windows or Linux. Select the current host deliberately and verify the resulting executable/bundle path against `gui95-app.json`. Browser preview builds still prepare only their own web dependencies.
+
 ## Make targets
 
 Every app repository uses these root commands:
@@ -243,6 +245,14 @@ if (installed) {
 For the same reason the build makes no launch points for the build folder: no shortcut to it and no registration of its bundle with the system. A build can still be started directly for testing. Pin the installed copy to the taskbar or Dock once; later installs replace it in place, so the pin keeps working. Ordinary test launches and the installed copy share user data and the single-instance lock by default; automated checks should explicitly select an isolated test profile.
 
 ## Platform conventions
+
+### Generated offline assets
+
+Key compiled caches by source content and compiler/configuration identity. A cache hit for one derived resource must not skip copying other currently selected inputs. Build lazy worker modules and data in both browser and desktop pipelines, update the generated manifest to select the compiled outputs, and remove obsolete optional outputs from the generated staging directory when they are no longer selected. Keep source downloads and user data separate from that cleanup.
+
+Verify the packaged inventory and an actual offline lookup, not only the development build. Package the chosen document derivative rather than every alternative encoding from the build cache; retain source documents and notices as required. Use platform-native path construction when asking platform-sensitive archive tools to extract nested assets. For local backends with changing ports and mutable indexes, follow the [reader origin and data guidance](recent-integration-lessons.md#readers-first-paint-background-rendering-and-persistent-data).
+
+### Host behavior
 
 The look is the same everywhere; these conventions are about behavior.
 
