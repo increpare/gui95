@@ -24,7 +24,15 @@ test('deployment tar excludes host metadata and preserves a runnable standalone 
  assert.equal(catalog.revision,manifest.content_revision);
  const {createApplication}=await import(pathToFileURL(path.join(service,'service/server.mjs')));
  const app=await createApplication({contentRoot:path.join(service,'content'),stateDir:path.join(dir,'state'),kitRoot:path.join(service,'kit')});
- try {assert.ok((await app.kit.fullKit()).files.some(file=>file.path==='references/snapshot-manifest.json'));} finally {await app.close();}
+ try {
+  assert.ok((await app.kit.fullKit()).files.some(file=>file.path==='references/snapshot-manifest.json'));
+  for(const template of ['utility','editor','browser']) {
+   const starter=await app.kit.starter({template,name:'Packaged starter',id:'packaged-starter'});
+   for(const helper of ['gui95-app.mjs','gui95-icons.mjs','gui95-serve.mjs','gui95-distro.mjs']) {
+    assert.ok(starter.files.some(item=>item.path==='scripts/'+helper),'Extracted deployment generates '+helper);
+   }
+  }
+ } finally {await app.close();}
  const standalone=path.join(dir,'standalone');
  const zip=await readFile(output.kit);let cursor=0;
  while(zip.readUInt32LE(cursor)===0x04034b50) {

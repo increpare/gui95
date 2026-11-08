@@ -30,7 +30,7 @@ for (const name of ["server.mjs", "catalog.mjs", "content.mjs", "kit.mjs", "kit-
 }
 await cp(path.join(root, "kit"), path.join(deployment, "kit"), { recursive: true, filter: (source) => !source.split(path.sep).some((part) => ["node_modules", "test-results", "playwright-report", "artifacts"].includes(part) || part.startsWith("._")) });
 await mkdir(path.join(deployment, "tools"));
-for (const name of ["gui95-app.mjs", "gui95-icons.mjs"]) await cp(path.join(root, "tools", name), path.join(deployment, "tools", name));
+for (const name of ["gui95-app.mjs", "gui95-icons.mjs", "gui95-serve.mjs", "gui95-distro.mjs"]) await cp(path.join(root, "tools", name), path.join(deployment, "tools", name));
 for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.md"]) await cp(path.join(root, name), path.join(deployment, name));
 const dependencies = path.join(here, "node_modules");
 if (!(await stat(dependencies)).isDirectory()) throw new Error("Install locked MCP dependencies before packaging.");
@@ -54,7 +54,6 @@ if (tar.status !== 0) throw new Error("Deployment archive failed: " + tar.stderr
 
 const manifest = JSON.parse(await readFile(path.join(root, "plugin/.codex-plugin/plugin.json"), "utf8"));
 manifest.name = pluginName;
-manifest.version = VERSION;
 manifest.description = "Complete GUI95 guidance, independent widget templates, source, tools, assets and verification through a hosted MCP server, with an explicit private agent feedback inbox.";
 manifest.mcpServers = "./.mcp.json";
 manifest.interface.shortDescription = "Live Windows 95 UI guidance";
@@ -63,7 +62,6 @@ manifest.interface.websiteURL = "https://ded.increpare.com/gui95/";
 manifest.interface.privacyPolicyURL = "https://ded.increpare.com/gui95/privacy";
 manifest.interface.capabilities = ["Find current GUI95 guidance", "Get complete widget templates", "Get standalone controls and original CC0 icons", "Generate layouts and browser/Electron starters", "Find precise evidence, repairs and version guidance", "Retrieve icons, fonts and screenshots", "Read source, tooling and verification", "Review keyboard and focus behavior", "Share authorized agent feedback"];
 manifest.extensions["com.openai"].review = { test_cases: JSON.parse(await readFile(path.join(here, "review-cases.json"), "utf8")) };
-manifest.extensions["com.openai"].publication.release_notes = "Require running UI feedback reports and a final handoff, retaining resolved problems, failed approaches, verification evidence and reusable lessons. Include complete widget templates, source, assets and desktop tooling alongside versioned build kits, generators, evidence and repairs through fourteen MCP tools. Sending feedback to the private inbox remains a separate authorized action.";
 delete manifest.interface.screenshots;
 const pluginFiles = new Map([
   ["gui95-mcp/.codex-plugin/plugin.json", Buffer.from(JSON.stringify(manifest, null, 2) + "\n")],

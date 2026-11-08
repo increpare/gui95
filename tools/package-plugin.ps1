@@ -28,7 +28,7 @@ foreach ($item in @('README.md', 'QA.md', 'serve.mjs', 'dist')) {
     Copy-Item -LiteralPath (Join-Path $sourceRoot ('demo/' + $item)) -Destination (Join-Path $skillRoot 'demo') -Recurse
 }
 New-Item -ItemType Directory -Path (Join-Path $skillRoot 'tools') -Force | Out-Null
-foreach ($item in @('verify-reference.ps1', 'package-skill.ps1', 'copy-build-kit.ps1', 'collect-reference.ps1', 'gui95-app.mjs', 'gui95-icons.mjs', 'gui95-serve.mjs', 'gui95-distro.mjs', 'build-widget-examples.mjs')) {
+foreach ($item in @('verify-reference.ps1', 'package-skill.ps1', 'package-zip.mjs', 'copy-build-kit.ps1', 'collect-reference.ps1', 'gui95-app.mjs', 'gui95-icons.mjs', 'gui95-serve.mjs', 'gui95-distro.mjs', 'build-widget-examples.mjs')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $item) -Destination (Join-Path $skillRoot 'tools')
 }
 & (Join-Path $skillRoot 'tools/verify-reference.ps1')
@@ -40,7 +40,6 @@ foreach ($prompt in $manifest.interface.defaultPrompt) {
 foreach ($asset in @($manifest.interface.logo, $manifest.interface.composerIcon)) {
     if (!(Test-Path -LiteralPath (Join-Path $pluginRoot $asset) -PathType Leaf)) { throw "Missing listing asset: $asset" }
 }
-# Unlike Compress-Archive, this preserves dot-directories on every platform.
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[IO.Compression.ZipFile]::CreateFromDirectory($pluginRoot, $archivePath, [IO.Compression.CompressionLevel]::Optimal, $true)
+& node (Join-Path $PSScriptRoot 'package-zip.mjs') $pluginRoot $archivePath
+if ($LASTEXITCODE -ne 0) { throw 'Plugin ZIP packaging failed.' }
 Write-Output "Plugin archive: $archivePath"

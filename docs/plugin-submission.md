@@ -22,7 +22,7 @@ The flagged archived files are hash-pinned snapshots, so leave them unchanged. C
 
 ## Codex build
 
-The 1.2.2 documentation patch adds the [8 November consumer harvest](usage-review-2026-11-08.md): embedded layouts, grid/canvas sizing, tab/menu clipping, accessible state marks, progress, asynchronous document ownership, binary imports and responsive readers. It documents two maintained-kit consumer workarounds without claiming a component fix. The preserved snapshot edition and optional build kit and MCP service versions are unchanged; the packaged content revision identifies the updated guidance.
+The 1.2.3 packaging patch includes the 1.2.2 [8 November consumer harvest](usage-review-2026-11-08.md) and repairs deployed starter generation by including all four shared delivery helpers. Both skill ZIP builders use the kit's portable ZIP writer: entry paths use `/` on Windows as well as Unix, and hidden plugin manifests are retained. Windows-native archive paths containing `\` can prevent Unix extractors or plugin importers from discovering the skill and manifest. Test the extracted deployment's starter generation, not just its source checkout. Remote plugin package versions follow the skill release independently of the service runtime. The preserved snapshot edition and optional build kit and MCP service versions are unchanged; the packaged content revision identifies the updated guidance.
 
 Run `powershell -File tools/package-plugin.ps1` from the repository root, or use `pwsh -File tools/package-plugin.ps1` with PowerShell on other platforms. This creates `dist/gui95-plugin.zip`. Preserve an older output before rebuilding; the script refuses to overwrite it.
 
