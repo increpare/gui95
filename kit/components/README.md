@@ -18,6 +18,8 @@ Use `.gui95` or `[data-gui95]` on the containing element. `enhance(root = docume
 
 Serve the directory over HTTP and open [gallery.html](gallery.html) for working examples, long labels, empty content, native fields and a state atlas. Common layout classes are `.window`, `.title-bar`, `.window-body`, `.status-bar`, `.toolbar`, `.field-row`, `.group-box`, `.dialog-layout`, `.dialog-body` and `.dialog-actions`. Keep the dialog body scrolling and actions outside it. CSS is scoped; it does not style the surrounding page.
 
+The scope root and its descendants use `border-box` sizing, so a viewport-sized root can carry padding or borders without overflowing. Push buttons take their padding from `--gui95-pad-y` and `--gui95-pad-x`; pressed buttons and open menu headings move their content one pixel down and right inside the same box. To give your own buttons different padding, set those two variables rather than `padding`, or pressing them will change their size. Menu items and `role="tab"` buttons do not sink when pressed. Check and option marks on menu commands are drawn with empty alternative text, so they stay out of the command's accessible name; `aria-checked` carries the state.
+
 ## Menus
 
 ```html

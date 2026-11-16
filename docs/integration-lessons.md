@@ -110,7 +110,7 @@ If the host requires an interactive HTML caption, a nonmodal `show()` plus appli
 
 ## Tabs: the selected page meets its tab
 
-Document tabs and property tabs are page selectors, with an open bottom edge that joins the selected page. Continue the page seam beneath inactive tabs and the empty strip; interrupt it beneath the active tab. A lower inactive tab and clipped upper corners can establish the depth without making each tab a four-sided push button. Preserve document-specific close, dirty, and drag behavior where present.
+Document tabs and property tabs are page selectors, with an open bottom edge that joins the selected page. For the selected tab's 2px growth into its neighbours and the panel edge, see [selected-tab geometry](recent-integration-lessons.md#property-tabs-the-selected-tab-grows-into-its-neighbours). Continue the page seam beneath inactive tabs and the empty strip; interrupt it beneath the active tab. A lower inactive tab and clipped upper corners can establish the depth without making each tab a four-sided push button. Preserve document-specific close, dirty, and drag behavior where present.
 
 For multiple rows of property tabs, place the selected row beside the page. Reflow existing tab nodes instead of rebuilding them and losing keyboard focus. Keep a roving tab stop, `aria-selected`, and panel relationships. Resolve Up/Down by the rendered rows and the nearest horizontal position, since visual row order can change after selection or resize. Verify long labels, narrow widths, row changes, and focus after reflow. This is guidance; the archived edition does not supply a standalone multi-row tab component.
 

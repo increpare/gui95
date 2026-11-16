@@ -288,6 +288,31 @@ This minimal menu suits apps without a separate document Undo history. Editors w
 
 If the app takes a single-instance lock, a file opened while the app is running reaches the running copy in the `second-instance` event on Windows and Linux.
 
+### Lessons from November 2026 consumers
+
+Startup and shutdown:
+
+- Save final preferences in an awaited close handshake: the main process asks the renderer to save, waits for the reply, then closes the window. An unawaited `beforeunload` write can be lost. Tests that check remembered settings must close the app normally; a forced exit beats a debounced save.
+- Turn on crash capture before anyone needs it: Electron's `crashReporter` with uploads disabled, plus a bounded local log of renderer and worker failures. Keep both in per-user data, and make sure a failed log write cannot crash the app.
+- Optional accelerators, such as GPU solvers, must not delay a usable window. Start the CPU path straight away and switch over when the accelerator is ready.
+- A native helper can compile and still abort at startup. Smoke-test it on every desktop platform before calling a package ready.
+
+macOS:
+
+- Frameless windows need `roundedCorners: false` for square corners.
+- When making a renamed copy of an app bundle, for example an isolated QA build, keep `CFBundleName` consistent with its helper bundles and executable. A mismatch can stop the app before any JavaScript diagnostics run.
+- On case-insensitive volumes, Node's JavaScript `realpathSync` can return the casing it was given. Use `fs.realpathSync.native` before comparing a path against a protected root.
+
+Builds and sources:
+
+- Pass the selected output directories through build, package and test commands alike, so verification checks the app just built. Concurrent builds need private staging paths, and a copied SQLite database needs a consistent snapshot that includes committed WAL data.
+- In a repository that hosts several products, keep standalone desktop app targets out of unrelated hosted packages.
+- For a web build with workers, version the app and worker URLs together and revalidate the manifest, so an ordinary reload gets one release.
+- Ignored generated assets do not travel with a Git clone. Provide an explicit, verified transfer or regeneration step for building on another computer.
+- Ship hash-checked helper dependencies inside the app, and mark hash-checked text assets in `.gitattributes` (for example `-text`) so Windows checkout line-ending conversion cannot change their bytes.
+- Archiving can move the build directory. Close test processes launched from it before packing.
+- Copy the shared `tools/gui95-*.mjs` helpers byte for byte, and recopy them after a GUI95 update. One consumer had drifted from the current helper; it now recopies them unchanged, with no app-specific patches.
+
 ## Icons
 
 SVG files are the only icon sources an app commits. The `.png`, `.ico` and `.icns` files each system needs are generated from them, the same way in every app, and are not committed.

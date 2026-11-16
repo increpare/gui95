@@ -59,3 +59,28 @@ test('tree keeps a reachable Tab entry after its current row becomes unavailable
 });
 test('tree Right enters the first enabled child when earlier children are disabled',async()=>{await page.evaluate(()=>{const disabled=document.createElement('li');disabled.setAttribute('role','treeitem');disabled.setAttribute('aria-disabled','true');disabled.innerHTML='<span data-gui95-tree-label>Unavailable child</span>';document.querySelector('#branch [role=group]').prepend(disabled);controller.destroy();window.controller=gui95.enhance()});await page.locator('#branch').focus();await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');assert.equal(await active(),'leaf')});
 test('checked menu commands have a visible indicator in normal and focused states',async()=>{await page.evaluate(()=>{const checkbox=document.createElement('button');checkbox.id='word-wrap';checkbox.setAttribute('role','menuitemcheckbox');checkbox.setAttribute('aria-checked','true');checkbox.textContent='Word Wrap';document.querySelector('#file-menu').append(checkbox)});await page.keyboard.press('Alt+f');const normal=await page.locator('#word-wrap').evaluate(item=>{const style=getComputedStyle(item,'::before');return{content:style.content,color:style.color}});assert.ok(!['none','normal','""'].includes(normal.content),`checked menu indicator is visible: ${normal.content}`);await page.keyboard.press('End');assert.equal(await active(),'word-wrap');assert.equal(await page.locator('#word-wrap').evaluate(item=>getComputedStyle(item,'::before').color),'rgb(255, 255, 255)')});
+test('pressed and open states keep each control family at its resting size',async()=>{
+  const rows=await page.evaluate(()=>{controller.destroy();document.body.innerHTML='<div class="title-bar"><span>Caption</span><button id="caption-close" aria-label="Close">x</button></div><nav data-gui95-menubar aria-label="Application"><button id="heading">File</button></nav><div data-gui95-toolbar aria-label="Tools"><button id="tool">Cut</button></div><button id="plain">Upload site</button><div role="menu"><button id="item" role="menuitem">Open</button></div><div role="tablist"><button id="tab" role="tab" aria-selected="true">General</button></div>';
+    const measure=el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return{w:r.width,h:r.height,top:s.paddingTop,left:s.paddingLeft,shadow:s.boxShadow}};
+    return [...document.querySelectorAll('button')].map(el=>{const rest=measure(el);el.dataset.gui95State='pressed';const pressed=measure(el);delete el.dataset.gui95State;if(el.id==='heading'){el.setAttribute('aria-expanded','true')}const open=measure(el);return{id:el.id,rest,pressed,open}})});
+  for(const {id,rest,pressed,open} of rows){
+    assert.deepEqual([pressed.w,pressed.h],[rest.w,rest.h],`${id} keeps its size while pressed`);
+    assert.deepEqual([open.w,open.h],[rest.w,rest.h],`${id} keeps its size while open`);
+    if(['caption-close','heading','tool','plain'].includes(id)){assert.equal(parseFloat(pressed.top),parseFloat(rest.top)+1,`${id} content moves down`);assert.equal(parseFloat(pressed.left),parseFloat(rest.left)+1,`${id} content moves right`)}
+    else{assert.equal(pressed.top,rest.top,`${id} is not a push button`);assert.equal(pressed.shadow,rest.shadow,`${id} does not sink`)}
+  }
+  const heading=rows.find(row=>row.id==='heading');assert.equal(parseFloat(heading.open.top),parseFloat(heading.rest.top)+1,'an open menu heading is drawn pressed');
+});
+test('the scope root itself uses border-box sizing',async()=>{
+  const size=await page.evaluate(()=>{document.body.classList.remove('gui95');const root=document.createElement('div');root.setAttribute('data-gui95','');root.style.cssText='width:120px;height:60px;padding:10px;border:3px solid';document.body.append(root);return[root.offsetWidth,root.offsetHeight]});
+  assert.deepEqual(size,[120,60]);
+});
+test('checked and radio menu marks stay out of the computed accessible name',async()=>{
+  await page.evaluate(()=>{const menu=document.querySelector('#file-menu');menu.hidden=false;menu.insertAdjacentHTML('beforeend','<button role="menuitemcheckbox" aria-checked="true">Word wrap</button><button role="menuitemradio" aria-checked="true">Large icons</button>')});
+  const cdp=await page.context().newCDPSession(page);
+  const {nodes}=await cdp.send('Accessibility.getFullAXTree');
+  const names=nodes.filter(node=>['menuitemcheckbox','menuitemradio'].includes(node.role?.value)).map(node=>node.name?.value);
+  assert.deepEqual(names.sort(),['Large icons','Word wrap']);
+  const mark=await page.locator('[role="menuitemcheckbox"]').evaluate(el=>getComputedStyle(el,'::before').content);
+  assert.match(mark,/✓/,'the check mark is still drawn');
+});

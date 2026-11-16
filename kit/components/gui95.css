@@ -1,10 +1,10 @@
 /* GUI95 1.0.0 — scoped, original implementation from the documented reference rules. */
 :is(.gui95,[data-gui95]){--gui95-face:#c0c0c0;--gui95-light:#fff;--gui95-inner:#dfdfdf;--gui95-shadow:#808080;--gui95-dark:#000;--gui95-active:#000080;--gui95-raised:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080;--gui95-sunken:inset 1px 1px #808080,inset -1px -1px #fff,inset 2px 2px #000,inset -2px -2px #dfdfdf;color:#000;font:11px/1.35 Tahoma,"Microsoft Sans Serif",Arial,sans-serif;font-synthesis:none;background:var(--gui95-face);color-scheme:light}
-:is(.gui95,[data-gui95]) *{box-sizing:border-box}
+:is(.gui95,[data-gui95]),:is(.gui95,[data-gui95]) *,:is(.gui95,[data-gui95]) ::before,:is(.gui95,[data-gui95]) ::after{box-sizing:border-box}
 :is(.gui95,[data-gui95]) [hidden]{display:none!important}
 :is(.gui95,[data-gui95]) :is(button,input,select,textarea){font:inherit;color:inherit}
-:is(.gui95,[data-gui95]) button{border:0;border-radius:0;min-height:23px;padding:4px 10px;background:var(--gui95-face);box-shadow:var(--gui95-raised);position:relative;white-space:normal;cursor:default}
-:is(.gui95,[data-gui95]) button:active:not(:disabled),:is(.gui95,[data-gui95]) button[data-gui95-state="pressed"]{box-shadow:var(--gui95-sunken);padding:5px 9px 3px 11px}
+:is(.gui95,[data-gui95]) button{border:0;border-radius:0;min-height:23px;--gui95-pad-y:4px;--gui95-pad-x:10px;padding:var(--gui95-pad-y) var(--gui95-pad-x);background:var(--gui95-face);box-shadow:var(--gui95-raised);position:relative;white-space:normal;cursor:default}
+:is(.gui95,[data-gui95]) button:active:not(:disabled,[role^="menuitem"],[role="tab"]),:is(.gui95,[data-gui95]) button[data-gui95-state="pressed"]:not([role^="menuitem"],[role="tab"]),:is(.gui95,[data-gui95]) [data-gui95-menubar] button[aria-expanded="true"]{box-shadow:var(--gui95-sunken);padding:calc(var(--gui95-pad-y) + 1px) calc(var(--gui95-pad-x) - 1px) calc(var(--gui95-pad-y) - 1px) calc(var(--gui95-pad-x) + 1px)}
 :is(.gui95,[data-gui95]) button[aria-pressed="true"]{box-shadow:var(--gui95-sunken);background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
 :is(.gui95,[data-gui95]) :is(button,input,select,textarea,[tabindex]):focus-visible{outline:1px dotted #000;outline-offset:-4px}
 :is(.gui95,[data-gui95]) :is(button:disabled,[aria-disabled="true"]){color:#808080;text-shadow:1px 1px #fff}
@@ -16,12 +16,12 @@
 :is(.gui95,[data-gui95]) .window{padding:3px;box-shadow:var(--gui95-raised);background:var(--gui95-face);min-width:0;min-height:0;display:flex;flex-direction:column}
 :is(.gui95,[data-gui95]) .title-bar{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:20px;background:#000080;color:#fff;font-weight:bold;padding:2px 3px}
 :is(.gui95,[data-gui95]) .title-bar[data-inactive]{background:#808080}
-:is(.gui95,[data-gui95]) .title-bar button{min-height:14px;min-width:16px;padding:0 3px;font-weight:bold;color:#000}
+:is(.gui95,[data-gui95]) .title-bar button{min-height:14px;min-width:16px;--gui95-pad-y:1px;--gui95-pad-x:3px;line-height:12px;font-weight:bold;color:#000}
 :is(.gui95,[data-gui95]) .window-body{padding:8px;min-width:0;min-height:0;overflow:auto;flex:1}
 :is(.gui95,[data-gui95]) .status-bar{padding:2px;display:flex;gap:2px;min-height:20px}
 :is(.gui95,[data-gui95]) .status-bar>*{box-shadow:inset 1px 1px #808080,inset -1px -1px #fff;padding:2px 4px;min-width:0;flex:1}
 :is(.gui95,[data-gui95]) :is(.toolbar,[data-gui95-toolbar]){display:flex;align-items:center;flex-wrap:wrap;gap:2px;padding:3px;border-bottom:1px solid #808080;box-shadow:0 1px #fff}
-:is(.gui95,[data-gui95]) :is(.toolbar,[data-gui95-toolbar]) button{min-width:24px;padding:4px 7px}
+:is(.gui95,[data-gui95]) :is(.toolbar,[data-gui95-toolbar]) button{min-width:24px;--gui95-pad-x:7px}
 :is(.gui95,[data-gui95]) .field-row{display:flex;align-items:center;gap:7px;margin-block:6px;min-width:0;flex-wrap:wrap}
 :is(.gui95,[data-gui95]) .field-row label{min-width:65px}
 :is(.gui95,[data-gui95]) :is(fieldset,.group-box){border:1px solid #808080;box-shadow:1px 1px #fff,inset 1px 1px #fff;margin:8px 0;padding:8px;min-width:0}
@@ -29,13 +29,12 @@
 :is(.gui95,[data-gui95]) .dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px;padding:8px;flex-shrink:0}
 :is(.gui95,[data-gui95]) .dialog-actions button{min-width:75px}
 :is(.gui95,[data-gui95]) [data-gui95-menubar]{display:flex;gap:1px;padding:1px 2px}
-:is(.gui95,[data-gui95]) [data-gui95-menubar] button{box-shadow:none;min-height:20px;padding:2px 7px}
-:is(.gui95,[data-gui95]) [data-gui95-menubar] button[aria-expanded="true"]{box-shadow:var(--gui95-sunken)}
+:is(.gui95,[data-gui95]) [data-gui95-menubar] button{box-shadow:none;min-height:20px;--gui95-pad-y:2px;--gui95-pad-x:7px}
 :is(.gui95,[data-gui95]) [role="menu"]{padding:3px;min-width:150px;max-width:min(420px,calc(100vw - 8px));box-shadow:var(--gui95-raised);background:#c0c0c0;overflow-y:auto}
 :is(.gui95,[data-gui95]) [role^="menuitem"]{display:flex;align-items:center;text-align:left;width:100%;min-height:22px;padding:3px 23px;box-shadow:none;white-space:nowrap}
 :is(.gui95,[data-gui95]) [role^="menuitem"]:focus{background:#000080;color:#fff;outline:none;text-shadow:none}
-:is(.gui95,[data-gui95]) [role="menuitemcheckbox"][aria-checked="true"]::before{content:"✓";position:absolute;left:7px;color:currentColor;line-height:1}
-:is(.gui95,[data-gui95]) [role="menuitemradio"][aria-checked="true"]::before{content:"●";position:absolute;left:7px;color:currentColor;font-size:8px;line-height:1}
+:is(.gui95,[data-gui95]) [role="menuitemcheckbox"][aria-checked="true"]::before{content:"\2713";content:"\2713"/"";position:absolute;left:7px;color:currentColor;line-height:1}
+:is(.gui95,[data-gui95]) [role="menuitemradio"][aria-checked="true"]::before{content:"\25CF";content:"\25CF"/"";position:absolute;left:7px;color:currentColor;font-size:8px;line-height:1}
 :is(.gui95,[data-gui95]) [role^="menuitem"][data-gui95-menu]::after{content:"";position:absolute;right:7px;border-left:4px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent}
 :is(.gui95,[data-gui95]) [role="menu"] [role="separator"]{height:2px;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:3px 1px}
 :is(.gui95,[data-gui95]) dialog{border:0;padding:3px;box-shadow:var(--gui95-raised);background:#c0c0c0;color:#000;max-width:min(600px,calc(100vw - 12px));max-height:calc(100dvh - 12px);overflow:auto}

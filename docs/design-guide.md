@@ -4,7 +4,7 @@ These are concrete patterns observed in the preserved projects. Pixel sizes desc
 
 For fixes found in later consumer changelists, read the [integration lessons](integration-lessons.md): input and Undo ownership, safe conversion saves, nonlinear sliders, playback controls, streaming results, SVG stylesheet containment, dialog lifecycle and frameless captions, multi-row tabs, floating previews, scrollbar selectors, small-window action layouts, and native theme assets. Those adaptations do not change the archived edition.
 
-The [recent integration lessons](recent-integration-lessons.md) cover embedded host layouts, shrinking grids and canvases, clipped tab joins and menus, accessible state marks, honest progress reporting and responsive readers. Use them when those integration problems arise; a classic control palette does not require a simulated desktop around an embedded app.
+The [recent integration lessons](recent-integration-lessons.md) cover embedded host layouts, shrinking grids and canvases, clipped tab joins and menus, accessible state marks, honest progress reporting and responsive readers, and (from 16 November) pressed controls that keep their size, selected-tab geometry, long result lists and consistent command names. Use them when those integration problems arise; a classic control palette does not require a simulated desktop around an embedded app.
 
 ## Color and dimensionality
 
