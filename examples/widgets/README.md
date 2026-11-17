@@ -2,7 +2,7 @@
 
 Start with the [gallery](../../demo/dist/widgets/index.html) and [coverage index](../../docs/widget-coverage.md). Every generated HTML example works on its own, including through `file://`, with no engine, framework, font download or server. The gallery also ships beside the desktop demo.
 
-The authoring modules separate basic controls, navigation, menus, dialogs and host integrations. `shared.mjs` holds semantic color tokens, common styling and small helpers. Each example describes its behavior, limits and sources; the builder inlines its initializer and helpers. Generated output belongs in `demo/dist/widgets/` and is committed for offline use and Pages deployment. Edit these sources, then rebuild; do not hand-edit the generated files.
+The authoring modules separate basic controls, navigation, menus, dialogs and host integrations. Each page's CSS is the kit's shared stylesheet, `kit/components/gui95.css`, inlined verbatim and followed by a short example layer from `shared.mjs` (page layout only), so a consumer copies the stylesheet once plus the example's markup and initializer. `shared.mjs` also holds small helpers. Each example describes its behavior, limits and sources; the builder inlines its initializer and helpers. Generated output belongs in `demo/dist/widgets/` and is committed for offline use and Pages deployment. Edit these sources, then rebuild; do not hand-edit the generated files.
 
 ```text
 node tools/build-widget-examples.mjs

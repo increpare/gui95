@@ -1,5 +1,5 @@
-/** GUI95 1.0.0. Semantic HTML enhancements; no framework or global shortcut registry. */
-export const version = '1.0.0';
+/** GUI95 1.1.0. Semantic HTML enhancements; no framework or global shortcut registry. */
+export const version = '1.1.0';
 const controllers = new WeakMap();
 const sessions = new WeakMap();
 const dialogStacks = new WeakMap();
@@ -9,6 +9,17 @@ const all = (root, selector) => [...(root.matches?.(selector) ? [root] : []), ..
 const focus = element => { if (element?.isConnected && !isDisabled(element)) element.focus({ preventScroll: true }); };
 const emit = (element, name, detail) => element.dispatchEvent(new CustomEvent(`gui95:${name}`, { bubbles: true, detail }));
 const ownerDocument = element => element.ownerDocument || element;
+const tabbableSelector = 'a[href],area[href],button,input:not([type="hidden"]),select,textarea,summary,iframe,[tabindex],[contenteditable]:not([contenteditable="false"])';
+/** Controls the browser's own Tab sequence would visit inside a container, in document order. */
+function tabbable(container) {
+  const shown = element => element.getClientRects().length && element.ownerDocument.defaultView.getComputedStyle(element).visibility !== 'hidden';
+  return [...container.querySelectorAll(tabbableSelector)].filter(element => {
+    if (element.tabIndex < 0 || element.matches(':disabled') || element.closest('[inert]') || !shown(element)) return false;
+    if (element.type !== 'radio' || !element.name) return true;
+    const group = [...container.querySelectorAll('input[type="radio"]')].filter(radio => radio.name === element.name && radio.form === element.form && !radio.matches(':disabled'));
+    return group.some(radio => radio.checked) ? element.checked : group[0] === element;
+  });
+}
 
 /** Open a native modal dialog. Repeated opens share the current result promise. */
 export function openDialog(dialog, { opener = dialog.ownerDocument.activeElement, initialFocus } = {}) {
@@ -26,8 +37,19 @@ export function openDialog(dialog, { opener = dialog.ownerDocument.activeElement
   sessions.set(dialog, session);
   stack.push(dialog);
   const finish = () => { if (!dialog.open) finishDialog(dialog, session); };
+  // Chromium lets Tab leave a modal dialog for the document; keep it among the top dialog's controls.
+  const wrap = event => {
+    if (event.key !== 'Tab' || event.ctrlKey || event.altKey || event.metaKey || event.defaultPrevented || stack.at(-1) !== dialog) return;
+    const items = tabbable(dialog), current = doc.activeElement;
+    const edge = event.shiftKey ? items[0] : items.at(-1);
+    if (!items.length) { event.preventDefault(); return; }
+    if (dialog.contains(current) && current !== edge) return;
+    event.preventDefault();
+    focus(event.shiftKey ? items.at(-1) : items[0]);
+  };
   dialog.addEventListener('close', finish);
-  session.cleanup = () => dialog.removeEventListener('close', finish);
+  doc.addEventListener('keydown', wrap, true);
+  session.cleanup = () => { dialog.removeEventListener('close', finish); doc.removeEventListener('keydown', wrap, true); };
   try { dialog.returnValue = ''; dialog.showModal(); }
   catch (error) { stack.splice(stack.indexOf(dialog), 1); sessions.delete(dialog); session.cleanup(); throw error; }
   focus(typeof initialFocus === 'string' ? dialog.querySelector(initialFocus) : initialFocus);
@@ -329,6 +351,116 @@ function splitters(root, listen, cleanups) {
   }
 }
 
+function tabs(root, listen) {
+  const doc = ownerDocument(root);
+  for (const tablist of all(root, '[role="tablist"]')) {
+    const items = () => [...tablist.querySelectorAll('[role="tab"]')];
+    const available = () => items().filter(isAvailable);
+    const panelFor = tab => doc.getElementById(tab?.getAttribute('aria-controls') || '');
+    const panels = () => items().map(panelFor).filter(Boolean);
+    let current;
+    const select = (tab, { moveFocus = false, announce = true } = {}) => {
+      if (!tab || !isAvailable(tab)) return;
+      const changed = tab !== current;
+      current = tab;
+      const panel = panelFor(tab);
+      for (const item of items()) { item.setAttribute('aria-selected', String(item === tab)); item.tabIndex = item === tab ? 0 : -1; }
+      for (const page of panels()) page.hidden = page !== panel;
+      if (moveFocus) focus(tab);
+      if (changed && announce) emit(tablist, 'tab-select', { tab, panel, id: tab.id || null });
+    };
+    const step = (offset, moveFocus = true) => {
+      const options = available(), index = options.indexOf(current);
+      if (options.length) select(options[(index + offset + options.length) % options.length], { moveFocus });
+    };
+    select(available().find(tab => tab.getAttribute('aria-selected') === 'true') || available()[0], { announce: false });
+    listen(tablist, 'click', event => { const tab = event.target.closest?.('[role="tab"]'); if (tab && tablist.contains(tab)) select(tab, { moveFocus: true }); });
+    listen(tablist, 'keydown', event => {
+      if (event.ctrlKey || event.altKey || event.metaKey || !event.target.closest?.('[role="tab"]')) return;
+      const options = available();
+      const target = { Home: options[0], End: options.at(-1) }[event.key];
+      const offset = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+      if (!target && !offset) return;
+      event.preventDefault(); event.stopPropagation();
+      if (target) select(target, { moveFocus: true }); else step(offset);
+    });
+    // Browsers reserve these chords; hosts such as Electron deliver them to the page.
+    const pageKeys = event => {
+      if (event.defaultPrevented || !event.ctrlKey || event.altKey || event.metaKey) return;
+      const offset = event.key === 'Tab' ? (event.shiftKey ? -1 : 1) : event.key === 'PageDown' && !event.shiftKey ? 1 : event.key === 'PageUp' && !event.shiftKey ? -1 : 0;
+      if (!offset) return;
+      event.preventDefault();
+      step(offset);
+    };
+    for (const owner of new Set([tablist, ...panels()])) listen(owner, 'keydown', pageKeys);
+  }
+}
+let generatedOptionIds = 0;
+function listboxes(root, listen, cleanups) {
+  for (const list of all(root, '[role="listbox"]')) {
+    if (list.getAttribute('aria-multiselectable') === 'true') continue;
+    const options = () => [...list.querySelectorAll('[role="option"]')];
+    const available = () => options().filter(isAvailable);
+    let active;
+    const reveal = option => {
+      const view = list.getBoundingClientRect(), box = option.getBoundingClientRect();
+      const top = view.top + list.clientTop, bottom = top + list.clientHeight;
+      if (box.top < top) list.scrollTop -= top - box.top;
+      else if (box.bottom > bottom) list.scrollTop += box.bottom - bottom;
+    };
+    const activate = option => {
+      if (!option) return;
+      if (!option.id) option.id = `gui95-option-${++generatedOptionIds}`;
+      if (active && active !== option) delete active.dataset.gui95Active;
+      active = option;
+      option.dataset.gui95Active = '';
+      list.setAttribute('aria-activedescendant', option.id);
+      reveal(option);
+    };
+    const choose = option => {
+      if (!option || !isAvailable(option)) return;
+      const changed = option.getAttribute('aria-selected') !== 'true';
+      for (const item of options()) item.setAttribute('aria-selected', String(item === option));
+      activate(option);
+      if (changed) emit(list, 'list-select', { option, id: option.id });
+    };
+    if (!list.hasAttribute('tabindex')) list.tabIndex = 0;
+    for (const option of options()) option.removeAttribute('tabindex');
+    const initial = available().find(option => option.getAttribute('aria-selected') === 'true') || available()[0];
+    if (initial) { if (!initial.id) initial.id = `gui95-option-${++generatedOptionIds}`; active = initial; initial.dataset.gui95Active = ''; list.setAttribute('aria-activedescendant', initial.id); }
+    listen(list, 'focus', () => { if (active?.isConnected) reveal(active); });
+    listen(list, 'mousedown', event => {
+      const option = event.target.closest?.('[role="option"]');
+      if (!option || !list.contains(option) || isDisabled(list)) return;
+      event.preventDefault(); focus(list);
+      if (isAvailable(option)) choose(option);
+    });
+    listen(list, 'keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || isDisabled(list)) return;
+      const items = available();
+      if (!items.length) return;
+      const index = items.indexOf(active?.isConnected ? active : undefined);
+      const height = items[0].getBoundingClientRect().height || 1;
+      const page = Math.max(1, Math.floor(list.clientHeight / height) - 1);
+      let next;
+      if (event.key === 'ArrowDown') next = items[Math.min(items.length - 1, index + 1)];
+      else if (event.key === 'ArrowUp') next = items[Math.max(0, index < 0 ? 0 : index - 1)];
+      else if (event.key === 'Home') next = items[0];
+      else if (event.key === 'End') next = items.at(-1);
+      else if (event.key === 'PageDown') next = items[Math.min(items.length - 1, index + page)];
+      else if (event.key === 'PageUp') next = items[Math.max(0, index - page)];
+      else if (event.key.length === 1 && event.key !== ' ') {
+        const letter = event.key.toLowerCase();
+        next = [...items.slice(index + 1), ...items.slice(0, index + 1)].find(option => option.textContent.trim().toLowerCase().startsWith(letter));
+        if (!next) { event.preventDefault(); return; }
+      } else return;
+      event.preventDefault(); event.stopPropagation();
+      choose(next);
+    });
+    cleanups.push(() => { if (active) delete active.dataset.gui95Active; });
+  }
+}
+
 /** Enhance a document or scoped element once. Call destroy() before removing/rebuilding its markup. */
 export function enhance(root = document) {
   if (!root?.querySelectorAll) throw new TypeError('enhance requires a Document or Element');
@@ -337,7 +469,10 @@ export function enhance(root = document) {
   const listen=(target,type,handler,options={})=>target.addEventListener(type,handler,typeof options==='boolean'?{capture:options,signal:abort.signal}:{...options,signal:abort.signal});
   listen(root,'click',event=>{const item=event.target.closest?.('[aria-disabled="true"]');if(item){event.preventDefault();event.stopImmediatePropagation();}},true);
   cleanups.push(menus(root,listen));
-  toolbars(root,listen,cleanups);trees(root,listen,cleanups);splitters(root,listen,cleanups);
+  toolbars(root,listen,cleanups);trees(root,listen,cleanups);splitters(root,listen,cleanups);tabs(root,listen);listboxes(root,listen,cleanups);
+  for(const button of all(root,'[data-gui95-spin] [data-gui95-step]'))button.tabIndex=-1;
+  // An up-down button steps its field without taking focus from it.
+  listen(root,'mousedown',event=>{const stepper=event.target.closest?.('[data-gui95-spin] [data-gui95-step]');if(!stepper||event.button!==0)return;event.preventDefault();const input=doc.getElementById(stepper.dataset.gui95Step);if(input&&doc.activeElement!==input)focus(input);});
   listen(root,'click',event=>{
     const opener=event.target.closest?.('[data-gui95-open-dialog]');
     if(opener&&!isDisabled(opener)){event.preventDefault();const dialog=doc.getElementById(opener.dataset.gui95OpenDialog);if(dialog)openDialog(dialog,{opener});return;}
@@ -347,16 +482,25 @@ export function enhance(root = document) {
     if(stepper&&!isDisabled(stepper)){event.preventDefault();const input=doc.getElementById(stepper.dataset.gui95Step);if(input?.matches('[data-gui95-number]'))commitNumber(input,{delta:Number(stepper.dataset.gui95Delta)||1});}
   });
   listen(root,'focusout',event=>{if(event.target.matches('[data-gui95-number]'))commitNumber(event.target);});
-  listen(root,'keydown',event=>{if(event.target.matches('[data-gui95-number]')&&event.key==='Enter'){event.preventDefault();event.stopPropagation();commitNumber(event.target);}});
+  // Enter commits first and then continues to implicit form submission and outer listeners.
+  listen(root,'keydown',event=>{
+    if(!event.target.matches('[data-gui95-number]')||event.altKey||event.ctrlKey||event.metaKey)return;
+    if(event.key==='Enter')commitNumber(event.target);
+    else if(event.key==='ArrowUp'||event.key==='ArrowDown'){event.preventDefault();commitNumber(event.target,{delta:event.key==='ArrowUp'?1:-1});}
+  });
   listen(doc,'keydown',event=>{
     const stack=dialogStacks.get(doc)||[], top=stack.at(-1);
     if(!top||event.key!=='Escape')return;
     event.preventDefault();event.stopImmediatePropagation();if(!event.repeat)closeDialog(top,'cancel');
   },true);
-  for(const dialog of all(root,'dialog[data-gui95-dialog]')){
-    listen(dialog,'cancel',event=>{event.preventDefault();closeDialog(dialog,'cancel');});
-    listen(dialog,'submit',event=>{if(event.target.method==='dialog'||event.submitter?.formMethod==='dialog'){event.preventDefault();closeDialog(dialog,event.submitter?.value||'');}});
-  }
+  const dialogs=all(root,'dialog[data-gui95-dialog]');
+  for(const dialog of dialogs)listen(dialog,'cancel',event=>{event.preventDefault();closeDialog(dialog,'cancel');});
+  // Decide at the window, after form, dialog and document listeners, so an application's preventDefault() keeps the dialog open.
+  listen(doc.defaultView,'submit',event=>{
+    const dialog=event.target.closest?.('dialog');
+    if(event.defaultPrevented||!dialogs.includes(dialog))return;
+    if(event.target.method==='dialog'||event.submitter?.formMethod==='dialog'){event.preventDefault();closeDialog(dialog,event.submitter?.value||'');}
+  });
   const controller={root,destroy(){
     for(const dialog of [...(dialogStacks.get(doc)||[])].reverse()) if(root===doc||root.contains(dialog)) closeDialog(dialog,'cancel');
     abort.abort();cleanups.forEach(cleanup=>cleanup());controllers.delete(root);

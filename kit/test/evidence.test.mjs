@@ -118,12 +118,13 @@ test('repairs describe symptoms, a minimal fix, version applicability, and hones
 
 test('updates distinguish current, older, newer, unknown, and invalid versions without claiming compatibility', () => {
   const { checkUpdates } = catalog();
-  const result = checkUpdates({ schema_version: 1, components: { menu: '1.0.0', dialog: '0.9.0', tree: '2.0.0', splitter: '^1.0.0', alien: '1.0.0' } });
+  const result = checkUpdates({ schema_version: 1, components: { menu: '1.1.0', dialog: '0.9.0', tree: '2.0.0', splitter: '^1.0.0', alien: '1.0.0' } });
   assert.equal(result.status, 'ok');
   assert.deepEqual(result.components.map((item) => item.id), ['alien', 'dialog', 'menu', 'splitter', 'tree']);
   const byId = Object.fromEntries(result.components.map((item) => [item.id, item]));
   assert.equal(byId.menu.status, 'current');
   assert.equal(byId.menu.compatibility, 'unverified');
+  assert.deepEqual(byId.menu.changes, []);
   assert.equal(byId.dialog.status, 'update_available');
   assert.equal(byId.dialog.compatibility, 'unsupported');
   assert.equal(byId.tree.status, 'newer_than_catalog');
@@ -131,7 +132,34 @@ test('updates distinguish current, older, newer, unknown, and invalid versions w
   assert.equal(byId.alien.status, 'unknown_component');
   assert.equal(byId.alien.latest, null);
   assert.equal(byId.splitter.status, 'invalid_version');
-  assert.deepEqual(result, checkUpdates({ schema_version: 1, components: { alien: '1.0.0', splitter: '^1.0.0', tree: '2.0.0', dialog: '0.9.0', menu: '1.0.0' } }));
+  assert.deepEqual(result, checkUpdates({ schema_version: 1, components: { alien: '1.0.0', splitter: '^1.0.0', tree: '2.0.0', dialog: '0.9.0', menu: '1.1.0' } }));
+});
+
+test('a 1.0.0 manifest is older than 1.1.0 and says what changed since', () => {
+  const { checkUpdates } = catalog();
+  const result = checkUpdates({ schema_version: 1, components: { menu: '1.0.0', dialog: '1.0.0', 'number-field': '1.0.0', tabs: '1.0.0', listbox: '1.0.0' } });
+  const byId = Object.fromEntries(result.components.map((item) => [item.id, item]));
+  for (const id of ['menu', 'dialog', 'number-field']) {
+    assert.equal(byId[id].status, 'update_available', id);
+    assert.equal(byId[id].latest, '1.1.0', id);
+    assert.equal(byId[id].compatibility, 'unverified', id);
+    assert.deepEqual(byId[id].changes.map((change) => change.version), ['1.1.0'], id);
+    assert.equal(byId[id].changes[0].date, '2026-11-17');
+    assert.ok(byId[id].changes[0].summary.length > 40, id);
+  }
+  assert.match(byId.menu.changes[0].summary, /accessible name/);
+  assert.match(byId.dialog.changes[0].summary, /Tab/);
+  assert.match(byId['number-field'].changes[0].summary, /Enter/);
+  // Tabs and list box did not exist in 1.0.0: a 1.0.0 declaration names no real release of them.
+  for (const id of ['tabs', 'listbox']) {
+    assert.equal(byId[id].status, 'update_available', id);
+    assert.equal(byId[id].compatibility, 'unsupported', id);
+    assert.match(byId[id].note, /first released in 1\.1\.0/, id);
+    assert.deepEqual(byId[id].changes.map((change) => change.version), ['1.1.0'], id);
+  }
+  // Newer, unknown and invalid declarations carry no change list.
+  const other = checkUpdates({ schema_version: 1, components: { menu: '2.0.0', alien: '1.0.0', tree: '1.x' } }).components;
+  for (const item of other) assert.deepEqual(item.changes, [], item.id);
 });
 
 test('available repair regressions name executable current-kit cases', () => {

@@ -1,6 +1,6 @@
 # Build-kit evidence, repairs, and version checks
 
-The build kit keeps exact supported claims in [the evidence data](../kit/evidence/evidence.json), integration regressions in [the repair data](../kit/evidence/repairs.json), and initial component versions in [the release catalog](../kit/evidence/releases.json). The synchronous API is [catalog.mjs](../kit/evidence/catalog.mjs). It reads those files once at import and performs no network requests or consumer filesystem reads.
+The build kit keeps exact supported claims in [the evidence data](../kit/evidence/evidence.json), integration regressions in [the repair data](../kit/evidence/repairs.json), and component versions with their per-release changes in [the release catalog](../kit/evidence/releases.json). The synchronous API is [catalog.mjs](../kit/evidence/catalog.mjs). It reads those files once at import and performs no network requests or consumer filesystem reads.
 
 ## What a citation establishes
 
@@ -29,7 +29,7 @@ import { listEvidence, getEvidence, findRepairs, checkUpdates } from './kit/evid
 
 listEvidence({ query: 'keyboard', topic: 'menu', limit: 5 });
 getEvidence('menu-pointer-ownership');
-findRepairs({ component: 'dialog', version: '1.0.0', query: 'reopen' });
+findRepairs({ component: 'dialog', version: '1.1.0', query: 'reopen' });
 ```
 
 Searches return `{ schema_version: 1, total, items }`. `total` counts matches before limiting. Both searches accept a `limit` of 1–20, defaulting to 20. Queries are at most 200 characters, ignore case, and require all word/number terms to occur in the record. A title/ID match ranks above a match only in supporting metadata; ties sort by ID. An empty query lists records. Topic and component IDs are exact and case sensitive; an unknown ID or unmatched query returns no matches. `getEvidence` returns a detached record or `null` for an unknown ID. Mutating a result does not change later results.
@@ -46,26 +46,26 @@ An `available` regression case names a current-kit test file, exact case name, a
 {
   "schema_version": 1,
   "components": {
-    "menu": "1.0.0",
-    "dialog": "1.0.0",
-    "number-field": "1.0.0"
+    "menu": "1.1.0",
+    "dialog": "1.1.0",
+    "number-field": "1.1.0"
   }
 }
 ```
 
-Stable control IDs are `menu`, `dialog`, `splitter`, `tree`, `toolbar`, and `number-field`. The separately versioned guidance IDs are `electron-shell`, `save-lifecycle`, `packaging`, and `scaling`. Each starts at **1.0.0**. Guidance IDs identify advice versions; they are not additional executable controls.
+Stable control IDs are `menu`, `dialog`, `splitter`, `tree`, `toolbar`, `number-field`, `tabs`, and `listbox`; all eight are at **1.1.0**, and `tabs` and `listbox` were first released in 1.1.0. The separately versioned guidance IDs are `electron-shell`, `save-lifecycle`, `packaging`, and `scaling`, still at 1.0.0. Guidance IDs identify advice versions; they are not additional executable controls.
 
-`checkUpdates(manifest)` accepts up to 50 component declarations and returns `{ schema_version: 1, status, components, errors }`, with components sorted by ID. A structurally invalid manifest returns `status: "invalid_manifest"`, an empty component list, and bounded errors. A valid structure returns `status: "ok"` even when an individual declaration is unknown or invalid; inspect each entry. Entries contain `id`, `installed`, `latest`, `status`, `compatibility`, matching repair IDs, and a short explanatory `note`.
+`checkUpdates(manifest)` accepts up to 50 component declarations and returns `{ schema_version: 1, status, components, errors }`, with components sorted by ID. A structurally invalid manifest returns `status: "invalid_manifest"`, an empty component list, and bounded errors. A valid structure returns `status: "ok"` even when an individual declaration is unknown or invalid; inspect each entry. Entries contain `id`, `installed`, `latest`, `status`, `compatibility`, matching repair IDs, `changes`, and a short explanatory `note`. For an older declaration, `changes` lists each later cataloged release up to `latest` as `{ version, date, summary }`; otherwise it is empty.
 
 | Component status | Meaning | Initial compatibility report |
 | --- | --- | --- |
 | `current` | Exact version equals the latest catalog version | `unverified` for the consumer and host |
-| `update_available` | Numerically older than the latest catalog version | `unsupported` across an older major; otherwise `unverified` |
+| `update_available` | Numerically older than the latest catalog version | `unsupported` across an older major or below the component's first release (for example `tabs` at 1.0.0); otherwise `unverified` |
 | `newer_than_catalog` | Numerically newer than the catalog | `unverified`; no downgrade is recommended |
 | `unknown_component` | ID absent from the release catalog | `unsupported`, with `latest: null` |
 | `invalid_version` | Version is not an exact supported stable string | `unsupported` |
 
-Only 1.0.0 is cataloged in this initial edition. An older numeric value is not evidence of a real prior release or a tested migration. The checker compares declarations and does not install, modify, or execute anything. A version match never establishes browser, OS, Electron, accessibility, or application compatibility. The initial data deliberately makes no `verified` compatibility claim.
+The catalog lists releases 1.0.0 and 1.1.0. An older numeric value that is not listed in a component's `released_versions` is not evidence of a real prior release, and no migration is tested. The checker compares declarations and does not install, modify, or execute anything. A version match never establishes browser, OS, Electron, accessibility, or application compatibility. The initial data deliberately makes no `verified` compatibility claim.
 
 ## Verification
 

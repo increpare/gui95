@@ -92,16 +92,21 @@ export function checkUpdates(manifest) {
   const components = entries.sort(([a], [b]) => lexical(a, b)).map(([id, rawVersion]) => {
     const release = byRelease.get(id);
     const installed = typeof rawVersion === 'string' && rawVersion.length <= 32 ? rawVersion : null;
-    const base = { id, installed, latest: release?.latest ?? null, status: 'unknown_component', compatibility: 'unsupported', repairs: [], note: 'This component ID is not in the catalog.' };
+    const base = { id, installed, latest: release?.latest ?? null, status: 'unknown_component', compatibility: 'unsupported', repairs: [], changes: [], note: 'This component ID is not in the catalog.' };
     if (!release) return base;
     if (!versionParts(installed)) return { ...base, status: 'invalid_version', note: 'Use an exact stable X.Y.Z version; ranges, prereleases, and build metadata are not accepted.' };
     const comparison = compareVersions(installed, release.latest);
     const status = comparison === 0 ? 'current' : comparison < 0 ? 'update_available' : 'newer_than_catalog';
+    const firstRelease = release.released_versions[0];
+    // A version below the component's first release names no real release of it.
+    const predates = comparison < 0 && compareVersions(installed, firstRelease) < 0;
     return { ...base, status,
-      compatibility: comparison < 0 && versionParts(installed)[0] < versionParts(release.latest)[0] ? 'unsupported' : 'unverified',
+      compatibility: comparison < 0 && (predates || versionParts(installed)[0] < versionParts(release.latest)[0]) ? 'unsupported' : 'unverified',
       repairs: repairs.filter((repair) => repair.components.includes(id) && inRange(installed, repair.applicable_versions)).map((repair) => repair.id),
+      changes: comparison < 0 ? copy((release.changes ?? []).filter((change) => compareVersions(change.version, installed) > 0 && compareVersions(change.version, release.latest) <= 0)) : [],
       note: comparison === 0 ? 'Version matches the catalog. Consumer and host compatibility still require validation.' :
-        comparison < 0 ? 'A newer catalog version exists. This installed release and its migration are not verified by this catalog.' :
+        predates ? `This component was first released in ${firstRelease}; no earlier release of it exists, so integrate ${release.latest} as new.` :
+        comparison < 0 ? 'A newer catalog version exists; changes lists what each later release changed. This installed release and its migration are not verified by this catalog.' :
           'Installed version is newer than the catalog. No downgrade or compatibility recommendation is made.' };
   });
   return { schema_version: 1, status: 'ok', components, errors: [] };

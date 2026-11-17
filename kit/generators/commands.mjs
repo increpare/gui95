@@ -50,7 +50,7 @@ export function createCommandRegistry(definitions,{context={},platform=globalThi
     return {id,label:item.label??id,help:item.help??'',shortcut:item.shortcut??'',enabled:evaluate(item.enabled,true),checked:item.checked===undefined?undefined:evaluate(item.checked,false),target:item.target??'application'};
   };
   const ownerFor=event=>event?.target?.closest?.('[data-command-owner]')?.dataset?.commandOwner??(event?.target?.closest?.('dialog[open]')?'dialog':current.owner??'document');
-  const nativeOwns=event=>{const target=event.target;const key=String(event.key).toLowerCase();return (!event.ctrlKey&&!event.metaKey&&!event.altKey)&&(([' ','enter'].includes(key)&&(target?.tagName==='BUTTON'||target?.closest?.('a[href], [role="button"]')))||(['arrowleft','arrowright','arrowup','arrowdown','home','end'].includes(key)&&target?.closest?.('[data-gui95-toolbar], [role="tablist"], [role="tree"], [role="slider"]')));};
+  const nativeOwns=event=>{const target=event.target;const key=String(event.key).toLowerCase();return (!event.ctrlKey&&!event.metaKey&&!event.altKey)&&(([' ','enter'].includes(key)&&(target?.tagName==='BUTTON'||target?.closest?.('a[href], [role="button"]')))||(['arrowleft','arrowright','arrowup','arrowdown','home','end'].includes(key)&&target?.closest?.('[data-gui95-toolbar], [role="tablist"], [role="tab"], [role="tree"], [role="slider"], [role="listbox"]'))||((['pageup','pagedown'].includes(key)||(key.length===1&&key!==' '))&&target?.closest?.('[role="listbox"]')));};
   const allowed=(item,owner)=>!item.target||item.target==='application'||item.target===owner;
   const execute=async(id,event)=>{
     const item=commands.get(id);

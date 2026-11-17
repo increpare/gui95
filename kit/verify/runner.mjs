@@ -2,6 +2,8 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
+import { lintPage } from './period-lint.mjs';
+import { version as kitVersion } from '../components/gui95.mjs';
 
 export const defaultScales = Object.freeze([1, 1.25, 1.5, 2]);
 const nativeChecks = [
@@ -20,7 +22,7 @@ export async function runVerification({ url, output, scales = defaultScales } = 
   if (!Array.isArray(scales) || !scales.length || scales.length > 4 || scales.some(scale => !defaultScales.includes(scale)) || new Set(scales).size !== scales.length) throw new TypeError('scales must be a unique subset of [1, 1.25, 1.5, 2]');
   const directory = resolve(output);
   await mkdir(directory, { recursive: true });
-  const report = { schemaVersion: 1, kitVersion: '1.0.0', checkedAt: new Date().toISOString(), url: target.href, runtime: { node: process.version, browser: '', mode: 'headless Chromium', platform: process.platform }, scope: 'Browser assertions and review screenshots only; deviceScaleFactor is not OS display scaling or native-host verification.', scales: [...scales], assertions: [], screenshots: [], failures: [], nativeChecks };
+  const report = { schemaVersion: 1, kitVersion, checkedAt: new Date().toISOString(), url: target.href, runtime: { node: process.version, browser: '', mode: 'headless Chromium', platform: process.platform }, scope: 'Browser assertions and review screenshots only; deviceScaleFactor is not OS display scaling or native-host verification.', scales: [...scales], assertions: [], screenshots: [], failures: [], nativeChecks };
   let browser;
   const record = (name, passed, details, scale, viewport = 'wide') => {
     const item = { name, scale, viewport, status: passed ? 'passed' : 'failed', details };
@@ -46,6 +48,9 @@ export async function runVerification({ url, output, scales = defaultScales } = 
         record('numeric-bounds', inspection.numbers.length === 0, { issues: inspection.numbers }, scale);
         record('tree-expansion-state', inspection.trees.length === 0, { issues: inspection.trees }, scale);
         record('splitter-bounds', inspection.splitters.length === 0, { issues: inspection.splitters }, scale);
+        const period = await lintPage(page);
+        // A page that declares a GUI95 scope is held to the period rules; any other page only gets the findings.
+        record('period-lint', !period.scoped || period.status === 'passed', { applicable: period.scoped, scope: period.scope, checked: period.checked, violations: period.violations, truncated: period.truncated, ignored: period.ignored, limits: period.limits }, scale);
         await probeMenus(page, (name,passed,details)=>record(name,passed,details,scale));
         record('uncaught-browser-errors', pageErrors.length === 0, { errors: pageErrors }, scale);
         for (const [viewport, width] of [['wide',1100],['narrow',480]]) {
@@ -90,6 +95,9 @@ async function inspectPage(page) {
 async function probeMenus(page, record) {
   const trigger=page.locator('[data-gui95-menubar] [data-gui95-menu]:not(:disabled)').first();
   if(!await trigger.count()){record('menu-keyboard-open-close',true,{applicable:false,reason:'No GUI95 menubar present'});return;}
+  // Keys would go to the application's dialog and could close it; leave the page as loaded for the screenshots.
+  const modal=await page.evaluate(()=>{const dialog=document.querySelector('dialog:modal');return dialog?(dialog.id||dialog.getAttribute('aria-label')||'dialog'):null});
+  if(modal){record('menu-keyboard-open-close',true,{applicable:false,reason:`A modal dialog (${modal}) is open, so the menubar is inert; no keys were sent`});return;}
   const id=await trigger.getAttribute('data-gui95-menu');
   const previous=await page.evaluate(()=>{const node=document.activeElement;return node?.id||null});
   await trigger.focus();

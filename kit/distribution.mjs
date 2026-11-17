@@ -2,9 +2,15 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { version } from './components/gui95.mjs';
 
-export const KIT_VERSION = '1.0.0';
-export const COMPONENTS = ['menu', 'dialog', 'splitter', 'tree', 'toolbar', 'number-field'];
+/** The release version; components/gui95.mjs is its single source. */
+export const KIT_VERSION = version;
+export const COMPONENTS = ['menu', 'dialog', 'splitter', 'tree', 'toolbar', 'number-field', 'tabs', 'listbox'];
+/** Shipped beside the shared runtime in every component bundle, so a downloaded kit can run its own checks. */
+export const COMPONENT_CHECK_FILES = Object.freeze(['components/gallery.html','components/atlas.html','test/components.test.mjs','test/components-runner.test.mjs','test/period-lint.test.mjs','test/atlas.test.mjs','test/baseline/state-atlas.png','verify/runner.mjs','verify/period-lint.mjs','verify/atlas.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']);
+/** Kit files read as bytes rather than UTF-8 text. */
+export const isBinaryKitFile = name => path.extname(name) === '.png';
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const mime = name => ({'.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.png':'image/png','.json':'application/json','.md':'text/markdown','.zip':'application/zip'}[path.extname(name)] ?? 'text/plain');
 const crcTable = Array.from({length:256}, (_, n) => { for(let i=0;i<8;i++) n = n&1 ? 0xedb88320^(n>>>1) : n>>>1; return n>>>0; });
@@ -87,7 +93,7 @@ export function createKit({root=path.dirname(fileURLToPath(import.meta.url)),pub
     const resolved=await realpath(path.join(root,name));
     const boundary=await realpath(root);
     if(!resolved.startsWith(boundary+path.sep)) throw new Error('Kit file escapes root.');
-    return {path:name,text:await readFile(resolved,'utf8')};
+    return isBinaryKitFile(name) ? {path:name,data:await readFile(resolved)} : {path:name,text:await readFile(resolved,'utf8')};
   }
   function bundle(files,metadata={}) {
     const artifact=artifacts.put(files);
@@ -115,8 +121,8 @@ export function createKit({root=path.dirname(fileURLToPath(import.meta.url)),pub
     async component(id) {
       if(!COMPONENTS.includes(id)) throw new Error('Unknown component.');
       const files=await shared([]);
-      for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']) files.push(await read(name));
-      return bundle(files,{component:id,version:KIT_VERSION,usage:'Scope the interface with .gui95 and call enhance(root). The shared runtime contains all six components; see components/README.md for the selected API. Install pinned test dependencies with pnpm install --frozen-lockfile, install Chromium with pnpm exec playwright install chromium, and run pnpm run test:components. A working gallery and verifier are included.'});
+      for(const name of COMPONENT_CHECK_FILES) files.push(await read(name));
+      return bundle(files,{component:id,version:KIT_VERSION,usage:'Scope the interface with .gui95 and call enhance(root). The shared runtime contains all eight components (menu, dialog, splitter, tree, toolbar, number field, tabs and list box); see components/README.md for the selected API. Install pinned test dependencies with pnpm install --frozen-lockfile, install Chromium with pnpm exec playwright install chromium, and run pnpm run test:components; pnpm run test:atlas compares the rendered control states of the stylesheet with the included baseline image. A working gallery and verifier are included.'});
     },
     async icons(options={}) {
       const icons=await module('icons/catalog.mjs');
