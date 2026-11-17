@@ -14,19 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.21.0
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: mcp/package-lock.json
+          cache: pnpm
+          cache-dependency-path: |
+            mcp/pnpm-lock.yaml
+            kit/pnpm-lock.yaml
       - name: Install MCP service dependencies
-        run: npm --prefix mcp ci --ignore-scripts --no-audit --no-fund
+        run: pnpm --dir mcp install --frozen-lockfile --ignore-scripts
       - name: Test MCP service and HTTP protocol
-        run: npm --prefix mcp test
+        run: pnpm --dir mcp test
       - name: Install local verification dependencies
-        run: npm --prefix kit ci --ignore-scripts --no-audit --no-fund
+        run: pnpm --dir kit install --frozen-lockfile --ignore-scripts
       - name: Install verification browser
-        run: cd kit && npx playwright install --with-deps chromium
+        run: cd kit && pnpm exec playwright install --with-deps chromium
       - name: Test build kit, browser interactions and delivery helpers
         run: node --test kit/test/*.test.mjs tools/test/*.test.mjs
       - name: Verify reference hashes and documentation

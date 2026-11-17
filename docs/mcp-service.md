@@ -34,7 +34,7 @@ Usage storage contains daily tool-call counts, error counts, and counts by reque
 
 ## Local checks and packages
 
-From `mcp/`, install the locked dependencies with `npm ci --ignore-scripts`, then run `npm test`. Tests use real MCP clients over HTTP and cover discovery, every template’s code/hash, search relevance, long-source pagination, binary integrity/notices, preview/download routes, inventory boundaries, consent, feedback retries, recovery, counters, retention and rate limits. Check generated widgets with `node tools/build-widget-examples.mjs --check` before packaging.
+From `mcp/`, install the locked dependencies with `pnpm install --frozen-lockfile --ignore-scripts`, then run `pnpm test`. Tests use real MCP clients over HTTP and cover discovery, every template’s code/hash, search relevance, long-source pagination, binary integrity/notices, preview/download routes, inventory boundaries, consent, feedback retries, recovery, counters, retention and rate limits. Check generated widgets with `node tools/build-widget-examples.mjs --check` before packaging.
 
 The [18 October verification record](mcp-widget-verification-2026-10-18.md) describes the service, HTTP browser-preview and release checks actually run, with their limits.
 

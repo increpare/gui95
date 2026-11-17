@@ -115,8 +115,8 @@ export function createKit({root=path.dirname(fileURLToPath(import.meta.url)),pub
     async component(id) {
       if(!COMPONENTS.includes(id)) throw new Error('Unknown component.');
       const files=await shared([]);
-      for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','package-lock.json']) files.push(await read(name));
-      return bundle(files,{component:id,version:KIT_VERSION,usage:'Scope the interface with .gui95 and call enhance(root). The shared runtime contains all six components; see components/README.md for the selected API. Install pinned test dependencies with npm ci, install Chromium with npx playwright install chromium, and run npm run test:components. A working gallery and verifier are included.'});
+      for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']) files.push(await read(name));
+      return bundle(files,{component:id,version:KIT_VERSION,usage:'Scope the interface with .gui95 and call enhance(root). The shared runtime contains all six components; see components/README.md for the selected API. Install pinned test dependencies with pnpm install --frozen-lockfile, install Chromium with pnpm exec playwright install chromium, and run pnpm run test:components. A working gallery and verifier are included.'});
     },
     async icons(options={}) {
       const icons=await module('icons/catalog.mjs');

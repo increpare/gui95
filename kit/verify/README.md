@@ -1,6 +1,6 @@
 # Local GUI95 verification
 
-Install the exact kit dev dependency with `npm ci` inside `kit/`, then install Chromium with `npx playwright install chromium`. Start the application yourself and pass its explicit HTTP(S) URL:
+Install the exact kit dev dependency with `pnpm install --frozen-lockfile` inside `kit/`, then install Chromium with `pnpm exec playwright install chromium`. Start the application yourself and pass its explicit HTTP(S) URL:
 
 ```sh
 node kit/verify/runner.mjs http://127.0.0.1:8000/kit/components/gallery.html /tmp/gui95-review

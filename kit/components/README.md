@@ -75,6 +75,6 @@ A `[data-gui95-split]` container has exactly three direct children: first pane, 
 
 ## Verification
 
-From `kit/`, run `npm ci`, `npx playwright install chromium`, then `npm run test:components`. The Chromium browser may already be cached. `node --test kit/test/components*.mjs` runs both behavior and runner cases from the repository root.
+From `kit/`, run `pnpm install --frozen-lockfile`, `pnpm exec playwright install chromium`, then `pnpm run test:components`. The Chromium browser may already be cached. `node --test kit/test/components*.mjs` runs both behavior and runner cases from the repository root.
 
 For a running consumer or the gallery, run `node kit/verify/runner.mjs http://127.0.0.1:PORT/components/gallery.html /absolute/output`. See [the runner contract](../verify/README.md). Screenshots require visual review; a passed browser assertion does not claim Windows fidelity, native window behavior or screen-reader coverage.

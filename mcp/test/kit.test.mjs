@@ -57,7 +57,7 @@ test('kit inventory and component downloads use a fixed file allowlist', async t
   await writeFile(path.join(root,'components','gui95.mjs'),'export const enhance=()=>{};');
   await writeFile(path.join(root,'components','gui95.css'),'.gui95{color:black}');
   await writeFile(path.join(root,'components','README.md'),'# Integration\nUse enhance().');
-  for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','package-lock.json']) {await mkdir(path.dirname(path.join(root,name)),{recursive:true});await writeFile(path.join(root,name),'fixture');}
+  for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']) {await mkdir(path.dirname(path.join(root,name)),{recursive:true});await writeFile(path.join(root,name),'fixture');}
   const kit=createKit({root,publicURL:'https://example.test/gui95/'});
   assert.ok(kit.inventory().components.some(c=>c.id==='menu'));
   const result=await kit.component('menu');

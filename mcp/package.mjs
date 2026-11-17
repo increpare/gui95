@@ -25,7 +25,7 @@ const service = path.join(deployment, "service");
 const content = path.join(deployment, "content");
 await mkdir(service, { recursive: true });
 await mkdir(content);
-for (const name of ["server.mjs", "catalog.mjs", "content.mjs", "kit.mjs", "kit-tools.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "package-lock.json"]) {
+for (const name of ["server.mjs", "catalog.mjs", "content.mjs", "kit.mjs", "kit-tools.mjs", "store.mjs", "admin.mjs", "smoke.mjs", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"]) {
   await cp(path.join(here, name), path.join(service, name));
 }
 await cp(path.join(root, "kit"), path.join(deployment, "kit"), { recursive: true, filter: (source) => !source.split(path.sep).some((part) => ["node_modules", "test-results", "playwright-report", "artifacts"].includes(part) || part.startsWith("._")) });
