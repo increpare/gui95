@@ -94,6 +94,32 @@ test('DOM command owners survive execution and focused buttons keep native activ
   assert.equal(runs,1);
 });
 
+test('focused list boxes and tabs keep their navigation and type-ahead keys',async()=>{
+  const runs=[];
+  const registry=createCommandRegistry([
+    {id:'view.find',shortcut:'F',run:()=>runs.push('f')},
+    {id:'view.next',shortcut:'ArrowDown',run:()=>runs.push('down')},
+    {id:'view.right',shortcut:'ArrowRight',run:()=>runs.push('right')},
+    {id:'view.top',shortcut:'Home',run:()=>runs.push('home')},
+    {id:'view.end',shortcut:'End',run:()=>runs.push('end')},
+    {id:'view.page',shortcut:'PageDown',run:()=>runs.push('page')},
+    {id:'file.save',shortcut:'Ctrl+S',run:()=>runs.push('save')}
+  ]);
+  const inside=roles=>({tagName:'LI',closest:selector=>selector.split(',').some(part=>roles.includes(part.trim()))?{dataset:{}}:null});
+  const event=(key,target,more={})=>({key,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false,repeat:false,target,preventDefault(){},...more});
+  const listbox=inside(['[role="listbox"]','[role="option"]']);
+  for(const key of ['f','ArrowDown','Home','End','PageDown']) assert.equal(registry.handleKeydown(event(key,listbox)),false,`listbox keeps ${key}`);
+  assert.equal(registry.handleKeydown(event('s',listbox,{ctrlKey:true})),true);
+  const tab={tagName:'BUTTON',closest:selector=>selector.split(',').some(part=>['[role="tab"]','[role="tablist"]'].includes(part.trim()))?{dataset:{}}:null};
+  for(const key of ['ArrowRight','ArrowDown','Home','End']) assert.equal(registry.handleKeydown(event(key,tab)),false,`tab keeps ${key}`);
+  const loneTab={tagName:'BUTTON',closest:selector=>selector.split(',').some(part=>part.trim()==='[role="tab"]')?{dataset:{}}:null};
+  for(const key of ['ArrowRight','Home','End']) assert.equal(registry.handleKeydown(event(key,loneTab)),false,`lone tab keeps ${key}`);
+  assert.equal(registry.handleKeydown(event('s',tab,{ctrlKey:true})),true);
+  assert.equal(registry.handleKeydown(event('f',{tagName:'DIV',closest:()=>null})),true);
+  await Promise.resolve();
+  assert.deepEqual(runs,['save','save','f']);
+});
+
 test('menu activation dispatches a document command to the active document owner',async()=>{
   let owner;
   const registry=createCommandRegistry([{id:'document.save',target:'document',run:ctx=>{owner=ctx.owner;}}],{context:{owner:'document'}});

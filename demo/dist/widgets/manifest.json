@@ -118,9 +118,9 @@
       "id": "spinner",
       "title": "Numeric field and spin control",
       "family": "Basic controls",
-      "states": "Editable, increment/decrement, minimum/maximum and invalid typed values.",
-      "keys": "Up/Down changes one step; typing and native text selection work. Tab exits.",
-      "note": "A native number input avoids inventing text editing rules. Its arrow artwork is browser dependent; paired custom spin buttons must preserve the same labeled field and bounds.",
+      "states": "Editable, up and down buttons, minimum/maximum and invalid typed values.",
+      "keys": "Up/Down in the field changes one step; typing and native text selection work. The up-down buttons are not Tab stops and leave focus in the field. Tab exits.",
+      "note": "A native number input keeps the browser’s text editing rules. The page draws the up-down buttons beside the same labeled field; they step within its bounds, and typing 0 or 21 still shows validation.",
       "sources": [
         {
           "label": "Microsoft preliminary guide (1995), chapters 7–8",
@@ -555,7 +555,7 @@
       "title": "Palette, color well and color dialog",
       "family": "Specialized controls",
       "states": "Swatches, RGB values, preview draft, committed well, validation and cancel rollback.",
-      "keys": "Tab reaches the palette and numeric fields; arrows select a palette color; native number arrows edit components; Escape cancels.",
+      "keys": "Tab reaches the palette and numeric fields; arrows select a palette color; Up/Down or the up-down buttons edit components; Escape cancels.",
       "note": "A deliberately small browser color dialog. It does not emulate the native Windows custom-color store, hue/saturation plane, system palette or color management.",
       "sources": [
         {
@@ -575,7 +575,7 @@
       "title": "Font dialog with sample",
       "family": "Specialized controls",
       "states": "Family, size, bold/italic, live draft sample, commit and cancel.",
-      "keys": "Native select, numeric and checkbox keys work; Escape cancels; focus returns to Choose font.",
+      "keys": "Native select, numeric and checkbox keys work; the size up-down buttons step without taking focus; Escape cancels; focus returns to Choose font.",
       "note": "Browser CSS requests fonts; fallback depends on installed fonts. This is not native font enumeration or a RichEdit formatting engine.",
       "sources": [
         {

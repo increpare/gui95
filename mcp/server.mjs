@@ -8,7 +8,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { isIP } from "node:net";
 import { loadCatalog, materialKinds } from "./catalog.mjs";
 import { createStore, createRateLimiter } from "./store.mjs";
-import { createKit } from "./kit.mjs";
+import { createKit, KIT_VERSION } from "./kit.mjs";
 import { registerKitTools } from "./kit-tools.mjs";
 
 export const VERSION = "1.2.1";
@@ -156,7 +156,7 @@ export async function createApplication(options = {}) {
     try { res.type("image/png").send((await kit.iconSheet()).png); } catch(error) { next(error); }
   });
   app.get(basePath + "/icons.zip", async (_req, res, next) => {
-    try { const result = await kit.iconPack(); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-cc0-icons-1.0.0.zip"').send(kit.artifacts.get(result.artifact.id).bytes); }
+    try { const result = await kit.iconPack(); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-cc0-icons-' + KIT_VERSION + '.zip"').send(kit.artifacts.get(result.artifact.id).bytes); }
     catch (error) { next(error); }
   });
   app.get(new RegExp("^" + basePath + "/icons/([a-zA-Z0-9.-]+)\\.(svg|png)$"), async (req, res) => {
@@ -170,7 +170,7 @@ export async function createApplication(options = {}) {
     res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-' + artifact.id + '.zip"').send(artifact.bytes);
   });
   app.get(basePath + "/kit.zip", async (_req, res, next) => {
-    try { const bundle = await kit.fullKit(); const artifact = kit.artifacts.get(bundle.artifact.id); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-build-kit-1.0.0.zip"').send(artifact.bytes); }
+    try { const bundle = await kit.fullKit(); const artifact = kit.artifacts.get(bundle.artifact.id); res.type("application/zip").setHeader("Content-Disposition", 'attachment; filename="gui95-build-kit-' + KIT_VERSION + '.zip"').send(artifact.bytes); }
     catch (error) { next(error); }
   });
   app.get(new RegExp("^" + basePath + "/kit/(.+)$"), async (req, res, next) => {

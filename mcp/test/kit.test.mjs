@@ -57,13 +57,18 @@ test('kit inventory and component downloads use a fixed file allowlist', async t
   await writeFile(path.join(root,'components','gui95.mjs'),'export const enhance=()=>{};');
   await writeFile(path.join(root,'components','gui95.css'),'.gui95{color:black}');
   await writeFile(path.join(root,'components','README.md'),'# Integration\nUse enhance().');
-  for(const name of ['components/gallery.html','test/components.test.mjs','test/components-runner.test.mjs','verify/runner.mjs','verify/README.md','package.json','package-lock.json']) {await mkdir(path.dirname(path.join(root,name)),{recursive:true});await writeFile(path.join(root,name),'fixture');}
+  for(const name of ['components/gallery.html','components/atlas.html','test/components.test.mjs','test/components-runner.test.mjs','test/period-lint.test.mjs','test/atlas.test.mjs','verify/runner.mjs','verify/period-lint.mjs','verify/atlas.mjs','verify/README.md','package.json','package-lock.json']) {await mkdir(path.dirname(path.join(root,name)),{recursive:true});await writeFile(path.join(root,name),'fixture');}
+  const baseline=Buffer.from([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0xff,0x00,0xc0,0x80]);
+  await mkdir(path.join(root,'test','baseline'),{recursive:true});await writeFile(path.join(root,'test','baseline','state-atlas.png'),baseline);
   const kit=createKit({root,publicURL:'https://example.test/gui95/'});
   assert.ok(kit.inventory().components.some(c=>c.id==='menu'));
   const result=await kit.component('menu');
   assert.equal(result.component,'menu');
   assert.ok(result.files.some(file=>file.path==='components/gui95.mjs'));
   assert.ok(result.files.some(file=>file.path==='test/components.test.mjs'),'Component kit includes its executable regression checks');
+  for(const name of ['components/atlas.html','verify/atlas.mjs','test/atlas.test.mjs'])assert.ok(result.files.some(file=>file.path===name),'Component kit includes the state atlas check: '+name);
+  const image=result.files.find(file=>file.path==='test/baseline/state-atlas.png');
+  assert.deepEqual([image?.mime_type,image?.sha256,image?.text],['image/png',hash(baseline),undefined],'the baseline PNG is carried as binary bytes');
   assert.match(result.artifact.url,/https:\/\/example.test\/gui95\/artifacts\/[a-f0-9]{64}\.zip/);
   assert.ok(kit.artifacts.get(result.artifact.id).bytes);
   await assert.rejects(kit.component('../../.ssh'),/Unknown component/);

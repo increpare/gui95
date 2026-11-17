@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
-  "kit_version": "1.0.0",
-  "checked_date": "2026-10-18",
+  "kit_version": "1.1.0",
+  "checked_date": "2026-11-17",
   "environment": {
-    "os": "macOS",
-    "arch": "arm64",
-    "node": "25.8.1",
+    "os": "Windows 11 Pro 10.0.26200",
+    "arch": "x64",
+    "node": "22.12.0",
     "chromium": "151.0.7922.34",
     "playwright": "1.62.1"
   },
   "combined_suite": {
-    "tests": 261,
-    "passed": 247,
+    "tests": 335,
+    "passed": 334,
     "failed": 0,
-    "skipped": 14,
-    "skipped_scope": "Existing platform-specific desktop helper cases"
+    "skipped": 1,
+    "skipped_scope": "Kit 125/125 and MCP 26/26 passed; delivery helpers 183 passed with 1 skipped (the Linux desktop-entry install case on Windows). The MCP suite was run from Windows PowerShell 5.1 with Windows tar (bsdtar); under Git Bash its deployment tar test fails because GNU tar reads C: as a remote host."
   },
   "gallery": {
     "scales": [
@@ -27,24 +27,31 @@
       "wide",
       "narrow"
     ],
-    "assertions": 40,
+    "assertions": 44,
     "failures": 0,
     "screenshots_captured": 8,
-    "visual_review": "Wide and narrow samples inspected"
+    "period_lint": "passed: 0 violations in 215 visible elements (standalone lint and the verifier's four wide-viewport runs)",
+    "visual_review": "Scale 1 wide, scale 1.25 narrow and scale 2 wide inspected; the other five captured but not reviewed. Headless Chromium hides scrollbar parts, so scrollbars were not reviewed."
+  },
+  "state_atlas": {
+    "baseline": "kit/test/baseline/state-atlas.png",
+    "viewport": "809 x 442 at device scale factor 1",
+    "result": "passed: the rendered atlas matched the stored baseline exactly (0 differing pixels); a one-level change to the raised bevel highlight was detected; the atlas page passed the period lint (0 violations in 160 visible elements)",
+    "scope": "Rendered only on this Windows machine in headless Chromium. The page holds no text and no font-dependent glyphs, so it is designed to render identically on macOS and Linux Chromium of the same version, but that was not run. It checks what the kit stylesheet paints, not Windows 95 fidelity, text, scrollbars or native controls."
   },
   "native_editor": {
-    "electron": "44.9.0",
-    "electron_builder": "26.15.3",
-    "unpacked_build": "passed",
-    "standard_packaging": "passed",
-    "packaged_startup": "passed",
-    "sandbox": true,
-    "context_isolation": true,
-    "renderer_node_integration": false,
-    "open_save_ipc": "Passed with deterministic native dialog selections and real fixture-file reads/writes",
-    "preferences": "passed",
+    "electron": "not re-run for 1.1.0; the 1.0.0 record of 2026-10-18 used 44.9.0, which starters still pin",
+    "electron_builder": "not re-run for 1.1.0; the 1.0.0 record of 2026-10-18 used 26.15.3, which starters still pin",
+    "unpacked_build": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "standard_packaging": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "packaged_startup": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "sandbox": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "context_isolation": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "renderer_node_integration": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "open_save_ipc": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
+    "preferences": "not re-run for 1.1.0; see the 1.0.0 record of 2026-10-18",
     "native_picker_ui": "not automated"
   },
   "reference_snapshot_hashes": 109,
-  "scope": "These results apply to the maintained kit fixtures and generated editor. Consumer applications, native Windows/Linux behavior, OS display scaling and screen readers require their own checks."
+  "scope": "These results apply to the maintained kit fixtures and the component gallery in headless Chromium on Windows. The generated Electron editor was not built, packaged or launched for 1.1.0. Consumer applications, native window behavior on any operating system, OS display scaling and screen readers require their own checks."
 }

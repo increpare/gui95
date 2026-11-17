@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GUI95 state atlas</title><link rel="stylesheet" href="./gui95.css">
+<!--
+  Fixture for kit/verify/atlas.mjs and kit/test/atlas.test.mjs: every state the stylesheet draws, on a fixed grid,
+  compared pixel for pixel with kit/test/baseline/state-atlas.png. The atlas contains no text, so the image does
+  not depend on installed fonts: each label is an empty fixed-size placeholder whose bottom edge is drawn in the
+  label's colour, and the atlas sets font-size and line-height to 0 so font metrics cannot move anything.
+-->
+<style>
+html{overflow:hidden;background:#008080}
+body.gui95{margin:0;background:#008080}
+#atlas{display:grid;grid-template-columns:repeat(8,100px);grid-template-rows:repeat(9,48px);grid-auto-flow:row dense;gap:1px;padding:1px;width:max-content;font-size:0;line-height:0}
+#atlas>.cell{background:#c0c0c0;padding:8px;display:flex;align-items:flex-start;gap:8px;overflow:hidden;min-width:0;min-height:0}
+#atlas>.column{flex-direction:column;gap:0}
+#atlas>.rows2{grid-row:span 2}
+/* Rows 1-4 hold the small cells in source order and the list box; the larger controls have fixed areas in rows 5-9. */
+#menubar-cell{grid-area:5/1/6/3}#active-cell{grid-area:6/1/8/3}#inactive-cell{grid-area:8/1/10/3}#status-cell{grid-area:5/3/6/5}#tabs-cell{grid-area:6/3/10/5}#list-cell{grid-area:3/8/5/9}#menu-cell{grid-area:5/5/10/7}#tree-cell{grid-area:5/7/10/9}
+.atlas-label{display:block;flex:none;width:var(--w,32px);height:var(--h,14px);box-shadow:inset 0 -1px currentColor}
+#atlas>.cell>button{width:75px;height:23px}
+#atlas>.cell>:is(input:not([type]),select){width:84px;height:23px}
+</style>
+</head>
+<body class="gui95">
+<main id="atlas" aria-label="GUI95 control state atlas">
+<!-- Push buttons: rest, pressed, latched, unavailable, default. -->
+<div class="cell"><button aria-label="Rest"></button></div>
+<div class="cell"><button aria-label="Pressed" data-gui95-state="pressed"></button></div>
+<div class="cell"><button aria-label="Latched" aria-pressed="true"></button></div>
+<div class="cell"><button aria-label="Unavailable" disabled></button></div>
+<div class="cell"><button aria-label="Default" class="default"></button></div>
+<!-- Check boxes: unchecked, checked, mixed, unavailable, unavailable checked. -->
+<div class="cell"><input type="checkbox" aria-label="Unchecked"></div>
+<div class="cell"><input type="checkbox" aria-label="Checked" checked></div>
+<div class="cell"><input type="checkbox" aria-label="Mixed" id="mixed"></div>
+<div class="cell"><input type="checkbox" aria-label="Unavailable" disabled></div>
+<div class="cell"><input type="checkbox" aria-label="Unavailable checked" checked disabled></div>
+<!-- Option buttons: off, on, unavailable, unavailable on. -->
+<div class="cell"><input type="radio" aria-label="Off" name="a"></div>
+<div class="cell"><input type="radio" aria-label="On" name="b" checked></div>
+<div class="cell"><input type="radio" aria-label="Unavailable" name="c" disabled></div>
+<div class="cell"><input type="radio" aria-label="Unavailable on" name="d" checked disabled></div>
+<!-- Drop-down lists and up-down controls: normal and unavailable. -->
+<div class="cell"><select aria-label="Drop-down list"><option></option></select></div>
+<div class="cell"><select aria-label="Unavailable drop-down list" disabled><option></option></select></div>
+<div class="cell"><span data-gui95-spin><input type="number" aria-label="Up-down" style="width:84px;height:23px"><button data-gui95-step="x" data-gui95-delta="1" aria-label="Increase"></button><button data-gui95-step="x" data-gui95-delta="-1" aria-label="Decrease"></button></span></div>
+<div class="cell"><span data-gui95-spin><input type="number" aria-label="Unavailable up-down" disabled style="width:84px;height:23px"><button data-gui95-step="y" data-gui95-delta="1" aria-label="Increase"></button><button data-gui95-step="y" data-gui95-delta="-1" aria-label="Decrease"></button></span></div>
+<!-- Sliders: horizontal, unavailable, vertical. Progress: determinate (45% of an 80px well), indeterminate. -->
+<div class="cell"><input type="range" aria-label="Slider" value="40" style="width:84px"></div>
+<div class="cell"><input type="range" aria-label="Unavailable slider" value="70" disabled style="width:84px"></div>
+<div class="cell rows2"><input type="range" aria-label="Vertical slider" aria-orientation="vertical" value="30" style="writing-mode:vertical-lr;direction:rtl;width:23px;height:84px"></div>
+<div class="cell"><progress aria-label="Determinate" value="45" max="100" style="width:84px"></progress></div>
+<div class="cell"><progress aria-label="Indeterminate" max="100" style="width:84px"></progress></div>
+<!-- Text fields: normal, unavailable, read-only. Group box, etched rule. -->
+<div class="cell"><input aria-label="Text field"></div>
+<div class="cell"><input aria-label="Unavailable text field" disabled></div>
+<div class="cell"><input aria-label="Read-only text field" readonly></div>
+<div class="cell"><fieldset style="width:84px;height:30px;margin:0;padding:0"><legend><span class="atlas-label" style="--w:24px;--h:13px"></span></legend></fieldset></div>
+<div class="cell"><hr style="width:84px;margin:0"></div>
+<!-- List box: a normal, a selected and an unavailable row. -->
+<div class="cell" id="list-cell"><ul role="listbox" aria-label="List box" style="width:84px;height:56px"><li role="option"><span class="atlas-label" style="--w:40px"></span></li><li role="option" aria-selected="true"><span class="atlas-label" style="--w:48px"></span></li><li role="option" aria-disabled="true"><span class="atlas-label" style="--w:36px"></span></li></ul></div>
+<!-- Status bar with two cells. -->
+<div class="cell" id="status-cell"><div class="status-bar" style="width:184px"><div><span class="atlas-label" style="--w:40px"></span></div><div><span class="atlas-label" style="--w:24px"></span></div></div></div>
+<!-- Menu bar: resting, open and unavailable headings. -->
+<div class="cell" id="menubar-cell"><nav data-gui95-menubar aria-label="Menu bar"><button><span class="atlas-label" style="--w:16px"></span></button><button aria-expanded="true"><span class="atlas-label" style="--w:20px"></span></button><button disabled><span class="atlas-label" style="--w:24px"></span></button></nav></div>
+<!-- Property tabs: selected, unselected and unavailable tab over a page. -->
+<div class="cell column" id="tabs-cell"><div role="tablist" aria-label="Pages"><button role="tab" aria-selected="true"><span class="atlas-label" style="--w:28px"></span></button><button role="tab" aria-selected="false"><span class="atlas-label" style="--w:28px"></span></button><button role="tab" aria-selected="false" disabled><span class="atlas-label" style="--w:28px"></span></button></div><div role="tabpanel" style="width:176px;height:80px"></div></div>
+<!-- Raised window frames with an active and an inactive title bar; caption buttons at rest and pressed. -->
+<div class="cell" id="active-cell"><div class="window" style="width:184px;height:80px"><div class="title-bar"><span class="atlas-label" style="--w:64px"></span><span style="display:flex;gap:2px"><button aria-label="Minimize" style="width:16px;height:14px"></button><button aria-label="Close" data-gui95-state="pressed" style="width:16px;height:14px"></button></span></div><div class="window-body"></div></div></div>
+<div class="cell" id="inactive-cell"><div class="window" style="width:184px;height:80px"><div class="title-bar" data-inactive><span class="atlas-label" style="--w:64px"></span><button aria-label="Close" style="width:16px;height:14px"></button></div><div class="window-body"></div></div></div>
+<!-- An open menu: normal, highlighted (focused) checked, unavailable, checked, option-marked, unavailable checked, separator, submenu, shortcut. -->
+<div class="cell" id="menu-cell"><div role="menu" aria-label="Menu" style="width:176px"><button role="menuitem"><span class="atlas-label" style="--w:40px"></span></button><button role="menuitemcheckbox" aria-checked="true" autofocus><span class="atlas-label" style="--w:56px"></span></button><button role="menuitem" disabled><span class="atlas-label" style="--w:48px"></span></button><button role="menuitemcheckbox" aria-checked="true"><span class="atlas-label" style="--w:44px"></span></button><button role="menuitemradio" aria-checked="true"><span class="atlas-label" style="--w:36px"></span></button><button role="menuitemcheckbox" aria-checked="true" disabled><span class="atlas-label" style="--w:52px"></span></button><div role="separator"></div><button role="menuitem" data-gui95-menu="atlas-submenu"><span class="atlas-label" style="--w:40px"></span></button><button role="menuitem"><span class="atlas-label" style="--w:32px"></span><span data-gui95-shortcut><span class="atlas-label" style="--w:28px"></span></span></button></div></div>
+<!-- Tree: expanded and collapsed branches with disclosure boxes, connector lines and a selected row. -->
+<div class="cell" id="tree-cell"><ul data-gui95-tree aria-label="Tree" style="width:184px;height:176px"><li role="treeitem" aria-expanded="true"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:48px"></span></span><ul role="group"><li role="treeitem" aria-selected="true"><span data-gui95-tree-label><span class="atlas-label" style="--w:56px"></span></span></li><li role="treeitem" aria-expanded="true"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:40px"></span></span><ul role="group"><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:44px"></span></span></li><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:36px"></span></span></li></ul></li><li role="treeitem" aria-expanded="false"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:32px"></span></span><ul role="group" hidden><li role="treeitem"><span data-gui95-tree-label></span></li></ul></li></ul></li><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:40px"></span></span></li></ul></div>
+</main>
+<script>document.getElementById('mixed').indeterminate=true;</script>
+</body>
+</html>

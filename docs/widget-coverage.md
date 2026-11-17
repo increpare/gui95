@@ -12,7 +12,7 @@ The [gallery](../demo/dist/widgets/index.html) contains **38 self-contained exam
 | Basic controls | [Radio-button groups](../demo/dist/widgets/radio.html) | One selected option, focus, and disabled option. The legend labels the choice as a whole. |
 | Basic controls | [Text fields and validation](../demo/dist/widgets/text.html) | Editable, read-only (selectable), disabled, password, and invalid with a connected explanation. |
 | Basic controls | [Multiline text](../demo/dist/widgets/multiline.html) | Multiple lines, selection, scrolling, focus and resize. |
-| Basic controls | [Numeric field and spin control](../demo/dist/widgets/spinner.html) | Editable, increment/decrement, minimum/maximum and invalid typed values. |
+| Basic controls | [Numeric field and spin control](../demo/dist/widgets/spinner.html) | Editable, up and down buttons, minimum/maximum and invalid typed values. |
 | Basic controls | [Drop-down selection](../demo/dist/widgets/select.html) | Closed/open, selected option, disabled option and disabled control. |
 | Basic controls | [Editable combo box](../demo/dist/widgets/combobox.html) | Free text, filtered suggestions, active suggestion distinct from committed value, empty results, closed popup. |
 | Basic controls | [Single-selection list box](../demo/dist/widgets/listbox.html) | Selected row, focus, scroll and disabled item. Selection does not activate the document. |
@@ -49,7 +49,7 @@ The [gallery](../demo/dist/widgets/index.html) contains **38 self-contained exam
 
 1. Open its HTML file directly, or serve the gallery with <code>node demo/serve.mjs</code> and visit http://127.0.0.1:1995/widgets/.
 2. Read its visible scope and keyboard notes. The file contains inline CSS and just that example’s initializer; no imports, external fonts, app engines, or network service are needed.
-3. Copy the markup, relevant CSS, and initializer into the consuming project, scope the CSS, replace demonstration data/actions, and retain the MIT notice. The shared styles in a standalone page are a convenience, not a requirement to copy every selector.
+3. Each page’s CSS is the kit’s shared stylesheet (<code>kit/components/gui95.css</code>) followed by a short example layer. Copy the stylesheet once, then the example’s markup and initializer, put the markup inside a <code>.gui95</code> scope, replace demonstration data/actions, and retain the MIT notice. Take only the example-layer rules your layout needs.
 4. Keep semantics, labels, selection, disabled/read-only behavior, validation, cancellation, focus restoration, and keyboard handling with the visuals. Replace example IDs when mounting multiple instances.
 5. Verify the actual app at narrow widths, larger text, keyboard-only input, and 100/125/150/200% display scales. Native host controls, screen readers, browser differences and real persistence need their own checks.
 
@@ -59,7 +59,7 @@ Authoring sources are in [examples/widgets](../examples/widgets/README.md). Rege
 
 The primary period baseline is Microsoft’s February 1995 **preliminary** guide, chapters 7–8, with edition qualifications in the [reading shelf](historical-sources.md). These examples demonstrate behavior contracts; their prose is not a quotation of the manual. The [historical audit](historical-audit-2026-10-18.md) records remaining issues in the older app-based recommendations.
 
-The default palette represents classic system-color roles through CSS variables, not mandatory colors for every user. The 13 px system-font stack is an explicit modern readability choice, not a claim that original Windows used Tahoma at that size. Native HTML controls, HTML dialog, ARIA, pointer events, CSS resizing and SVG animation are browser adaptations. W3C APG links describe modern accessibility behavior; they are not historical evidence. Only transfer a pattern after checking its behavior in the intended host.
+The default palette represents classic system-color roles through CSS variables, not mandatory colors for every user. The pages use the shared GUI95 stylesheet with its 11px Tahoma stack; Tahoma stands in for the period MS Sans Serif bitmap face. Native HTML controls, HTML dialog, ARIA, pointer events, CSS resizing and SVG animation are browser adaptations. W3C APG links describe modern accessibility behavior; they are not historical evidence. Only transfer a pattern after checking its behavior in the intended host.
 
 ## Native and extended boundaries
 

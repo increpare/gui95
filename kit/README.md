@@ -1,6 +1,8 @@
-# GUI95 build kit 1.0.0
+# GUI95 build kit 1.1.0
 
 Reusable Windows 95-style controls, original CC0 icons, layout generators and browser/Electron app starters. The JavaScript and CSS are MIT; only the new artwork in `icons/` is dedicated to CC0. Existing reference fonts retain their separate notices. The components use the host's available font; no font is bundled in generated apps.
+
+Release 1.1.0 has eight runtime controls (menus, dialogs, splitters, trees, toolbars, number fields, property tabs and list boxes). The stylesheet alone draws check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars. A period lint (`node kit/cli.mjs lint URL`) flags modern styling inside the scope, and the verifier runs it too.
 
 ## Get started
 
@@ -49,7 +51,11 @@ cd kit
 npx playwright install chromium
 cd ..
 node kit/cli.mjs verify http://127.0.0.1:8000/components/gallery.html my-report
+node kit/cli.mjs lint http://127.0.0.1:8000/components/gallery.html
+node kit/cli.mjs atlas
 ```
+
+`lint` is the quick check to run after every styling change: it lists rounded corners, blurred shadows, translucency, transitions, hand cursors, keyword bevels, host-drawn controls, modern system fonts and dimmed dialog backdrops inside the GUI95 scope, each with the classic treatment to use instead. `verify` includes it. See [the verifier guide](verify/README.md#period-lint). `atlas` checks the kit's own stylesheet: it renders every control state and compares the image with a stored baseline, pixel for pixel ([state atlas](verify/README.md#state-atlas)).
 
 Serve the generated project with its documented server command, or use a local static HTTP server for the component gallery. Verification writes a JSON report and screenshots for device scales 1, 1.25, 1.5 and 2. The runner uses explicit component markers to discover applicable checks. Review screenshots for appearance; they do not prove screen-reader or native-window behavior. Test native dialogs, Electron title-bar behavior, text rendering and packaging in each intended operating system. Reports stay on your machine unless you explicitly choose to share them.
 
@@ -60,10 +66,10 @@ Evidence records identify the claim, source kind, section or edition/page, date 
 Record the versions integrated into your app:
 
 ```json
-{ "schema_version": 1, "components": { "menu": "1.0.0", "dialog": "1.0.0" } }
+{ "schema_version": 1, "components": { "menu": "1.1.0", "dialog": "1.1.0" } }
 ```
 
-Update checks identify current, older, newer, unknown and invalid versions. A repair is an integration safeguard with a reproducer; its applicability does not establish that a current kit release contains that defect. A listed test name is a reproducible check, not a claim it passed in your app.
+Update checks identify current, older, newer, unknown and invalid versions; for an older version they list what each later release changed. A repair is an integration safeguard with a reproducer; its applicability does not establish that a current kit release contains that defect. A listed test name is a reproducible check, not a claim it passed in your app.
 
 ## Hosted tools and artifacts
 

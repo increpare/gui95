@@ -10,7 +10,7 @@ e('buttons','Push buttons and default action','Basic controls',`
 
 e('toggle','Toggle buttons','Basic controls',`
 <div class="row"><button id="toggle" aria-pressed="false">Show grid</button><button aria-pressed="true" disabled>Snap (locked)</button></div><div id="grid" style="margin-top:18px;height:80px;border:1px solid gray"></div>`,
-({$,on,report})=>on($('#toggle'),'click',()=>{const active=$('#toggle').getAttribute('aria-pressed')!=='true';$('#toggle').setAttribute('aria-pressed',active);$('#grid').style.background=active?'repeating-linear-gradient(90deg,transparent 0 19px,#888 19px 20px),repeating-linear-gradient(transparent 0 19px,#888 19px 20px)':'';report(active?'Grid shown.':'Grid hidden.');}),
+({$,on,report})=>on($('#toggle'),'click',()=>{const active=$('#toggle').getAttribute('aria-pressed')!=='true';$('#toggle').setAttribute('aria-pressed',active);$('#grid').style.background=active?'repeating-linear-gradient(90deg,transparent 0 19px,#808080 19px 20px),repeating-linear-gradient(transparent 0 19px,#808080 19px 20px)':'';report(active?'Grid shown.':'Grid hidden.');}),
 'Off/on, pressed feedback, focus, and disabled on state.','Space or Enter toggles the focused button.',
 'Keep the label stable and expose its persistent state with aria-pressed. A momentary command needs no aria-pressed.','button'),
 
@@ -41,10 +41,10 @@ e('multiline','Multiline text','Basic controls',`
 'This is plain text. RichEdit, embedded objects and document formatting need a separate editor integration.'),
 
 e('spinner','Numeric field and spin control','Basic controls',`
-<label class="field">Copies (1–20) <input id="copies" type="number" min="1" max="20" step="1" value="2" required></label><div class="actions"><button id="use">Use copies</button></div><p class="hint">The browser supplies the spin buttons. Type 0 or 21 to try validation.</p>`,
-({$,on,report})=>{on($('#use'),'click',()=>{const x=$('#copies');if(x.reportValidity())report(`${x.valueAsNumber} copies selected.`);});},
-'Editable, increment/decrement, minimum/maximum and invalid typed values.','Up/Down changes one step; typing and native text selection work. Tab exits.',
-'A native number input avoids inventing text editing rules. Its arrow artwork is browser dependent; paired custom spin buttons must preserve the same labeled field and bounds.','spinbutton'),
+<div class="field"><label for="copies">Copies (1–20)</label><span data-gui95-spin><input id="copies" type="number" min="1" max="20" step="1" value="2" required><button type="button" data-gui95-step="copies" data-gui95-delta="1" tabindex="-1" aria-label="Increase copies"></button><button type="button" data-gui95-step="copies" data-gui95-delta="-1" tabindex="-1" aria-label="Decrease copies"></button></span></div><div class="actions"><button id="use">Use copies</button></div><p class="hint">The drawn up and down buttons step the value and stop at 1 and 20. Type 0 or 21 to try validation.</p>`,
+({$,on,report,spin})=>{spin();on($('#use'),'click',()=>{const x=$('#copies');if(x.reportValidity())report(`${x.valueAsNumber} copies selected.`);});},
+'Editable, up and down buttons, minimum/maximum and invalid typed values.','Up/Down in the field changes one step; typing and native text selection work. The up-down buttons are not Tab stops and leave focus in the field. Tab exits.',
+'A native number input keeps the browser’s text editing rules. The page draws the up-down buttons beside the same labeled field; they step within its bounds, and typing 0 or 21 still shows validation.','spinbutton'),
 
 e('select','Drop-down selection','Basic controls',`
 <div class="stack"><label class="field">Paper size <select id="paper"><option>A4</option><option>Letter</option><option>Legal</option><option disabled>Custom (unavailable)</option></select></label><label class="field">Unavailable device <select disabled><option>Offline printer</option></select></label></div>`,
@@ -97,12 +97,12 @@ e('progress','Progress bars','Feedback and layout',`
 'Use a real job’s measurements in an app; do not invent percentages. Announce milestones instead of every animation frame.'),
 
 e('scrollbars','Scrollbars and scrolling regions','Feedback and layout',`
-<div class="scrollbox" tabindex="0" aria-label="Scrollable document"><div style="width:750px;height:400px;background:repeating-linear-gradient(#fff 0 29px,#ddd 29px 30px)"><strong>Wide document — horizontal and vertical scrolling</strong><p>Native overflow keeps wheel, keyboard, touch and accessibility support.</p><p style="padding-top:190px">End of the sample document.</p></div></div>`,
+<div class="scrollbox" tabindex="0" aria-label="Scrollable document"><div style="width:750px;height:400px;background:repeating-linear-gradient(#fff 0 29px,#dfdfdf 29px 30px)"><strong>Wide document — horizontal and vertical scrolling</strong><p>Native overflow keeps wheel, keyboard, touch and accessibility support.</p><p style="padding-top:190px">End of the sample document.</p></div></div>`,
 ()=>{},'Two axes, thumb, track, focus and resizable viewport.','Focus the region; arrows/Page Up/Page Down scroll. Wheel and touch retain native behavior.',
 'WebKit scrollbar styling is approximate and platform dependent. Arrow glyphs and always-visible bars are not guaranteed; use native overflow before implementing a custom scrollbar.'),
 
 e('tooltip','Tooltips and status help','Feedback and layout',`
-<div class="row"><span style="position:relative"><button id="tool" aria-describedby="tip">Fit page</button><span id="tip" role="tooltip" hidden style="position:absolute;left:0;top:34px;padding:5px;background:#ffffe1;border:1px solid #000;white-space:nowrap;z-index:3">Fit the entire page in the view</span></span><button id="other">Actual size</button></div><div role="status" id="status" style="margin-top:70px;border:2px inset white;padding:5px">Ready</div>`,
+<div class="row"><span style="position:relative"><button id="tool" aria-describedby="tip">Fit page</button><span id="tip" role="tooltip" hidden style="position:absolute;left:0;top:27px;padding:2px 4px;background:#ffffe1;border:1px solid #000;white-space:nowrap;z-index:3">Fit the entire page in the view</span></span><button id="other">Actual size</button></div><div role="status" id="status" style="margin-top:70px;padding:3px 5px;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff">Ready</div>`,
 ({$,on,report})=>{let timer,leaving,dismissed=false;const tool=$('#tool'),tip=$('#tip'),status=$('#status');const show=()=>{clearTimeout(timer);clearTimeout(leaving);if(!dismissed)timer=setTimeout(()=>tip.hidden=false,500);status.textContent='Fit the entire page in the view';};const hide=()=>{clearTimeout(timer);clearTimeout(leaving);tip.hidden=true;status.textContent='Ready';};on(tool,'pointerenter',()=>{dismissed=false;show();});on(tool,'focus',()=>{dismissed=false;show();});on(tool,'pointerleave',()=>{if(document.activeElement!==tool)leaving=setTimeout(hide,200);});on(tip,'pointerenter',()=>clearTimeout(leaving));on(tip,'pointerleave',()=>{if(document.activeElement!==tool)hide();});on(tool,'blur',hide);on(document,'keydown',ev=>{if(ev.key==='Escape'&&!tip.hidden){dismissed=true;hide();}});on(tool,'click',()=>report('Page fitted to the view.'));on($('#other'),'click',()=>report('View set to actual size.'));},
 'Delayed hover/focus hint, Escape dismissal, supplemental status text.','Tab focuses the command; Escape dismisses its tooltip; Enter or Space runs it.',
 'The button has a meaningful visible label without a tooltip. Essential instructions must remain visible. This noninteractive tooltip uses aria-describedby.','tooltip'),

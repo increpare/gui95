@@ -21,7 +21,7 @@ try {
     return response.structuredContent;
   };
   const inventory = await invoke("list_gui95_kits");
-  assert.equal(inventory.components.length, 6);
+  assert.equal(inventory.components.length, 8);
   const component = await invoke("get_gui95_component", { component: "menu" });
   const download = new URL(component.artifact.url);
   download.host = endpoint.host;
@@ -42,7 +42,7 @@ try {
   assert.ok(evidence.items.length);
   const repairs = await invoke("get_gui95_repairs", { query: "pointer" });
   assert.ok(repairs.items.length);
-  const updates = await invoke("check_gui95_updates", { manifest: { schema_version: 1, components: { menu: "1.0.0" } } });
+  const updates = await invoke("check_gui95_updates", { manifest: { schema_version: 1, components: { menu: inventory.kit_version } } });
   assert.equal(updates.components[0].status, "current");
   output.build_kit = { version: inventory.kit_version, components: inventory.components.length, artifact_hash: "verified", icons: "CC0 SVG passed", layout: "passed", starter: "passed", evidence: "passed", repairs: "passed", updates: "passed" };
   const listing=await client.callTool({name:'list_gui95_materials',arguments:{kind:'widget',limit:100}});
