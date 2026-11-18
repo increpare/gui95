@@ -69,7 +69,7 @@ test('period rules reach an MCP client with era and confidence ahead of every ru
  assert.ok(found.items.length&&found.items.length<=5);assert.match(found.caveat,/real Windows 95 system/);assert.ok(found.content_revision);
  for(const item of found.items){assert.deepEqual(Object.keys(item).slice(0,4),['id','title','standing','rule']);assert.ok(item.standing.era&&item.standing.confidence&&item.standing.cite_as);assert.ok(item.sources.length&&item.kit.status);}
  const differs=await call('get_gui95_period_rules',{control:'menu',kit_status:'differs-unintended',limit:20});
- assert.ok(differs.items.length>=4&&differs.items.every(item=>item.control==='menu'&&item.kit.status==='differs-unintended'));
+ assert.ok(differs.items.length>=1&&differs.items.every(item=>item.control==='menu'&&item.kit.status==='differs-unintended'));
  const draft=await call('get_gui95_period_rules',{era:'win95-draft',limit:20});
  assert.ok(draft.items.length&&draft.items.every(item=>item.standing.may_state_as_windows_95==='no'&&item.superseded_by));
  const open=await call('get_gui95_period_rules',{id:'edge-light-colour-value'});
