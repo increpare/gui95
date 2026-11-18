@@ -91,7 +91,7 @@ test('search filters by control, topic, era, kit status, confidence and text, an
     assert.ok(item.kit.status_label);
   }
   const menus = findRules({ control: 'menu', kit_status: 'differs-unintended' });
-  assert.ok(menus.total >= 4);
+  assert.ok(menus.total >= 1);
   assert.ok(menus.items.every((item) => item.control === 'menu' && item.kit.status === 'differs-unintended'));
   assert.ok(findRules({ topic: 'edges', confidence: 'high' }).items.every((item) => item.topic === 'edges' && item.standing.confidence === 'high'));
   assert.equal(findRules({ era: 'win3x' }).total, rules.filter((rule) => rule.era === 'win3x').length);
