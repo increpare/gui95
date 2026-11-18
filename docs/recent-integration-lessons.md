@@ -147,3 +147,52 @@ Tabs suit a small, frequently switched set, such as the books that contain the c
 - Test held and intermediate states: a held pointer, a pressed control, frames mid-animation. One editor passed its click and final-pose checks while painting only on release and rolling objects the wrong way.
 - Under Electron zoom, judge layout from full native-window captures; a cropped capture's coordinates disagreed with a correct layout.
 - Isolate test windows when they are constructed (off-screen, not focusable, out of the taskbar, muted), not by hiding them after startup, which still steals focus. Check that a hidden WebGL view produces fresh frames rather than trusting a capture of a never-shown window.
+
+## Lessons from the 18 November suite lint pass
+
+The period lint was run against thirteen pages of nine suite apps and the shared findings were fixed. Checked in headless Chromium on macOS, each app's opening screen only; not checked in Electron.
+
+### Unavailable toolbar artwork is embossed, not faded
+
+`button:disabled svg { opacity: 0.45 }` was copied from Vector95 into three apps. It is translucent, and it leaves a multicoloured icon recognisably coloured. The classic treatment keeps only the dark pixels, in gray, with a white pixel below and to the right. One SVG filter does this for inline SVG and `<img>` icons alike:
+
+```html
+<svg class="filter-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="disabled-emboss" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.2126 -0.7152 -0.0722 1 0" />
+    <feComponentTransfer result="mask"><feFuncA type="discrete" tableValues="0 0 1 1 1" /></feComponentTransfer>
+    <feFlood flood-color="#808080" /><feComposite in2="mask" operator="in" result="dark" />
+    <feFlood flood-color="#fff" /><feComposite in2="mask" operator="in" /><feOffset dx="1" dy="1" result="light" />
+    <feMerge><feMergeNode in="light" /><feMergeNode in="dark" /></feMerge>
+  </filter>
+</svg>
+```
+
+```css
+button:disabled :is(svg, img) { filter: url(#disabled-emboss); }
+.filter-defs { position: absolute; }
+```
+
+- The threshold is 0.4, not 0.5. A disabled button's `currentColor` is `#808080`, whose darkness is 0.498; at 0.5 every `currentColor` stroke vanished and the buttons looked empty.
+- The filter must be an element in the page. Chromium does not resolve a filter from a `data:` URL, so it cannot live in the stylesheet.
+- Position the holder from the stylesheet. A `style` attribute is blocked by a `style-src 'self'` policy.
+
+### Group boxes without `groove`
+
+`border: 2px groove #fff` appeared in six apps. The stylesheet's rule, `border: 1px solid #808080; box-shadow: 1px 1px #fff, inset 1px 1px #fff`, draws the same two lines with fixed colours, and the legend still interrupts it. For a single etched divider on one side, use a 1px white border with a 1px gray inset shadow on the same side.
+
+### Control text drifted to 12px
+
+Six apps set 12px on `body` or `:root`; all of them declared Tahoma or the bundled face, so only the size was wrong. The lint's `control-text-size` rule now reports this once, against the element that sets it. Dropping to 11px needed no layout changes in VCrop, MIS95, Cleficular or Melody workshop.
+
+### Host-drawn controls in hand-written stylesheets
+
+An app with its own stylesheet can take the kit's drop-down, slider and check box rules without adopting the whole file: copy the `select:not([multiple]):not([size])`, `input[type="range"]` and `input[type="checkbox"]` rules from `gui95.css`, replace the scope prefix, and inline the `--gui95-art-*` values they reference. `accent-color` only tints the host's control; it does not make it a classic one. Chromium also fades a disabled `select` to 70% by itself, so set `opacity: 1` there.
+
+### What counts as content
+
+Marked with `data-gui95-lint-ignore` during this pass, as deliberate: piano-roll notes and timeline regions whose opacity encodes velocity or mute; round, square and diamond ports on a node graph, where the shape names the port type; a code editor's translucent active-line tint, which must let the selection beneath it show; and arrow glyphs used as icons in a 3 × 3 align grid. `appearance: base-select` on a drop-down the app draws itself is not a host control, and the lint no longer reports it.
+
+### The flush first tab had not reached the apps
+
+The [selected-tab rule](#property-tabs-the-selected-tab-grows-into-its-neighbours) was in the kit but in only one of four suite apps with tabs. ProcGen FM and MIS95 drew the selected first tab 2px in from the panel's left edge, and Cleficular 5px in; each made the selected tab taller but not wider. The period lint cannot see this. Measure it: compare `getBoundingClientRect().left` of the selected first tab with that of its panel's frame, and look at the pixels. When the strip already spaces tabs with a 2px gap or margin, the selected tab takes `margin-inline: -2px` and 2px more inline padding, which fills the gaps without reflowing the strip.

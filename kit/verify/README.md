@@ -29,14 +29,15 @@ node kit/verify/period-lint.mjs http://127.0.0.1:8000/ --json     # full report
 | `animation` | a transition duration or a CSS animation is set |
 | `pointer-cursor` | `cursor: pointer` outside a hyperlink |
 | `keyword-bevel` | a visible `outset`, `inset`, `groove` or `ridge` border |
-| `native-control` | a check box, option button, slider, progress bar, meter or drop-down list keeps the host appearance |
+| `native-control` | a check box, option button, slider, progress bar, meter or drop-down list keeps the host appearance (`appearance: base-select` on a drop-down the page draws itself is accepted) |
 | `modern-font` | the first font family is a host system UI face such as `system-ui` or Segoe UI |
 | `filter-effect` | a blur filter or backdrop filter |
 | `dimmed-backdrop` | a dialog's `::backdrop` is not transparent |
+| `control-text-size` | the text of a button, label, field, drop-down list, legend, menu item or tab is not 11px; reported once against the outermost element that sets that size, with the number of controls it reaches |
 
 Exit status is 0 when clean, 1 with findings and 2 for invalid arguments. `lintPage(page)` lints an already open Playwright page, for example after your test has opened a menu or dialog; `runPeriodLint({ url })` opens the URL itself; `RULES` maps each rule to the classic treatment to use instead.
 
-Only visible elements are judged, so open the menus, dialogs and tab pages you want checked. Scrollbar parts, hover and pressed states, the host's popup lists and image content are not inspected. Mark deliberate exceptions, such as a document canvas showing the user's own artwork, with `data-gui95-lint-ignore="rounded-corner soft-shadow"` on the element; it covers that element and its descendants, and every use is listed in the report. A clean lint means none of these tells were found. It does not establish layout, glyph or Windows 95 fidelity, which still need the screenshots.
+Only visible elements are judged, so open the menus, dialogs and tab pages you want checked. An element at opacity 0, or inside one, counts as hidden. Scrollbar parts, hover and pressed states, the host's popup lists and image content are not inspected; image content includes the shapes inside an `<svg>`, though the `<svg>` element itself is judged like an `<img>`. `control-text-size` reads the declared size and cannot tell which typeface the host drew. A reading surface with its own larger type scale takes `data-gui95-lint-ignore="control-text-size"`. Mark deliberate exceptions, such as a document canvas showing the user's own artwork, with `data-gui95-lint-ignore="rounded-corner soft-shadow"` on the element; it covers that element and its descendants, and every use is listed in the report. A clean lint means none of these tells were found. It does not establish layout, glyph or Windows 95 fidelity, which still need the screenshots.
 
 `runVerification` runs the lint at every scale and records it as the `period-lint` assertion. On a page with a GUI95 scope, findings fail verification. On a page without one, the findings are recorded with `applicable: false` and do not fail it.
 

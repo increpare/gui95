@@ -12,10 +12,13 @@ export const RULES = Object.freeze({
   'modern-font': 'Interface text uses the chosen classic face (Tahoma, MS Sans Serif or the System95 recreation) rather than the host system UI font.',
   'filter-effect': 'Blur and backdrop filters have no classic counterpart. Remove them.',
   'native-control': 'A native control with appearance: auto is drawn by the current operating system. Use the stylesheet\'s appearance: none treatment for check boxes, option buttons, sliders, progress bars and drop-down lists.',
-  'dimmed-backdrop': 'A modal dialog does not dim the window behind it. Use dialog::backdrop { background: transparent }.'
+  'dimmed-backdrop': 'A modal dialog does not dim the window behind it. Use dialog::backdrop { background: transparent }.',
+  'control-text-size': 'Control text is 11px, the size of 8-point MS Sans Serif at 96 dpi. Set buttons, labels, fields, drop-down lists, menu items and tabs to the stylesheet\'s 11px; keep larger type for reading surfaces and mark those with data-gui95-lint-ignore.'
 });
 const limits = Object.freeze([
   'Only visible elements are inspected; open each menu, dialog and tab page you want checked before linting.',
+  'Elements at opacity 0 (their own or an ancestor\'s) count as hidden, and the shapes inside an SVG image are image content: neither is inspected. The svg element itself is.',
+  'control-text-size reads the declared pixel size of control text. It cannot tell which typeface the host actually drew.',
   'Scrollbar parts, hover and pressed states, native popup lists and image content are not inspected.',
   'Passing means none of the listed modern tells were found. It does not establish layout, glyph or Windows 95 fidelity; review the screenshots.'
 ]);
@@ -26,7 +29,11 @@ export async function lintPage(page) {
     const scoped = [...document.querySelectorAll('.gui95,[data-gui95]')];
     const roots = scoped.length ? scoped : [document.body];
     const elements = [...new Set(roots.flatMap(root => [root, ...root.querySelectorAll('*')]))].filter(element => !['SCRIPT', 'STYLE', 'LINK', 'META', 'TITLE', 'HEAD'].includes(element.tagName));
-    const visible = element => !!element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden';
+    const visible = element => !!element.getClientRects().length && element.checkVisibility({ visibilityProperty: true, opacityProperty: true });
+    const textControls = 'button,select,textarea,label,legend,summary,[role=button],[role=tab],[role=menuitem],[role=menuitemcheckbox],[role=menuitemradio],input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=image],[type=hidden])';
+    const ownText = element => element.matches('input,select,textarea') || [...element.childNodes].some(node => node.nodeType === 3 && node.textContent.trim());
+    const ignoreOwner = (element, rule) => { const owner = element.closest('[data-gui95-lint-ignore]'); return owner && owner.getAttribute('data-gui95-lint-ignore').split(/\s+/).includes(rule) ? owner : null; };
+    const offSize = new Map();
     const identity = element => {
       if (element.id) return '#' + element.id;
       const parts = [];
@@ -45,8 +52,8 @@ export async function lintPage(page) {
     const corners = ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius'];
     const violations = [], ignored = [];
     const report = (element, rule, value, suffix = '') => {
-      const owner = element.closest('[data-gui95-lint-ignore]');
-      if (owner && owner.getAttribute('data-gui95-lint-ignore').split(/\s+/).includes(rule)) { const entry = { element: identity(owner), rule }; if (!ignored.some(item => item.element === entry.element && item.rule === rule)) ignored.push(entry); return; }
+      const owner = ignoreOwner(element, rule);
+      if (owner) { const entry = { element: identity(owner), rule }; if (!ignored.some(item => item.element === entry.element && item.rule === rule)) ignored.push(entry); return; }
       violations.push({ rule, element: identity(element) + suffix, value: String(value).slice(0, 160) });
     };
     const shared = (element, style, suffix) => {
@@ -58,9 +65,17 @@ export async function lintPage(page) {
     let checked = 0;
     for (const element of elements) {
       if (element.tagName === 'DIALOG') { const backdrop = getComputedStyle(element, '::backdrop').backgroundColor; if (backdrop && !/^(transparent|rgba\(0, 0, 0, 0\))$/.test(backdrop)) report(element, 'dimmed-backdrop', backdrop); }
-      if (!visible(element)) continue;
+      if (!visible(element) || element.ownerSVGElement) continue;
       checked++;
       const style = getComputedStyle(element);
+      const size = parseFloat(style.fontSize);
+      if (size > 0 && Math.abs(size - 11) > 0.01 && element.matches(textControls) && ownText(element)) {
+        // Charge the size to the outermost ancestor that sets it, so one wrong body rule is one finding.
+        let source = element;
+        if (!ignoreOwner(element, 'control-text-size')) while (source.parentElement && getComputedStyle(source.parentElement).fontSize === style.fontSize && !source.parentElement.hasAttribute('data-gui95-lint-ignore')) source = source.parentElement;
+        const entry = offSize.get(source) || { size: style.fontSize, count: 0 };
+        entry.count++; offSize.set(source, entry);
+      }
       shared(element, style, '');
       for (const pseudo of ['::before', '::after']) { const pseudoStyle = getComputedStyle(element, pseudo); if (pseudoStyle.content && pseudoStyle.content !== 'none' && pseudoStyle.content !== 'normal') shared(element, pseudoStyle, pseudo); }
       const borderColours = sides.filter(side => parseFloat(style[`border${side}Width`]) > 0).map(side => style[`border${side}Color`]).join(' ');
@@ -70,7 +85,7 @@ export async function lintPage(page) {
       if (style.animationName !== 'none') report(element, 'animation', 'animation ' + style.animationName);
       if (style.cursor === 'pointer' && !element.closest('a[href]')) report(element, 'pointer-cursor', 'cursor: pointer');
       const keyword = sides.find(side => parseFloat(style[`border${side}Width`]) > 0 && /^(outset|inset|groove|ridge)$/.test(style[`border${side}Style`]));
-      const native = (element.matches('input[type=checkbox],input[type=radio],input[type=range],progress,meter') || (element.matches('select') && !element.multiple && element.size <= 1)) && style.appearance !== 'none';
+      const native = (element.matches('input[type=checkbox],input[type=radio],input[type=range],progress,meter') || (element.matches('select') && !element.multiple && element.size <= 1)) && style.appearance !== 'none' && !(element.matches('select') && style.appearance === 'base-select');
       if (native) report(element, 'native-control', 'appearance: ' + style.appearance);
       else if (keyword) report(element, 'keyword-bevel', `border-${keyword.toLowerCase()}-style: ${style[`border${keyword}Style`]}`);
       const family = style.fontFamily.split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
@@ -78,6 +93,7 @@ export async function lintPage(page) {
       if (style.backdropFilter && style.backdropFilter !== 'none') report(element, 'filter-effect', 'backdrop-filter: ' + style.backdropFilter);
       else if (/blur\(/.test(style.filter)) report(element, 'filter-effect', 'filter: ' + style.filter);
     }
+    for (const [source, entry] of offSize) report(source, 'control-text-size', `font-size: ${entry.size} on ${entry.count} control${entry.count === 1 ? '' : 's'}`);
     return { scope: scoped.length ? '.gui95, [data-gui95]' : 'body (no .gui95 or [data-gui95] scope found)', scoped: scoped.length > 0, checked, violations, ignored };
   });
   const total = found.violations.length;

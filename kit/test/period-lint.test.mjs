@@ -11,7 +11,7 @@ let server, browser, base;
 const pages = new Map();
 const html = body => `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lint fixture</title></head><body>${body}</body></html>`;
 const bevel = 'box-shadow:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080';
-pages.set('/clean', html(`<div class="gui95" style="background:#c0c0c0;color:#000;font:11px Tahoma,Arial,sans-serif;padding:8px"><button style="border:0;border-radius:0;background:#c0c0c0;${bevel};cursor:default">OK</button><button disabled style="border:0;background:#c0c0c0;${bevel};color:#808080;text-shadow:1px 1px #fff">Unavailable</button><p>Plain text</p></div>`));
+pages.set('/clean', html(`<div class="gui95" style="background:#c0c0c0;color:#000;font:11px Tahoma,Arial,sans-serif;padding:8px"><button style="font:inherit;border:0;border-radius:0;background:#c0c0c0;${bevel};cursor:default">OK</button><button disabled style="font:inherit;border:0;background:#c0c0c0;${bevel};color:#808080;text-shadow:1px 1px #fff">Unavailable</button><p>Plain text</p></div>`));
 const tell = (id, style, tag = 'div', extra = '') => `<${tag} id="${id}" ${extra} style="${style}">${tag === 'input' ? '' : id}${tag === 'input' ? '' : `</${tag}>`}`;
 pages.set('/tells', html(`<div class="gui95" style="background:#c0c0c0;font:11px Tahoma,sans-serif">
 ${tell('rounded', 'border-radius:4px;background:#c0c0c0')}
@@ -30,6 +30,19 @@ ${tell('frosted', 'backdrop-filter:blur(4px)')}
 <div id="allowed" data-gui95-lint-ignore="rounded-corner" style="border-radius:4px">Deliberate</div>
 <div id="hidden-tell" hidden style="border-radius:9px">Hidden</div>
 </div><div id="outside" style="border-radius:12px">Outside the GUI95 scope</div>`));
+pages.set('/skipped', html(`<div class="gui95" style="background:#c0c0c0;font:11px Tahoma,sans-serif">
+<div id="clear" style="opacity:0;border-radius:6px">Invisible<span id="clear-child" style="cursor:pointer">child</span></div>
+<svg id="art" width="20" height="20"><rect id="art-shape" width="20" height="20" rx="4" style="opacity:.5;cursor:pointer"></rect></svg>
+<svg id="faded-art" width="20" height="20" style="opacity:.45"><rect width="20" height="20"></rect></svg>
+</div>`));
+pages.set('/sizes', html(`<div class="gui95" style="background:#c0c0c0;font:11px Tahoma,sans-serif">
+<button id="right-size" style="font:inherit">OK</button>
+<button id="big" style="font:inherit;font-size:13px">Big</button>
+<button id="icon-only" style="font-size:0"><span></span></button>
+<div id="pane" style="font-size:12px"><label>Name <input id="field" style="font:inherit"></label><button style="font:inherit">Browse</button><p id="prose">Explanatory prose is not control text.</p></div>
+<div id="reading" data-gui95-lint-ignore="control-text-size" style="font-size:16px"><button style="font:inherit">Larger</button></div>
+<p id="note" style="font-size:14px">A paragraph may be any size.</p>
+</div>`));
 pages.set('/unscoped', html('<main><button style="border-radius:6px">Rounded</button></main>'));
 before(async () => {
   server = createServer(async (req, res) => {
@@ -59,6 +72,7 @@ test('a hard-bevel gray interface has no period violations', async () => {
 test('each modern styling tell is reported against its own element', async () => {
   const report = await lint('/tells');
   const expected = { rounded: 'rounded-corner', soft: 'soft-shadow', glow: 'soft-shadow', alpha: 'translucency', faded: 'translucency', animated: 'animation', hand: 'pointer-cursor', keyword: 'keyword-bevel', 'modern-font': 'modern-font', frosted: 'filter-effect', native: 'native-control', dimmed: 'dimmed-backdrop' };
+  assert.deepEqual(Object.keys(RULES).filter(rule => !Object.values(expected).includes(rule)), ['control-text-size'], 'every other rule has a tell on this page');
   for (const [id, rule] of Object.entries(expected)) assert.ok(rulesFor(report, id).includes(rule), `#${id} reports ${rule}; got ${JSON.stringify(rulesFor(report, id))}`);
   assert.equal(report.status, 'failed');
   for (const item of report.violations) assert.ok(RULES[item.rule], `${item.rule} is a documented rule`);
@@ -77,6 +91,18 @@ test('hidden elements and content outside the GUI95 scope are not judged', async
 test('a hyperlink keeps its hand cursor without being reported', async () => {
   const report = await lint('/tells');
   assert.deepEqual([...rulesFor(report, 'link'), ...rulesFor(report, 'link-child')], []);
+});
+test('invisible elements and the shapes inside an SVG image are not judged, but the image itself is', async () => {
+  const report = await lint('/skipped');
+  assert.deepEqual([...rulesFor(report, 'clear'), ...rulesFor(report, 'clear-child'), ...rulesFor(report, 'art'), ...rulesFor(report, 'art-shape')], []);
+  assert.deepEqual(rulesFor(report, 'faded-art'), ['translucency']);
+  assert.equal(report.violations.length, 1);
+});
+test('control text that is not 11px is reported once, against the element that sets the size', async () => {
+  const report = await lint('/sizes');
+  const sizes = report.violations.filter(item => item.rule === 'control-text-size');
+  assert.deepEqual(sizes.map(item => [item.element, item.value]), [['#big', 'font-size: 13px on 1 control'], ['#pane', 'font-size: 12px on 3 controls']], 'prose, icon-only buttons and 11px controls are left alone');
+  assert.deepEqual(report.ignored, [{ element: '#reading', rule: 'control-text-size' }]);
 });
 test('a page without a GUI95 scope is linted as a whole and says so', async () => {
   const report = await lint('/unscoped');

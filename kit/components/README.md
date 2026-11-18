@@ -137,7 +137,7 @@ A `[data-gui95-split]` container has exactly three direct children: first pane, 
 
 From `kit/`, run `pnpm install --frozen-lockfile`, `pnpm exec playwright install chromium`, then `pnpm run test:components`. The Chromium browser may already be cached. `node --test kit/test/components*.mjs` runs both behavior and runner cases from the repository root.
 
-Run the period lint against any running page with `node kit/verify/period-lint.mjs http://127.0.0.1:PORT/`. It reports rounded corners, blurred shadows, translucency, transitions, hand cursors, keyword bevels, host-drawn controls, modern system fonts and dimmed dialog backdrops inside the GUI95 scope, each with the classic treatment to use instead. The gallery must pass it.
+Run the period lint against any running page with `node kit/verify/period-lint.mjs http://127.0.0.1:PORT/`. It reports rounded corners, blurred shadows, translucency, transitions, hand cursors, keyword bevels, host-drawn controls, modern system fonts, control text that is not 11px and dimmed dialog backdrops inside the GUI95 scope, each with the classic treatment to use instead. The gallery must pass it.
 
 Run `node kit/cli.mjs atlas` (or `node kit/verify/atlas.mjs`, or `pnpm run test:atlas` in `kit/`) after changing `gui95.css`. It renders [atlas.html](atlas.html), every stylesheet-drawn control state on a fixed grid, in headless Chromium and compares it pixel for pixel with `test/baseline/state-atlas.png`; `--update` accepts an intended change once you have looked at the difference image it writes. Text is deliberately left out so the image does not depend on fonts. It is a rendering regression check, not proof of Windows 95 fidelity. See [the state atlas](../verify/README.md#state-atlas).
 
