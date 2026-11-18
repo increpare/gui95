@@ -5,7 +5,8 @@ state atlas can be compared with the real thing. Read [docs/win95-reference.md](
 it says what this establishes, the licensing constraint, and the one-time manual install.
 
 **This folder contains no Microsoft software and must never contain any.** Windows 95 comes only from the owner's own
-install media, as a disk image in `images/`, which git ignores.
+install media. Installed disk images live outside the repository, in `~/.gui95-win95-reference/`
+(mounted at `/images`); the media folder named by `REFGRID_MEDIA` is mounted read-only at `/media`.
 
 ## Parts
 
@@ -19,6 +20,7 @@ install media, as a disk image in `images/`, which git ignores.
 | `check-pe.mjs` | Checks an executable is i386, PE32, GUI subsystem 4.0, importing only from Windows 95 DLLs; lists imports. |
 | `capture.mjs` | Boots the prepared image headless, dumps each sheet, shuts down, collects the report. |
 | `session.mjs` | Runs the guest with a display for the manual install. |
+| `vmctl.mjs` | Screen dumps and keys for a running session, through a second QMP socket. |
 | `selftest-freedos.mjs` | Proves the capture mechanics with FreeDOS. No Windows needed. |
 | `compare.mjs` | Compares a capture with the kit's atlas, per mapped pair. Runs on the host. |
 | `mapping.json` | **The mapping table**: which reference cell pairs with which atlas rectangle, and how. |
@@ -41,12 +43,13 @@ All from this folder. Docker must be running.
 With a Windows 95 disk image prepared as the doc describes:
 
 ```sh
-./run.sh capture --disk images/win95.qcow2 --bits 16     # high colour
-./run.sh capture --disk images/win95.qcow2 --bits 8      # 256 colours
-node compare.mjs --capture out/capture-16bit/win95-4.00.950-16bit-capture.json --images out/pairs-16bit --json out/compare-16bit.json
+./run.sh capture --disk /images/win95-osr2.qcow2 --bits 16     # high colour
+./run.sh capture --disk /images/win95-osr2.qcow2 --bits 8      # 256 colours
+node compare.mjs --capture out/capture-16bit/win95-4.00.1111b-16bit-capture.json --images out/pairs-16bit --json out/compare-16bit.json
 ```
 
-Other commands: `./run.sh newdisk NAME SIZE`, `./run.sh session ...` (see the doc), `./run.sh shell`.
+Other commands: `./run.sh newdisk NAME SIZE`, `./run.sh session ...`, `./run.sh session-bg ...`, `./run.sh vmctl ...`,
+`./run.sh session-stop` (see the doc), `./run.sh shell`.
 
 To check the imports against the Win32 Programmer's Reference text (kept outside the repository):
 
@@ -124,18 +127,19 @@ first, which closes the pop-up menu so the next key reaches the program.
 6. sends `Esc`, `Q`; waits for Windows to shut down; stops QEMU;
 7. reads `REFGRID.TXT` back from the data disk and names the output from what the report says the guest is.
 
-Output, in `out/capture-<bits>bit/`: `win95-4.00.950-16bit-sheet1.png` (and 2, 3), `…-report.txt`, `…-capture.json`.
+Output, in `out/capture-<bits>bit/`: `win95-4.00.1111b-16bit-sheet1.png` (and 2, 3; the name carries the build and
+service-release letter the guest reports), `…-report.txt`, `…-capture.json`.
 The prefix comes from the guest's own `GetVersionEx`; a guest that is not Windows 95 4.00 cannot produce a file
 named `win95-…`. Each PNG carries a `Source` text chunk saying what drew it. The script exits 1 with a warning if
-the guest is not Windows 95, the common controls are not the original ones, or the depth is not the one asked for.
+the guest is not Windows 95, Internet Explorer 4's common controls are present, or the depth is not the one asked for.
 
 **Colour depth.** `--bits 16|8|24` is passed to `refgrid`, which asks Windows for that mode
 (`ChangeDisplaySettings`) and restarts Windows if it must. `--bits 0` leaves the mode alone. A 16-bit dump shows each
 5:6:5 pixel expanded to 8 bits (`#c0c0c0` appears as `#c6c3c6`); `compare.mjs` reduces the kit's image the same way.
 
 **Video adapter.** QEMU's Cirrus Logic GD5446 PCI (`-vga cirrus`), the adapter QEMU's documentation names for
-Windows 95 guests. Whether the *original* 1995 release has a driver that accepts it is **not confirmed**: reports
-agree for the later OEM releases and disagree for the original. See the doc for the fallbacks, which were designed in:
+Windows 95 guests. Reports agree that the later OEM releases (OSR2, the owner's media) include a driver for it and
+disagree about the original 1995 release; neither has been confirmed here yet. See the doc for the fallbacks, which were designed in:
 the grid fits the standard VGA driver's 640 by 480.
 
 **If keys do not reach the program**: `--keys off` boots once per sheet and powers off after each dump.
@@ -149,9 +153,12 @@ Tested on this machine (Apple Silicon, Docker Desktop):
 - `capture.mjs` on a blank disk: overlay, data disk, polling, timeout and the diagnostic last-screen image;
 - `compare.mjs` on synthetic input, and the unit tests.
 
-Not tested, because it needs the real system: `REFGRID.EXE` starting on Windows 95; every control rendering as
-intended; the display-mode change; the marker being reached; the shutdown; everything in the manual install. Expect
-to fix things on first contact.
+Run with the owner's CD so far: booting it and text-mode Setup (partition, format, ScanDisk), up to the licence
+agreement.
+
+Not yet tested: `REFGRID.EXE` starting on Windows 95; every control rendering as
+intended; the display-mode change; the marker being reached; the shutdown; the rest of the install. Expect to fix
+things on first contact.
 
 Known limit: `-icount` (a fixed, slower guest CPU) stops QMP keys reaching the guest in the FreeDOS test, so it is
 off by default; with it, use `--keys off`.

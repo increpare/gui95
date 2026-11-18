@@ -104,17 +104,17 @@ async function main() {
   const prefix = `${guest.label}-${guest.bits}bit`, files = [];
   for (const { sheet, image, failed } of captured) {
     const file = `${prefix}-sheet${sheet}.png`;
-    await writeFile(path.join(outDir, file), encodePng(image, { Source: `${guest.name}, ${guest.bits} bits per pixel, refgrid sheet ${sheet}; guest framebuffer dumped by ${version}` }));
+    await writeFile(path.join(outDir, file), encodePng(image, { Source: `${guest.name}, comctl32 ${guest.commonControls.version ?? 'unknown'}, ${guest.bits} bits per pixel, refgrid sheet ${sheet}; guest framebuffer dumped by ${version}` }));
     files.push({ sheet, file, width: image.width, height: image.height, refgridReportedFailure: failed });
   }
   await writeFile(path.join(outDir, `${prefix}-report.txt`), reportBytes);
   const warnings = [];
   if (!guest.isWindows95) warnings.push(`The guest identifies itself as ${guest.name}. This capture is not a Windows 95 reference.`);
-  if (!guest.originalControls) warnings.push('comctl32.dll exports DllGetVersion: Internet Explorer 3 or later has replaced the common controls. This is not the baseline.');
+  if (guest.commonControls.ie4) warnings.push(`comctl32.dll is version ${guest.commonControls.version}: Internet Explorer 4 or later has replaced the common controls. This is not a baseline capture.`);
   if (bits && guest.bits !== bits) warnings.push(`Asked for ${bits} bits per pixel but the guest ran at ${guest.bits}: ${guest.displayMode}`);
   if (files.some(f => f.refgridReportedFailure)) warnings.push('refgrid drew its marker in the failure colour on at least one sheet; read the report.');
   await writeFile(path.join(outDir, `${prefix}-capture.json`), JSON.stringify({ guest, requested: { bits, width: +o.width, height: +o.height }, emulator: version, adapter: `${o.vga} on machine ${o.machine}`, arguments: args, captured: new Date().toISOString(), report: `${prefix}-report.txt`, sheets: files, warnings }, null, 1) + '\n');
-  log(`Guest: ${guest.name}, ${guest.screen}, ${guest.bits} bits per pixel. Files in ${outDir}: ${files.map(f => f.file).join(', ')}, ${prefix}-report.txt, ${prefix}-capture.json`);
+  log(`Guest: ${guest.name}; common controls ${guest.commonControls.version ?? 'version unknown'} (${guest.commonControls.era}); ${guest.screen}, ${guest.bits} bits per pixel. Files in ${outDir}: ${files.map(f => f.file).join(', ')}, ${prefix}-report.txt, ${prefix}-capture.json`);
   for (const warning of warnings) log(`WARNING: ${warning}`);
   return warnings.length ? 1 : 0;
 }

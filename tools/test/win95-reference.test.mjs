@@ -84,7 +84,12 @@ const REPORT = (version, extra = 'wine=no') => `; refgrid report\r\n[system]\r\n
 
 test('the report identifies the system that drew the grid, and never calls Wine or a later Windows "Windows 95"', () => {
   const win95 = describeGuest(parseReport(REPORT('4.0 build 950 platform 1 csd ""')));
-  assert.deepEqual([win95.label, win95.isWindows95, win95.bits, win95.originalControls], ['win95-4.00.950', true, 16, true]);
+  assert.deepEqual([win95.label, win95.isWindows95, win95.bits, win95.originalControls, win95.release], ['win95-4.00.950', true, 16, true, 'original 1995 release']);
+  const osr2 = describeGuest(parseReport(REPORT('4.0 build 1111 platform 1 csd " B"', 'wine=no\r\ncomctl32.dll=4.70.1146.1 (C:\\WINDOWS\\SYSTEM\\COMCTL32.DLL)\r\nuser.exe=4.0.0.1111 (C:\\WINDOWS\\SYSTEM\\user.exe)')));
+  assert.deepEqual([osr2.label, osr2.release, osr2.isWindows95, osr2.originalControls, osr2.commonControls.version, osr2.commonControls.ie4, osr2.files['user.exe']], ['win95-4.00.1111b', 'OSR2', true, false, '4.70', false, '4.0.0.1111']);
+  assert.match(osr2.name, /Windows 95 4\.00\.1111 B \(OSR2\)/);
+  assert.equal(describeGuest(parseReport(REPORT('4.0 build 1214 platform 1 csd " C"'))).release, 'OSR2.5');
+  assert.equal(describeGuest(parseReport(REPORT('4.0 build 1111 platform 1 csd " B"', 'wine=no\r\ncomctl32.dll=4.72.3110.1 (x)'))).commonControls.ie4, true);
   const wine = describeGuest(parseReport(REPORT('4.0 build 950 platform 1 csd ""', 'wine=10.0')));
   assert.deepEqual([wine.label, wine.isWindows95], ['wine', false]);
   assert.match(wine.name, /not Windows/);

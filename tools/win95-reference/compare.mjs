@@ -146,6 +146,7 @@ async function main(argv) {
   const bits = guest.bits || capture.guest?.bits || 24;
   const result = compare({ grid, report, sheets, atlas, atlasCells, mapping, bits });
   const heading = [`Reference: ${guest.name}, ${bits} bits per pixel (${captureFile})`, `Kit atlas: ${atlasFile}`];
+  if (guest.isWindows95) heading.push(`Common controls: comctl32 ${guest.commonControls.version ?? 'version unknown'}, ${guest.commonControls.era}. Status bar, progress, trackbar, up-down, tab and header pairs show that library, not necessarily the 1995 one.`);
   if (!guest.isWindows95) heading.push('*** The reference is NOT Windows 95. Nothing below says anything about Windows 95. ***');
   if (bits === 16) heading.push('Both images were reduced to 5:6:5 colour before comparing, because the reference display could show no more.');
   if (bits <= 8) heading.push('The reference display had a palette: colours it could not show exactly (for example a light grey other than #c0c0c0) appear as the nearest palette colour. Trust sizes and edge order here, and the [syscolors] section of the report for colours.');

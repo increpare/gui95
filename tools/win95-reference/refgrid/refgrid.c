@@ -132,14 +132,29 @@ static void putLogFont(const char *name, const LOGFONTA *lf)
         (int)lf->lfHeight, (int)lf->lfWidth, (int)lf->lfWeight, lf->lfItalic, lf->lfCharSet, lf->lfQuality, lf->lfPitchAndFamily);
 }
 
+static void putVersionOfFile(const char *name, char *path)
+{
+    DWORD zero, size; static BYTE block[4096]; VS_FIXEDFILEINFO *info; UINT length;
+    size = GetFileVersionInfoSizeA(path, &zero);
+    if (!size || size > sizeof(block) || !GetFileVersionInfoA(path, 0, size, block) || !VerQueryValueA(block, "\\", (void **)&info, &length)) { put("%s=no version resource (%s)\r\n", name, path); return; }
+    put("%s=%d.%d.%d.%d (%s)\r\n", name, HIWORD(info->dwFileVersionMS), LOWORD(info->dwFileVersionMS), HIWORD(info->dwFileVersionLS), LOWORD(info->dwFileVersionLS), path);
+}
+
+/* The version of a library this program has loaded. */
 static void putFileVersion(const char *module)
 {
-    char path[MAX_PATH]; DWORD zero, size; HMODULE h = GetModuleHandleA(module);
-    static BYTE block[4096]; VS_FIXEDFILEINFO *info; UINT length;
+    char path[MAX_PATH]; HMODULE h = GetModuleHandleA(module);
     if (!h || !GetModuleFileNameA(h, path, sizeof(path))) { put("%s=not loaded\r\n", module); return; }
-    size = GetFileVersionInfoSizeA(path, &zero);
-    if (!size || size > sizeof(block) || !GetFileVersionInfoA(path, 0, size, block) || !VerQueryValueA(block, "\\", (void **)&info, &length)) { put("%s=no version resource (%s)\r\n", module, path); return; }
-    put("%s=%d.%d.%d.%d (%s)\r\n", module, HIWORD(info->dwFileVersionMS), LOWORD(info->dwFileVersionMS), HIWORD(info->dwFileVersionLS), LOWORD(info->dwFileVersionLS), path);
+    putVersionOfFile(module, path);
+}
+
+/* The version of a file in the Windows system directory: the 16-bit halves of the window manager and GDI live there. */
+static void putSystemFileVersion(const char *file)
+{
+    char path[MAX_PATH + 16]; UINT n = GetSystemDirectoryA(path, MAX_PATH);
+    if (!n || n >= MAX_PATH) { put("%s=no system directory\r\n", file); return; }
+    wsprintfA(path + n, "\\%s", file);
+    putVersionOfFile(file, path);
 }
 
 static BOOL CALLBACK emptyDialogProc(HWND h, UINT m, WPARAM w, LPARAM l) { return FALSE; }
@@ -178,7 +193,8 @@ static void buildFixedPart(void)
     if (GetVersionExA(&v)) put("version=%d.%d build %d platform %d csd \"%s\"\r\n", (int)v.dwMajorVersion, (int)v.dwMinorVersion, (int)LOWORD(v.dwBuildNumber), (int)v.dwPlatformId, v.szCSDVersion);
     if (wine) put("wine=%s\r\n; THIS IS WINE, NOT WINDOWS. Nothing in this report or its screen dump is evidence about Windows 95.\r\n", ((const char *(*)(void))wine)());
     else put("wine=no\r\n");
-    putFileVersion("comctl32.dll"); putFileVersion("user32.dll"); putFileVersion("gdi32.dll");
+    putFileVersion("comctl32.dll"); putFileVersion("user32.dll"); putFileVersion("gdi32.dll"); putFileVersion("kernel32.dll");
+    putSystemFileVersion("user.exe"); putSystemFileVersion("gdi.exe"); putSystemFileVersion("shell32.dll");
     put("comctl32.DllGetVersion=%s\r\n", comctl && GetProcAddress(comctl, "DllGetVersion") ? "present (4.70 or later: Internet Explorer 3 or later has replaced the common controls)" : "absent (the original 4.00 library)");
     put("screen=%d x %d\r\nbitspixel=%d\r\nplanes=%d\r\nlogpixels=%d x %d\r\npalette=%s\r\nsizepalette=%d\r\nnumcolors=%d\r\n",
         GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), GetDeviceCaps(dc, BITSPIXEL), GetDeviceCaps(dc, PLANES),
