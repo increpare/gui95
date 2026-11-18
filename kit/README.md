@@ -1,8 +1,8 @@
-# GUI95 build kit 1.1.1
+# GUI95 build kit 1.1.2
 
 Reusable Windows 95-style controls, original CC0 icons, layout generators and browser/Electron app starters. The JavaScript and CSS are MIT; only the new artwork in `icons/` is dedicated to CC0. Existing reference fonts retain their separate notices. The components use the host's available font; no font is bundled in generated apps.
 
-Release 1.1.1 has eight runtime controls (menus, dialogs, splitters, trees, toolbars, number fields, property tabs and list boxes). The stylesheet alone draws check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars. A period lint (`node kit/cli.mjs lint URL`) flags modern styling inside the scope, and the verifier runs it too. 1.1.1 changes only that lint: it skips invisible elements and the shapes inside an SVG image, accepts a drop-down the page draws itself, and adds a rule for control text that is not 11px.
+Release 1.1.2 has eight runtime controls (menus, dialogs, splitters, trees, toolbars, number fields, property tabs and list boxes). The stylesheet alone draws check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars. A period lint (`node kit/cli.mjs lint URL`) flags modern styling inside the scope, and the verifier runs it too. 1.1.1 changed only that lint: it skips invisible elements and the shapes inside an SVG image, accepts a drop-down the page draws itself, and adds a rule for control text that is not 11px. 1.1.2 changes how the stylesheet draws edges, to match Windows: the bottom and right lines own the corner pixels; windows, dialogs, pop-up menus and scroll bar parts take a separate edge, `--gui95-raised-plain`, with the light gray line outside the white one; and a pressed push button no longer uses the field's sunken edge. See [which edge goes where](../docs/design-guide.md#which-edge-goes-where).
 
 ## Get started
 
@@ -66,7 +66,7 @@ Evidence records identify the claim, source kind, section or edition/page, date 
 Record the versions integrated into your app:
 
 ```json
-{ "schema_version": 1, "components": { "menu": "1.1.1", "dialog": "1.1.1" } }
+{ "schema_version": 1, "components": { "menu": "1.1.2", "dialog": "1.1.2" } }
 ```
 
 Update checks identify current, older, newer, unknown and invalid versions; for an older version they list what each later release changed. A repair is an integration safeguard with a reproducer; its applicability does not establish that a current kit release contains that defect. A listed test name is a reproducible check, not a claim it passed in your app.

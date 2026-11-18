@@ -177,7 +177,7 @@ test('a default push button adds a 1px black frame outside the raised bevel with
   assert.equal(on.boxShadow,plain.boxShadow+', rgb(0, 0, 0) 0px 0px 0px 1px','raised bevel then the outer frame');assert.equal(attr.boxShadow,on.boxShadow,'the data attribute is equivalent');
   assert.deepEqual([on.w,on.h],[plain.w,plain.h],'the frame does not change the button size');
   await page.locator('#default-button').evaluate(el=>el.dataset.gui95State='pressed');const pressed=await computed('default-button',['boxShadow']);
-  assert.match(pressed.boxShadow,/^rgb\(128, 128, 128\) 1px 1px 0px 0px inset/,'pressed draws the sunken bevel');assert.match(pressed.boxShadow,/rgb\(0, 0, 0\) 0px 0px 0px 1px$/,'pressed keeps the frame');assert.deepEqual([pressed.w,pressed.h],[plain.w,plain.h]);
+  assert.match(pressed.boxShadow,/^rgb\(128, 128, 128\) 0px 0px 0px 1px inset, /,'pressed draws one shadow line round a flat face, as Windows does for the default button');assert.doesNotMatch(pressed.boxShadow,/rgb\(255, 255, 255\)/,'no sunken bevel');assert.match(pressed.boxShadow,/rgb\(0, 0, 0\) 0px 0px 0px 1px$/,'pressed keeps the frame');assert.deepEqual([pressed.w,pressed.h],[plain.w,plain.h]);
 });
 test('read-only text fields use the gray control face with black text',async()=>{await useAdditions();
   for(const id of ['read-only','read-only-notes']){const field=await computed(id,['backgroundColor','color']);assert.equal(field.backgroundColor,'rgb(192, 192, 192)',id);assert.equal(field.color,'rgb(0, 0, 0)',id);}
@@ -322,7 +322,7 @@ test('an up-down control draws a stacked pair of 16px raised buttons inside the 
   assert.deepEqual([up.w,down.w],[16,16]);assert.deepEqual([up.right,down.right],[field.right-2,field.right-2],'flush with the inner edge of the sunken border');
   assert.equal(up.top,field.top+2);assert.equal(down.bottom,field.bottom-2);assert.equal(up.bottom,down.top,'stacked with no gap');assert.ok(Math.abs(up.h-down.h)<=1,'two equal halves');
   assert.ok(parseFloat(field.paddingRight)>=18,'text clears the buttons');
-  assert.match(up.boxShadow,/^rgb\(255, 255, 255\) 1px 1px 0px 0px inset/,'raised');assert.match(up.backgroundImage,/^url\("data:image\/svg/);assert.match(down.backgroundImage,/^url\("data:image\/svg/);assert.notEqual(up.backgroundImage,down.backgroundImage,'an up arrow and a down arrow');
+  assert.match(up.boxShadow,/^rgb\(0, 0, 0\) -1px -1px 0px 0px inset, rgb\(223, 223, 223\) 1px 1px 0px 0px inset, rgb\(128, 128, 128\) -2px -2px 0px 0px inset, rgb\(255, 255, 255\) 2px 2px 0px 0px inset$/,'the plain raised edge of a scroll arrow: light outside, white inside');assert.match(up.backgroundImage,/^url\("data:image\/svg/);assert.match(down.backgroundImage,/^url\("data:image\/svg/);assert.notEqual(up.backgroundImage,down.backgroundImage,'an up arrow and a down arrow');
   assert.equal(up.fontSize,'0px','button text is not drawn over the arrow');
   assert.deepEqual([field.appearance,plain.appearance],['textfield','textfield'],'the browser spin arrows are hidden on every number field');
   await page.locator('#up').evaluate(el=>el.dataset.gui95State='pressed');const pressed=await computed('up',['boxShadow']);

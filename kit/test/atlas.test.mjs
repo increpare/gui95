@@ -17,7 +17,7 @@ test('the rendered state atlas equals the stored baseline', async () => {
 
 test('a one-level change to the raised bevel white edge is detected', async () => {
   const css = await readFile(fileURLToPath(new URL('../components/gui95.css', import.meta.url)), 'utf8');
-  const altered = css.replace('--gui95-raised:inset 1px 1px #fff,', '--gui95-raised:inset 1px 1px #fefefe,');
+  const altered = css.replace('--gui95-raised:inset -1px -1px #000,inset 1px 1px #fff,', '--gui95-raised:inset -1px -1px #000,inset 1px 1px #fefefe,');
   assert.notEqual(altered, css, 'the raised bevel variable was found');
   const [normal, changed] = [await renderAtlas({ browser }), await renderAtlas({ browser, stylesheet: altered })];
   assert.equal(compareImages(normal, normal).different, 0);

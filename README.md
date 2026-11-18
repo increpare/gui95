@@ -55,6 +55,7 @@ The standalone skill can be installed immediately. This repository is also a Cla
 | Fast desktop startup and default packaging | [Unpacked app and stable launch path principle](docs/design-guide.md#startup-and-desktop-packaging) |
 | Build, package and install a desktop app on Windows, macOS and Linux | [Desktop delivery standard](docs/desktop-delivery.md) |
 | Original Windows design guidelines and manuals | [Historical reading shelf](docs/historical-sources.md) |
+| Further reading, readable source code and later Windows material | [Bibliography](docs/bibliography.md) |
 | A reference brief to use in another project | [Reuse guide](docs/reuse.md) |
 | Record UI problems and return lessons at task handoff | [Feedback workflow and report template](docs/feedback.md) |
 | Complete remote reference: templates, source, tools, assets, verification and feedback | [MCP service guide](docs/mcp-service.md) |

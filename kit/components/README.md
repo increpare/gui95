@@ -1,4 +1,4 @@
-# GUI95 components 1.1.1
+# GUI95 components 1.1.2
 
 Independent vanilla components with scoped CSS and native HTML controls. This is a maintained implementation informed by [the visual guide](../../docs/design-guide.md) and [integration lessons](../../docs/integration-lessons.md), separate from the preserved reference sources. No framework, font download, or global application shortcut handler is required.
 
@@ -20,13 +20,15 @@ Serve the directory over HTTP and open [gallery.html](gallery.html) for working 
 
 The scope root and its descendants use `border-box` sizing, so a viewport-sized root can carry padding or borders without overflowing. Push buttons take their padding from `--gui95-pad-y` and `--gui95-pad-x`; pressed push, toolbar and caption buttons move their content one pixel down and right inside the same box. To give your own buttons different padding, set those two variables rather than `padding`, or pressing them will change their size. Menu items and `role="tab"` buttons do not sink when pressed. Menu-bar headings never sink either: a resting heading is flat gray, and an open heading, a heading held down with the pointer, and a heading with keyboard focus while a menu is open are a flat navy highlight with white text (including the underlined mnemonic), the same box and the label in the same place. The highlight replaces the dotted focus rectangle. An unavailable heading stays gray embossed and never highlights. This is GUI95's reading of the Windows 95 menu bar; the framed, raised or sunken heading belongs to later Windows versions. A focused text field or text area shows only its caret, as in Windows 95; buttons, check boxes, option buttons, sliders, drop-down lists and other controls draw a dotted focus rectangle. Selected text in the scope is white on navy. Check and option marks and submenu arrows on menu commands are pixel artwork in the item's colour with no generated text, so they stay out of the command's accessible name and do not depend on a symbol font; `aria-checked` carries the state.
 
+The stylesheet holds four edge recipes as custom properties, each a two-line `box-shadow`. `--gui95-raised` is the edge of push buttons, caption buttons and tab pages: white outside and light gray inside on the top and left. `--gui95-raised-plain` is the edge of windows, dialogs, pop-up menus, scroll bar parts and spin arrows: light gray outside and white inside. `--gui95-sunken` is the edge of fields, lists and wells: gray outside and black inside. `--gui95-pressed` is a held or latched push button: black outside and gray inside. In all four the bottom and right lines own the top-right and bottom-left corner pixels, which is why each recipe lists its bottom-right shadows first. Use the recipe that matches the kind of surface; a window drawn with the button edge is a small but real difference from Windows 95.
+
 ## Primitives drawn by the stylesheet
 
 These need no JavaScript. Write ordinary semantic markup inside the scope and the stylesheet replaces the host's drawing with hard edges and pixel artwork.
 
 | Control | Markup | Drawn as |
 | --- | --- | --- |
-| Default push button | `<button class="default">` or `<button data-gui95-default>` | Raised bevel with a 1px black frame outside it, kept when pressed; the button's size does not change. |
+| Default push button | `<button class="default">` or `<button data-gui95-default>` | Raised bevel with a 1px black frame outside it; the button's size does not change. While pressed, the frame stays and the bevel becomes one gray line round a flat face, as Windows draws a pressed default button. |
 | Read-only text field | `<input readonly>`, `<textarea readonly>` | Sunken field on the gray face `#c0c0c0` with black text. |
 | Check box | `<input type="checkbox">` | 13px sunken white box with a pixel check mark; gray face when unavailable; dithered face for the mixed state (set `indeterminate` from script). |
 | Option button | `<input type="radio">` | 12px pixel artwork with no CSS radius, in selected and unavailable variants. |

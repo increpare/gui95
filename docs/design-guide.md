@@ -20,6 +20,21 @@ Both projects use the same core colors. See Vector95's [`:root` declarations](..
 | Active caption and selection | `#000080` | White text on navy |
 | Radio desktop | `#008080` | Space outside the player window |
 
+### Which edge goes where
+
+Windows 95 drew a two-line edge in four arrangements, and the kit's stylesheet has one recipe for each. Read top-left first, outer line then inner line:
+
+| Surface | Top and left | Bottom and right | Kit recipe |
+| --- | --- | --- | --- |
+| Push buttons, caption buttons, tab pages | white, then light gray | black, then gray | `--gui95-raised` |
+| Windows, dialogs, pop-up menus, scroll bar arrows and thumb, spin arrows | light gray, then white | black, then gray | `--gui95-raised-plain` |
+| Text fields, list boxes, wells, check boxes | gray, then black | white, then light gray | `--gui95-sunken` |
+| A held or latched push button | black, then gray | white, then light gray | `--gui95-pressed` |
+
+The bottom and right lines are drawn last, so they own the top-right and bottom-left corner pixels of each line. A pressed default button is different again: its black frame stays, and inside it there is one gray line round a flat face, with no bevel.
+
+These arrangements were taken on 18 November 2026 from the edge-drawing code of Wine and ReactOS, two independent reimplementations that agree with each other, and from the border diagram in Virginia Howlett's *Visual Interface Design for Windows* (figure 2.12); see the [bibliography](bibliography.md#source-code-you-can-read). They establish which colour role sits on which line. They do not establish Windows 95's exact light-gray value, for which the kit keeps `#dfdfdf`. Before this date the kit used the push-button edge for windows, dialogs and menus as well, let the top and left lines own the corners, and drew every pressed button with the field's sunken edge.
+
 Raised controls put light edges at the top and left and dark edges at the bottom and right. Sunken fields reverse the relationship. The projects encode two edge depths, not a blurred shadow. Vector95 additionally uses layered linear gradients with exact 1 px and 2 px stops on its most visible buttons. Its later active-state rules are essential: copying only the opening CSS section loses the final appearance.
 
 Use [Vector95 `classic.css`](../references/vector95/src/classic.css), search `--raised-lines`, `--sunken-lines`, and `.command-group button.active`. Use the radio's `--raised` and `--sunken` for the smaller inset-shadow implementation.

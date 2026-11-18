@@ -6,7 +6,7 @@ const aliases=[['mru','recent','recently'],['combobox','combo'],['spinner','spin
 const controlNames={checkbox:'tri-state tristate indeterminate three-state',combobox:'combobox autocomplete editable dropdown',spinner:'updown spinbutton buddy numeric',tree:'treeview hierarchy',listview:'listview details report multicolumn',slider:'trackbar range',progress:'progressbar',properties:'propertysheet settings preferences',menus:'menubar cascading MRU recent',color:'colour palette swatch'};
 const related={combobox:['select','listbox','text','multiselect'],properties:['tabs','modal','modeless','message'],menus:['context-menu','toolbar','hotkey'],'context-menu':['menus','listview','tree'],tree:['listview','splitter'],listview:['header','tree','multiselect'],font:['text','rich-text','modal'],color:['radio','spinner','modal'],wizard:['modal','text','properties']};
 const widgetManifest='demo/dist/widgets/manifest.json';
-const qualityGuides=['SKILL.md','docs/design-guide.md','docs/reuse.md','docs/integration-lessons.md','docs/historical-sources.md','docs/historical-audit-2026-10-18.md','docs/widget-coverage.md','examples/widgets/QA.md','THIRD-PARTY-NOTICES.md'];
+const qualityGuides=['SKILL.md','docs/design-guide.md','docs/reuse.md','docs/integration-lessons.md','docs/historical-sources.md','docs/bibliography.md','docs/historical-audit-2026-10-18.md','docs/widget-coverage.md','examples/widgets/QA.md','THIRD-PARTY-NOTICES.md'];
 const priorities=['guide','widget','tool','verification','source','asset','notice','demo'];
 export const materialKinds=['all',...priorities];
 

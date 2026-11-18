@@ -1,5 +1,5 @@
 /** GUI95 1.1.0. Semantic HTML enhancements; no framework or global shortcut registry. */
-export const version = '1.1.1';
+export const version = '1.1.2';
 const controllers = new WeakMap();
 const sessions = new WeakMap();
 const dialogStacks = new WeakMap();

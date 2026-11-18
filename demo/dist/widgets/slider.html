@@ -23,16 +23,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Horizontal and vertical sliders — GUI95</title><style>/* GUI95 shared stylesheet: kit/components/gui95.css */
-/* GUI95 1.1.1 — scoped, original implementation from the documented reference rules. */
-:is(.gui95,[data-gui95]){--gui95-face:#c0c0c0;--gui95-light:#fff;--gui95-inner:#dfdfdf;--gui95-shadow:#808080;--gui95-dark:#000;--gui95-active:#000080;--gui95-raised:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080;--gui95-sunken:inset 1px 1px #808080,inset -1px -1px #fff,inset 2px 2px #000,inset -2px -2px #dfdfdf;color:#000;font:11px/1.35 Tahoma,"Microsoft Sans Serif",Arial,sans-serif;font-synthesis:none;background:var(--gui95-face);color-scheme:light}
+/* GUI95 1.1.2 — scoped, original implementation from the documented reference rules. */
+:is(.gui95,[data-gui95]){--gui95-face:#c0c0c0;--gui95-light:#fff;--gui95-inner:#dfdfdf;--gui95-shadow:#808080;--gui95-dark:#000;--gui95-active:#000080;--gui95-raised:inset -1px -1px #000,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf;--gui95-raised-plain:inset -1px -1px #000,inset 1px 1px #dfdfdf,inset -2px -2px #808080,inset 2px 2px #fff;--gui95-sunken:inset -1px -1px #fff,inset 1px 1px #808080,inset -2px -2px #dfdfdf,inset 2px 2px #000;--gui95-pressed:inset -1px -1px #fff,inset 1px 1px #000,inset -2px -2px #dfdfdf,inset 2px 2px #808080;color:#000;font:11px/1.35 Tahoma,"Microsoft Sans Serif",Arial,sans-serif;font-synthesis:none;background:var(--gui95-face);color-scheme:light}
 :is(.gui95,[data-gui95]),:is(.gui95,[data-gui95]) *,:is(.gui95,[data-gui95]) ::before,:is(.gui95,[data-gui95]) ::after{box-sizing:border-box}
 :is(.gui95,[data-gui95]) [hidden]{display:none!important}
 :is(.gui95,[data-gui95]) :is(button,input,select,textarea){font:inherit;color:inherit}
 :is(.gui95,[data-gui95]) button{border:0;border-radius:0;min-height:23px;--gui95-pad-y:4px;--gui95-pad-x:10px;padding:var(--gui95-pad-y) var(--gui95-pad-x);background:var(--gui95-face);box-shadow:var(--gui95-raised);position:relative;white-space:normal;cursor:default}
-:is(.gui95,[data-gui95]) button:active:not(:disabled,[role^="menuitem"],[role="tab"]),:is(.gui95,[data-gui95]) button[data-gui95-state="pressed"]:not([role^="menuitem"],[role="tab"]){box-shadow:var(--gui95-sunken);padding:calc(var(--gui95-pad-y) + 1px) calc(var(--gui95-pad-x) - 1px) calc(var(--gui95-pad-y) - 1px) calc(var(--gui95-pad-x) + 1px)}
-:is(.gui95,[data-gui95]) button[aria-pressed="true"]{box-shadow:var(--gui95-sunken);background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
+:is(.gui95,[data-gui95]) button:active:not(:disabled,[role^="menuitem"],[role="tab"]),:is(.gui95,[data-gui95]) button[data-gui95-state="pressed"]:not([role^="menuitem"],[role="tab"]){box-shadow:var(--gui95-pressed);padding:calc(var(--gui95-pad-y) + 1px) calc(var(--gui95-pad-x) - 1px) calc(var(--gui95-pad-y) - 1px) calc(var(--gui95-pad-x) + 1px)}
+:is(.gui95,[data-gui95]) button[aria-pressed="true"]{box-shadow:var(--gui95-pressed);background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
 :is(.gui95,[data-gui95]) :is(button.default,button[data-gui95-default]){box-shadow:var(--gui95-raised),0 0 0 1px #000}
-:is(.gui95,[data-gui95]) :is(button.default,button[data-gui95-default]):is(:active:not(:disabled),[data-gui95-state="pressed"]){box-shadow:var(--gui95-sunken),0 0 0 1px #000}
+:is(.gui95,[data-gui95]) :is(button.default,button[data-gui95-default]):is(:active:not(:disabled),[data-gui95-state="pressed"]){box-shadow:inset 0 0 0 1px #808080,0 0 0 1px #000}
 :is(.gui95,[data-gui95]) :is(button,input,select,textarea,[tabindex]):focus-visible{outline:1px dotted #000;outline-offset:-4px}
 :is(.gui95,[data-gui95]) :is(textarea,input:not([type="checkbox"],[type="radio"],[type="range"],[type="button"],[type="submit"],[type="reset"],[type="color"],[type="file"],[type="image"])):focus{outline:none}
 :is(.gui95,[data-gui95])::selection,:is(.gui95,[data-gui95]) ::selection{background:#000080;color:#fff}
@@ -42,18 +42,18 @@ SOFTWARE.
 :is(.gui95,[data-gui95]) :is(input:disabled,select:disabled,textarea:disabled){background-color:#c0c0c0;color:#808080;opacity:1}
 :is(.gui95,[data-gui95]) input[type="number"]{width:80px;appearance:textfield}
 :is(.gui95,[data-gui95]) input[type="number"]::-webkit-inner-spin-button,:is(.gui95,[data-gui95]) input[type="number"]::-webkit-outer-spin-button{appearance:none;margin:0}
-:is(.gui95,[data-gui95]) .window{padding:3px;box-shadow:var(--gui95-raised);background:var(--gui95-face);min-width:0;min-height:0;display:flex;flex-direction:column}
+:is(.gui95,[data-gui95]) .window{padding:3px;box-shadow:var(--gui95-raised-plain);background:var(--gui95-face);min-width:0;min-height:0;display:flex;flex-direction:column}
 :is(.gui95,[data-gui95]) .title-bar{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:20px;background:#000080;color:#fff;font-weight:bold;padding:2px 3px}
 :is(.gui95,[data-gui95]) .title-bar[data-inactive]{background:#808080}
 :is(.gui95,[data-gui95]) .title-bar button{min-height:14px;min-width:16px;--gui95-pad-y:1px;--gui95-pad-x:3px;line-height:12px;font-weight:bold;color:#000}
 :is(.gui95,[data-gui95]) .window-body{padding:8px;min-width:0;min-height:0;overflow:auto;flex:1}
 :is(.gui95,[data-gui95]) .status-bar{padding:2px;display:flex;gap:2px;min-height:20px}
-:is(.gui95,[data-gui95]) .status-bar>*{box-shadow:inset 1px 1px #808080,inset -1px -1px #fff;padding:2px 4px;min-width:0;flex:1}
+:is(.gui95,[data-gui95]) .status-bar>*{box-shadow:inset -1px -1px #fff,inset 1px 1px #808080;padding:2px 4px;min-width:0;flex:1}
 :is(.gui95,[data-gui95]) :is(.toolbar,[data-gui95-toolbar]){display:flex;align-items:center;flex-wrap:wrap;gap:2px;padding:3px;border-bottom:1px solid #808080;box-shadow:0 1px #fff}
 :is(.gui95,[data-gui95]) :is(.toolbar,[data-gui95-toolbar]) button{min-width:24px;--gui95-pad-x:7px}
 :is(.gui95,[data-gui95]) .field-row{display:flex;align-items:center;gap:7px;margin-block:6px;min-width:0;flex-wrap:wrap}
 :is(.gui95,[data-gui95]) .field-row label{min-width:65px}
-:is(.gui95,[data-gui95]) :is(fieldset,.group-box){border:1px solid #808080;box-shadow:1px 1px #fff,inset 1px 1px #fff;margin:8px 0;padding:8px;min-width:0}
+:is(.gui95,[data-gui95]) :is(fieldset,.group-box){border:1px solid #808080;box-shadow:1px 1px #fff,1px 0 #fff,0 1px #fff,inset 1px 1px #fff;margin:8px 0;padding:8px;min-width:0}
 :is(.gui95,[data-gui95]) legend{padding:0 4px}
 :is(.gui95,[data-gui95]) .dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px;padding:8px;flex-shrink:0}
 :is(.gui95,[data-gui95]) .dialog-actions button{min-width:75px}
@@ -62,7 +62,7 @@ SOFTWARE.
 /* Menu-bar headings never sink: a pressed, open or menu-mode focused heading is a flat navy highlight with its label unmoved. */
 :is(.gui95,[data-gui95]) [data-gui95-menubar] button:is(:active,[data-gui95-state="pressed"],[aria-expanded="true"]){box-shadow:none;padding:var(--gui95-pad-y) var(--gui95-pad-x)}
 :is(.gui95,[data-gui95]) [data-gui95-menubar] button:not(:disabled,[aria-disabled="true"]):is(:active,[data-gui95-state="pressed"],[aria-expanded="true"]),:is(.gui95,[data-gui95]) [data-gui95-menubar]:has(button[aria-expanded="true"]) button:not(:disabled,[aria-disabled="true"]):focus{background:#000080;color:#fff;text-shadow:none;outline:none}
-:is(.gui95,[data-gui95]) [role="menu"]{padding:3px;min-width:150px;max-width:min(420px,calc(100vw - 8px));box-shadow:var(--gui95-raised);background:#c0c0c0;overflow-y:auto}
+:is(.gui95,[data-gui95]) [role="menu"]{padding:3px;min-width:150px;max-width:min(420px,calc(100vw - 8px));box-shadow:var(--gui95-raised-plain);background:#c0c0c0;overflow-y:auto}
 :is(.gui95,[data-gui95]) [role^="menuitem"]{display:flex;align-items:center;text-align:left;width:100%;min-height:22px;padding:3px 23px;box-shadow:none;white-space:nowrap}
 :is(.gui95,[data-gui95]) [role^="menuitem"]:focus{background:#000080;color:#fff;outline:none;text-shadow:none}
 /* Menu check and option marks are pixel artwork masked in the item colour, so they never depend on a symbol font. */
@@ -74,7 +74,7 @@ SOFTWARE.
 :is(.gui95,[data-gui95]) [role^="menuitem"][data-gui95-menu]::after{content:"";position:absolute;right:7px;width:4px;height:7px;top:calc(50% - 4px);top:round(down,calc(50% - 3.5px),1px);background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 7' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M0 0h1v1h-1zM0 1h2v1h-2zM0 2h3v1h-3zM0 3h4v1h-4zM0 4h3v1h-3zM0 5h2v1h-2zM0 6h1v1h-1z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 7' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M0 0h1v1h-1zM0 1h2v1h-2zM0 2h3v1h-3zM0 3h4v1h-4zM0 4h3v1h-3zM0 5h2v1h-2zM0 6h1v1h-1z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
 :is(.gui95,[data-gui95]) [role^="menuitem"] [data-gui95-shortcut]{margin-left:auto;padding-left:24px;color:inherit}
 :is(.gui95,[data-gui95]) [role="menu"] [role="separator"]{height:2px;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:3px 1px}
-:is(.gui95,[data-gui95]) dialog{border:0;padding:3px;box-shadow:var(--gui95-raised);background:#c0c0c0;color:#000;max-width:min(600px,calc(100vw - 12px));max-height:calc(100dvh - 12px);overflow:auto}
+:is(.gui95,[data-gui95]) dialog{border:0;padding:3px;box-shadow:var(--gui95-raised-plain);background:#c0c0c0;color:#000;max-width:min(600px,calc(100vw - 12px));max-height:calc(100dvh - 12px);overflow:auto}
 :is(.gui95,[data-gui95]) dialog::backdrop{background:transparent}
 :is(.gui95,[data-gui95]) dialog .dialog-layout{display:flex;flex-direction:column;max-height:calc(100dvh - 18px);min-height:0}
 :is(.gui95,[data-gui95]) dialog .dialog-body{overflow:auto;min-height:0;padding:8px}
@@ -109,23 +109,23 @@ SOFTWARE.
 :is(.gui95,[data-gui95]) select:not([multiple]):not([size]):disabled{--gui95-drop-arrow:var(--gui95-art-down-off)}
 :is(.gui95,[data-gui95]) [data-gui95-spin]{display:inline-flex;position:relative;vertical-align:middle;min-width:0}
 :is(.gui95,[data-gui95]) [data-gui95-spin] input{padding-right:20px}
-:is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step]{position:absolute;right:2px;width:16px;min-width:16px;min-height:0;padding:0;font-size:0;line-height:0;text-shadow:none;--gui95-step-arrow:var(--gui95-art-up);background:#c0c0c0 var(--gui95-step-arrow) center/7px 4px no-repeat;box-shadow:var(--gui95-raised)}
+:is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step]{position:absolute;right:2px;width:16px;min-width:16px;min-height:0;padding:0;font-size:0;line-height:0;text-shadow:none;--gui95-step-arrow:var(--gui95-art-up);background:#c0c0c0 var(--gui95-step-arrow) center/7px 4px no-repeat;box-shadow:var(--gui95-raised-plain)}
 :is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step][data-gui95-delta="1"]{top:2px;height:calc(50% - 2px);height:round(down,calc(50% - 2px),1px)}
 :is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step][data-gui95-delta="-1"]{top:calc(50%);top:calc(2px + round(down,calc(50% - 2px),1px));bottom:2px;--gui95-step-arrow:var(--gui95-art-down)}
 :is(.gui95,[data-gui95]) [data-gui95-spin]:not(:has(input:disabled,input[readonly])) [data-gui95-step]:not(:disabled):is(:active,[data-gui95-state="pressed"]){padding:0;box-shadow:inset 0 0 0 1px #808080;background-position:calc(50% + 1px) calc(50% + 1px)}
-:is(.gui95,[data-gui95]) [data-gui95-spin]:has(input:disabled,input[readonly]) [data-gui95-step],:is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step]:disabled{--gui95-step-arrow:var(--gui95-art-up-off);box-shadow:var(--gui95-raised);background-position:center}
+:is(.gui95,[data-gui95]) [data-gui95-spin]:has(input:disabled,input[readonly]) [data-gui95-step],:is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step]:disabled{--gui95-step-arrow:var(--gui95-art-up-off);box-shadow:var(--gui95-raised-plain);background-position:center}
 :is(.gui95,[data-gui95]) [data-gui95-spin]:has(input:disabled,input[readonly]) [data-gui95-step][data-gui95-delta="-1"],:is(.gui95,[data-gui95]) [data-gui95-spin] [data-gui95-step][data-gui95-delta="-1"]:disabled{--gui95-step-arrow:var(--gui95-art-down-off)}
 :is(.gui95,[data-gui95]) input[type="range"]{appearance:none;height:23px;min-width:60px;margin:0;border:0;border-radius:0;background:transparent}
-:is(.gui95,[data-gui95]) input[type="range"]::-webkit-slider-runnable-track{height:4px;background:#c0c0c0;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff,inset 2px 2px #000,inset -2px -2px #dfdfdf}
+:is(.gui95,[data-gui95]) input[type="range"]::-webkit-slider-runnable-track{height:4px;background:#c0c0c0;box-shadow:inset -1px -1px #fff,inset 1px 1px #808080,inset -2px -2px #dfdfdf,inset 2px 2px #000}
 :is(.gui95,[data-gui95]) input[type="range"]::-webkit-slider-thumb{appearance:none;width:11px;height:21px;margin-top:-9px;border:0;border-radius:0;background:#c0c0c0;box-shadow:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080}
 :is(.gui95,[data-gui95]) input[type="range"]:disabled::-webkit-slider-thumb{background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
-:is(.gui95,[data-gui95]) input[type="range"]::-moz-range-track{height:4px;border:0;background:#c0c0c0;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff,inset 2px 2px #000,inset -2px -2px #dfdfdf}
+:is(.gui95,[data-gui95]) input[type="range"]::-moz-range-track{height:4px;border:0;background:#c0c0c0;box-shadow:inset -1px -1px #fff,inset 1px 1px #808080,inset -2px -2px #dfdfdf,inset 2px 2px #000}
 :is(.gui95,[data-gui95]) input[type="range"]::-moz-range-thumb{width:11px;height:21px;border:0;border-radius:0;background:#c0c0c0;box-shadow:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080}
 :is(.gui95,[data-gui95]) input[type="range"]:focus-visible{outline:1px dotted #000;outline-offset:0}
 :is(.gui95,[data-gui95]) input[type="range"][aria-orientation="vertical"]{width:23px;height:auto;min-width:0}
 :is(.gui95,[data-gui95]) input[type="range"][aria-orientation="vertical"]::-webkit-slider-runnable-track{width:4px;height:100%}
 :is(.gui95,[data-gui95]) input[type="range"][aria-orientation="vertical"]::-webkit-slider-thumb{width:21px;height:11px;margin:0 0 0 -9px}
-:is(.gui95,[data-gui95]) progress{appearance:none;display:block;width:100%;height:16px;border:0;border-radius:0;padding:2px;background:#c0c0c0;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff}
+:is(.gui95,[data-gui95]) progress{appearance:none;display:block;width:100%;height:16px;border:0;border-radius:0;padding:2px;background:#c0c0c0;box-shadow:inset -1px -1px #fff,inset 1px 1px #808080}
 :is(.gui95,[data-gui95]) progress::-webkit-progress-bar{background:transparent}
 :is(.gui95,[data-gui95]) progress::-webkit-progress-value{background:repeating-linear-gradient(90deg,#000080 0 8px,transparent 8px 10px)}
 :is(.gui95,[data-gui95]) progress::-moz-progress-bar{background:repeating-linear-gradient(90deg,#000080 0 8px,transparent 8px 10px)}
@@ -146,9 +146,9 @@ SOFTWARE.
 /* Scrollbars use concrete scope selectors: Chromium has ignored scrollbar state pseudo-classes behind :is()/:where() ancestors. */
 .gui95 ::-webkit-scrollbar,[data-gui95] ::-webkit-scrollbar,.gui95::-webkit-scrollbar,[data-gui95]::-webkit-scrollbar{width:16px;height:16px;background:#c0c0c0}
 .gui95 ::-webkit-scrollbar-track,[data-gui95] ::-webkit-scrollbar-track,.gui95::-webkit-scrollbar-track,[data-gui95]::-webkit-scrollbar-track{background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
-.gui95 ::-webkit-scrollbar-thumb,[data-gui95] ::-webkit-scrollbar-thumb,.gui95::-webkit-scrollbar-thumb,[data-gui95]::-webkit-scrollbar-thumb{background:#c0c0c0;box-shadow:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080}
+.gui95 ::-webkit-scrollbar-thumb,[data-gui95] ::-webkit-scrollbar-thumb,.gui95::-webkit-scrollbar-thumb,[data-gui95]::-webkit-scrollbar-thumb{background:#c0c0c0;box-shadow:inset -1px -1px #000,inset 1px 1px #dfdfdf,inset -2px -2px #808080,inset 2px 2px #fff}
 .gui95 ::-webkit-scrollbar-corner,[data-gui95] ::-webkit-scrollbar-corner,.gui95::-webkit-scrollbar-corner,[data-gui95]::-webkit-scrollbar-corner{background:#c0c0c0}
-.gui95 ::-webkit-scrollbar-button,[data-gui95] ::-webkit-scrollbar-button,.gui95::-webkit-scrollbar-button,[data-gui95]::-webkit-scrollbar-button{display:block;width:16px;height:16px;background:#c0c0c0 center no-repeat;box-shadow:inset 1px 1px #fff,inset -1px -1px #000,inset 2px 2px #dfdfdf,inset -2px -2px #808080}
+.gui95 ::-webkit-scrollbar-button,[data-gui95] ::-webkit-scrollbar-button,.gui95::-webkit-scrollbar-button,[data-gui95]::-webkit-scrollbar-button{display:block;width:16px;height:16px;background:#c0c0c0 center no-repeat;box-shadow:inset -1px -1px #000,inset 1px 1px #dfdfdf,inset -2px -2px #808080,inset 2px 2px #fff}
 .gui95 ::-webkit-scrollbar-button:active,[data-gui95] ::-webkit-scrollbar-button:active,.gui95::-webkit-scrollbar-button:active,[data-gui95]::-webkit-scrollbar-button:active{box-shadow:inset 0 0 0 1px #808080}
 .gui95 ::-webkit-scrollbar-button:vertical:decrement,[data-gui95] ::-webkit-scrollbar-button:vertical:decrement,.gui95::-webkit-scrollbar-button:vertical:decrement,[data-gui95]::-webkit-scrollbar-button:vertical:decrement{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 4' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M3 0h1v1h-1zM2 1h3v1h-3zM1 2h5v1h-5zM0 3h7v1h-7z'/%3E%3C/svg%3E");background-size:7px 4px}
 .gui95 ::-webkit-scrollbar-button:vertical:increment,[data-gui95] ::-webkit-scrollbar-button:vertical:increment,.gui95::-webkit-scrollbar-button:vertical:increment,[data-gui95]::-webkit-scrollbar-button:vertical:increment{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 4' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M0 0h7v1h-7zM1 1h5v1h-5zM2 2h3v1h-3zM3 3h1v1h-1z'/%3E%3C/svg%3E");background-size:7px 4px}

@@ -8,7 +8,7 @@ export const RULES = Object.freeze({
   'translucency': 'Surfaces and text are opaque. Use the solid palette colour, and the gray label with a white offset for unavailable controls instead of opacity.',
   'animation': 'State changes are immediate. Remove transitions and CSS animations from controls.',
   'pointer-cursor': 'Controls keep the arrow cursor. Use cursor: default; reserve other cursors for resize handles and text. Hyperlinks are exempt.',
-  'keyword-bevel': 'outset, inset, groove and ridge borders let the browser choose the shades. Draw the four-colour bevel with the --gui95-raised or --gui95-sunken box-shadow, or 1px solid edge lines.',
+  'keyword-bevel': 'outset, inset, groove and ridge borders let the browser choose the shades. Draw the four-colour bevel with the --gui95-raised, --gui95-raised-plain, --gui95-sunken or --gui95-pressed box-shadow, or 1px solid edge lines.',
   'modern-font': 'Interface text uses the chosen classic face (Tahoma, MS Sans Serif or the System95 recreation) rather than the host system UI font.',
   'filter-effect': 'Blur and backdrop filters have no classic counterpart. Remove them.',
   'native-control': 'A native control with appearance: auto is drawn by the current operating system. Use the stylesheet\'s appearance: none treatment for check boxes, option buttons, sliders, progress bars and drop-down lists.',

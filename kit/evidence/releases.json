@@ -1,11 +1,12 @@
 [
   {
     "id": "menu",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -25,16 +26,22 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "dialog",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -54,16 +61,22 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "splitter",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -83,16 +96,22 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "tree",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -112,16 +131,22 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "toolbar",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -141,16 +166,22 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "number-field",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.0.0",
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -170,15 +201,21 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "tabs",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -193,15 +230,21 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },
   {
     "id": "listbox",
-    "latest": "1.1.1",
+    "latest": "1.1.2",
     "released_versions": [
       "1.1.0",
-      "1.1.1"
+      "1.1.1",
+      "1.1.2"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -216,6 +259,11 @@
         "version": "1.1.1",
         "date": "2026-11-18",
         "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
+      },
+      {
+        "version": "1.1.2",
+        "date": "2026-11-18",
+        "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
       }
     ]
   },

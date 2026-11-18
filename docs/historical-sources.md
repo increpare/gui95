@@ -2,6 +2,8 @@
 
 Start with the 1995 published handbook for the intended Windows 95 design vocabulary. The openly readable February draft is convenient for visual comparisons, but it predates the final release. Later guides and modern recreations are labeled separately below. Links checked on 14 October 2026; archival availability can change.
 
+For the wider reading list (design books, readable source code, screenshot archives, and Windows 98 and XP material), see the [bibliography](bibliography.md).
+
 ## The 1995 published handbook
 
 **The Windows Interface Guidelines for Software Design**, Microsoft Press, 1995, ISBN **1-55615-679-0**. Microsoft's own [reading list](https://learn.microsoft.com/en-us/windows/win32/appuistart/other-resources) confirms the edition and identifies it as guidance for interface layout. A [bibliographic page with the published contents](https://guidebookgallery.org/books/thewindowsinterfaceguidelinesforsoftwaredesign/) provides navigation into the book.
@@ -21,6 +23,10 @@ The following are **printed pages in the published book**, not PDF viewer page n
 
 These pointers follow the reproduced table of contents; the linked catalogue is not the full book.
 
+The full final text is readable as HTML in a mirror of a later MSDN Library disc, starting at its [introduction](https://techshelps.github.io/MSDN/WINGUIDE/S115b5.htm). Each section is one page, for example [Visual States for Controls](https://techshelps.github.io/MSDN/WINGUIDE/S118DC.htm) and [Grouping and Spacing](https://techshelps.github.io/MSDN/WINGUIDE/S118DF.htm). No page carries the draft's "preliminary" label, and the printed-page pointers above agree with a scan of the printed book. The HTML edition lacks Appendix E and the glossary, drops a few table rows, and says "dialog box units" where the printed book says "dialog base units". Cite the HTML by section title, and the printed book by page.
+
+Prefer the final text to the draft wherever they differ; the [differences that affect GUI95](#where-the-final-book-changed-the-draft) are listed below.
+
 ## The February 1995 preliminary guide
 
 **The Windows Interface Guidelines — A Guide for Designing Software**, Microsoft, February 1995. [Read the PDF hosted by UC Irvine](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf).
@@ -38,6 +44,33 @@ Useful places to compare widgets:
 - [PDF pages 317–319](https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=317): scaling custom information, application zoom and testing with enlarged system fonts.
 
 PDF links use one-based viewer page numbers. The draft's printed pagination is irregular in places, so do not substitute the final book's page numbers.
+
+## Where the final book changed the draft
+
+Compared on 18 November 2026. The draft and the final text were aligned sentence by sentence; chapters 6 to 8 and 13 were read closely and the rest more lightly. Each row below was confirmed in both texts. Figures were not compared, apart from the layout figure, so a change that exists only in a picture could be missing.
+
+| Topic | February 1995 draft | Final 1995 book |
+| --- | --- | --- |
+| Space between controls | At least 3 dialog units (PDF p. 300) | At least 4. The layout figure now marks 4 units between controls, a 7-unit margin and 14-unit control height. [Grouping and Spacing](https://techshelps.github.io/MSDN/WINGUIDE/S118DF.htm) |
+| Space between toolbar controls | A window border width (PDF p. 300) | At least 4 dialog units, with related buttons set adjacent. [Grouping and Spacing](https://techshelps.github.io/MSDN/WINGUIDE/S118DF.htm) |
+| Largest secondary window | 234 × 263 dialog units (PDF p. 299) | No larger than 263 × 263. Property sheets: 252 × 218, 227 × 215 or 212 × 188. [Font and Size](https://techshelps.github.io/MSDN/WINGUIDE/S118DD.htm) |
+| Multiple rows of tabs | Better when every tab must be visible (PDF p. 141) | Avoid multiple rows and scrolling rows. [Other General Controls](https://techshelps.github.io/MSDN/WINGUIDE/S11866.htm) |
+| Mixed-value check box | "A special mark" in the box (PDF p. 293) | The check mark in the button shadow colour, on a checkerboard of button highlight and button face. [Visual States for Controls](https://techshelps.github.io/MSDN/WINGUIDE/S118DC.htm) |
+| Read-only text box | Takes the button-down border (PDF p. 289) | Keeps the field border, with a button-face interior when read-only or unavailable. [Field Border Style](https://techshelps.github.io/MSDN/WINGUIDE/S118D9.htm) |
+| Default button | Not if "potentially destructive" (PDF p. 153) | Not if "irreversible or destructive". [Default Buttons](https://techshelps.github.io/MSDN/WINGUIDE/S1186F.htm) |
+| Question-mark message symbol | No longer recommended (PDF p. 173) | Do not use it; it remains only for compatibility. [Message Box Types](https://techshelps.github.io/MSDN/WINGUIDE/S1187E.htm) |
+
+Rules the final book adds, with no counterpart in the draft:
+
+| Topic | Final 1995 book |
+| --- | --- |
+| Title bar buttons | Close is always rightmost, with a gap before it. Minimize precedes Maximize. Leave out the button for a command the window lacks. [Title Bar Buttons](https://techshelps.github.io/MSDN/WINGUIDE/S11854.htm) |
+| Access keys | Reserve "A" for an Apply button. Give OK and Cancel no access key when Enter and Esc reach them. [Access Keys](https://techshelps.github.io/MSDN/WINGUIDE/S1182B.htm) |
+| Drop-down lists | Esc also closes the open list. [List Boxes](https://techshelps.github.io/MSDN/WINGUIDE/S11864.htm) |
+| Status bar messages | A secondary or supplemental form of help, because the user may not notice them. [Status Bar Messages](https://techshelps.github.io/MSDN/WINGUIDE/S118C7.htm) |
+| Icons | Supply 16 × 16 and 32 × 32 in 16 colours and 48 × 48 in 256 colours. [Icon Design](https://techshelps.github.io/MSDN/WINGUIDE/S118E2.htm) |
+
+The draft pages this shelf points to for fonts, borders, pressed and focus appearances, and scaling (pp. 286–298 and 317–319) were found unchanged in substance. The kit's mixed check box already matches the final book: a grey tick on a one-pixel checkerboard of white and face colour, checked against the book's figure 13.14 on 18 November 2026.
 
 ## Period product documentation
 
