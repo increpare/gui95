@@ -41,5 +41,6 @@ try {
  else if(command==='verify') {const report=await (await load('verify/runner.mjs')).runVerification({url:args[0],output:args[1]});emit(report);if(report.status==='failed')process.exitCode=1;}
  else if(command==='atlas') process.exitCode=await (await load('verify/atlas.mjs')).main(args);
  else if(command==='lint') {const lint=await load('verify/period-lint.mjs');const report=await lint.runPeriodLint({url:args[0]});if(args.includes('--json'))emit(report);else console.log(lint.summarize(report));if(report.status==='failed')process.exitCode=1;}
- else throw new Error('Unknown command. Use list, component NAME OUT, gallery OUT, icons QUERY, icon NAME OUT, layout SPEC.json OUT, starter TYPE OUT --name NAME --id ID, evidence QUERY, repairs QUERY, updates MANIFEST.json, verify URL OUT, lint URL [--json], or atlas [--update] [--out DIR].');
+ else if(command==='lint-wording'||command==='lint-layout') process.exitCode=await (await load(command==='lint-wording'?'verify/wording-lint.mjs':'verify/layout-lint.mjs')).main(args,{usage:'node kit/cli.mjs '+command});
+ else throw new Error('Unknown command. Use list, component NAME OUT, gallery OUT, icons QUERY, icon NAME OUT, layout SPEC.json OUT, starter TYPE OUT --name NAME --id ID, evidence QUERY, repairs QUERY, updates MANIFEST.json, verify URL OUT, lint URL [--json], lint-wording URL [--json] [--strict] [--skip RULES], lint-layout URL [--json] [--strict] [--skip RULES], or atlas [--update] [--out DIR].');
 } catch(error){console.error(error.message);process.exitCode=1;}
