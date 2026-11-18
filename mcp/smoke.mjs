@@ -9,7 +9,7 @@ const client = new Client({ name: "gui95-deployment-check", version: "1.0.0" });
 try {
   await client.connect(new StreamableHTTPClientTransport(endpoint));
   const tools = await client.listTools();
-  assert.deepEqual(tools.tools.map((tool) => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_asset", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_repairs", "get_gui95_widget", "list_gui95_kits", "list_gui95_materials", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
+  assert.deepEqual(tools.tools.map((tool) => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_asset", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_period_rules", "get_gui95_repairs", "get_gui95_widget", "list_gui95_kits", "list_gui95_materials", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
   const search = await client.callTool({ name: "search_gui95", arguments: { query: "menu keyboard focus", limit: 2 } });
   assert.ok(search.structuredContent?.results.length);
   const read = await client.callTool({ name: "read_gui95_reference", arguments: { path: "docs/widgets.md", line_count: 5 } });
@@ -40,11 +40,13 @@ try {
   assert.ok(starter.files.some(file => file.path === "package.json"));
   const evidence = await invoke("get_gui95_evidence", { query: "dialog", limit: 3 });
   assert.ok(evidence.items.length);
+  const rules = await invoke("get_gui95_period_rules", { query: "menu", limit: 3 });
+  assert.ok(rules.items.length && rules.items.every(item => item.standing.era && item.standing.confidence));
   const repairs = await invoke("get_gui95_repairs", { query: "pointer" });
   assert.ok(repairs.items.length);
   const updates = await invoke("check_gui95_updates", { manifest: { schema_version: 1, components: { menu: inventory.kit_version } } });
   assert.equal(updates.components[0].status, "current");
-  output.build_kit = { version: inventory.kit_version, components: inventory.components.length, artifact_hash: "verified", icons: "CC0 SVG passed", layout: "passed", starter: "passed", evidence: "passed", repairs: "passed", updates: "passed" };
+  output.build_kit = { version: inventory.kit_version, components: inventory.components.length, artifact_hash: "verified", icons: "CC0 SVG passed", layout: "passed", starter: "passed", evidence: "passed", period_rules: "passed", repairs: "passed", updates: "passed" };
   const listing=await client.callTool({name:'list_gui95_materials',arguments:{kind:'widget',limit:100}});
   assert.ok(listing.structuredContent.total>=38);
   const widget=await client.callTool({name:'get_gui95_widget',arguments:{widget_id:'combobox'}});
