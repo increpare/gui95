@@ -1,0 +1,61 @@
+{
+ "description": "Which refgrid cell is compared with which rectangle of the kit's state atlas. reference: a cell id from refgrid/cells.def, or a measured part from refgrid's report (menu.item3, tab.item0, menubar.item1). atlas: a key from atlas-cells.json. compare: exact = every pixel (sizes must match); ring = the outer `ring` pixels only, so a text label inside does not count; profile = only the edge colours inward from the middle of each side and from two corners, for pairs whose sizes differ by design. Cells on either side that are not listed here are reported as unmapped, not forced into a match.",
+ "defaults": { "ring": 4, "depth": 3 },
+ "pairs": [
+  { "reference": "button_normal", "atlas": "button-rest", "compare": "ring" },
+  { "reference": "button_pushed", "atlas": "button-pressed", "compare": "ring" },
+  { "reference": "check_pushlike_checked", "atlas": "button-latched", "compare": "ring", "note": "A push-like check box that is on is the nearest real control to a latched button." },
+  { "reference": "button_disabled", "atlas": "button-unavailable", "compare": "ring" },
+  { "reference": "button_default", "atlas": "button-default", "compare": "ring" },
+
+  { "reference": "dfc_check_unchecked", "atlas": "checkbox-unchecked", "compare": "exact", "note": "The atlas draws the 13 by 13 box alone, so it is paired with DrawFrameControl; the real check box controls carry a label and stay unmapped." },
+  { "reference": "dfc_check_checked", "atlas": "checkbox-checked", "compare": "exact" },
+  { "reference": "dfc_check_mixed", "atlas": "checkbox-mixed", "compare": "exact" },
+  { "reference": "dfc_check_inactive", "atlas": "checkbox-unavailable", "compare": "exact" },
+  { "reference": "dfc_check_checked_inactive", "atlas": "checkbox-unavailable-checked", "compare": "exact" },
+  { "reference": "dfc_radio_unchecked", "atlas": "radio-off", "compare": "profile", "note": "refgrid asks for 13 by 13; the kit draws 12 by 12." },
+  { "reference": "dfc_radio_checked", "atlas": "radio-on", "compare": "profile" },
+  { "reference": "dfc_radio_inactive", "atlas": "radio-unavailable", "compare": "profile" },
+  { "reference": "dfc_radio_checked_inactive", "atlas": "radio-unavailable-on", "compare": "profile" },
+
+  { "reference": "combo_droplist", "atlas": "select-drop-down-list", "compare": "ring" },
+  { "reference": "combo_droplist_disabled", "atlas": "select-unavailable-drop-down-list", "compare": "ring" },
+  { "reference": "updown_buddy", "atlas": "updown-up-down", "compare": "ring" },
+  { "reference": "updown_buddy_disabled", "atlas": "updown-unavailable-up-down", "compare": "ring" },
+  { "reference": "trackbar", "atlas": "range-slider", "compare": "profile" },
+  { "reference": "trackbar_disabled", "atlas": "range-unavailable-slider", "compare": "profile" },
+  { "reference": "trackbar_vert", "atlas": "range-vertical-slider", "compare": "profile" },
+  { "reference": "progress_45", "atlas": "progress-determinate", "compare": "profile" },
+
+  { "reference": "edit_normal", "atlas": "text-text-field", "compare": "ring" },
+  { "reference": "edit_disabled", "atlas": "text-unavailable-text-field", "compare": "ring" },
+  { "reference": "edit_readonly", "atlas": "text-read-only-text-field", "compare": "ring" },
+  { "reference": "groupbox", "atlas": "fieldset", "compare": "profile" },
+  { "reference": "static_etchedhorz", "atlas": "hr", "compare": "exact" },
+  { "reference": "list_select", "atlas": "list", "compare": "ring" },
+  { "reference": "status", "atlas": "status", "compare": "profile" },
+  { "reference": "status.part0", "atlas": "status.div0", "compare": "profile" },
+
+  { "reference": "menubar.item0", "atlas": "menubar.button0", "compare": "profile" },
+  { "reference": "menubar.item2", "atlas": "menubar.button2", "compare": "profile", "note": "The unavailable heading." },
+  { "reference": "tab.item0", "atlas": "tabs.tab0", "compare": "profile", "note": "The selected tab." },
+  { "reference": "tab.item1", "atlas": "tabs.tab1", "compare": "profile" },
+
+  { "reference": "window_active", "atlas": "active", "compare": "profile", "depth": 5, "note": "The frame edges; the profile on the top side also crosses into the caption." },
+  { "reference": "window_inactive", "atlas": "inactive", "compare": "profile", "depth": 5 },
+  { "reference": "dfc_caption_min_normal", "atlas": "active.button0", "compare": "exact" },
+  { "reference": "dfc_caption_close_pushed", "atlas": "active.button1", "compare": "exact" },
+  { "reference": "dfc_caption_close_normal", "atlas": "inactive.button0", "compare": "exact" },
+
+  { "reference": "menu", "atlas": "menu", "compare": "profile", "depth": 4, "note": "The pop-up menu window as measured by refgrid, not the reserved cell." },
+  { "reference": "menu.item0", "atlas": "menu.menuitem0", "compare": "profile", "note": "Item heights are the point of the menu pairs." },
+  { "reference": "menu.item1", "atlas": "menu.menuitemcheckbox0", "compare": "profile", "note": "Highlighted and checked." },
+  { "reference": "menu.item2", "atlas": "menu.menuitem1", "compare": "profile", "note": "Unavailable." },
+  { "reference": "menu.item3", "atlas": "menu.menuitemcheckbox1", "compare": "profile", "note": "Checked." },
+  { "reference": "menu.item4", "atlas": "menu.menuitemradio0", "compare": "profile", "note": "Option-marked." },
+  { "reference": "menu.item5", "atlas": "menu.menuitemcheckbox2", "compare": "profile", "note": "Unavailable and checked." },
+  { "reference": "menu.item6", "atlas": "menu.separator0", "compare": "profile", "note": "refgrid measures the whole separator item; the kit's rectangle is the 2-pixel line." },
+  { "reference": "menu.item7", "atlas": "menu.menuitem2", "compare": "profile", "note": "Cascading." },
+  { "reference": "menu.item8", "atlas": "menu.menuitem3", "compare": "profile", "note": "With a shortcut." }
+ ]
+}
