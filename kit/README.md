@@ -1,8 +1,8 @@
-# GUI95 build kit 1.1.0
+# GUI95 build kit 1.1.1
 
 Reusable Windows 95-style controls, original CC0 icons, layout generators and browser/Electron app starters. The JavaScript and CSS are MIT; only the new artwork in `icons/` is dedicated to CC0. Existing reference fonts retain their separate notices. The components use the host's available font; no font is bundled in generated apps.
 
-Release 1.1.0 has eight runtime controls (menus, dialogs, splitters, trees, toolbars, number fields, property tabs and list boxes). The stylesheet alone draws check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars. A period lint (`node kit/cli.mjs lint URL`) flags modern styling inside the scope, and the verifier runs it too.
+Release 1.1.1 has eight runtime controls (menus, dialogs, splitters, trees, toolbars, number fields, property tabs and list boxes). The stylesheet alone draws check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars. A period lint (`node kit/cli.mjs lint URL`) flags modern styling inside the scope, and the verifier runs it too. 1.1.1 changes only that lint: it skips invisible elements and the shapes inside an SVG image, accepts a drop-down the page draws itself, and adds a rule for control text that is not 11px.
 
 ## Get started
 
@@ -66,7 +66,7 @@ Evidence records identify the claim, source kind, section or edition/page, date 
 Record the versions integrated into your app:
 
 ```json
-{ "schema_version": 1, "components": { "menu": "1.1.0", "dialog": "1.1.0" } }
+{ "schema_version": 1, "components": { "menu": "1.1.1", "dialog": "1.1.1" } }
 ```
 
 Update checks identify current, older, newer, unknown and invalid versions; for an older version they list what each later release changed. A repair is an integration safeguard with a reproducer; its applicability does not establish that a current kit release contains that defect. A listed test name is a reproducible check, not a claim it passed in your app.

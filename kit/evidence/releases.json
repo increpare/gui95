@@ -1,10 +1,11 @@
 [
   {
     "id": "menu",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -19,15 +20,21 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "Pressed and open menu-bar headings keep their size and are drawn as a flat navy highlight with white text and an unmoved label, not sunken (GUI95's reading of the Windows 95 menu bar, not a cited source); menu items no longer sink when pressed; check and option marks and the submenu arrow are pixel artwork in the item colour (marks embossed when unavailable) with no generated text, so the marks stay out of the accessible name and do not depend on a symbol font. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "dialog",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -42,15 +49,21 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "Tab and Shift+Tab wrap among the top modal dialog's own controls; a submit listener that calls preventDefault() now keeps a method=\"dialog\" form's dialog open. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "splitter",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -65,15 +78,21 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "No splitter-specific changes. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "tree",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -88,15 +107,21 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "The connector line drops from the centre column of the parent disclosure box. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "toolbar",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -111,15 +136,21 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "Pressed toolbar buttons keep their size and move their content one pixel inside the same box. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "number-field",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
       "1.0.0",
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -134,14 +165,20 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "Enter commits and then continues, so it still submits an enclosing form; Up and Down settle the draft before applying one step; the browser spin arrows are hidden, and an up-down control draws stacked step buttons that do not take focus. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "tabs",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -151,14 +188,20 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "First release: roving Tab stop, arrow and Home/End selection, Ctrl+Tab and Ctrl+PageUp/PageDown page switching, panel visibility and gui95:tab-select. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
   {
     "id": "listbox",
-    "latest": "1.1.0",
+    "latest": "1.1.1",
     "released_versions": [
-      "1.1.0"
+      "1.1.0",
+      "1.1.1"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -168,6 +211,11 @@
         "version": "1.1.0",
         "date": "2026-11-17",
         "summary": "First release: single-selection list box with aria-activedescendant, arrow, Home/End, PageUp/PageDown and first-letter selection, and gui95:list-select. Shared stylesheet: the scope root is in the border-box reset; check boxes, option buttons, drop-down lists, up-down controls, sliders, progress bars, list boxes, property tabs and scrollbars are drawn by the stylesheet; the verifier also runs a new period lint, and a stored state-atlas image checks what the stylesheet paints."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-11-18",
+        "summary": "No change to this control or to the stylesheet's rules. Period lint: elements at opacity 0 (their own or an ancestor's) count as hidden; the shapes inside an SVG image are image content and are not judged, though the svg element is; a drop-down the page draws itself with appearance: base-select is not a native-control finding; and a new control-text-size rule reports buttons, labels, fields, drop-down lists, legends, menu items and tabs whose text is not 11px, once against the outermost element that sets the size. A page that passed the 1.1.0 lint can fail this one on text size."
       }
     ]
   },
