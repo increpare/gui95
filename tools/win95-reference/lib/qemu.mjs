@@ -30,11 +30,11 @@ export function pcArguments({ machine = 'pc', cpu = 'pentium', memory = 32, vga 
 }
 
 /** Start QEMU with a QMP socket in `workDir`. Extra display arguments (for example VNC) go in `display`. */
-export async function startQemu({ binary = 'qemu-system-i386', args, workDir, display = ['-display', 'none'], log = () => {} }) {
+export async function startQemu({ binary = 'qemu-system-i386', args, workDir, display = ['-display', 'none'], controlSocket, log = () => {} }) {
   await mkdir(workDir, { recursive: true });
   const socketPath = path.join(workDir, 'qmp.sock');
   await rm(socketPath, { force: true });
-  const full = [...args, ...display, '-qmp', `unix:${socketPath},server=on,wait=off`];
+  const full = [...args, ...display, '-qmp', `unix:${socketPath},server=on,wait=off`, ...(controlSocket ? ['-qmp', `unix:${controlSocket},server=on,wait=off`] : [])];
   log(`${binary} ${full.join(' ')}`);
   const child = spawn(binary, full, { stdio: ['ignore', 'pipe', 'pipe'] });
   let output = '', exited = false, exitCode = null;
@@ -42,13 +42,28 @@ export async function startQemu({ binary = 'qemu-system-i386', args, workDir, di
   const exit = new Promise(resolve => child.on('exit', code => { exited = true; exitCode = code; resolve(code); }));
   child.on('error', error => { output += error.message; exited = true; });
 
+  let control;
+  try { control = await connectQmp(socketPath, workDir, () => exited ? `QEMU exited at once (code ${exitCode}): ${output.trim()}` : null); } catch (error) { child.kill(); throw error; }
+  const { qmp } = control;
+  const quit = async () => { if (!exited) { try { await qmp('quit'); } catch { child.kill(); } } await exit; control.close(); };
+  const waitExit = ms => Promise.race([exit.then(() => true), sleep(ms).then(() => false)]);
+  return { ...control, quit, waitExit, get exited() { return exited; }, get output() { return output; } };
+}
+
+/**
+ * Connect to a QMP socket of a running QEMU and return the controls: qmp, screendump, stableScreendump, sendKey,
+ * typeText, close. QMP serves one client at a time on a socket; session.mjs opens a second socket for this.
+ */
+export async function connectQmp(socketPath, workDir, dead = () => null) {
+  await mkdir(workDir, { recursive: true });
+  let exited = false;
   let socket;
   for (let attempt = 0; attempt < 100 && !socket; attempt++) {
-    if (exited) throw new Error(`QEMU exited at once (code ${exitCode}): ${output.trim()}`);
+    if (dead()) throw new Error(dead());
     socket = await new Promise(resolve => { const s = net.createConnection(socketPath); s.once('connect', () => resolve(s)); s.once('error', () => resolve(null)); });
     if (!socket) await sleep(100);
   }
-  if (!socket) { child.kill(); throw new Error(`QEMU did not open its QMP socket: ${output.trim()}`); }
+  if (!socket) throw new Error(`No QMP socket at ${socketPath}.`);
 
   const waiting = []; const events = []; let buffer = '';
   socket.on('data', data => {
@@ -62,7 +77,7 @@ export async function startQemu({ binary = 'qemu-system-i386', args, workDir, di
     }
   });
   socket.on('error', () => {});
-  socket.on('close', () => { for (const resolve of waiting.splice(0)) resolve({ error: { desc: 'QEMU closed the QMP connection' } }); });
+  socket.on('close', () => { exited = true; for (const resolve of waiting.splice(0)) resolve({ error: { desc: 'QEMU closed the QMP connection' } }); });
   const qmp = (execute, argumentsObject) => new Promise((resolve, reject) => {
     if (exited) return reject(new Error('QEMU has exited.'));
     waiting.push(message => message.error ? reject(new Error(`QMP ${execute}: ${message.error.desc}`)) : resolve(message.return));
@@ -73,7 +88,7 @@ export async function startQemu({ binary = 'qemu-system-i386', args, workDir, di
   let dumps = 0;
   /** The guest framebuffer as { width, height, data }: exactly the pixels the emulated adapter is showing. */
   const screendump = async () => {
-    const file = path.join(workDir, `dump-${dumps++}.ppm`);
+    const file = path.join(workDir, `dump-${process.pid}-${dumps++}.ppm`);
     await qmp('screendump', { filename: file });
     const image = decodePpm(await readFile(file));
     await rm(file, { force: true });
@@ -93,9 +108,7 @@ export async function startQemu({ binary = 'qemu-system-i386', args, workDir, di
   /** Press one key, or a chord such as ['shift', 'a']. Names are QEMU key codes ("esc", "ret", "f12", "a", "1"). */
   const sendKey = async (keys, holdTime = +(process.env.REFGRID_KEY_HOLD_MS ?? 100)) => { await qmp('send-key', { keys: [].concat(keys).map(data => ({ type: 'qcode', data })), 'hold-time': holdTime }); await sleep(holdTime + 150); };
   const typeText = async text => { for (const ch of text) await sendKey(keyFor(ch)); };
-  const quit = async () => { if (!exited) { try { await qmp('quit'); } catch { child.kill(); } } await exit; socket.destroy(); };
-  const waitExit = ms => Promise.race([exit.then(() => true), sleep(ms).then(() => false)]);
-  return { qmp, screendump, stableScreendump, sendKey, typeText, quit, waitExit, events, get exited() { return exited; }, get output() { return output; } };
+  return { qmp, screendump, stableScreendump, sendKey, typeText, events, close: () => socket.destroy() };
 }
 
 const SHIFTED = { '!': '1', '@': '2', '#': '3', '$': '4', '%': '5', '^': '6', '&': '7', '*': '8', '(': '9', ')': '0', '_': 'minus', '+': 'equal', ':': 'semicolon', '>': 'dot', '<': 'comma', '?': 'slash', '|': 'backslash', '"': 'apostrophe' };

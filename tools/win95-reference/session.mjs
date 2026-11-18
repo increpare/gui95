@@ -11,12 +11,12 @@
 //   --display vnc|cocoa|gtk|sdl   vnc (default, for the container: connect to localhost:5900) or a native QEMU window
 //   --machine --vga --cpu --memory --icount   the emulated PC; use the same values for the capture
 //
-// In the container:  ./run.sh session --disk images/win95.qcow2 --floppy images/boot.img --cdrom images/win95.iso --boot a
+// In the container:  ./run.sh session --disk /images/win95.qcow2 --cdrom "/media/Win95 OSR2.ISO" --boot d
+// While it runs, vmctl.mjs (./run.sh vmctl ...) can take screen dumps and send keys through a second QMP socket.
 // Natively (needs QEMU and mtools on the PATH):  node session.mjs --display cocoa --disk images/win95.qcow2 ...
 import { randomBytes } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { access } from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDataDisk, pcArguments, qemuVersion, startQemu } from './lib/qemu.mjs';
@@ -28,7 +28,7 @@ for (let i = 0; i < argv.length; i += 2) { if (!argv[i].startsWith('--') || argv
 if (!o.disk) { process.stderr.write('--disk FILE is required.\n'); process.exit(2); }
 for (const file of [o.disk, o.floppy, o.cdrom]) if (file) await access(file);
 
-const work = path.join(os.tmpdir(), 'refgrid-session'), data = path.join(here, 'out', 'session-data.img');
+const work = '/tmp/refgrid-session', data = path.join(here, 'out', 'session-data.img');
 const exe = path.join(here, 'out', 'REFGRID.EXE'), files = {};
 try { await access(exe); files['REFGRID.EXE'] = exe; } catch { process.stdout.write('out/REFGRID.EXE is not built yet; the data disk will be empty.\n'); }
 await buildDataDisk(data, files, work);
@@ -44,7 +44,7 @@ const info = execFileSync('qemu-img', ['info', '--output=json', o.disk]);
 const args = pcArguments({ machine: o.machine, cpu: o.cpu, memory: +o.memory, vga: o.vga, icount: o.icount, boot: o.boot, floppy: o.floppy, cdrom: o.cdrom, extraDisk, disks: [{ file: o.disk, format: JSON.parse(info).format }, { file: data, format: 'raw' }] });
 const vnc = o.display === 'vnc';
 process.stdout.write((await qemuVersion()) + '\n');
-const vm = await startQemu({ args, workDir: work, display: vnc ? ['-display', 'none', '-vnc', '0.0.0.0:0,password=on'] : ['-display', o.display], log: m => process.stdout.write(m + '\n') });
+const vm = await startQemu({ args, workDir: work, controlSocket: path.join(work, 'ctl.sock'), display: vnc ? ['-display', 'none', '-vnc', '0.0.0.0:0,password=on'] : ['-display', o.display], log: m => process.stdout.write(m + '\n') });
 if (vnc) {
   const password = randomBytes(4).toString('hex');   // VNC passwords are at most 8 characters
   await vm.qmp('set_password', { protocol: 'vnc', password });
