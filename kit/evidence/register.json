@@ -91,7 +91,7 @@
     },
     {
       "id": "edge-slider-thumb-corners",
-      "title": "Slider thumb corners still give the top and left lines the corner pixels",
+      "title": "The slider thumb's bottom and right lines own its corner pixels",
       "topic": "edges",
       "control": "slider",
       "rule": "The slider thumb is a soft raised edge and follows the same corner rule as every other two-line edge: black at the outer top-right and bottom-left, shadow at the inner ones.",
@@ -121,16 +121,15 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
           "kit/components/gui95.css · input[type=\"range\"]::-webkit-slider-thumb",
           "kit/components/gui95.css · input[type=\"range\"]::-moz-range-thumb"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The thumb lists its top/left shadows first, so the outer top-right and bottom-left pixels are white where the rule gives black, and the inner ones are light gray where the rule gives shadow. The 1.1.2 corner fix changed the four shared recipes but not this rule, which spells its own shadows."
+        "detail": "Fixed after 1.1.2. The thumb takes --gui95-raised: black at the outer top-right and bottom-left pixels, shadow at the inner ones. Rendered in Chromium; the Firefox rule was changed the same way and read only.",
+        "date": "2026-11-18"
       },
-      "visibility": "subtle",
       "notes": "Found while compiling the register; not in the research notes."
     },
     {
@@ -397,15 +396,14 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
           "kit/components/gui95.css · select:not([multiple]):not([size])"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The button is painted with gradients: white outer top and left, no inner light line, shadow then black at bottom and right, and the white top line runs to the top-right corner. It has neither the plain raised order nor the corner rule, and is unlike the kit's own other buttons. Width 16 px matches."
+        "detail": "Fixed after 1.1.2. The button is drawn light outside and white inside at the top and left, black outside and shadow inside at the bottom and right, with the bottom and right lines owning both corners: the plain raised edge the kit uses for scroll and spin arrows. Width 16 px. A pressed state is not drawn (see spin-box-pressed-edge).",
+        "date": "2026-11-18"
       },
-      "visibility": "subtle",
       "notes": ""
     },
     {
@@ -915,15 +913,14 @@
         "sources_total": 3
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
           "kit/components/gui95.css · button.default, button[data-gui95-default]"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The black ring is an outer box-shadow: a 75 × 23 default button paints 77 × 25 and intrudes 1 px into a 6 px gap on each side. Colour and width of the frame match."
+        "detail": "Fixed after 1.1.2. The black frame is the outermost pixel of the button's own box and the raised bevel is one pixel further in: a 75 × 23 default button paints 75 × 23. Pressed, the frame stays with one shadow line inside it. No element changed size or position.",
+        "date": "2026-11-18"
       },
-      "visibility": "subtle",
       "notes": ""
     },
     {
@@ -1266,7 +1263,7 @@
         ],
         "method": "rendered",
         "date": "2026-11-18",
-        "detail": "outline-offset −4 px puts the dots at the fourth pixel, one further in than the rule, leaving a face-coloured gap between bevel and dots."
+        "detail": "outline-offset −4 px puts the dots at the fourth pixel, one further in than the rule, leaving a face-coloured gap between bevel and dots. On a default button, whose bevel is one pixel further in since the frame moved inside the box, the fourth pixel is directly inside the bevel, as the rule gives."
       },
       "visibility": "subtle",
       "notes": ""
@@ -1637,15 +1634,15 @@
         "sources_total": 1
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.css · input[type=\"checkbox\"]:focus-visible, input[type=\"radio\"]:focus-visible"
+          "kit/components/gui95.css · label:has(>input:first-child:focus-visible)::after",
+          "kit/components/gui95.css · input:focus-visible+label::after"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The dotted outline is drawn round the 13 px box itself, offset 1 px. The label has no focus treatment."
+        "detail": "Fixed after 1.1.2. A label that wraps its box as first child, or follows it as the next element, carries a dotted rectangle from one pixel left of the text to one pixel right of it, and the box has none. A box with no label keeps a rectangle round the box. A label stretched by a layout container narrows to its text while focused. Shown for :focus-visible only (see focus-shown-on-mouse-press). The rectangle is the height of the label's box, which for a label wrapping onto several inline lines is not the text block.",
+        "date": "2026-11-18"
       },
-      "visibility": "obvious",
       "notes": ""
     },
     {
@@ -1680,16 +1677,15 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.css · input[type=\"checkbox\"]",
-          "kit/components/gui95.css · input[type=\"radio\"]"
+          "kit/components/gui95.css · input[type=\"checkbox\"]:is(:active,[data-gui95-state=\"pressed\"])",
+          "kit/components/gui95.css · input[type=\"radio\"]:is(:active,[data-gui95-state=\"pressed\"])"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "There is no :active rule; the interior stays white while held."
+        "detail": "Fixed after 1.1.2. While the mouse button is held on the box or on its label the interior is the face colour and the mark stays black; it returns to white on release. A mixed check box held shows the plain face under its mark.",
+        "date": "2026-11-18"
       },
-      "visibility": "subtle",
       "notes": ""
     },
     {
@@ -1977,16 +1973,14 @@
         "sources_total": 1
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.css · select",
-          "kit/components/gui95.css · :focus-visible"
+          "kit/components/gui95.css · select:not([multiple]):not([size]):is(:focus-visible,[data-gui95-state=\"focused\"])"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The generic dotted outline is drawn 3 px inside the whole control, crossing the drop button's bevel; the text area stays white."
+        "detail": "Fixed after 1.1.2. With the focus and the list closed, the text area (3 px in from the control's edge, ending one pixel short of the button) is navy with white text and a dotted rectangle on its outline; the button is untouched and the control has no outer outline. Where the engine supports :open the highlight is dropped while the list is open. The dots are white on navy, the kit's convention for a rectangle on a selected row; Windows drew the rectangle by inverting pixels.",
+        "date": "2026-11-18"
       },
-      "visibility": "obvious",
       "notes": ""
     },
     {
@@ -2229,11 +2223,12 @@
       "kit": {
         "status": "differs-unintended",
         "checked": [
-          "kit/components/gui95.css · --gui95-art-up-off, --gui95-art-down-off"
+          "kit/components/gui95.css · --gui95-art-up-off, --gui95-art-down-off",
+          "kit/components/gui95.css · ::-webkit-scrollbar-button"
         ],
         "method": "rendered",
         "date": "2026-11-18",
-        "detail": "The unavailable arrow artwork is shadow only, with no white copy. The kit's unavailable menu check does have one."
+        "detail": "Up-down and drop-down arrows are fixed after 1.1.2: shadow where the black arrow was, with a white copy one pixel down and right (the lowest row of the copy is hidden by the edge of a 10 px up-down button). Scroll bar arrows remain: the kit has no unavailable artwork for them, and headless Chromium does not draw scroll bars, so no state of theirs could be rendered here."
       },
       "visibility": "subtle",
       "notes": ""
@@ -2712,15 +2707,15 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
+          "kit/components/gui95.mjs · menus(): alignShortcuts()",
           "kit/components/gui95.css · [role^=\"menuitem\"] [data-gui95-shortcut]"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "margin-left: auto right-aligns each shortcut, so shortcuts of different lengths have a ragged left edge (\"Ctrl+O\" and \"Ctrl+Shift+S\" end at the same x)."
+        "detail": "Fixed after 1.1.2. When a menu opens the component measures its shortcuts and gives every shortcut box the width of the widest, so \"Ctrl+O\" and \"Ctrl+Shift+S\" start at the same x and the longest ends at the right edge. The column follows the widest shortcut rather than the longest label, so in a menu wider than its contents the column sits at the right. A menu displayed without gui95.mjs still right-aligns each shortcut.",
+        "date": "2026-11-18"
       },
-      "visibility": "visible",
       "notes": ""
     },
     {
@@ -2980,16 +2975,16 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.mjs · menus(): items() filters out unavailable entries"
+          "kit/components/gui95.mjs · menus(): items(), select()",
+          "kit/components/gui95.css · [role^=\"menuitem\"]:is(:disabled,[aria-disabled=\"true\"]):is(:focus,[data-gui95-active])"
         ],
-        "method": "read",
-        "date": "2026-11-18",
-        "detail": "Unavailable items are removed from arrow-key, Home and End navigation, so they can never be highlighted from the keyboard."
+        "method": "rendered",
+        "detail": "Fixed after 1.1.2. Arrow keys, Home and End stop on unavailable commands, which show the navy bar with gray text and no engraving; Enter, Space and mnemonics do nothing there; separators are skipped. A natively disabled button cannot take focus, so its menu takes focus and names it with aria-activedescendant. The pointer still does not highlight unavailable commands.",
+        "date": "2026-11-18"
       },
-      "visibility": "visible",
-      "notes": "docs/design-guide.md describes skipping unavailable entries, so this may have been chosen; no record says it was chosen against the Windows behaviour."
+      "notes": "Until this fix the kit skipped unavailable entries, a kit test asserted it and docs/design-guide.md still describes the Vector95 reference menus as skipping them. The test was changed with the behaviour; no record was found that skipping had been chosen against the Windows behaviour."
     },
     {
       "id": "menu-unavailable-text",
@@ -3061,15 +3056,14 @@
         "sources_total": 2
       },
       "kit": {
-        "status": "differs-unintended",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.mjs · menus(): selectPointer()"
+          "kit/components/gui95.mjs · menus(): selectPointer(), MENU_SHOW_DELAY"
         ],
-        "method": "read",
-        "date": "2026-11-18",
-        "detail": "A submenu opens the moment the pointer moves onto its parent item and closes the moment the pointer reaches a sibling. There is no delay in either direction."
+        "method": "rendered",
+        "detail": "Fixed after 1.1.2. The highlight follows the pointer at once; a submenu opens after the pointer has rested 400 ms on its parent item, and an open one closes 400 ms after the pointer moves to a sibling unless the pointer reaches the submenu first. A press on the parent, Right arrow and Enter open it at once. 400 ms is the Windows default menu delay as given in Wine's system parameters (dlls/win32u/sysparams.c, MENUSHOWDELAY); the guidelines give no number.",
+        "date": "2026-11-18"
       },
-      "visibility": "subtle",
       "notes": "Found while compiling the register; the research notes listed the rule as unchanged between editions but did not compare the kit."
     },
     {
@@ -4909,10 +4903,10 @@
         ],
         "method": "rendered",
         "date": "2026-11-18",
-        "detail": "Caption text starts 13 px from the frame's left (8 px fieldset padding, 4 px legend padding), six pixels further right, with 4 px cleared each side. The frame's inner white line is an inset shadow that the legend does not interrupt, so a white line shows between the letters of the caption."
+        "detail": "Caption text starts 13 px from the frame's left (8 px fieldset padding, 4 px legend padding), six pixels further right, with 4 px cleared each side. That position is kept until the density decision. The white line that showed through the caption is fixed: both lines of the frame are now one border image, which the caption interrupts."
       },
       "visibility": "visible",
-      "notes": "The white line through the caption was found while compiling the register; it is not in the research notes."
+      "notes": "The white line through the caption was found while compiling the register and fixed after 1.1.2. With the fieldset's padding set to 0 the caption overlaps the frame's left edge and interrupts it too."
     },
     {
       "id": "group-heading-with-rule",
