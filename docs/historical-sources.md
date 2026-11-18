@@ -2,7 +2,7 @@
 
 Start with the 1995 published handbook for the intended Windows 95 design vocabulary. The openly readable February draft is convenient for visual comparisons, but it predates the final release. Later guides and modern recreations are labeled separately below. Links checked on 14 October 2026; archival availability can change.
 
-For the wider reading list (design books, readable source code, screenshot archives, and Windows 98 and XP material), see the [bibliography](bibliography.md).
+For the wider reading list (design books, readable source code, screenshot archives, and Windows 98 and XP material), see the [bibliography](bibliography.md). For individual rules drawn from these sources, each with its era, its confidence and whether the kit follows it, see the [period evidence register](evidence-register.md).
 
 ## The 1995 published handbook
 

@@ -123,7 +123,7 @@ test("real MCP client initializes, searches, reads, and submits authorized feedb
   await client.connect(new StreamableHTTPClientTransport(new URL(base + "/mcp")));
   const listed = await client.listTools();
   for (const tool of listed.tools) assert.equal(tool.annotations.title, tool.title, tool.name + ' has its human-readable annotation title');
-  assert.deepEqual(listed.tools.map(tool => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_asset", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_repairs", "get_gui95_widget", "list_gui95_kits", "list_gui95_materials", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
+  assert.deepEqual(listed.tools.map(tool => tool.name).sort(), ["check_gui95_updates", "generate_gui95_layout", "generate_gui95_starter", "get_gui95_asset", "get_gui95_component", "get_gui95_evidence", "get_gui95_icons", "get_gui95_period_rules", "get_gui95_repairs", "get_gui95_widget", "list_gui95_kits", "list_gui95_materials", "read_gui95_reference", "search_gui95", "submit_gui95_feedback"]);
   const componentTool = listed.tools.find((tool) => tool.name === "get_gui95_component");
   assert.deepEqual(componentTool.inputSchema.properties.component.enum, ["menu", "dialog", "splitter", "tree", "toolbar", "number-field", "tabs", "listbox"]);
   for (const named of ["menu", "dialog", "splitter", "tree", "toolbar", "number field", "property tabs", "list box"]) assert.match(componentTool.description, new RegExp(named), "the component tool description names " + named);

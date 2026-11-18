@@ -74,6 +74,7 @@ Momentary press, persistent toggle, selection and keyboard focus are four differ
 | A Windows build fails in make or npm | [Build-shell environment](docs/integration-lessons.md#windows-build-shells-verify-the-environment-as-well-as-the-makefile) |
 | Icons for toolbars, menus or the app | The kit's original CC0 icons: `node kit/cli.mjs icons QUERY` |
 | A question about what Windows 95 actually did | [Historical reading shelf](docs/historical-sources.md). Say whether a claim comes from Microsoft's period guidance, a later edition, or a GUI95 adaptation. |
+| A specific rule, how sure the sources are, and whether the kit follows it | [Period evidence register](docs/evidence-register.md). One row per rule, with era and confidence; repeat both with the rule. |
 | Further reading, readable source code, or Windows 98 and XP material | [Bibliography](docs/bibliography.md). It marks each entry as opened or only catalogued, and labels later-era sources. |
 | Copying code, fonts or artwork out of this collection | [Provenance](docs/provenance.md) and [third-party notices](THIRD-PARTY-NOTICES.md). Stephen Lavelle's material is MIT; the font recreations stay CC BY-SA 3.0; the kit's new icons are CC0. Keep each notice with what it covers. |
 | The GUI95 MCP tools are connected | Call `list_gui95_kits` for the current release and fetch only the artifacts needed; verify their hashes. |

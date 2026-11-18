@@ -1,6 +1,6 @@
 # Bibliography for period-appropriate Windows 95 applications
 
-This is the wider reading list behind the [historical reading shelf](historical-sources.md). The shelf says which Microsoft document to trust for a Windows 95 decision. This list covers everything else worth having to hand: the design books, the programming references, source code you can read, picture archives, and the Windows 98 and Windows XP material for comparison.
+This is the wider reading list behind the [historical reading shelf](historical-sources.md). The shelf says which Microsoft document to trust for a Windows 95 decision. The [period evidence register](evidence-register.md) holds the individual rules taken from these sources, one row each, with exact locations. This list covers everything else worth having to hand: the design books, the programming references, source code you can read, picture archives, and the Windows 98 and Windows XP material for comparison.
 
 Links were checked on 18 November 2026. Each entry says how far it was verified:
 
