@@ -16,7 +16,7 @@ Independent vanilla components with scoped CSS and native HTML controls. This is
 
 Use `.gui95` or `[data-gui95]` on the containing element. `enhance(root = document)` returns the same `{ root, destroy() }` controller for repeated calls with the same root. Destroy also cancels managed dialogs in that root and settles their result promises. Use separate, nonoverlapping roots. Dynamic markup needs a destroy/enhance cycle; the current API does not observe inserted nodes. IDs referenced by attributes must be unique in the document. Use native `disabled` for buttons and fields; `aria-disabled="true"` is supported for tree items, menu items, tabs and list box options.
 
-Serve the directory over HTTP and open [gallery.html](gallery.html) for working examples, long labels, empty content, native fields and a state atlas. Common layout classes are `.window`, `.title-bar`, `.window-body`, `.status-bar`, `.toolbar`, `.field-row`, `.group-box`, `.dialog-layout`, `.dialog-body` and `.dialog-actions`. Keep the dialog body scrolling and actions outside it. CSS is scoped; it does not style the surrounding page.
+Serve the directory over HTTP and open [gallery.html](gallery.html) for working examples, long labels, empty content, native fields and a state atlas. Common layout classes are `.window`, `.title-bar`, `.window-body`, `.status-bar`, `.toolbar`, `.field-row`, `.group-box`, `.dialog-layout`, `.dialog-body` and `.dialog-actions`. For a new dialog, property sheet or form, use the layout attributes in [Laying out a dialog](#laying-out-a-dialog) instead of `.field-row`, `.dialog-body` and `.dialog-actions`: they supply Windows 95's spacing, label alignment and button sizes. Keep the dialog body scrolling and actions outside it. CSS is scoped; it does not style the surrounding page.
 
 The scope root and its descendants use `border-box` sizing, so a viewport-sized root can carry padding or borders without overflowing. Push buttons take their padding from `--gui95-pad-y` and `--gui95-pad-x`; pressed push, toolbar and caption buttons move their content one pixel down and right inside the same box. To give your own buttons different padding, set those two variables rather than `padding`, or pressing them will change their size. Menu items and `role="tab"` buttons do not sink when pressed. Menu-bar headings never sink either: a resting heading is flat gray, and an open heading, a heading held down with the pointer, and a heading with keyboard focus while a menu is open are a flat navy highlight with white text (including the underlined mnemonic), the same box and the label in the same place. The highlight replaces the dotted focus rectangle. An unavailable heading stays gray embossed and never highlights. This is GUI95's reading of the Windows 95 menu bar; the framed, raised or sunken heading belongs to later Windows versions. A focused text field or text area shows only its caret, as in Windows 95; buttons, check boxes, option buttons, sliders, drop-down lists and other controls draw a dotted focus rectangle. Selected text in the scope is white on navy. Check and option marks and submenu arrows on menu commands are pixel artwork in the item's colour with no generated text, so they stay out of the command's accessible name and do not depend on a symbol font; `aria-checked` carries the state.
 
@@ -81,6 +81,130 @@ Alt+mnemonic and F10 open menus; duplicate heading mnemonics cycle. Arrows, Home
 `openDialog(dialog, { opener = document.activeElement, initialFocus } = {})` uses `showModal()` and returns a `Promise<string>` resolving to `dialog.returnValue`. `initialFocus` accepts an element or a selector within the dialog. An already active GUI95 dialog returns the same promise. `closeDialog(dialog, returnValue = '')` returns whether a lifecycle was closed, settles application state synchronously, restores focus and permits immediate reopen. The delayed native close event is a fallback for direct native closing. Prefer `closeDialog` for programmatic closes; direct `dialog.close()` settles when its native event arrives, or before an immediate `openDialog()` starts the next session. Native `form method="dialog"` submissions are supported and close with the submitter's `value`. The runtime decides at the window, after listeners on the form, dialog and document: a submit listener there that calls `preventDefault()`, for example to reject invalid input, keeps the dialog open. A submit listener added to `window` after `enhance()` runs too late to stop the close.
 
 Provide the accessible name and an initial focus choice. Nested dialogs restore their opener. Escape cancels the top dialog; repeated Escape is consumed until a fresh press. Tab and Shift+Tab wrap among the top dialog's own tabbable, enabled and visible controls (Chromium otherwise lets Tab leave a modal dialog for the page); a lower nested dialog does not wrap until it is on top again. Native modality also makes an HTML frameless caption outside the dialog inert: verify actual desktop caption access in the target host. This component does not provide application-managed nonmodal modality.
+
+## Laying out a dialog
+
+Lay out every dialog, property sheet and settings form with the attributes below. They give Windows 95's margins, gaps, label alignment and button sizes from one set of measures, so a dialog needs no `gap`, `margin`, `padding` or button `width` of its own. If you find yourself writing a pixel value to space controls in a dialog, use one of these instead. They are opt-in: plain `dialog`, `button`, `fieldset`, `.dialog-body`, `.dialog-actions` and `.field-row` keep their earlier metrics, so existing markup does not move.
+
+A dialog with its command buttons in a row along the bottom:
+
+```html
+<dialog data-gui95-dialog id="page-setup" aria-labelledby="page-setup-title">
+  <form method="dialog" data-gui95-dialog-layout>
+    <div class="title-bar" id="page-setup-title">Page Setup</div>
+    <div data-gui95-dialog-body>
+      <div data-gui95-form>
+        <label for="paper">Paper size:</label>
+        <select id="paper"><option>A4</option><option>Letter</option></select>
+        <label for="header">Header text:</label>
+        <input id="header" autofocus>
+        <label for="notes">Notes:</label>
+        <textarea id="notes" rows="3"></textarea>
+      </div>
+      <fieldset data-gui95-group>
+        <legend>Orientation</legend>
+        <label><input type="radio" name="orientation" checked> Portrait</label>
+        <label><input type="radio" name="orientation"> Landscape</label>
+      </fieldset>
+      <label><input type="checkbox"> Print page numbers</label>
+    </div>
+    <div data-gui95-buttons>
+      <button class="default" value="ok">OK</button>
+      <button value="cancel" formnovalidate>Cancel</button>
+      <button type="button">Help</button>
+    </div>
+  </form>
+</dialog>
+```
+
+The same parts with the buttons stacked in a column at the upper right, OK above Cancel. Only the value of `data-gui95-dialog-layout` changes:
+
+```html
+<dialog data-gui95-dialog id="find" aria-labelledby="find-title">
+  <form method="dialog" data-gui95-dialog-layout="side">
+    <div class="title-bar" id="find-title">Find</div>
+    <div data-gui95-dialog-body>
+      <div data-gui95-form>
+        <label for="find-what">Find what:</label>
+        <input id="find-what" autofocus>
+      </div>
+      <label><input type="checkbox"> Match case</label>
+    </div>
+    <div data-gui95-buttons>
+      <button class="default" value="find">Find Next</button>
+      <button value="cancel" formnovalidate>Cancel</button>
+    </div>
+  </form>
+</dialog>
+```
+
+| Attribute | Put it on | What it does |
+| --- | --- | --- |
+| `data-gui95-dialog-layout` | The element that holds the title bar (if any), the body and the buttons: a `<form>` or `<div>` inside a `<dialog>`, or a `.window`. Not the `<dialog>` element itself if you can avoid it. | Body above a bottom button row. `="side"` puts the button column to the right of the body. The body takes the spare height and scrolls; the buttons stay in view. |
+| `data-gui95-dialog-body` | One child of the layout | The 7-unit margin on all four sides and a vertical stack of its children 4 units apart. The space between the body and the buttons is that same 7-unit margin. |
+| `data-gui95-buttons` | One child of the layout, after the body | The command buttons. Every button in the set gets the same width: 50 units, or the width of the longest label if that is more, and the 14-unit height. A bottom row is right-aligned. `="center"` centres the row, as a message box does. `="column"` stacks a set anywhere else, for example beside a list. |
+| `data-gui95-form` | A container of alternating labels and fields | Two columns. Labels share a left edge, fields share a left edge and stretch to a shared right edge. Each label sits on the text line of its field; beside a `<textarea>` or list box that is the first line, so the label is at the top. A long label wraps inside its column, which never takes more than half the width. Up-down controls, number fields and buttons keep their own width. |
+| `data-gui95-wide`, `data-gui95-indent` | A child of a form | `wide` spans both columns (a check box, a rule, a paragraph). `indent` starts in the field column with no label (help text under a field). |
+| `data-gui95-top` | A field in a form that has no text of its own, such as a preview box | Top-aligns it with its label. `<canvas>`, `<img>` and `<svg>` get this without the attribute; sliders and progress bars are centred on their label. |
+| `data-gui95-stack` | Any container | Children in a column 4 units apart. `="group"` uses 7 units, for unrelated blocks. `="tight"` uses 1 unit, for a label directly above its field. |
+| `data-gui95-row` | Any container | Children in a row 4 units apart, centred on each other, wrapping when they do not fit. `="group"` uses 7 units between them. |
+| `data-gui95-fill` | A child of a body, stack or row | Takes the spare space: a text field beside a Browse button, or a list that should grow with the dialog. |
+| `data-gui95-group` | A `<fieldset>` with a `<legend>` | A group box. The caption text starts 7px from the frame's left edge, the first control is 11 units below the top of the box, the inner margin is 6 units, and the contents are 4 units apart. |
+| `data-gui95-page` | A `role="tabpanel"` | A property page with the 7-unit inset whose contents are 4 units apart. `="small"`, `="medium"` or `="large"` also gives it one of the three page sizes Windows recommended: 212 × 188, 227 × 215 or 252 × 218 units (318 × 306, 341 × 349 or 378 × 354px). |
+| `data-gui95-check` | A `<label>` that wraps a check box or option button, when it is not a direct child of one of the containers above | Keeps the box on the first line of a label that wraps. Inside the containers above this happens without the attribute. |
+
+A property sheet is the bottom-row layout with the tabs in the body and OK, Cancel and Apply outside the pages:
+
+```html
+<div data-gui95-dialog-layout>
+  <div class="title-bar">Display Properties</div>
+  <div data-gui95-dialog-body>
+    <div>
+      <div role="tablist" aria-label="Display properties">
+        <button role="tab" id="tab-background" aria-controls="page-background" aria-selected="true">Background</button>
+        <button role="tab" id="tab-settings" aria-controls="page-settings">Settings</button>
+      </div>
+      <div role="tabpanel" id="page-background" aria-labelledby="tab-background" data-gui95-page="small">…</div>
+      <div role="tabpanel" id="page-settings" aria-labelledby="tab-settings" data-gui95-page="small">…</div>
+    </div>
+  </div>
+  <div data-gui95-buttons><button class="default">OK</button><button>Cancel</button><button disabled>Apply</button></div>
+</div>
+```
+
+Rules the attributes cannot apply for you:
+
+- Order the buttons OK, Cancel, Apply, Help. The default button comes first; mark it with `class="default"`. Help, if there is one, is last.
+- End a field's label with a colon. Labels on buttons, tabs, group boxes, check boxes and option buttons have none.
+- Put a button that acts on one field next to that field (a `data-gui95-row` in the field column), not in the command set.
+- Do not set a width on a command button. If one label is much longer than the rest, shorten it; the set grows to fit the longest label.
+
+### The measures
+
+Windows 95 laid dialogs out in dialog units, not pixels: horizontally a quarter of the dialog font's average character width, vertically an eighth of its height. The kit declares the two units once, at the top of the dialog-layout block in `gui95.css`, and derives every measure from them, rounded to a whole pixel:
+
+| Custom property | Units | Pixels | Used for |
+| --- | --- | --- | --- |
+| `--gui95-du-x`, `--gui95-du-y` | 1 | 1.5, 1.625 | The horizontal and vertical dialog unit |
+| `--gui95-dlg-margin-x`, `--gui95-dlg-margin-y` | 7 | 11, 11 | Window edge to contents; body to buttons; property-page inset; `="group"` gaps |
+| `--gui95-dlg-gap-x`, `--gui95-dlg-gap-y` | 4 | 6, 6 | Between controls, between label and field, between buttons |
+| `--gui95-dlg-control-h` | 14 | 23 | Height of a command button (fields already have this height) |
+| `--gui95-dlg-button-w` | 50 | 75 | Least width of a command button |
+| `--gui95-dlg-tight-y` | 1 | 2 | A label directly above its field |
+| `--gui95-dlg-group-x`, `--gui95-dlg-group-bottom` | 6 | 9, 10 | Group box frame to its contents |
+| `--gui95-dlg-group-top` | 11 | 18 | Top of a group box to its first control |
+
+**The pixel values rest on an assumption.** They take 8-point MS Sans Serif at 96 dpi, which the kit's 11px control text stands for, to have a 6 × 13px character cell. That has not yet been checked against a running copy of Windows 95; a capture may correct it. To change a measure, override its custom property on the scope root, or change the two units; do not put corrected pixel values into individual rules. Four vertical units are 6.5px and are rounded down to 6, so that a 14-unit control plus its gap comes to 29px, the nearest whole pixel to Windows' 18-unit pitch of 29.25px. The sources of each measure, and where they disagree, are in [the design guide](../../docs/design-guide.md#dialog-layout-measures).
+
+The measures are whole CSS pixels, so edges are exact at 100% and 200% display scale. At 150% a 6px gap is exactly 9 device pixels, but 11px, 23px and 75px fall on half pixels (16.5, 34.5 and 112.5); at 125% every measure is fractional (7.5, 13.75, 28.75 and 93.75). Chromium snaps each edge to a device pixel, so nothing blurs, but two gaps that are equal at 100% can differ by one device pixel: measured at 125%, three 6px button gaps came to 8, 8 and 7 device pixels. The same already applies to every other box in the kit. A browser without CSS `round()` (Chromium before 125, Firefox before 118, Safari before 15.4) gets the same whole-pixel measures from a fallback rule.
+
+### When content does not fit
+
+- A label longer than its column wraps; the fields keep their shared edges. The label column takes at most half of the form.
+- A command button never clips its label. The whole set widens to the longest label, and if the dialog is too narrow for that, labels wrap and the row's buttons grow taller together.
+- A bottom row does not wrap onto a second line. A dialog narrower than its buttons (about 75px per button, plus gaps and margins) scrolls sideways; use fewer buttons or the `side` layout.
+- A body taller than the space available scrolls on its own, and the buttons stay in view. Give a list or text area `data-gui95-fill` if it should absorb the height instead.
+- A check box or option-button label that wraps keeps its box on the first line and its text aligned under itself.
 
 ## Toolbar
 

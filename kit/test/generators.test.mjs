@@ -26,6 +26,20 @@ test('structured layout escapes labels and serialised values, links labels, and 
   assert.throws(()=>generateLayout({type:'properties',width:2}),/width/);
 });
 
+test('generated layouts use the dialog layout primitives instead of their own spacing',()=>{
+  const out=generateLayout({type:'properties',title:'Options',description:'Choose.',fields:[{id:'name',label:'Name'},{id:'kind',label:'Kind:',type:'select',options:[{value:'a'}]},{id:'keep',label:'Keep a copy',type:'checkbox',help:'Stored beside the original.'}],groups:[{id:'page',label:'Page',fields:[{id:'width',label:'Width',type:'number',help:'In millimetres.'}]}]});
+  const page=text(out,'index.html'),css=text(out,'layout.css');
+  assert.match(page,/<form id="gui95-form" data-gui95-dialog-layout><div data-gui95-dialog-body><p>Choose\.<\/p><div data-gui95-form>/);
+  assert.match(page,/<label for="name">Name:<\/label><input type="text" id="name"/,'field labels gain a colon');
+  assert.match(page,/<label for="kind">Kind:<\/label><select/,'an existing colon is kept');
+  assert.match(page,/<label for="keep" data-gui95-wide><input type="checkbox" id="keep" name="keep" aria-describedby="gui95-help-keep">Keep a copy<\/label><small id="gui95-help-keep" data-gui95-wide>/,'check box labels have no colon and span the grid');
+  assert.match(page,/<fieldset class="group-box" data-gui95-group><legend>Page<\/legend><div data-gui95-form><label for="width">Width:<\/label>/);
+  assert.match(page,/<small id="gui95-help-width" data-gui95-indent>/);
+  assert.match(page,/<div data-gui95-buttons><button type="submit" data-action="apply" class="default">OK<\/button><button type="button" data-action="cancel">Cancel<\/button><\/div><\/form>/);
+  assert.doesNotMatch(page,/field-row|dialog-actions|default-button/);
+  assert.doesNotMatch(css,/field-row|dialog-actions|gap:|\.group-box/,'spacing is left to the kit');
+});
+
 test('shared command state, owner, repeats, and shortcut conflicts work at runtime',async()=>{
   const calls=[];
   const commands=createCommandRegistry([

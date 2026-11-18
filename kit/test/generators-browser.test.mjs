@@ -110,6 +110,20 @@ test('preferences layout retains the last commit after persistence fails',async(
   });
 });
 
+test('a generated properties layout gets Windows 95 margins, gaps, aligned fields and equal buttons',async()=>{
+  await fixture(generateLayout({type:'properties',title:'Options',fields:[{id:'name',label:'Name'},{id:'description',label:'A considerably longer description label',type:'textarea'},{id:'keep',label:'Keep a copy',type:'checkbox'}],groups:[{id:'page',label:'Page',fields:[{id:'width',label:'Width',type:'number',value:210}]}],actions:[{id:'apply',label:'OK',primary:true},{id:'cancel',label:'Cancel'},{id:'defaults',label:'Restore defaults'}]}),async(page,url)=>{
+    await page.setViewportSize({width:700,height:700});await page.goto(url);
+    const m=await page.evaluate(()=>{const r=selector=>{const b=document.querySelector(selector).getBoundingClientRect();return{left:b.left,top:b.top,right:b.right,bottom:b.bottom,width:b.width,height:b.height};};return{form:r('#gui95-form'),name:r('#name'),nameLabel:r('label[for="name"]'),description:r('#description'),descriptionLabel:r('label[for="description"]'),keep:r('label[for="keep"]'),group:r('fieldset'),buttons:[...document.querySelectorAll('[data-gui95-buttons] button')].map(b=>{const q=b.getBoundingClientRect();return{left:q.left,right:q.right,bottom:q.bottom,width:q.width,height:q.height};}),ring:getComputedStyle(document.querySelector('[data-action="apply"]')).boxShadow};});
+    assert.equal(m.nameLabel.left-m.form.left,11);assert.equal(m.name.top-m.form.top,11);assert.equal(m.form.right-m.name.right,11);
+    assert.equal(m.name.left,m.description.left);assert.equal(m.name.right,m.description.right);assert.equal(m.name.height,23);
+    assert.equal(m.description.top-m.name.bottom,6);assert.equal(m.keep.top-m.description.bottom,6);assert.equal(m.group.top-m.keep.bottom,6);
+    assert.ok(m.descriptionLabel.top-m.description.top<6,'label of the multi-line field is at its top');
+    assert.equal(new Set(m.buttons.map(b=>b.width)).size,1,'equal button widths');assert.ok(m.buttons[0].width>=75);assert.ok(m.buttons.every(b=>b.height===23));
+    assert.equal(m.buttons[1].left-m.buttons[0].right,6);assert.equal(m.form.right-m.buttons[2].right,11);assert.equal(m.form.bottom-m.buttons[2].bottom,11);
+    assert.match(m.ring,/0px 0px 0px 1px/,'the primary action is drawn as the default button');
+  });
+});
+
 test('collection switching reports native save failures and keeps the dirty document',async()=>{
   await fixture(generateStarter({template:'browser',name:'Error Collection',id:'error-collection'}),async(page,url)=>{
     await page.addInitScript(()=>{globalThis.gui95Desktop={getPreferences:async()=>({fontSize:13,wrap:true}),savePreferences:async()=>true,openText:async()=>null,saveText:async()=>{throw new Error('Permission denied');}};});
