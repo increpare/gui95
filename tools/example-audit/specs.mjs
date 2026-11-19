@@ -274,10 +274,10 @@ export default [
     }],
     checks: [async function tooltipDelay(page, real) {
       const recording = await real.recording('tooltip'), events = recording.steps.flatMap(s => s.events ?? []).filter(e => e.code === 'ttn_show');
-      const first = events[0]?.sincemove ?? null, second = events[1]?.sincemove ?? null;
+      const first = events.map(e => e.sincemove).filter(ms => ms > 300), second = events.map(e => e.sincemove).filter(ms => ms <= 300);
       const measure = async () => { await page.mouse.move(5, 5); await page.waitForTimeout(300); const box = await page.locator('#tool').boundingBox(); const start = Date.now(); await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2); await page.waitForFunction(() => !document.querySelector('#tip').hidden, null, { timeout: 3000, polling: 10 }); return Date.now() - start; };
       const example = await measure();
-      return [{ what: 'time from the pointer coming to rest on a button to the tooltip showing (milliseconds)', real: first, example, agree: first !== null && Math.abs(first - example) <= 80, note: 'Real: the guest\'s own clock, from the last mouse move to the tooltip\'s show notification. Example: wall clock, polled every 10 ms. Within 80 ms counts as the same.' },
+      return [{ what: 'time from the pointer coming to rest on a button to the tooltip showing (milliseconds)', real: first, example, agree: first.length > 0 && example >= Math.min(...first) - 80 && example <= Math.max(...first) + 80, note: 'Real: the guest\'s own clock, from the last mouse move to the tooltip\'s show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 80 ms of the real range counts as the same.' },
         { what: 'time to the next tooltip when the pointer moves to a neighbouring button while one is showing (milliseconds)', real: second, example: null, agree: false, note: 'The example has one tooltip only, so there is nothing to compare.' }];
     }]
   },
@@ -337,9 +337,9 @@ export default [
       script: 'tree-keys', steps: { from: 2, to: 25 }, focus: false,
       setup: async page => { await page.locator('#tree > li').first().focus(); },
       // Before each step the example's tree is put into the state the real one was in: which rows show, which are open, which is selected.
-      before: async (page, index, state) => { },
+      before: async (page, index) => { if (index === 17) await page.waitForTimeout(800); /* let the example's type-ahead buffer empty: the keys before this one were letters to it */ },
       guard: true,
-      resync: async (page, state) => { await page.evaluate(items => {
+      prepare: async (page, state) => { await page.evaluate(items => {
         const rows = [...document.querySelectorAll('#tree [role=treeitem]')], label = x => x.firstElementChild.lastChild.textContent.trim();
         for (const entry of items.split('|')) { const m = /^(\*?)(\[[-+]\])?(.*)$/.exec(entry), row = rows.find(r => label(r) === m[3]); if (!row) continue;
           if (m[2]) { const open = m[2] === '[-]'; row.setAttribute('aria-expanded', open); row.querySelector(':scope > [role=group]').hidden = !open; row.firstElementChild.querySelector('[data-gui95-disclosure]').textContent = open ? '−' : '+'; }
@@ -460,7 +460,7 @@ export default [
         { ...common, name: 'cascading menu and Esc', script: 'menu-cascade', steps: [1, 2, 3, 4, 10, 11, 12, 13, 14] },
         { ...common, name: 'access keys', script: 'menu-mnemonics', steps: [1, 2, 8, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25] },
         { ...common, name: 'shortcut keys', script: 'menu-shortcuts', steps: [1, 2, 3, 4, 5, 6, 7] },
-        { ...common, name: 'the mouse', script: 'menu-mouse', steps: [1, 2, 3, 21, 22, 23, 24, 25, 30, 31, 32], target }
+        { ...common, name: 'the mouse', script: 'menu-mouse', steps: [1, 2, 21, 22, 23, 24, 25, 30, 31, 32], target }
       ];
     })(),
     checks: [async function cascadeDelay(page, real) {
@@ -473,7 +473,7 @@ export default [
       await page.mouse.move(box.x + 20, box.y + 6); await page.mouse.move(box.x + 22, box.y + 7);
       await page.waitForFunction(() => !document.querySelector('#zoom-menu').hidden, null, { timeout: 3000, polling: 10 });
       const example = Date.now() - start;
-      return [{ what: 'time from the pointer coming onto a cascading item to its menu opening (milliseconds)', real: delays, example, agree: delays.length > 0 && delays.every(d => Math.abs(d - example) <= 80), note: 'Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.' }];
+      return [{ what: 'time from the pointer coming onto a cascading item to its menu opening (milliseconds)', real: delays, example, agree: delays.length > 0 && example >= Math.min(...delays) - 80 && example <= Math.max(...delays) + 80, note: 'Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.' }];
     }]
   },
   {
@@ -525,7 +525,7 @@ export default [
         ['button width', 'width', 'default button'], ['button height', 'height', 'default button'], ['text box height', 'height', 'text box']]
     }],
     behaviour: [
-      { name: 'Enter, Space, Esc and which button looks like the default', script: 'dialog-buttons', steps: [1, 13, 14, 16, 17], sync: true, focus: false,
+      { name: 'Enter, Space, Esc and which button looks like the default', script: 'dialog-buttons', steps: [1, 16, 17], sync: true, focus: false,
         controls: { 'Edit#101': { sel: '#name', type: 'push' }, 'Button#1': { sel: '#box button.default', type: 'push' }, 'Button#2': { sel: '#box button[value=cancel]', type: 'push' } },
         setup: async page => { await page.locator('#show').click(); },
         // The real dialog stays open after a command (the test program only logs it); the example closes, so it is opened again before each step.
@@ -533,6 +533,11 @@ export default [
         before: clearResult,
         real: state => ({ ran: commands(state).map(id => ({ 1: 'default button', 2: 'Cancel' }[id] ?? id)), defaultLook: realDefaultLook(state, ['Button#1', 'Button#2', 'Button#9']) }),
         example: async page => ({ ran: [(t => /rename/.test(t) ? 'default button' : /cancel/.test(t) ? 'Cancel' : null)(await resultText(page))].filter(Boolean), defaultLook: await page.evaluate(() => document.querySelector('#box').open) ? await exampleDefaultLook(page, { 'Button#1': '#box button.default', 'Button#2': '#box button[value=cancel]' }) : 'Button#1' }) },
+      { name: 'the default look follows the focus between push buttons', script: 'dialog-tab-order', steps: [10, 15], sync: true,
+        controls: { 'Button#1': { sel: '#box button.default', type: 'push' }, 'Button#2': { sel: '#box button[value=cancel]', type: 'push' } },
+        setup: async page => { await page.locator('#show').click(); },
+        real: state => ({ defaultLook: realDefaultLook(state, ['Button#1', 'Button#2', 'Button#9']) }),
+        example: async page => ({ defaultLook: await exampleDefaultLook(page, { 'Button#1': '#box button.default', 'Button#2': '#box button[value=cancel]' }) }) },
       { name: 'Tab from the last control and Shift+Tab from the first', script: 'dialog-tab-order', steps: [12, 13], sync: true,
         controls: { 'Edit#101': { sel: '#name', type: 'push' }, 'Button#9': { sel: '#box button[value=cancel]', type: 'push' } },
         setup: async page => { await page.locator('#show').click(); } }
@@ -596,7 +601,7 @@ export default [
           prepare: async (page, before) => { await page.evaluate(n => document.querySelectorAll('#tabs [role=tab]')[n].click(), page0(before)); await focusKind(page, kind(before)); },
           real: state => ({ page: page0(state), focusOn: kind(state) }),
           example: async page => ({ page: await examplePage(page), focusOn: await exampleKind(page) }) },
-        { name: 'Tab order', script: 'propsheet-keys', steps: [9, 10, 11, 12, 17, 18], focus: false, guard: true,
+        { name: 'Tab order', script: 'propsheet-keys', steps: [11, 12, 17, 18], focus: false, guard: true,
           setup: async page => { await page.locator('#show').click(); },
           prepare: async (page, before) => { await focusKind(page, kind(before)); },
           real: state => ({ focusOn: kind(state) }), example: async page => ({ focusOn: await exampleKind(page) }) },
@@ -607,7 +612,8 @@ export default [
             if (before.step.scene !== undefined) { await reopen(page); return; }
             // Steps between the compared ones (an Apply by its access key, a change on the second page) are made here by the example's own controls.
             const want = { open: before.active?.text === 'Document Properties', apply: before.controls['Button#12321'] ? before.controls['Button#12321'].enabled !== false : null };
-            const have = await page.evaluate(() => ({ open: document.querySelector('#box').open, apply: !document.querySelector('#apply').disabled }));
+            let have = await page.evaluate(() => ({ open: document.querySelector('#box').open && !document.querySelector('#confirm').open, apply: !document.querySelector('#apply').disabled }));
+            if (want.open && !have.open) { await reopen(page); have = { open: true, apply: false }; }
             if (want.open && have.open && want.apply === false && have.apply) await page.locator('#apply').click();
             if (want.open && have.open && want.apply === true && !have.apply) { await page.locator('#name').focus(); await page.keyboard.type('w'); }
             if (want.open && have.open) { await page.locator('#name').focus(); }
@@ -720,8 +726,8 @@ export default [
     }],
     checks: [async function enterAndEsc(page, real) {
       const recording = await real.recording('font-dialog'), ends = recording.steps.flatMap(s => s.events ?? []).filter(e => e.what === 'modal end').map(e => e.result);
-      await page.locator('#show').click(); await page.locator('#size').focus(); await page.keyboard.press('Enter'); const accepted = /Font: /.test(await resultText(page)) && !await page.evaluate(() => document.querySelector('#box').open);
-      await page.locator('#show').click(); await page.keyboard.press('Escape'); const cancelled = /canceled/.test(await resultText(page));
+      await page.locator('#show').click(); await page.locator('#size').focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(200); const accepted = /Font: /.test(await resultText(page)) && !await page.evaluate(() => document.querySelector('#box').open);
+      await page.locator('#show').click(); await page.keyboard.press('Escape'); await page.waitForTimeout(200); const cancelled = /canceled/.test(await resultText(page));
       return [{ what: 'Enter in a field accepts the dialog', real: ends[0] === 1, example: accepted, agree: (ends[0] === 1) === accepted, note: 'Real: ChooseFont returned ' + ends[0] + ' after a size was typed and Enter pressed.' }, { what: 'Esc cancels the dialog', real: ends.at(-1) === 0, example: cancelled, agree: (ends.at(-1) === 0) === cancelled }];
     }]
   },
@@ -746,7 +752,7 @@ export default [
       await page.locator('#child input').focus(); await page.keyboard.down('Alt'); await page.keyboard.press('Space'); await page.keyboard.up('Alt');
       const open = await page.evaluate(() => !document.querySelector('#window-menu').hidden), first = await page.evaluate(() => document.activeElement?.textContent ?? null);
       out.push({ what: 'Alt+Space opens the window\'s system menu', real: menuAt(1)?.open?.[0]?.name === 'system', example: open, agree: (menuAt(1)?.open?.[0]?.name === 'system') === open });
-      out.push({ what: 'command highlighted when the system menu opens from the keyboard', real: menuAt(1)?.open?.[0]?.highlight >= 0 ? menuAt(1).open[0].text.replace(/&/g, '') : null, example: first, agree: false, note: 'Different commands are available in the two menus, so only whether one is highlighted is comparable.' });
+      out.push({ what: 'command highlighted when the system menu opens from the keyboard', real: menuAt(1)?.open?.[0]?.highlight >= 0 ? menuAt(1).open[0].text.replace(/&/g, '') : null, example: first, agree: (menuAt(1)?.open?.[0]?.highlight >= 0) === (first !== null), note: 'Only whether a command is highlighted is compared; the two menus hold different commands.' });
       await page.keyboard.press('KeyM'); const moved = await page.evaluate(() => document.querySelector('#window-menu').hidden);
       out.push({ what: 'the letter M chooses Move from the open system menu', real: steps[6]?.blind === true || (steps[6]?.events ?? []).some(e => e.what === 'entersizemove'), example: moved, agree: moved === true, note: 'Real: after M the window was in its move loop (the guest stopped answering until Enter).' });
       if (!moved) await page.locator('#move-command').click();

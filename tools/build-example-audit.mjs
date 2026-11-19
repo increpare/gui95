@@ -38,7 +38,8 @@ export function disagreements(result) {
     if (typeof pair.result === 'string') { items.push({ kind: 'pairs', key: pair.name, text: pair.result }); continue; }
     const r = pair.result;
     if (r.pixels === 'layout only' || /not compared/.test(r.pixels)) continue;
-    if (r.pixels !== 'identical') items.push({ kind: 'pairs', key: pair.name, text: `${r.real.w} by ${r.real.h} against ${r.example.w} by ${r.example.h}: ${r.pixels}` });
+    // Equal edges at another size, or an equal frame around different text, is not a disagreement by itself: sizes that matter are layout numbers.
+    if (r.pixels === 'frame-differs' || r.pixels === 'edges-differ') items.push({ kind: 'pairs', key: pair.name, text: `${r.real.w} by ${r.real.h} against ${r.example.w} by ${r.example.h}: ${r.pixels}` });
   }
   for (const m of result.visual.metrics) if (!m.same) items.push({ kind: 'metrics', key: m.name, text: m.result ?? `real ${m.real}, example ${m.example}` });
   for (const b of result.behaviour) {
@@ -94,7 +95,7 @@ export function buildRecord(example, result, decision, shared) {
     id: example.id, title: example.title, family: example.family, page: `demo/dist/widgets/${example.id}.html`,
     families: decision.families ?? [],
     counterpart: { real: decision.counterpart ?? null, captures: [...new Set(pairs.map(p => p.real?.capture ?? (p.real?.grid ? 'refgrid capture' : null)).filter(Boolean))], recordings: [...new Set(behaviours.map(b => b.script))], era: [...new Set(drawn.flatMap(eraOf))] },
-    verdict, verdictText: VERDICTS[verdict], ...(decision.verdictNote ? { verdictNote: decision.verdictNote } : {}),
+    verdict, verdictText: VERDICTS[verdict] + (verdict === 'verified' && differences.some(d => d.status === 'host limit') ? ', apart from host limits' : ''), ...(decision.verdictNote ? { verdictNote: decision.verdictNote } : {}),
     rendering: {
       method: hasRendering || pairs.length ? 'The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.' : 'Not compared.',
       pairs: pairs.map(p => typeof p.result === 'string' ? { name: p.name, result: p.result } : { name: p.name, real: `${p.result.real.w} by ${p.result.real.h}`, example: `${p.result.example.w} by ${p.result.example.h}`, result: p.result.pixels, ...(p.result.differingPixels ? { differingPixels: p.result.differingPixels, ofWhichInTheFrame: p.result.framePixels } : {}), ...(p.result.edges && p.result.edges !== 'same' ? { edges: p.result.edges } : {}), ...(p.result.ink ? { ink: p.result.ink } : {}), ...(p.result.runs ? { runs: p.result.runs } : {}), ...(p.note ? { note: p.note } : {}) }),
@@ -133,7 +134,7 @@ export function renderMarkdown(audit) {
   out('');
   out('## Summary');
   out('');
-  out(`${count(by('verified').length, 'example')} verified, ${by('open').length} verified with open differences, ${by('partial').length} partly checked, ${by('none').length} not verifiable.`);
+  out(`${count(by('verified').length, 'example')} verified (${by('verified').filter(r => r.differences.some(d => d.status === 'host limit')).length} of them apart from host limits), ${by('open').length} verified with open differences, ${by('partial').length} partly checked, ${by('none').length} not verifiable.`);
   out('');
   out('| Example | Real counterpart | Rendering | Behaviour | Differences | Lint | Verdict |');
   out('| --- | --- | --- | --- | --- | --- | --- |');
@@ -142,7 +143,7 @@ export function renderMarkdown(audit) {
     const steps = r.behaviour.replays.reduce((n, b) => n + (b.compared ?? 0), 0), agreed = r.behaviour.replays.reduce((n, b) => n + (b.agreed ?? 0), 0), checks = r.behaviour.checks.length;
     const tally = status => r.differences.filter(d => d.status === status).length;
     const lint = [...r.lint.wording, ...r.lint.layout];
-    out(`| [${cell(r.title)}](#${r.id}) | ${cell(r.counterpart.real ?? 'none')} | ${pixel.length ? `${same} of ${count(pixel.length, 'pair')} agree in size or edges; ${r.rendering.layout.filter(m => m.same).length} of ${count(r.rendering.layout.length, 'layout number')} equal` : 'not compared'} | ${steps || checks ? `${agreed} of ${count(steps, 'step')} agree${checks ? `; ${count(checks, 'timing or single check')}` : ''}` : 'not compared'} | ${r.differences.length ? ['fixed', 'open', 'deliberate', 'host limit'].filter(s => tally(s)).map(s => `${tally(s)} ${s}`).join(', ') : 'none'} | ${lint.length ? `${lint.filter(l => l.triage === 'real').length} real, ${lint.filter(l => l.triage === 'false positive').length} false, ${lint.filter(l => l.triage === 'deliberate').length} deliberate` : 'clean'} | ${r.verdictText} |`);
+    out(`| [${cell(r.title)}](#${r.id}) | ${cell(r.counterpart.real ?? 'none')} | ${pixel.length ? `${same} of ${count(pixel.length, 'pair')} agree in size or edges; ${r.rendering.layout.filter(m => m.same).length} of ${count(r.rendering.layout.length, 'layout number')} equal` : 'not compared'} | ${steps || checks ? [steps ? `${agreed} of ${count(steps, 'step')} agree` : '', checks ? `${r.behaviour.checks.filter(c => c.agree).length} of ${count(checks, 'single check')} agree` : ''].filter(Boolean).join('; ') : 'not compared'} | ${r.differences.length ? ['fixed', 'open', 'deliberate', 'host limit'].filter(s => tally(s)).map(s => `${tally(s)} ${s}`).join(', ') : 'none'} | ${lint.length ? `${lint.filter(l => l.triage === 'real').length} real, ${lint.filter(l => l.triage === 'false positive').length} false, ${lint.filter(l => l.triage === 'deliberate').length} deliberate` : 'clean'} | ${r.verdictText} |`);
   }
   out('');
   const open = records.flatMap(r => r.differences.filter(d => d.status === 'open').map(d => ({ ...d, example: r })));

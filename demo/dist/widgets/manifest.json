@@ -591,7 +591,7 @@
       "title": "Window shell, system menu, move and size",
       "family": "Windows and dialogs",
       "states": "Active caption, system menu, normal/minimized/maximized/restored bounds, close/reopen, move/size and cancellation.",
-      "keys": "Alt+Space within the sample opens its system menu. Choose Move or Size, then arrows (Shift for 1 px), Enter to keep, Escape to revert. Caption buttons are labeled.",
+      "keys": "Alt+Space within the sample opens its system menu. Choose Move or Size, then arrows (Shift for 1 px), Enter to keep, Escape to revert. Double-clicking the title bar maximizes or restores. Caption buttons are labeled.",
       "note": "A browser child-window pattern, not OS window chrome or full MDI management. Native Electron controls must use host APIs. This sample constrains geometry to its workspace.",
       "sources": [
         {
