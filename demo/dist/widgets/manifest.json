@@ -422,8 +422,8 @@
       "id": "menus",
       "title": "Menu bar, submenus and recent files",
       "family": "Navigation and data",
-      "states": "Menu-bar mode, dropdown, delayed pointer submenu, disabled item, check mark, exclusive radio mark and numbered inline MRU group.",
-      "keys": "Alt alone or F10 focuses the bar; Alt+F/V opens a menu. Arrows navigate; Enter/Space activates; underlined letters select. Escape closes one layer at a time, then exits the bar and restores focus. Tab leaves.",
+      "states": "Menu-bar mode, dropdown, delayed pointer submenu, unavailable item that still takes the highlight, check mark, exclusive radio mark and numbered inline MRU group.",
+      "keys": "Alt alone or F10 focuses the bar; Alt+F/V opens a menu. Arrows navigate; Enter/Space activates, and on an unavailable command closes the menu and runs nothing; underlined letters select. Escape closes one layer at a time, then exits the bar and restores focus. Tab leaves.",
       "note": "The 1995 draft describes staged menu dismissal and sparse cascades. Short inline MRUs above a separated final Exit match period examples; long/grouped histories may use a submenu. ARIA is an explicit browser choice; the 400 ms pointer delay is the one measured on Windows 95. A menu opened with the mouse has no command highlighted until an arrow key or the pointer chooses one. Ctrl+N is illustrative menu text, not a registered browser shortcut.",
       "sources": [
         {
@@ -442,7 +442,7 @@
       "id": "context-menu",
       "title": "Context menus",
       "family": "Navigation and data",
-      "states": "Pointer and keyboard invocation, disabled command, bounded horizontal placement and focus restoration.",
+      "states": "Pointer and keyboard invocation, unavailable command that still takes the highlight, bounded horizontal placement and focus restoration.",
       "keys": "Shift+F10 or the context-menu key opens for the focused document with no command highlighted, as Windows 95 does; Down highlights the first. Up/Down, Home/End and mnemonic letters navigate; Enter selects; Escape restores focus.",
       "note": "A context menu supplements visible commands in a real app. This sample uses no menu bar; browser context menus outside its target remain available.",
       "sources": [
@@ -519,7 +519,7 @@
       "title": "Message box and safe default",
       "family": "Windows and dialogs",
       "states": "Question, destructive action, safe initial focus/default and explicit outcome.",
-      "keys": "Enter initially cancels; Tab reaches Delete; Escape cancels; focus returns to the trigger.",
+      "keys": "Enter initially cancels; Tab or an arrow key reaches Delete; Escape cancels; focus returns to the trigger.",
       "note": "Action labels say what will happen. A destructive choice should not become the initial default merely because it is visually primary. Nothing on disk is removed.",
       "sources": [
         {

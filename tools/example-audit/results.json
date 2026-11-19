@@ -7878,7 +7878,7 @@
        },
        "example": {
         "w": 854,
-        "h": 88
+        "h": 80
        },
        "sameSize": false,
        "edges": "same",
@@ -7902,8 +7902,8 @@
         "h": 16
        },
        "example": {
-        "w": 77,
-        "h": 20
+        "w": 60,
+        "h": 16
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -7925,8 +7925,8 @@
         "h": 16
        },
        "example": {
-        "w": 62,
-        "h": 20
+        "w": 45,
+        "h": 16
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -7943,8 +7943,8 @@
       ],
       "group": null,
       "real": 16,
-      "example": 20,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "label height",
@@ -7954,8 +7954,8 @@
       ],
       "group": null,
       "real": 16,
-      "example": 20,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "a child label starts further right than its parent by",
@@ -7966,8 +7966,8 @@
       ],
       "group": null,
       "real": 19,
-      "example": 25,
-      "same": false
+      "example": 19,
+      "same": true
      },
      {
       "name": "first label in from the left of the control",
@@ -7978,8 +7978,8 @@
       ],
       "group": null,
       "real": 21,
-      "example": 4,
-      "same": false
+      "example": 21,
+      "same": true
      },
      {
       "name": "first label below the top of the control",
@@ -7990,8 +7990,8 @@
       ],
       "group": null,
       "real": 2,
-      "example": 4,
-      "same": false
+      "example": 2,
+      "same": true
      }
     ]
    },
@@ -8380,10 +8380,10 @@
        },
        "example": {
         "w": 465,
-        "h": 23,
+        "h": 17,
         "exact": {
          "w": 465.31,
-         "h": 23
+         "h": 17
         }
        },
        "sameSize": false,
@@ -8407,11 +8407,7 @@
        },
        "example": {
         "w": 854,
-        "h": 77,
-        "exact": {
-         "w": 854,
-         "h": 77.53
-        }
+        "h": 63
        },
        "sameSize": false,
        "edges": "same",
@@ -8435,7 +8431,7 @@
        },
        "example": {
         "w": 850,
-        "h": 17
+        "h": 14
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -8458,7 +8454,7 @@
        },
        "example": {
         "w": 850,
-        "h": 17
+        "h": 14
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -8474,8 +8470,8 @@
       ],
       "group": null,
       "real": 17,
-      "example": 23,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "row height",
@@ -8485,8 +8481,8 @@
       ],
       "group": null,
       "real": 14,
-      "example": 17,
-      "same": false
+      "example": 14,
+      "same": true
      },
      {
       "name": "from the top of one row to the next",
@@ -8497,8 +8493,8 @@
       ],
       "group": null,
       "real": 14,
-      "example": 17,
-      "same": false
+      "example": 14,
+      "same": true
      }
     ]
    },
@@ -8886,10 +8882,10 @@
        },
        "example": {
         "w": 456,
-        "h": 23,
+        "h": 17,
         "exact": {
          "w": 455.69,
-         "h": 23
+         "h": 17
         }
        },
        "sameSize": false,
@@ -8913,7 +8909,7 @@
        },
        "example": {
         "w": 854,
-        "h": 23
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -8929,8 +8925,8 @@
       ],
       "group": null,
       "real": 17,
-      "example": 23,
-      "same": false
+      "example": 17,
+      "same": true
      }
     ]
    },
@@ -9139,7 +9135,7 @@
        },
        "example": {
         "w": 31,
-        "h": 20
+        "h": 18
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9162,7 +9158,7 @@
        },
        "example": {
         "w": 37,
-        "h": 20
+        "h": 18
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9185,7 +9181,7 @@
        },
        "example": {
         "w": 150,
-        "h": 138
+        "h": 126
        },
        "sameSize": false,
        "edges": "same",
@@ -9209,7 +9205,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9232,7 +9228,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9255,7 +9251,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9301,7 +9297,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9324,7 +9320,7 @@
        },
        "example": {
         "w": 150,
-        "h": 44
+        "h": 40
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9347,7 +9343,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9370,7 +9366,7 @@
        },
        "example": {
         "w": 150,
-        "h": 44
+        "h": 40
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -9386,8 +9382,8 @@
       ],
       "group": "File menu open",
       "real": 18,
-      "example": 20,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "command height",
@@ -9397,8 +9393,8 @@
       ],
       "group": "File menu open",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the top of one command to the next",
@@ -9409,8 +9405,8 @@
       ],
       "group": "File menu open",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the command before a separator to the one after it",
@@ -9421,8 +9417,8 @@
       ],
       "group": "File menu open",
       "real": 26,
-      "example": 28,
-      "same": false
+      "example": 26,
+      "same": true
      },
      {
       "name": "first command below the top of the menu",
@@ -9457,8 +9453,8 @@
       ],
       "group": "File menu open",
       "real": 18,
-      "example": 20,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "menu left of its title by",
@@ -9481,8 +9477,8 @@
       ],
       "group": "cascading menu open",
       "real": -6,
-      "example": -3,
-      "same": false
+      "example": -6,
+      "same": true
      },
      {
       "name": "cascading menu above the top of its item by",
@@ -9941,8 +9937,8 @@
      "script": "menu-arrows",
      "title": "Drop-down menu: arrows, unavailable items, wrapping, moving between menus",
      "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
-     "compared": 14,
-     "agreed": 12,
+     "compared": 16,
+     "agreed": 16,
      "steps": [
       {
        "index": 1,
@@ -10011,18 +10007,7 @@
         "key": "down",
         "note": "onto the unavailable Save"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "1 Letter.txt"
-         ]
-        }
-       ],
+       "agree": true,
        "real": {
         "mode": "menu open",
         "title": "File",
@@ -10031,6 +10016,35 @@
         ],
         "highlighted": [
          "Save"
+        ],
+        "ran": []
+       },
+       "example": {
+        "mode": "menu open",
+        "title": "File",
+        "open": [
+         "file"
+        ],
+        "highlighted": [
+         "Save"
+        ],
+        "ran": []
+       }
+      },
+      {
+       "index": 4,
+       "step": {
+        "key": "down"
+       },
+       "agree": true,
+       "real": {
+        "mode": "menu open",
+        "title": "File",
+        "open": [
+         "file"
+        ],
+        "highlighted": [
+         "1 Letter.txt"
         ],
         "ran": []
        },
@@ -10228,18 +10242,7 @@
         "key": "up",
         "note": "the unavailable item going up"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "Open..."
-         ]
-        }
-       ],
+       "agree": true,
        "real": {
         "mode": "menu open",
         "title": "File",
@@ -10258,8 +10261,30 @@
          "file"
         ],
         "highlighted": [
-         "Open..."
+         "Save"
         ],
+        "ran": []
+       }
+      },
+      {
+       "index": 12,
+       "step": {
+        "key": "ret",
+        "note": "Enter on the unavailable item"
+       },
+       "agree": true,
+       "real": {
+        "mode": "none",
+        "title": null,
+        "open": [],
+        "highlighted": [],
+        "ran": []
+       },
+       "example": {
+        "mode": "none",
+        "title": null,
+        "open": [],
+        "highlighted": [],
         "ran": []
        }
       },
@@ -10349,45 +10374,7 @@
        }
       }
      ],
-     "skipped": [
-      {
-       "index": 4,
-       "step": {
-        "key": "down"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "2 Sketch.bmp"
-         ]
-        }
-       ]
-      },
-      {
-       "index": 12,
-       "step": {
-        "key": "ret",
-        "note": "Enter on the unavailable item"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "2 Sketch.bmp"
-         ]
-        }
-       ]
-      }
-     ]
+     "skipped": []
     },
     {
      "name": "cascading menu and Esc",
@@ -11418,8 +11405,8 @@
      "script": "menu-mouse",
      "title": "Menus with the mouse: click, slide along the bar, rest on a cascading item, click outside",
      "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
-     "compared": 7,
-     "agreed": 6,
+     "compared": 9,
+     "agreed": 9,
      "steps": [
       {
        "index": 1,
@@ -11530,18 +11517,7 @@
         },
         "note": "point at the unavailable Save"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "Open..."
-         ]
-        }
-       ],
+       "agree": true,
        "real": {
         "mode": "menu open",
         "title": "File",
@@ -11560,8 +11536,63 @@
          "file"
         ],
         "highlighted": [
-         "Open..."
+         "Save"
         ],
+        "ran": []
+       }
+      },
+      {
+       "index": 24,
+       "step": {
+        "click": true,
+        "note": "click it"
+       },
+       "agree": true,
+       "real": {
+        "mode": "menu open",
+        "title": "File",
+        "open": [
+         "file"
+        ],
+        "highlighted": [
+         "Save"
+        ],
+        "ran": []
+       },
+       "example": {
+        "mode": "menu open",
+        "title": "File",
+        "open": [
+         "file"
+        ],
+        "highlighted": [
+         "Save"
+        ],
+        "ran": []
+       }
+      },
+      {
+       "index": 25,
+       "step": {
+        "click": {
+         "menu": "bar",
+         "item": 0
+        },
+        "note": "click the open title again"
+       },
+       "agree": true,
+       "real": {
+        "mode": "none",
+        "title": null,
+        "open": [],
+        "highlighted": [],
+        "ran": []
+       },
+       "example": {
+        "mode": "none",
+        "title": null,
+        "open": [],
+        "highlighted": [],
         "ran": []
        }
       },
@@ -11688,47 +11719,6 @@
          ]
         }
        ]
-      },
-      {
-       "index": 24,
-       "step": {
-        "click": true,
-        "note": "click it"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "2 Sketch.bmp"
-         ]
-        }
-       ]
-      },
-      {
-       "index": 25,
-       "step": {
-        "click": {
-         "menu": "bar",
-         "item": 0
-        },
-        "note": "click the open title again"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": [
-          "Save"
-         ],
-         "example": [
-          "2 Sketch.bmp"
-         ]
-        }
-       ]
       }
      ]
     }
@@ -11790,7 +11780,7 @@
        },
        "example": {
         "w": 150,
-        "h": 63
+        "h": 57
        },
        "sameSize": false,
        "edges": "same",
@@ -11814,7 +11804,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -11837,7 +11827,7 @@
        },
        "example": {
         "w": 144,
-        "h": 19
+        "h": 17
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -11853,8 +11843,8 @@
       ],
       "group": null,
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the top of one command to the next",
@@ -11865,8 +11855,8 @@
       ],
       "group": null,
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "first command below the top of the menu",
@@ -11888,8 +11878,8 @@
       ],
       "group": null,
       "real": 57,
-      "example": 63,
-      "same": false
+      "example": 57,
+      "same": true
      }
     ]
    },
@@ -11899,8 +11889,8 @@
      "script": "context-menu",
      "title": "Pop-up (context) menu: Shift+F10, the Application key, right-click, arrows, access keys",
      "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
-     "compared": 21,
-     "agreed": 17,
+     "compared": 23,
+     "agreed": 21,
      "steps": [
       {
        "index": 1,
@@ -11963,17 +11953,28 @@
         "key": "down",
         "note": "the unavailable item"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "highlighted",
-         "real": "Delete (locked)",
-         "example": "Open document"
-        }
-       ],
+       "agree": true,
        "real": {
         "open": true,
         "highlighted": "Delete (locked)",
+        "ran": []
+       },
+       "example": {
+        "open": true,
+        "highlighted": "Delete (locked)",
+        "ran": []
+       }
+      },
+      {
+       "index": 5,
+       "step": {
+        "key": "down",
+        "note": "wrap"
+       },
+       "agree": true,
+       "real": {
+        "open": true,
+        "highlighted": "Open document",
         "ran": []
        },
        "example": {
@@ -11987,14 +11988,7 @@
        "step": {
         "key": "up"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "highlighted",
-         "real": "Delete (locked)",
-         "example": "Rename..."
-        }
-       ],
+       "agree": true,
        "real": {
         "open": true,
         "highlighted": "Delete (locked)",
@@ -12002,7 +11996,24 @@
        },
        "example": {
         "open": true,
-        "highlighted": "Rename...",
+        "highlighted": "Delete (locked)",
+        "ran": []
+       }
+      },
+      {
+       "index": 7,
+       "step": {
+        "key": "esc"
+       },
+       "agree": true,
+       "real": {
+        "open": false,
+        "highlighted": null,
+        "ran": []
+       },
+       "example": {
+        "open": false,
+        "highlighted": null,
         "ran": []
        }
       },
@@ -12338,37 +12349,7 @@
        }
       }
      ],
-     "skipped": [
-      {
-       "index": 5,
-       "step": {
-        "key": "down",
-        "note": "wrap"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": "Delete (locked)",
-         "example": "Rename..."
-        }
-       ]
-      },
-      {
-       "index": 7,
-       "step": {
-        "key": "esc"
-       },
-       "why": "not comparable: before this step the example was not in the state the real system was in",
-       "detail": [
-        {
-         "where": "highlighted",
-         "real": "Delete (locked)",
-         "example": "Rename..."
-        }
-       ]
-      }
-     ]
+     "skipped": []
     }
    ],
    "checks": [],
@@ -14709,7 +14690,7 @@
      "title": "Message boxes: default button, Tab and arrows between buttons, letters, Esc and the Close button",
      "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
      "compared": 3,
-     "agreed": 2,
+     "agreed": 3,
      "steps": [
       {
        "index": 22,
@@ -14732,20 +14713,13 @@
        "step": {
         "key": "left"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "focusOn",
-         "real": "first button",
-         "example": "second button"
-        }
-       ],
+       "agree": true,
        "real": {
         "focusOn": "first button",
         "closedWith": null
        },
        "example": {
-        "focusOn": "second button",
+        "focusOn": "first button",
         "closedWith": null
        }
       },
@@ -14774,7 +14748,7 @@
      "title": "Message boxes: default button, Tab and arrows between buttons, letters, Esc and the Close button",
      "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
      "compared": 5,
-     "agreed": 3,
+     "agreed": 5,
      "steps": [
       {
        "index": 9,
@@ -14782,20 +14756,13 @@
         "key": "right",
         "note": "Right moves to Cancel"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "focusOn",
-         "real": "second button",
-         "example": "first button"
-        }
-       ],
+       "agree": true,
        "real": {
         "focusOn": "second button",
         "closedWith": null
        },
        "example": {
-        "focusOn": "first button",
+        "focusOn": "second button",
         "closedWith": null
        }
       },
@@ -14804,20 +14771,13 @@
        "step": {
         "key": "left"
        },
-       "agree": false,
-       "differences": [
-        {
-         "where": "focusOn",
-         "real": "first button",
-         "example": "second button"
-        }
-       ],
+       "agree": true,
        "real": {
         "focusOn": "first button",
         "closedWith": null
        },
        "example": {
-        "focusOn": "second button",
+        "focusOn": "first button",
         "closedWith": null
        }
       },
@@ -15902,7 +15862,7 @@
        },
        "example": {
         "w": 292,
-        "h": 22
+        "h": 18
        },
        "sameSize": false,
        "pixels": "layout only"
@@ -15931,12 +15891,15 @@
         "h": 14
        },
        "example": {
-        "w": 18,
-        "h": 18
+        "w": 16,
+        "h": 14
        },
-       "sameSize": false,
+       "sameSize": true,
        "edges": "same",
-       "pixels": "same-edges"
+       "differingPixels": 0,
+       "framePixels": 0,
+       "compared": 224,
+       "pixels": "identical"
       }
      },
      {
@@ -15961,25 +15924,15 @@
         "h": 14
        },
        "example": {
-        "w": 18,
-        "h": 18
+        "w": 16,
+        "h": 14
        },
-       "sameSize": false,
-       "edges": {
-        "top": {
-         "real": [
-          "#ffffff",
-          "#dfdfdf",
-          "#000000"
-         ],
-         "example": [
-          "#ffffff",
-          "#dfdfdf",
-          "#c0c0c0"
-         ]
-        }
-       },
-       "pixels": "edges-differ"
+       "sameSize": true,
+       "edges": "same",
+       "differingPixels": 0,
+       "framePixels": 0,
+       "compared": 224,
+       "pixels": "identical"
       }
      },
      {
@@ -16004,12 +15957,15 @@
         "h": 14
        },
        "example": {
-        "w": 18,
-        "h": 18
+        "w": 16,
+        "h": 14
        },
-       "sameSize": false,
+       "sameSize": true,
        "edges": "same",
-       "pixels": "same-edges"
+       "differingPixels": 0,
+       "framePixels": 0,
+       "compared": 224,
+       "pixels": "identical"
       }
      }
     ],
@@ -16022,8 +15978,8 @@
       ],
       "group": null,
       "real": 18,
-      "example": 22,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "frame thickness (title bar in from the left of the window)",
@@ -16070,8 +16026,8 @@
       ],
       "group": null,
       "real": 2,
-      "example": 4,
-      "same": false
+      "example": 2,
+      "same": true
      },
      {
       "name": "space between Minimize and Maximize",
@@ -16082,8 +16038,8 @@
       ],
       "group": null,
       "real": 0,
-      "example": 2,
-      "same": false
+      "example": 0,
+      "same": true
      },
      {
       "name": "caption button width",
@@ -16093,8 +16049,8 @@
       ],
       "group": null,
       "real": 16,
-      "example": 18,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "caption button height",
@@ -16104,8 +16060,8 @@
       ],
       "group": null,
       "real": 14,
-      "example": 18,
-      "same": false
+      "example": 14,
+      "same": true
      }
     ]
    },

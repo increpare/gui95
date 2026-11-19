@@ -3450,20 +3450,20 @@
      {
       "name": "tree view",
       "real": "170 by 140",
-      "example": "854 by 88",
+      "example": "854 by 80",
       "result": "same-edges"
      },
      {
       "name": "first row",
       "real": "58 by 16",
-      "example": "77 by 20",
+      "example": "60 by 16",
       "result": "layout only",
       "note": "The label rectangle: the text and its highlight."
      },
      {
       "name": "second row",
       "real": "42 by 16",
-      "example": "62 by 20",
+      "example": "45 by 16",
       "result": "layout only"
      }
     ],
@@ -3471,32 +3471,32 @@
      {
       "name": "from the top of one row to the next",
       "real": 16,
-      "example": 20,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "label height",
       "real": 16,
-      "example": 20,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "a child label starts further right than its parent by",
       "real": 19,
-      "example": 25,
-      "same": false
+      "example": 19,
+      "same": true
      },
      {
       "name": "first label in from the left of the control",
       "real": 21,
-      "example": 4,
-      "same": false
+      "example": 21,
+      "same": true
      },
      {
       "name": "first label below the top of the control",
       "real": 2,
-      "example": 4,
-      "same": false
+      "example": 2,
+      "same": true
      }
     ]
    },
@@ -3554,20 +3554,13 @@
     {
      "id": "tree-metrics",
      "kind": "rendering",
-     "summary": "Rows are taller, the indent is wider, and there are no lines or boxes.",
+     "summary": "Rows were taller, the indent wider, and the plus or minus a character inside the label.",
      "real": "Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left.",
-     "exampleDoes": "Rows 20 px; a child 25 px further right; a plus or minus character.",
+     "exampleDoes": "Now the same at the period density: the kit draws the rows, the boxes and the lines, the top level included, on the pixels Windows used.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "from the top of one row to the next",
-       "label height",
-       "a child label starts further right than its parent by",
-       "first label in from the left of the control",
-       "first label below the top of the control"
-      ]
-     }
+     "status": "fixed",
+     "covers": {},
+     "note": "A kit stylesheet change (the tree density properties); the comfortable tree is as it was."
     }
    ],
    "lint": {
@@ -3615,25 +3608,25 @@
      {
       "name": "column heading",
       "real": "150 by 17",
-      "example": "465 by 23",
+      "example": "465 by 17",
       "result": "same-edges"
      },
      {
       "name": "list view",
       "real": "268 by 110",
-      "example": "854 by 77",
+      "example": "854 by 63",
       "result": "same-edges"
      },
      {
       "name": "first row",
       "real": "220 by 14",
-      "example": "850 by 17",
+      "example": "850 by 14",
       "result": "layout only"
      },
      {
       "name": "second row",
       "real": "220 by 14",
-      "example": "850 by 17",
+      "example": "850 by 14",
       "result": "layout only"
      }
     ],
@@ -3641,20 +3634,20 @@
      {
       "name": "heading height",
       "real": 17,
-      "example": 23,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "row height",
       "real": 14,
-      "example": 17,
-      "same": false
+      "example": 14,
+      "same": true
      },
      {
       "name": "from the top of one row to the next",
       "real": 14,
-      "example": 17,
-      "same": false
+      "example": 14,
+      "same": true
      }
     ]
    },
@@ -3755,19 +3748,13 @@
     {
      "id": "listview-metrics",
      "kind": "rendering",
-     "summary": "Headings and rows are taller.",
+     "summary": "Headings and rows were taller.",
      "real": "Headings 17 px, rows 14 px.",
-     "exampleDoes": "Headings 23 px, rows 17 px.",
+     "exampleDoes": "Now the same at the period density.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "heading height",
-       "row height",
-       "from the top of one row to the next"
-      ]
-     },
-     "note": "The example is a table laid out by the page layer."
+     "status": "fixed",
+     "covers": {},
+     "note": "The example is a table laid out by the page layer, which now has period sizes."
     },
     {
      "id": "listview-keys",
@@ -3841,21 +3828,21 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "column heading",
       "real": "80 by 17",
-      "example": "456 by 23",
+      "example": "456 by 17",
       "result": "same-edges"
      },
      {
       "name": "header",
       "real": "300 by 17",
-      "example": "854 by 23",
+      "example": "854 by 17",
       "result": "layout only"
      }
     ],
@@ -3863,8 +3850,8 @@
      {
       "name": "heading height",
       "real": 17,
-      "example": 23,
-      "same": false
+      "example": 17,
+      "same": true
      }
     ]
    },
@@ -3931,16 +3918,12 @@
     {
      "id": "header-height",
      "kind": "rendering",
-     "summary": "The heading is taller.",
+     "summary": "The heading was taller.",
      "real": "17 px.",
-     "exampleDoes": "23 px.",
+     "exampleDoes": "Now 17 px at the period density.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "heading height"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "header-drag",
@@ -4043,45 +4026,45 @@
      "user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system)"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "menu bar title",
       "real": "28 by 18",
-      "example": "31 by 20",
+      "example": "31 by 18",
       "result": "layout only"
      },
      {
       "name": "second menu bar title",
       "real": "30 by 18",
-      "example": "37 by 20",
+      "example": "37 by 18",
       "result": "layout only"
      },
      {
       "name": "drop-down menu",
       "real": "149 by 126",
-      "example": "150 by 138",
+      "example": "150 by 126",
       "result": "same-edges"
      },
      {
       "name": "highlighted command",
       "real": "143 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
       "name": "second command",
       "real": "143 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
       "name": "unavailable command",
       "real": "143 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
@@ -4093,25 +4076,25 @@
      {
       "name": "command after the separator",
       "real": "143 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
       "name": "parent menu",
       "real": "97 by 100",
-      "example": "150 by 44",
+      "example": "150 by 40",
       "result": "layout only"
      },
      {
       "name": "cascading item",
       "real": "91 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
       "name": "cascading menu",
       "real": "83 by 57",
-      "example": "150 by 44",
+      "example": "150 by 40",
       "result": "layout only"
      }
     ],
@@ -4119,26 +4102,26 @@
      {
       "name": "menu bar title height",
       "real": 18,
-      "example": 20,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "command height",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the top of one command to the next",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the command before a separator to the one after it",
       "real": 26,
-      "example": 28,
-      "same": false
+      "example": 26,
+      "same": true
      },
      {
       "name": "first command below the top of the menu",
@@ -4155,8 +4138,8 @@
      {
       "name": "menu below the top of its title",
       "real": 18,
-      "example": 20,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "menu left of its title by",
@@ -4167,8 +4150,8 @@
      {
       "name": "cascading menu overlaps its parent by",
       "real": -6,
-      "example": -3,
-      "same": false
+      "example": -6,
+      "same": true
      },
      {
       "name": "cascading menu above the top of its item by",
@@ -4192,52 +4175,10 @@
      {
       "name": "arrows in a menu",
       "recording": "menu-arrows",
-      "compared": 14,
-      "agreed": 12,
-      "differing": [
-       {
-        "step": 3,
-        "did": "press down (onto the unavailable Save)",
-        "differences": [
-         {
-          "where": "highlighted",
-          "real": [
-           "Save"
-          ],
-          "example": [
-           "1 Letter.txt"
-          ]
-         }
-        ]
-       },
-       {
-        "step": 11,
-        "did": "press up (the unavailable item going up)",
-        "differences": [
-         {
-          "where": "highlighted",
-          "real": [
-           "Save"
-          ],
-          "example": [
-           "Open..."
-          ]
-         }
-        ]
-       }
-      ],
-      "notCompared": [
-       {
-        "step": 4,
-        "did": "press down",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       },
-       {
-        "step": 12,
-        "did": "press ret (Enter on the unavailable item)",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       }
-      ]
+      "compared": 16,
+      "agreed": 16,
+      "differing": [],
+      "notCompared": []
      },
      {
       "name": "cascading menu and Esc",
@@ -4333,39 +4274,13 @@
      {
       "name": "the mouse",
       "recording": "menu-mouse",
-      "compared": 7,
-      "agreed": 6,
-      "differing": [
-       {
-        "step": 23,
-        "did": "move the pointer (point at the unavailable Save)",
-        "differences": [
-         {
-          "where": "highlighted",
-          "real": [
-           "Save"
-          ],
-          "example": [
-           "Open..."
-          ]
-         }
-        ]
-       }
-      ],
+      "compared": 9,
+      "agreed": 9,
+      "differing": [],
       "notCompared": [
        {
         "step": 21,
         "did": "click (click outside)",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       },
-       {
-        "step": 24,
-        "did": "click (click it)",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       },
-       {
-        "step": 25,
-        "did": "click (click the open title again)",
         "why": "not comparable: before this step the example was not in the state the real system was in"
        }
       ]
@@ -4399,19 +4314,12 @@
     {
      "id": "menus-unavailable",
      "kind": "behaviour",
-     "summary": "The highlight skips unavailable commands.",
+     "summary": "The highlight skipped unavailable commands.",
      "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing.",
-     "exampleDoes": "Unavailable commands are skipped.",
+     "exampleDoes": "Now the same: the unavailable command is aria-disabled, so it takes the highlight.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "arrows in a menu#3",
-       "arrows in a menu#11",
-       "the mouse#23"
-      ]
-     },
-     "note": "The examples use disabled buttons, which cannot take focus; it needs aria-disabled and a drawn highlight."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "menus-unavailable-letter",
@@ -4447,35 +4355,22 @@
     {
      "id": "menus-heights",
      "kind": "rendering",
-     "summary": "Menu commands and titles are 2 px taller than Windows 95, even at the period density.",
+     "summary": "Menu commands and titles were 2 px taller than Windows 95, even at the period density.",
      "real": "Commands 17 px, bar titles 18 px, a separator 9 px.",
-     "exampleDoes": "Commands 19 px, titles 20 px.",
+     "exampleDoes": "Now the same: the page layer leaves the heights to the kit.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "menu bar title height",
-       "command height",
-       "from the top of one command to the next",
-       "from the command before a separator to the one after it",
-       "menu below the top of its title"
-      ]
-     },
-     "note": "The page layer sets its own padding on menu items and bar titles, which overrides the kit's period sizes. Removing it changes the example pages in both densities."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "menus-cascade-overlap",
      "kind": "layout",
-     "summary": "A cascading menu overlaps its parent by 3 px.",
+     "summary": "A cascading menu overlapped its parent by 3 px.",
      "real": "6 px.",
-     "exampleDoes": "3 px.",
+     "exampleDoes": "Now 6 px.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "cascading menu overlaps its parent by"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "lint": {
@@ -4546,27 +4441,27 @@
      "user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system)"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "pop-up menu",
       "real": "124 by 57",
-      "example": "150 by 63",
+      "example": "150 by 57",
       "result": "same-edges"
      },
      {
       "name": "first command",
       "real": "118 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      },
      {
       "name": "second command",
       "real": "118 by 17",
-      "example": "144 by 19",
+      "example": "144 by 17",
       "result": "layout only"
      }
     ],
@@ -4574,14 +4469,14 @@
      {
       "name": "command height",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "from the top of one command to the next",
       "real": 17,
-      "example": 19,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "first command below the top of the menu",
@@ -4592,8 +4487,8 @@
      {
       "name": "menu height",
       "real": 57,
-      "example": 63,
-      "same": false
+      "example": 57,
+      "same": true
      }
     ]
    },
@@ -4603,31 +4498,9 @@
      {
       "name": "context-menu",
       "recording": "context-menu",
-      "compared": 21,
-      "agreed": 17,
+      "compared": 23,
+      "agreed": 21,
       "differing": [
-       {
-        "step": 4,
-        "did": "press down (the unavailable item)",
-        "differences": [
-         {
-          "where": "highlighted",
-          "real": "Delete (locked)",
-          "example": "Open document"
-         }
-        ]
-       },
-       {
-        "step": 6,
-        "did": "press up",
-        "differences": [
-         {
-          "where": "highlighted",
-          "real": "Delete (locked)",
-          "example": "Rename..."
-         }
-        ]
-       },
        {
         "step": 11,
         "did": "press d (access key of the unavailable item)",
@@ -4651,18 +4524,7 @@
         ]
        }
       ],
-      "notCompared": [
-       {
-        "step": 5,
-        "did": "press down (wrap)",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       },
-       {
-        "step": 7,
-        "did": "press esc",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       }
-      ]
+      "notCompared": []
      }
     ],
     "checks": []
@@ -4681,18 +4543,27 @@
     {
      "id": "context-unavailable",
      "kind": "behaviour",
-     "summary": "The highlight skips the unavailable command, and its letter does nothing.",
-     "real": "Arrows highlight it; its letter closes the menu.",
-     "exampleDoes": "Skipped; the letter is ignored.",
+     "summary": "The highlight skipped the unavailable command.",
+     "real": "Arrows highlight it; Enter on it closes the menu and runs nothing.",
+     "exampleDoes": "Now the same.",
      "severity": "medium",
-     "status": "open",
+     "status": "fixed",
+     "covers": {}
+    },
+    {
+     "id": "context-unavailable-letter",
+     "kind": "behaviour",
+     "summary": "The letter of an unavailable command.",
+     "real": "The menu closes and nothing runs.",
+     "exampleDoes": "Nothing happens; the menu stays open.",
+     "severity": "low",
+     "status": "deliberate",
      "covers": {
       "steps": [
-       "context-menu#4",
-       "context-menu#6",
        "context-menu#11"
       ]
-     }
+     },
+     "note": "As in the menus example: closing the menu without a word is not worth copying."
     },
     {
      "id": "context-reopen",
@@ -4711,19 +4582,12 @@
     {
      "id": "context-heights",
      "kind": "rendering",
-     "summary": "Commands are 2 px taller.",
+     "summary": "Commands were 2 px taller.",
      "real": "17 px.",
-     "exampleDoes": "19 px.",
+     "exampleDoes": "Now 17 px at the period density.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "command height",
-       "from the top of one command to the next",
-       "menu height"
-      ]
-     },
-     "note": "The same page-layer padding as the menus example."
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "lint": {
@@ -5850,51 +5714,16 @@
       "name": "the second button as the default (real: Yes, No with No the default)",
       "recording": "msgbox-keys",
       "compared": 3,
-      "agreed": 2,
-      "differing": [
-       {
-        "step": 24,
-        "did": "press left",
-        "differences": [
-         {
-          "where": "focusOn",
-          "real": "first button",
-          "example": "second button"
-         }
-        ]
-       }
-      ],
+      "agreed": 3,
+      "differing": [],
       "notCompared": []
      },
      {
       "name": "arrows, Tab, Enter on the focused button, Esc (real: OK, Cancel)",
       "recording": "msgbox-keys",
       "compared": 5,
-      "agreed": 3,
-      "differing": [
-       {
-        "step": 9,
-        "did": "press right (Right moves to Cancel)",
-        "differences": [
-         {
-          "where": "focusOn",
-          "real": "second button",
-          "example": "first button"
-         }
-        ]
-       },
-       {
-        "step": 10,
-        "did": "press left",
-        "differences": [
-         {
-          "where": "focusOn",
-          "real": "first button",
-          "example": "second button"
-         }
-        ]
-       }
-      ],
+      "agreed": 5,
+      "differing": [],
       "notCompared": []
      }
     ],
@@ -5904,18 +5733,12 @@
     {
      "id": "message-arrows",
      "kind": "behaviour",
-     "summary": "Arrow keys do not move between the buttons.",
+     "summary": "Arrow keys did not move between the buttons.",
      "real": "Left and Right move the focus, and the default look, from button to button and wrap.",
-     "exampleDoes": "No effect; Tab moves.",
+     "exampleDoes": "Now the same.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "the second button as the default*",
-       "arrows, Tab, Enter on the focused button, Esc*"
-      ]
-     },
-     "note": "Would need the kit runtime; the examples do not load it."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "message-size",
@@ -6645,49 +6468,35 @@
      {
       "name": "title bar",
       "real": "412 by 18",
-      "example": "292 by 22",
+      "example": "292 by 18",
       "result": "layout only"
      },
      {
       "name": "Close button",
       "real": "16 by 14",
-      "example": "18 by 18",
-      "result": "same-edges",
+      "example": "16 by 14",
+      "result": "identical",
       "note": "The caption buttons are not windows of their own; their place is worked out from the frame (4), the 2 pixels inside the title bar and the 16 by 14 button size the system reports."
      },
      {
       "name": "Maximize button",
       "real": "16 by 14",
-      "example": "18 by 18",
-      "result": "edges-differ",
-      "edges": {
-       "top": {
-        "real": [
-         "#ffffff",
-         "#dfdfdf",
-         "#000000"
-        ],
-        "example": [
-         "#ffffff",
-         "#dfdfdf",
-         "#c0c0c0"
-        ]
-       }
-      }
+      "example": "16 by 14",
+      "result": "identical"
      },
      {
       "name": "Minimize button",
       "real": "16 by 14",
-      "example": "18 by 18",
-      "result": "same-edges"
+      "example": "16 by 14",
+      "result": "identical"
      }
     ],
     "layout": [
      {
       "name": "title bar height",
       "real": 18,
-      "example": 22,
-      "same": false
+      "example": 18,
+      "same": true
      },
      {
       "name": "frame thickness (title bar in from the left of the window)",
@@ -6710,26 +6519,26 @@
      {
       "name": "space between Maximize and Close",
       "real": 2,
-      "example": 4,
-      "same": false
+      "example": 2,
+      "same": true
      },
      {
       "name": "space between Minimize and Maximize",
       "real": 0,
-      "example": 2,
-      "same": false
+      "example": 0,
+      "same": true
      },
      {
       "name": "caption button width",
       "real": 16,
-      "example": 18,
-      "same": false
+      "example": 16,
+      "same": true
      },
      {
       "name": "caption button height",
       "real": 14,
-      "example": 18,
-      "same": false
+      "example": 14,
+      "same": true
      }
     ]
    },
@@ -6787,24 +6596,12 @@
     {
      "id": "window-caption-size",
      "kind": "rendering",
-     "summary": "The title bar and its buttons are larger.",
+     "summary": "The title bar and its buttons were larger.",
      "real": "Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away.",
-     "exampleDoes": "Title bar 22 px; buttons 18 by 18, 2 and 4 px apart.",
+     "exampleDoes": "Now the same at the period density: the shared caption-button stylesheet reads the kit's density sizes.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "pairs": [
-       "Maximize button"
-      ],
-      "metrics": [
-       "title bar height",
-       "space between Maximize and Close",
-       "space between Minimize and Maximize",
-       "caption button width",
-       "caption button height"
-      ]
-     },
-     "note": "The shared caption-button stylesheet has one size; the period density does not reach it."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "window-dblclick",

@@ -218,6 +218,8 @@ Say which one an application uses. Do not describe a comfortable interface as pi
 | Status bar † | 20 high; panes 18, starting 2 px down, with no edge at the left, right or bottom | 20; 18; the same | 22.84; 18.84; 2 px edge all round |
 | Tab † | 18 high; the selected tab 22, 2 px taller and 2 px over the page | 18; 22 | 20.84; 24.84 |
 | Toolbar button ‡ | 24 × 22, related buttons edge to edge | 24 × 22, touching | 24 × 23, 2 px apart |
+| Tree view † | Rows 16; each level 19 further right; a 9 × 9 plus or minus box with dotted lines on every second pixel; the label 19 from its level | The same | Rows 20; 25 a level; an 11 × 11 box inside the label |
+| Title bar buttons of `caption-controls.css` | 16 × 14; Minimize and Maximize touching, Close 2 px away; a 6 × 2 bar, a 9 × 9 box, an 8 × 7 cross | The same | 18 × 18, 2 and 4 px apart, larger marks |
 
 † **Era caveat.** OSR2.5 is the 1996 release. Its window manager and graphics files (`user.exe`, `gdi.exe`) carry version 4.0.0.950, the same as the August 1995 release, so menus, title bars, frames, list boxes, drop-down lists, buttons, group boxes and scroll bars are good evidence for 1995. Its common controls library is `comctl32.dll` 4.70, the 1996 version. The status bar and tab rows are therefore evidence for that library; the 1995 library may have differed and has not been measured.
 
@@ -228,7 +230,6 @@ Compared with crops of the real screen, the period rendering of the pop-up menu,
 Not in the period density, and why:
 
 - **Tool window caption.** Windows 95's small caption is 16 px (`SM_CYSMCAPTION`: a 15 px bar and a line). The kit has no tool-window title bar in either density.
-- **Tree rows.** The capture has no tree and no other source gives a row height at better than low confidence, so trees are the same in both densities.
 - **The fractional comfortable rows.** A comfortable list row is 16.84 px, a tab 20.84 and a status bar 22.84, because 11 px text at a line height of 1.35 is 14.85 px. Rounding them would move every later row, by more than a pixel after a few rows, so comfortable is left exactly as it was. The period density has no fractional height.
 
 What the capture shows that is not a matter of size, and that the kit does not yet follow in either density:

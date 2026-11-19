@@ -898,20 +898,13 @@
     {
      "id": "tree-metrics",
      "kind": "rendering",
-     "summary": "Rows are taller, the indent is wider, and there are no lines or boxes.",
+     "summary": "Rows were taller, the indent wider, and the plus or minus a character inside the label.",
      "real": "Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left.",
-     "exampleDoes": "Rows 20 px; a child 25 px further right; a plus or minus character.",
+     "exampleDoes": "Now the same at the period density: the kit draws the rows, the boxes and the lines, the top level included, on the pixels Windows used.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "from the top of one row to the next",
-       "label height",
-       "a child label starts further right than its parent by",
-       "first label in from the left of the control",
-       "first label below the top of the control"
-      ]
-     }
+     "status": "fixed",
+     "covers": {},
+     "note": "A kit stylesheet change (the tree density properties); the comfortable tree is as it was."
     }
    ],
    "notChecked": [
@@ -935,19 +928,13 @@
     {
      "id": "listview-metrics",
      "kind": "rendering",
-     "summary": "Headings and rows are taller.",
+     "summary": "Headings and rows were taller.",
      "real": "Headings 17 px, rows 14 px.",
-     "exampleDoes": "Headings 23 px, rows 17 px.",
+     "exampleDoes": "Now the same at the period density.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "heading height",
-       "row height",
-       "from the top of one row to the next"
-      ]
-     },
-     "note": "The example is a table laid out by the page layer."
+     "status": "fixed",
+     "covers": {},
+     "note": "The example is a table laid out by the page layer, which now has period sizes."
     },
     {
      "id": "listview-keys",
@@ -989,16 +976,12 @@
     {
      "id": "header-height",
      "kind": "rendering",
-     "summary": "The heading is taller.",
+     "summary": "The heading was taller.",
      "real": "17 px.",
-     "exampleDoes": "23 px.",
+     "exampleDoes": "Now 17 px at the period density.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "heading height"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "header-drag",
@@ -1065,19 +1048,12 @@
     {
      "id": "menus-unavailable",
      "kind": "behaviour",
-     "summary": "The highlight skips unavailable commands.",
+     "summary": "The highlight skipped unavailable commands.",
      "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing.",
-     "exampleDoes": "Unavailable commands are skipped.",
+     "exampleDoes": "Now the same: the unavailable command is aria-disabled, so it takes the highlight.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "arrows in a menu#3",
-       "arrows in a menu#11",
-       "the mouse#23"
-      ]
-     },
-     "note": "The examples use disabled buttons, which cannot take focus; it needs aria-disabled and a drawn highlight."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "menus-unavailable-letter",
@@ -1113,35 +1089,22 @@
     {
      "id": "menus-heights",
      "kind": "rendering",
-     "summary": "Menu commands and titles are 2 px taller than Windows 95, even at the period density.",
+     "summary": "Menu commands and titles were 2 px taller than Windows 95, even at the period density.",
      "real": "Commands 17 px, bar titles 18 px, a separator 9 px.",
-     "exampleDoes": "Commands 19 px, titles 20 px.",
+     "exampleDoes": "Now the same: the page layer leaves the heights to the kit.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "menu bar title height",
-       "command height",
-       "from the top of one command to the next",
-       "from the command before a separator to the one after it",
-       "menu below the top of its title"
-      ]
-     },
-     "note": "The page layer sets its own padding on menu items and bar titles, which overrides the kit's period sizes. Removing it changes the example pages in both densities."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "menus-cascade-overlap",
      "kind": "layout",
-     "summary": "A cascading menu overlaps its parent by 3 px.",
+     "summary": "A cascading menu overlapped its parent by 3 px.",
      "real": "6 px.",
-     "exampleDoes": "3 px.",
+     "exampleDoes": "Now 6 px.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "cascading menu overlaps its parent by"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "notChecked": [
@@ -1182,18 +1145,27 @@
     {
      "id": "context-unavailable",
      "kind": "behaviour",
-     "summary": "The highlight skips the unavailable command, and its letter does nothing.",
-     "real": "Arrows highlight it; its letter closes the menu.",
-     "exampleDoes": "Skipped; the letter is ignored.",
+     "summary": "The highlight skipped the unavailable command.",
+     "real": "Arrows highlight it; Enter on it closes the menu and runs nothing.",
+     "exampleDoes": "Now the same.",
      "severity": "medium",
-     "status": "open",
+     "status": "fixed",
+     "covers": {}
+    },
+    {
+     "id": "context-unavailable-letter",
+     "kind": "behaviour",
+     "summary": "The letter of an unavailable command.",
+     "real": "The menu closes and nothing runs.",
+     "exampleDoes": "Nothing happens; the menu stays open.",
+     "severity": "low",
+     "status": "deliberate",
      "covers": {
       "steps": [
-       "context-menu#4",
-       "context-menu#6",
        "context-menu#11"
       ]
-     }
+     },
+     "note": "As in the menus example: closing the menu without a word is not worth copying."
     },
     {
      "id": "context-reopen",
@@ -1212,19 +1184,12 @@
     {
      "id": "context-heights",
      "kind": "rendering",
-     "summary": "Commands are 2 px taller.",
+     "summary": "Commands were 2 px taller.",
      "real": "17 px.",
-     "exampleDoes": "19 px.",
+     "exampleDoes": "Now 17 px at the period density.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "command height",
-       "from the top of one command to the next",
-       "menu height"
-      ]
-     },
-     "note": "The same page-layer padding as the menus example."
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "notChecked": [
@@ -1451,18 +1416,12 @@
     {
      "id": "message-arrows",
      "kind": "behaviour",
-     "summary": "Arrow keys do not move between the buttons.",
+     "summary": "Arrow keys did not move between the buttons.",
      "real": "Left and Right move the focus, and the default look, from button to button and wrap.",
-     "exampleDoes": "No effect; Tab moves.",
+     "exampleDoes": "Now the same.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "the second button as the default*",
-       "arrows, Tab, Enter on the focused button, Esc*"
-      ]
-     },
-     "note": "Would need the kit runtime; the examples do not load it."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "message-size",
@@ -1656,24 +1615,12 @@
     {
      "id": "window-caption-size",
      "kind": "rendering",
-     "summary": "The title bar and its buttons are larger.",
+     "summary": "The title bar and its buttons were larger.",
      "real": "Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away.",
-     "exampleDoes": "Title bar 22 px; buttons 18 by 18, 2 and 4 px apart.",
+     "exampleDoes": "Now the same at the period density: the shared caption-button stylesheet reads the kit's density sizes.",
      "severity": "medium",
-     "status": "open",
-     "covers": {
-      "pairs": [
-       "Maximize button"
-      ],
-      "metrics": [
-       "title bar height",
-       "space between Maximize and Close",
-       "space between Minimize and Maximize",
-       "caption button width",
-       "caption button height"
-      ]
-     },
-     "note": "The shared caption-button stylesheet has one size; the period density does not reach it."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "window-dblclick",

@@ -2670,39 +2670,46 @@
     },
     {
       "id": "tree-expand-box-outline",
-      "title": "The outline colour of a tree's expand box is not settled",
+      "title": "A tree's expand box is 9 px square, outlined in shadow gray",
       "topic": "lists",
       "control": "tree",
-      "rule": "Howlett says the plus boxes in a redesigned list were outlined in black \"to conform to\" Windows 95 expanding lists. No source read gives the colour the stock tree control used.",
+      "rule": "Measured on the tree view of Windows 95 OSR2.5: the plus or minus box is 9 by 9 px with a 1 px shadow-gray (#808080) outline on white and a black mark 5 px long; rows are 16 px, each level is 19 px further right, and the dotted lines fall on every second pixel. Howlett says the plus boxes in a redesigned list were outlined in black \"to conform to\" Windows 95 expanding lists; the stock control's are gray.",
       "era": "win95-1995",
       "confidence": {
-        "level": "low",
-        "reason": "A statement about the author's own makeover, with a figure too coarse to confirm it; the tree control's source was not examined."
+        "level": "high",
+        "reason": "Measured on Windows 95 4.00.1111 C (OSR2.5) with comctl32.dll 4.70, the 1996 common controls library; the 1995 library was not measured."
       },
-      "evidence_type": "stated",
+      "evidence_type": "measured",
       "sources": [
         {
           "kind": "howlett",
           "location": "PDF p. 179 (printed p. 167)",
           "url": null,
           "checked": "2026-11-18"
+        },
+        {
+          "kind": "win95-capture",
+          "location": "24-bit capture, example audit scene lists, tree cells; docs/example-audit.md, Tree view",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 1,
-        "sources_total": 1
+        "sources_checked": 2,
+        "sources_total": 2
       },
       "kit": {
-        "status": "unknown",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.css · [data-gui95-disclosure]"
+          "kit/components/gui95.css · [data-gui95-disclosure]",
+          "kit/components/gui95.css · --gui95-tree-row"
         ],
         "method": "rendered",
-        "date": "2026-11-18",
-        "detail": "The box has a 1 px shadow-gray outline on white."
+        "date": "2026-11-19",
+        "detail": "In the period density the rows, boxes, marks and dotted lines of the tree example match the capture pixel for pixel outside the text. The comfortable density keeps its 20 px rows and 11 px box."
       },
-      "notes": "Open question; the real-system capture is expected to settle it."
+      "notes": "Settled by the real-system capture."
     },
     {
       "id": "header-control-menu-and-divider",
@@ -3845,8 +3852,8 @@
           "kit/components/gui95.css · .title-bar"
         ],
         "method": "read",
-        "date": "2026-11-18",
-        "detail": "The stylesheet has no layout rule for the button group; order and gaps are left to the page. docs/caption-controls.md supplies a separate copyable set."
+        "date": "2026-11-19",
+        "detail": "The stylesheet has no layout rule for the button group; order and gaps are left to the page. docs/caption-controls.md supplies a separate copyable set, which in the period density sets Minimize and Maximize edge to edge with Close 2 px away, as measured."
       },
       "notes": ""
     },
@@ -3901,7 +3908,7 @@
         ],
         "method": "rendered",
         "date": "2026-11-19",
-        "detail": "The stylesheet draws no glyphs; the atlas buttons are empty and differ from the capture only where the glyph would be. docs/caption-controls.md supplies pixel artwork separately."
+        "detail": "The stylesheet draws no glyphs; the atlas buttons are empty and differ from the capture only where the glyph would be. docs/caption-controls.md supplies pixel artwork separately: in the period density it draws the measured marks (kit properties --gui95-caption-art-*), and the three buttons of the window example match the capture pixel for pixel."
       },
       "notes": ""
     },

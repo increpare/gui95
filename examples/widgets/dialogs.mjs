@@ -34,8 +34,11 @@ e('properties','Property sheet with Apply and Cancel','Windows and dialogs',`
 
 e('message','Message box and safe default','Windows and dialogs',`
 <button id="show">Delete selected file…</button><dialog id="box" aria-labelledby="title" aria-describedby="question">${caption('<span id="title">Delete file</span>')}<form method="dialog" data-gui95-dialog-layout><div data-gui95-dialog-body><p id="question">Permanently delete “Letter.txt” from this demonstration?</p></div><div data-gui95-buttons="center"><button value="delete">Delete file</button><button value="cancel" class="default" autofocus>Cancel</button></div></form></dialog>`,
-({$,dialog,on,report})=>{dialog($('#show'),$('#box'));on($('#box'),'close',()=>report($('#box').returnValue==='delete'?'Demonstration file deleted.':'Kept the file.'));},
-'Question, destructive action, safe initial focus/default and explicit outcome.','Enter initially cancels; Tab reaches Delete; Escape cancels; focus returns to the trigger.',
+({$,$$,dialog,on,report})=>{dialog($('#show'),$('#box'));
+ // In a message box the arrow keys move between the buttons and wrap, and the default look follows the focus (recorded on Windows 95).
+ on($('#box'),'keydown',ev=>{const step=ev.key==='ArrowRight'||ev.key==='ArrowDown'?1:ev.key==='ArrowLeft'||ev.key==='ArrowUp'?-1:0,buttons=$$('[data-gui95-buttons] button',$('#box')),i=buttons.indexOf(document.activeElement);if(!step||i<0)return;ev.preventDefault();buttons[(i+step+buttons.length)%buttons.length].focus();});
+ on($('#box'),'close',()=>report($('#box').returnValue==='delete'?'Demonstration file deleted.':'Kept the file.'));},
+'Question, destructive action, safe initial focus/default and explicit outcome.','Enter initially cancels; Tab or an arrow key reaches Delete; Escape cancels; focus returns to the trigger.',
 'Action labels say what will happen. A destructive choice should not become the initial default merely because it is visually primary. Nothing on disk is removed.','dialog-modal'),
 
 e('wizard','Wizard with validation and backtracking','Windows and dialogs',`

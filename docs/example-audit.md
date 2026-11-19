@@ -15,7 +15,7 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 
 ## Summary
 
-10 examples verified (4 of them apart from host limits), 19 verified with open differences, 3 partly checked, 6 not verifiable.
+13 examples verified (5 of them apart from host limits), 16 verified with open differences, 3 partly checked, 6 not verifiable.
 
 | Example | Real counterpart | Rendering | Behaviour | Differences | Lint | Verdict |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -37,20 +37,20 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 | [Tooltips and status help](#tooltip) | the tooltip of a toolbar button (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 1 of 2 single checks agree | 1 fixed, 2 deliberate | 2 real, 0 false, 1 deliberate | Verified |
 | [Tabs and tab panels](#tabs) | tab controls (comctl32 4.70) | 2 of 3 pairs agree in size or edges; 2 of 3 layout numbers equal | 11 of 11 steps agree | 1 fixed, 1 open, 1 deliberate | clean | Verified, with open differences |
 | [Toolbar buttons and groups](#toolbar) | a toolbar (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 3 of 5 layout numbers equal | 3 of 3 steps agree | 1 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Tree view](#tree) | tree view controls (comctl32 4.70) | 1 of 1 pair agree in size or edges; 0 of 5 layout numbers equal | 23 of 24 steps agree | 1 fixed, 2 open | clean | Verified, with open differences |
-| [List view and sortable columns](#listview) | list view controls in report and icon view (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 0 of 3 layout numbers equal | 13 of 17 steps agree | 2 open | 2 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Column header and resizing](#header) | a header control (comctl32 4.70) | 1 of 1 pair agree in size or edges; 0 of 1 layout number equal | 4 of 8 steps agree | 1 open, 1 deliberate | clean | Verified, with open differences |
+| [Tree view](#tree) | tree view controls (comctl32 4.70) | 1 of 1 pair agree in size or edges; 5 of 5 layout numbers equal | 23 of 24 steps agree | 2 fixed, 1 open | clean | Verified, with open differences |
+| [List view and sortable columns](#listview) | list view controls in report and icon view (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 3 of 3 layout numbers equal | 13 of 17 steps agree | 1 fixed, 1 open | 2 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Column header and resizing](#header) | a header control (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 4 of 8 steps agree | 1 fixed, 1 deliberate | clean | Verified |
 | [Resizable split panes](#splitter) | none | not compared | not compared | none | clean | Not verifiable |
-| [Menu bar, submenus and recent files](#menus) | a real window's menu bar, drop-down and cascading menus (user32) | 1 of 1 pair agree in size or edges; 4 of 10 layout numbers equal | 66 of 72 steps agree; 1 of 1 single check agree | 1 fixed, 3 open, 2 deliberate | 3 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Context menus](#context-menu) | a real pop-up menu opened by Shift+F10 and by right-click (user32) | 1 of 1 pair agree in size or edges; 1 of 4 layout numbers equal | 17 of 21 steps agree | 1 fixed, 2 open, 1 host limit | 3 real, 0 false, 1 deliberate | Verified, with open differences |
+| [Menu bar, submenus and recent files](#menus) | a real window's menu bar, drop-down and cascading menus (user32) | 1 of 1 pair agree in size or edges; 10 of 10 layout numbers equal | 73 of 76 steps agree; 1 of 1 single check agree | 4 fixed, 2 deliberate | 3 real, 0 false, 0 deliberate | Verified |
+| [Context menus](#context-menu) | a real pop-up menu opened by Shift+F10 and by right-click (user32) | 1 of 1 pair agree in size or edges; 4 of 4 layout numbers equal | 21 of 23 steps agree | 3 fixed, 1 deliberate, 1 host limit | 3 real, 0 false, 1 deliberate | Verified, apart from host limits |
 | [Modal dialog and focus restoration](#modal) | a real dialog made from a template that uses the 1995 guidelines' numbers in dialog units (user32) | 4 of 4 pairs agree in size or edges; 11 of 12 layout numbers equal | 5 of 7 steps agree | 1 fixed, 1 open, 1 host limit | 5 real, 0 false, 0 deliberate | Verified, with open differences |
 | [Modeless Find dialog](#modeless) | the real Find dialog (comdlg32 4.0.0.951) | 4 of 4 pairs agree in size or edges; 4 of 10 layout numbers equal | 2 of 2 steps agree | 1 deliberate | 5 real, 0 false, 0 deliberate | Verified |
 | [Property sheet with Apply and Cancel](#properties) | a real property sheet with two pages and Apply (comctl32 4.70 around user32 dialogs) | 6 of 6 pairs agree in size or edges; 7 of 13 layout numbers equal | 24 of 26 steps agree | 1 fixed, 2 open, 2 deliberate | 8 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Message box and safe default](#message) | real message boxes: Yes and No with No the default, OK and Cancel, and one without an icon (user32) | 3 of 3 pairs agree in size or edges; 6 of 9 layout numbers equal | 5 of 8 steps agree | 2 open | 5 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Message box and safe default](#message) | real message boxes: Yes and No with No the default, OK and Cancel, and one without an icon (user32) | 3 of 3 pairs agree in size or edges; 6 of 9 layout numbers equal | 8 of 8 steps agree | 1 fixed, 1 open | 5 real, 0 false, 0 deliberate | Verified, with open differences |
 | [Wizard with validation and backtracking](#wizard) | a real wizard with three pages (comctl32 4.70) | 5 of 5 pairs agree in size or edges; 2 of 6 layout numbers equal | 5 of 8 steps agree | 1 fixed, 2 open | 4 real, 0 false, 0 deliberate | Verified, with open differences |
 | [Palette, color well and color dialog](#color) | the real Color dialog (comdlg32 4.0.0.951) | 3 of 3 pairs agree in size or edges; 2 of 5 layout numbers equal | 0 of 1 single check agree | 1 open, 1 deliberate | 3 real, 0 false, 0 deliberate | Partly checked |
 | [Font dialog with sample](#font) | the real Font dialog (comdlg32 4.0.0.951) | 3 of 3 pairs agree in size or edges; 2 of 6 layout numbers equal | 2 of 2 single checks agree | 1 deliberate | 4 real, 0 false, 0 deliberate | Partly checked |
-| [Window shell, system menu, move and size](#window) | a real sizable window (user32) | 3 of 4 pairs agree in size or edges; 3 of 8 layout numbers equal | 4 of 6 single checks agree | 1 fixed, 2 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Window shell, system menu, move and size](#window) | a real sizable window (user32) | 4 of 4 pairs agree in size or edges; 8 of 8 layout numbers equal | 4 of 6 single checks agree | 2 fixed, 1 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
 | [Open file through the browser](#open-file) | the real Open dialog (comdlg32 4.0.0.951, shell32 4.0.0.1111), captured | not compared | not compared | none | clean | Not verifiable |
 | [Save file through the browser](#save-file) | the real Save As dialog (comdlg32 4.0.0.951, shell32 4.0.0.1111), captured | not compared | not compared | none | 2 real, 0 false, 0 deliberate | Not verifiable |
 | [Print through the browser](#print) | none | not compared | not compared | none | 2 real, 0 false, 0 deliberate | Not verifiable |
@@ -62,14 +62,6 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 
 | Severity | Example | Difference | Real Windows 95 | Example |
 | --- | --- | --- | --- | --- |
-| medium | [Tree view](#tree) | Rows are taller, the indent is wider, and there are no lines or boxes. | Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left. | Rows 20 px; a child 25 px further right; a plus or minus character. |
-| medium | [List view and sortable columns](#listview) | Headings and rows are taller. | Headings 17 px, rows 14 px. | Headings 23 px, rows 17 px. |
-| medium | [Menu bar, submenus and recent files](#menus) | The highlight skips unavailable commands. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing. | Unavailable commands are skipped. |
-| medium | [Menu bar, submenus and recent files](#menus) | Menu commands and titles are 2 px taller than Windows 95, even at the period density. | Commands 17 px, bar titles 18 px, a separator 9 px. | Commands 19 px, titles 20 px. |
-| medium | [Context menus](#context-menu) | The highlight skips the unavailable command, and its letter does nothing. | Arrows highlight it; its letter closes the menu. | Skipped; the letter is ignored. |
-| medium | [Context menus](#context-menu) | Commands are 2 px taller. | 17 px. | 19 px. |
-| medium | [Message box and safe default](#message) | Arrow keys do not move between the buttons. | Left and Right move the focus, and the default look, from button to button and wrap. | No effect; Tab moves. |
-| medium | [Window shell, system menu, move and size](#window) | The title bar and its buttons are larger. | Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away. | Title bar 22 px; buttons 18 by 18, 2 and 4 px apart. |
 | low | [Push buttons and default action](#buttons) | Buttons are 8 px apart and as wide as their labels. | Buttons in a row 4 dialog units (6 px) apart, each 50 units (75 px) wide. | 8 px apart; width from the label. |
 | low | [Checkboxes and mixed state](#checkbox) | Plus and minus do nothing. | On an ordinary check box, plus checks it and minus clears it. | No effect. |
 | low | [Checkboxes and mixed state](#checkbox) | Rows of check boxes follow the example page's own spacing, not dialog units. | Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box. | The page layer's 8 px gaps: rows 23 px apart. |
@@ -83,8 +75,6 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 | low | [Toolbar buttons and groups](#toolbar) | Buttons start 3 px in and 3 px down. | The first button at the left edge, 2 px below the top. | 3 px in, 3 px down. |
 | low | [Tree view](#tree) | The same letter typed twice. | Each letter stands alone: P goes to the next item starting with P, P again to the one after. | Letters typed within 0.7 s are taken together, so "pp" matches nothing. |
 | low | [List view and sortable columns](#listview) | No type-ahead; Left and Right move in report view; icon view is treated as one line. | A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row. | Letters do nothing; Left and Right move like Up and Down; Down goes to the next icon. |
-| low | [Column header and resizing](#header) | The heading is taller. | 17 px. | 23 px. |
-| low | [Menu bar, submenus and recent files](#menus) | A cascading menu overlaps its parent by 3 px. | 6 px. | 3 px. |
 | low | [Modal dialog and focus restoration](#modal) | A label sits 4 px, not 5, below the top of its text box. | 3 dialog units, which the dialog manager makes 5 px. | 4 px. |
 | low | [Property sheet with Apply and Cancel](#properties) | The tab control and buttons sit 11 px from the edges, not 6 or 7. | The tab control 6 px in and 7 px down; 6 px between it and the buttons; 6 px to the right of Apply, 7 px below. | 11 px each. |
 | low | [Property sheet with Apply and Cancel](#properties) | The tabs come first in the Tab order, and Tab from Cancel leaves the sheet. | Tab goes page, OK, Cancel, Apply when available, then the tabs, then the page again. | The tabs, the page, OK, Cancel, then out of the sheet. |
@@ -99,11 +89,21 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 - **Tooltips and status help:** The tooltip was 21 px high.
 - **Tabs and tab panels:** The arrow keys wrapped from the last tab to the first.
 - **Tree view:** Plus, minus, asterisk and Backspace did nothing; a click on a label opened the branch.
+- **Tree view:** Rows were taller, the indent wider, and the plus or minus a character inside the label. A kit stylesheet change (the tree density properties); the comfortable tree is as it was.
+- **List view and sortable columns:** Headings and rows were taller. The example is a table laid out by the page layer, which now has period sizes.
+- **Column header and resizing:** The heading was taller.
 - **Menu bar, submenus and recent files:** Five behaviours corrected from the recordings.
+- **Menu bar, submenus and recent files:** The highlight skipped unavailable commands.
+- **Menu bar, submenus and recent files:** Menu commands and titles were 2 px taller than Windows 95, even at the period density.
+- **Menu bar, submenus and recent files:** A cascading menu overlapped its parent by 3 px.
 - **Context menus:** The menu opened with its first command highlighted.
+- **Context menus:** The highlight skipped the unavailable command.
+- **Context menus:** Commands were 2 px taller.
 - **Modal dialog and focus restoration:** The default look did not move to the focused push button. A kit stylesheet rule; kit/test/default-button.test.mjs.
 - **Property sheet with Apply and Cancel:** Ctrl+Tab, Ctrl+Page Up and Down did not change page; Enter in a field did nothing; the tabs wrapped. A browser keeps Ctrl+Tab for itself; hosts such as Electron deliver it.
+- **Message box and safe default:** Arrow keys did not move between the buttons.
 - **Wizard with validation and backtracking:** Enter in a field did not press Next.
+- **Window shell, system menu, move and size:** The title bar and its buttons were larger.
 - **Window shell, system menu, move and size:** Double-clicking the title bar did nothing.
 - **Hot-key input:** The field was grey, and Backspace and Delete did not clear it.
 
@@ -584,15 +584,15 @@ Not checked:
 - **Families:** tree view.
 - **Real counterpart:** tree view controls (comctl32 4.70). Captures: `lists`. Recordings: `tree-keys`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** tree view (170 by 140 against 854 by 88: same edges, different size).
-- **Layout numbers (real, example), in pixels:** from the top of one row to the next: 16, 20 ≠; label height: 16, 20 ≠; a child label starts further right than its parent by: 19, 25 ≠; first label in from the left of the control: 21, 4 ≠; first label below the top of the control: 2, 4 ≠.
+- **Rendering compared:** tree view (170 by 140 against 854 by 80: same edges, different size).
+- **Layout numbers (real, example), in pixels:** from the top of one row to the next: 16, 16; label height: 16, 16; a child label starts further right than its parent by: 19, 19; first label in from the left of the control: 21, 21; first label below the top of the control: 2, 2.
 - **Behaviour replayed, tree-keys** (recording `tree-keys`): 23 of 24 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Plus, minus, asterisk and Backspace did nothing; a click on a label opened the branch. | Plus expands, minus collapses, asterisk expands everything below, Backspace goes to the parent. A click on a label selects; the plus box or a double-click opens. | Now the same. | medium | fixed |
 | The same letter typed twice. | Each letter stands alone: P goes to the next item starting with P, P again to the one after. | Letters typed within 0.7 s are taken together, so "pp" matches nothing. | low | open |
-| Rows are taller, the indent is wider, and there are no lines or boxes. | Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left. | Rows 20 px; a child 25 px further right; a plus or minus character. | medium | open |
+| Rows were taller, the indent wider, and the plus or minus a character inside the label. A kit stylesheet change (the tree density properties); the comfortable tree is as it was. | Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left. | Now the same at the period density: the kit draws the rows, the boxes and the lines, the top level included, on the pixels Windows used. | medium | fixed |
 
 Both lints are clean on this page.
 
@@ -609,15 +609,15 @@ Not checked:
 - **Families:** list view, column heading.
 - **Real counterpart:** list view controls in report and icon view (comctl32 4.70). Captures: `lists`. Recordings: `listview-keys`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** column heading (150 by 17 against 465 by 23: same edges, different size); list view (268 by 110 against 854 by 77: same edges, different size).
-- **Layout numbers (real, example), in pixels:** heading height: 17, 23 ≠; row height: 14, 17 ≠; from the top of one row to the next: 14, 17 ≠.
+- **Rendering compared:** column heading (150 by 17 against 465 by 17: same edges, different size); list view (268 by 110 against 854 by 63: same edges, different size).
+- **Layout numbers (real, example), in pixels:** heading height: 17, 17; row height: 14, 14; from the top of one row to the next: 14, 14.
 - **Behaviour replayed, report view: keys** (recording `listview-keys`): 6 of 8 steps agree; 2 steps not comparable.
 - **Behaviour replayed, report view: sorting by a heading click** (recording `listview-keys`): 3 of 3 steps agree.
 - **Behaviour replayed, icon view** (recording `listview-keys`): 4 of 6 steps agree; 1 step not comparable.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Headings and rows are taller. The example is a table laid out by the page layer. | Headings 17 px, rows 14 px. | Headings 23 px, rows 17 px. | medium | open |
+| Headings and rows were taller. The example is a table laid out by the page layer, which now has period sizes. | Headings 17 px, rows 14 px. | Now the same at the period density. | medium | fixed |
 | No type-ahead; Left and Right move in report view; icon view is treated as one line. | A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row. | Letters do nothing; Left and Right move like Up and Down; Down goes to the next icon. | low | open |
 
 | Lint finding | Triage | Note |
@@ -634,18 +634,18 @@ Not checked:
 <a id="header"></a>
 ### Column header and resizing
 
-`demo/dist/widgets/header.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/header.html` · Navigation and data · **Verified**
 
 - **Families:** header control.
 - **Real counterpart:** a header control (comctl32 4.70). Captures: `commctl`. Recordings: `header`.
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** column heading (80 by 17 against 456 by 23: same edges, different size).
-- **Layout numbers (real, example), in pixels:** heading height: 17, 23 ≠.
+- **Rendering compared:** column heading (80 by 17 against 456 by 17: same edges, different size).
+- **Layout numbers (real, example), in pixels:** heading height: 17, 17.
 - **Behaviour replayed, dragging a divider** (recording `header`): 4 of 8 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| The heading is taller. | 17 px. | 23 px. | low | open |
+| The heading was taller. | 17 px. | Now 17 px at the period density. | low | fixed |
 | The column follows the pointer during a drag and has a smallest width. Live resizing is kinder in a browser, and a column that can vanish cannot be found again by keyboard. | The width changes when the button is released; a divider can be dragged to nothing. | The width follows the pointer, in whole percentages, and stops at 25%. | low | deliberate |
 
 Both lints are clean on this page.
@@ -677,29 +677,29 @@ Not checked:
 <a id="menus"></a>
 ### Menu bar, submenus and recent files
 
-`demo/dist/widgets/menus.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/menus.html` · Navigation and data · **Verified**
 
 - **Families:** menu bar, drop-down menu, cascading menu.
 - **Real counterpart:** a real window's menu bar, drop-down and cascading menus (user32). Captures: `menu-file`, `menu-view-cascade`. Recordings: `menu-activate`, `menu-arrows`, `menu-cascade`, `menu-mnemonics`, `menu-shortcuts`, `menu-mouse`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
-- **Rendering compared:** drop-down menu (149 by 126 against 150 by 138: same edges, different size).
-- **Layout numbers (real, example), in pixels:** menu bar title height: 18, 20 ≠; command height: 17, 19 ≠; from the top of one command to the next: 17, 19 ≠; from the command before a separator to the one after it: 26, 28 ≠; first command below the top of the menu: 3, 3; command in from the left of the menu: 3, 3; menu below the top of its title: 18, 20 ≠; menu left of its title by: 0, 0; cascading menu overlaps its parent by: -6, -3 ≠; cascading menu above the top of its item by: 3, 3.
+- **Rendering compared:** drop-down menu (149 by 126 against 150 by 126: same edges, different size).
+- **Layout numbers (real, example), in pixels:** menu bar title height: 18, 18; command height: 17, 17; from the top of one command to the next: 17, 17; from the command before a separator to the one after it: 26, 26; first command below the top of the menu: 3, 3; command in from the left of the menu: 3, 3; menu below the top of its title: 18, 18; menu left of its title by: 0, 0; cascading menu overlaps its parent by: -6, -6; cascading menu above the top of its item by: 3, 3.
 - **Behaviour replayed, activating the bar** (recording `menu-activate`): 18 of 18 steps agree.
-- **Behaviour replayed, arrows in a menu** (recording `menu-arrows`): 12 of 14 steps agree; 2 steps not comparable.
+- **Behaviour replayed, arrows in a menu** (recording `menu-arrows`): 16 of 16 steps agree.
 - **Behaviour replayed, cascading menu and Esc** (recording `menu-cascade`): 8 of 8 steps agree; 1 step not comparable.
 - **Behaviour replayed, access keys** (recording `menu-mnemonics`): 17 of 18 steps agree.
 - **Behaviour replayed, shortcut keys** (recording `menu-shortcuts`): 5 of 7 steps agree.
-- **Behaviour replayed, the mouse** (recording `menu-mouse`): 6 of 7 steps agree; 3 steps not comparable.
+- **Behaviour replayed, the mouse** (recording `menu-mouse`): 9 of 9 steps agree; 1 step not comparable.
 - **Measured:** time from the pointer coming onto a cascading item to its menu opening (milliseconds): real [493,400,491], example 428 (agree). Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Five behaviours corrected from the recordings. | A menu opened with the mouse has no command highlighted; Up on an active title opens with the first command highlighted; F10 on an active bar leaves menu mode; clicking the open title leaves menu mode; a cascading menu opens about 400 to 490 ms after the pointer comes onto its item. | Now the same (400 ms). | medium | fixed |
-| The highlight skips unavailable commands. The examples use disabled buttons, which cannot take focus; it needs aria-disabled and a drawn highlight. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing. | Unavailable commands are skipped. | medium | open |
+| The highlight skipped unavailable commands. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing. | Now the same: the unavailable command is aria-disabled, so it takes the highlight. | medium | fixed |
 | The letter of an unavailable command. Closing the menu without a word is not worth copying. | The menu closes and nothing runs. | Nothing happens; the menu stays open. | low | deliberate |
 | Shortcut keys are not live. The page says so; a browser reserves most of these chords. | Ctrl+N runs the command with the menu closed, does nothing with a menu open, and leaves menu mode when only the bar is active. | Ctrl+N is text in the menu only. | low | deliberate |
-| Menu commands and titles are 2 px taller than Windows 95, even at the period density. The page layer sets its own padding on menu items and bar titles, which overrides the kit's period sizes. Removing it changes the example pages in both densities. | Commands 17 px, bar titles 18 px, a separator 9 px. | Commands 19 px, titles 20 px. | medium | open |
-| A cascading menu overlaps its parent by 3 px. | 6 px. | 3 px. | low | open |
+| Menu commands and titles were 2 px taller than Windows 95, even at the period density. | Commands 17 px, bar titles 18 px, a separator 9 px. | Now the same: the page layer leaves the heights to the kit. | medium | fixed |
+| A cascading menu overlapped its parent by 3 px. | 6 px. | Now 6 px. | low | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -717,21 +717,22 @@ Not checked:
 <a id="context-menu"></a>
 ### Context menus
 
-`demo/dist/widgets/context-menu.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/context-menu.html` · Navigation and data · **Verified, apart from host limits**
 
 - **Families:** pop-up menu.
 - **Real counterpart:** a real pop-up menu opened by Shift+F10 and by right-click (user32). Captures: `menu-context`. Recordings: `context-menu`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
-- **Rendering compared:** pop-up menu (124 by 57 against 150 by 63: same edges, different size).
-- **Layout numbers (real, example), in pixels:** command height: 17, 19 ≠; from the top of one command to the next: 17, 19 ≠; first command below the top of the menu: 3, 3; menu height: 57, 63 ≠.
-- **Behaviour replayed, context-menu** (recording `context-menu`): 17 of 21 steps agree; 2 steps not comparable.
+- **Rendering compared:** pop-up menu (124 by 57 against 150 by 57: same edges, different size).
+- **Layout numbers (real, example), in pixels:** command height: 17, 17; from the top of one command to the next: 17, 17; first command below the top of the menu: 3, 3; menu height: 57, 57.
+- **Behaviour replayed, context-menu** (recording `context-menu`): 21 of 23 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | The menu opened with its first command highlighted. | Nothing is highlighted until Down, Up or the pointer chooses. | Now the same. | medium | fixed |
-| The highlight skips the unavailable command, and its letter does nothing. | Arrows highlight it; its letter closes the menu. | Skipped; the letter is ignored. | medium | open |
+| The highlight skipped the unavailable command. | Arrows highlight it; Enter on it closes the menu and runs nothing. | Now the same. | medium | fixed |
+| The letter of an unavailable command. As in the menus example: closing the menu without a word is not worth copying. | The menu closes and nothing runs. | Nothing happens; the menu stays open. | low | deliberate |
 | Right-clicking elsewhere while the menu is open. | The menu closes and opens at the new place with nothing highlighted. | It opens at the new place and the command under the pointer is highlighted. | low | host limit |
-| Commands are 2 px taller. The same page-layer padding as the menus example. | 17 px. | 19 px. | medium | open |
+| Commands were 2 px taller. | 17 px. | Now 17 px at the period density. | medium | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -858,12 +859,12 @@ Not checked:
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
 - **Rendering compared:** message box window (278 by 119 against 460 by 96: same edges, different size); first button (75 by 23 against 75 by 23: frame identical, inside differs); default button (the second) (75 by 23 against 75 by 23: frame identical, inside differs).
 - **Layout numbers (real, example), in pixels:** space between buttons: 6, 6; bottom margin (buttons from the client area): 11, 11; left of the first button from the client area: 59, 149 ≠; right of the last button from the client area: 57, 149 ≠; message text in from the left (no icon): 11, 11; message text below the top (no icon): 11, 11; message text to the buttons (no icon): 15, 11 ≠; button width: 75, 75; button height: 23, 23.
-- **Behaviour replayed, the second button as the default (real: Yes, No with No the default)** (recording `msgbox-keys`): 2 of 3 steps agree.
-- **Behaviour replayed, arrows, Tab, Enter on the focused button, Esc (real: OK, Cancel)** (recording `msgbox-keys`): 3 of 5 steps agree.
+- **Behaviour replayed, the second button as the default (real: Yes, No with No the default)** (recording `msgbox-keys`): 3 of 3 steps agree.
+- **Behaviour replayed, arrows, Tab, Enter on the focused button, Esc (real: OK, Cancel)** (recording `msgbox-keys`): 5 of 5 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Arrow keys do not move between the buttons. Would need the kit runtime; the examples do not load it. | Left and Right move the focus, and the default look, from button to button and wrap. | No effect; Tab moves. | medium | open |
+| Arrow keys did not move between the buttons. | Left and Right move the focus, and the default look, from button to button and wrap. | Now the same. | medium | fixed |
 | The box does not shrink to its message. | The box is as wide as its text and buttons need (272 px client for this question); 15 px between a one-line message and the buttons. | A fixed 454 px client; 11 px between message and buttons. | low | open |
 
 | Lint finding | Triage | Note |
@@ -975,8 +976,8 @@ Not checked:
 - **Families:** window, title bar, system menu.
 - **Real counterpart:** a real sizable window (user32). Captures: `menus`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
-- **Rendering compared:** window (420 by 300 against 300 by 220: same edges, different size); Close button (16 by 14 against 18 by 18: same edges, different size); Maximize button (16 by 14 against 18 by 18: edges differ); Minimize button (16 by 14 against 18 by 18: same edges, different size).
-- **Layout numbers (real, example), in pixels:** title bar height: 18, 22 ≠; frame thickness (title bar in from the left of the window): 4, 4; Close button in from the right of the title bar: 2, 2; Close button below the top of the title bar: 2, 2; space between Maximize and Close: 2, 4 ≠; space between Minimize and Maximize: 0, 2 ≠; caption button width: 16, 18 ≠; caption button height: 14, 18 ≠.
+- **Rendering compared:** window (420 by 300 against 300 by 220: same edges, different size); Close button (16 by 14 against 16 by 14: identical); Maximize button (16 by 14 against 16 by 14: identical); Minimize button (16 by 14 against 16 by 14: identical).
+- **Layout numbers (real, example), in pixels:** title bar height: 18, 18; frame thickness (title bar in from the left of the window): 4, 4; Close button in from the right of the title bar: 2, 2; Close button below the top of the title bar: 2, 2; space between Maximize and Close: 2, 2; space between Minimize and Maximize: 0, 0; caption button width: 16, 16; caption button height: 14, 14.
 - **Measured:** Alt+Space opens the window's system menu: real true, example true (agree).
 - **Measured:** command highlighted when the system menu opens from the keyboard: real "Restore", example "Restore" (agree). Only whether a command is highlighted is compared; the two menus hold different commands.
 - **Measured:** the letter M chooses Move from the open system menu: real true, example false. Real: after M the window was in its move loop (the guest stopped answering until Enter).
@@ -986,7 +987,7 @@ Not checked:
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| The title bar and its buttons are larger. The shared caption-button stylesheet has one size; the period density does not reach it. | Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away. | Title bar 22 px; buttons 18 by 18, 2 and 4 px apart. | medium | open |
+| The title bar and its buttons were larger. | Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away. | Now the same at the period density: the shared caption-button stylesheet reads the kit's density sizes. | medium | fixed |
 | Double-clicking the title bar did nothing. | It maximizes, and restores. | Now the same. | low | fixed |
 | The system menu has no access keys. | M chooses Move, S Size, and so on. | Arrows and Enter only. | low | open |
 | An arrow key moves the window 10 px. | 9 px in this recording (18 for two presses). | 10 px. | low | deliberate |

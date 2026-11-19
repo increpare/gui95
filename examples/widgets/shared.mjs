@@ -104,16 +104,21 @@ th,td{text-align:left;padding:1px 4px;border:0}
 th{padding:3px 6px;font-weight:normal;background:#c0c0c0;box-shadow:var(--gui95-raised)}
 th:has(>button){padding:0;box-shadow:none}
 th button{display:block;width:100%;min-width:60px;text-align:left}
+[data-gui95-density="period"] th{padding:2px 6px}
+[data-gui95-density="period"] th:has(>button){padding:0}
+.gui95[data-gui95-density="period"] th button,.gui95 [data-gui95-density="period"] th button{min-height:17px;--gui95-pad-y:2px;--gui95-pad-x:6px;line-height:13px}
+[data-gui95-density="period"] :is(th,td){line-height:13px}
+[data-gui95-density="period"] td{padding:0 4px 1px}
 .gui95 tr[aria-selected="true"]{background:#000080;color:#fff}
 .menu{position:absolute;z-index:5;margin:0;min-width:180px}
 .menu:focus{outline:none}
-.gui95 .menu [role^="menuitem"]{gap:6px;padding:3px 8px 3px 4px}
+.gui95 .menu [role^="menuitem"]{gap:6px;padding-left:4px;padding-right:8px}
 .gui95 .menu [role^="menuitem"]:not(:has(.mark)){padding-left:24px}
 .gui95 .menu [role^="menuitem"]::before{content:none}
 .menu .mark{flex:none;width:14px;text-align:center}
 .menu .key{margin-left:auto;padding-left:16px}
-.gui95 [role="menubar"]{display:flex;flex-wrap:wrap;padding:1px 0}
-.gui95 [role="menubar"]>[role="menuitem"]{flex:none;width:auto;min-height:20px;padding:2px 7px}
+.gui95 [role="menubar"]{display:flex;flex-wrap:wrap;padding:var(--gui95-menubar-pad)}
+.gui95 [role="menubar"]>[role="menuitem"]{flex:none;width:auto;min-height:var(--gui95-menubar-item-h);padding:2px 7px calc(2px + var(--gui95-menubar-item-drop))}
 .gui95 [role="menubar"]>[role="menuitem"]:is(:focus,[aria-expanded="true"]){background:#000080;color:#fff;outline:none}
 .gui95 [role="tree"] [role="treeitem"]:focus-visible{outline:none}
 .gui95 dialog{width:min(460px,calc(100vw - 24px))}
