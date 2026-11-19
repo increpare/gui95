@@ -284,3 +284,135 @@ CELL(3, frame_dlgmodal, K_WINDOW, 424, 200, 100, 52, WS_POPUP, WS_EX_DLGMODALFRA
 
 /* The pop-up menu, tracked open at x, y by window_active with its second item highlighted. w and h only reserve space: the measured window and item rectangles are in the report. */
 CELL(3, menu, K_MENU, 8, 292, 200, 180, 0, 0, 0, "")
+
+/* ======================================================================================================================
+ * Sheets 4 and up belong to refscene (../refscene/refscene.c): whole windows and live controls, driven and read back
+ * over the serial port. refgrid ignores them. x y w h are screen pixels as above; for a window the system sizes or
+ * places itself (a message box, a common dialog, a dialog made from a template) they only reserve space, and the
+ * measured rectangles are in the scene's dump. A list of items is written in the text argument, separated by "|".
+ * ====================================================================================================================== */
+
+/* Sheet 4. Common controls (comctl32) as children of the scene window. */
+CELL(4, toolbar, K_TOOLBAR, 8, 8, 300, 26, CCS_NODIVIDER, 0, 0, "")
+CELL(4, toolbar_divider, K_TOOLBAR, 8, 44, 300, 28, 0, 0, 0, "")
+CELL(4, status_grip_live, K_STATUS, 8, 84, 300, 20, SBARS_SIZEGRIP, 0, 0, "Ready")
+CELL(4, header_live, K_HEADER, 8, 116, 300, 20, HDS_BUTTONS, 0, 0, "Name|Size|Type")
+CELL(4, tab_live, K_TAB, 8, 148, 300, 90, 0, 0, 0, "General|Display|Output")
+CELL(4, tab_multiline, K_TAB, 8, 250, 300, 110, TCS_MULTILINE, 0, 0, "General|Display|Output|Colors|Fonts|Printing|Advanced|Network|Sharing|Security")
+CELL(4, updown, K_UPDOWN, 330, 8, 60, 23, UDS_ALIGNRIGHT|UDS_SETBUDDYINT|UDS_ARROWKEYS, 2, ST_BUDDY, "")
+CELL(4, updown_disabled, K_UPDOWN, 400, 8, 60, 23, UDS_ALIGNRIGHT|UDS_SETBUDDYINT|UDS_ARROWKEYS, 2, ST_BUDDY|ST_DISABLED, "")
+CELL(4, trackbar_live, K_TRACKBAR, 330, 44, 160, 30, TBS_HORZ|TBS_AUTOTICKS, 40, 0, "")
+CELL(4, trackbar_noticks_live, K_TRACKBAR, 330, 84, 160, 30, TBS_HORZ|TBS_NOTICKS, 40, 0, "")
+CELL(4, trackbar_disabled_live, K_TRACKBAR, 330, 124, 160, 30, TBS_HORZ|TBS_AUTOTICKS, 70, ST_DISABLED, "")
+CELL(4, trackbar_vert_live, K_TRACKBAR, 510, 44, 30, 130, TBS_VERT|TBS_AUTOTICKS, 50, 0, "")
+CELL(4, progress_0_live, K_PROGRESS, 330, 170, 160, 16, 0, 0, 0, "")
+CELL(4, progress_25, K_PROGRESS, 330, 194, 160, 16, 0, 25, 0, "")
+CELL(4, progress_100_live, K_PROGRESS, 330, 218, 160, 16, 0, 100, 0, "")
+CELL(4, hotkey, K_HOTKEY, 330, 250, 120, 23, 0, 0, 0, "")
+CELL(4, toggle_off, K_BUTTON, 330, 290, 75, 23, BS_AUTOCHECKBOX|BS_PUSHLIKE, 0, 0, "Show grid")
+CELL(4, toggle_on_disabled, K_BUTTON, 413, 290, 90, 23, BS_AUTOCHECKBOX|BS_PUSHLIKE, 0, ST_CHECKED|ST_DISABLED, "Snap (locked)")
+
+/* Sheet 5. Tree view, list views, list boxes, multi-line edits and combo boxes. b = the selected index (a bit mask for a multiple-selection list). */
+CELL(5, tree, K_TREE, 8, 8, 170, 140, TVS_HASLINES|TVS_HASBUTTONS|TVS_LINESATROOT|TVS_SHOWSELALWAYS, 0, 0, "")
+CELL(5, tree_icons, K_TREE, 186, 8, 170, 140, TVS_HASLINES|TVS_HASBUTTONS|TVS_LINESATROOT|TVS_SHOWSELALWAYS, 0, ST_ICONS, "")
+CELL(5, listview_report, K_LISTVIEW, 364, 8, 268, 110, LVS_REPORT|LVS_SINGLESEL|LVS_SHOWSELALWAYS, 0, ST_ICONS, "")
+CELL(5, listview_icon, K_LISTVIEW, 364, 126, 268, 120, LVS_ICON|LVS_SINGLESEL|LVS_SHOWSELALWAYS, 0, ST_ICONS, "")
+CELL(5, list_extended, K_LISTBOX, 8, 156, 110, 69, LBS_EXTENDEDSEL, 5, ST_SELECT, "Intro.wav|Theme.wav|Ending.wav|Credits.wav")
+CELL(5, list_multiple, K_LISTBOX, 126, 156, 110, 69, LBS_MULTIPLESEL, 5, ST_SELECT, "Intro.wav|Theme.wav|Ending.wav|Credits.wav")
+CELL(5, list_long, K_LISTBOX, 244, 156, 110, 69, WS_VSCROLL, 0, ST_SELECT|ST_MANY, "")
+CELL(5, list_single, K_LISTBOX, 8, 236, 110, 69, 0, 0, ST_SELECT, "Blank|Letter|Report|Invoice|Archived")
+CELL(5, list_long_extended, K_LISTBOX, 126, 236, 110, 69, LBS_EXTENDEDSEL|WS_VSCROLL, 0, ST_MANY, "")
+CELL(5, edit_multi, K_EDIT, 244, 250, 170, 80, ES_MULTILINE|ES_AUTOVSCROLL|ES_AUTOHSCROLL|ES_WANTRETURN|WS_VSCROLL|WS_HSCROLL, 0, 0, "First line\r\nSecond line")
+CELL(5, edit_multi_long, K_EDIT, 422, 250, 210, 80, ES_MULTILINE|ES_AUTOVSCROLL|ES_WANTRETURN|WS_VSCROLL, 0, ST_MANY, "")
+CELL(5, edit_single, K_EDIT, 8, 316, 110, 23, ES_AUTOHSCROLL, 0, 0, "Letter")
+CELL(5, edit_password, K_EDIT, 126, 316, 110, 23, ES_AUTOHSCROLL|ES_PASSWORD, 0, 0, "secret")
+CELL(5, combo_droplist_live, K_COMBO, 8, 350, 120, 21, CBS_DROPDOWNLIST, 0, ST_SELECT, "A4|Letter|Legal|Custom")
+CELL(5, combo_edit, K_COMBO, 136, 350, 140, 21, CBS_DROPDOWN|CBS_AUTOHSCROLL, 0, ST_SELECT, "Arial|Courier New|Georgia|Tahoma|Times New Roman|Verdana")
+CELL(5, combo_long, K_COMBO, 284, 350, 120, 21, CBS_DROPDOWNLIST, 0, ST_SELECT|ST_MANY, "")
+
+/* Sheet 6. Scroll bars to operate: controls (range 0 to 100, page 10, position b), and a window with its own two scroll bars. */
+CELL(6, vscroll, K_SCROLLBAR, 8, 8, 16, 220, SBS_VERT, 0, ST_PAGE, "")
+CELL(6, hscroll, K_SCROLLBAR, 40, 8, 240, 16, SBS_HORZ, 0, ST_PAGE, "")
+CELL(6, vscroll_disabled_live, K_SCROLLBAR, 350, 8, 16, 120, SBS_VERT, 30, ST_PAGE|ST_DISABLED, "")
+CELL(6, hscroll_nopage, K_SCROLLBAR, 40, 32, 240, 16, SBS_HORZ, 30, 0, "")
+CELL(6, scrollbox, K_SCROLLBOX, 40, 60, 300, 180, WS_HSCROLL|WS_VSCROLL, 0, 0, "")
+
+/* Sheet 7. A modeless dialog made from the template "form" below, so its layout is the dialog manager's own arithmetic. */
+CELL(7, form, K_DIALOG, 20, 20, 360, 320, 0, 0, 0, "form")
+
+/* Sheet 8. An overlapped window with a menu bar, accelerators and a context menu. */
+CELL(8, frame, K_FRAME, 8, 8, 420, 300, WS_OVERLAPPEDWINDOW, 0, ST_MENUBAR|ST_WHITE, "Letter.txt - Example")
+
+/* Sheet 9. An MDI frame with two document windows. */
+CELL(9, mdi, K_MDI, 8, 8, 560, 400, WS_OVERLAPPEDWINDOW, 0, ST_MENUBAR, "MDI Example")
+
+/* Sheets 10 to 16. MessageBox, one a sheet (it is modal). a = the MB_ flags; the caption is "Example". */
+CELL(10, msgbox_info, K_MSGBOX, 120, 140, 400, 160, MB_OK|MB_ICONINFORMATION, 0, 0, "The document was saved.")
+CELL(11, msgbox_warning_okcancel, K_MSGBOX, 120, 140, 400, 160, MB_OKCANCEL|MB_ICONEXCLAMATION, 0, 0, "A file named Letter.txt is already in this folder. If you continue, the file that is there now is replaced and cannot be restored.")
+CELL(12, msgbox_question_yesno_default2, K_MSGBOX, 120, 140, 400, 160, MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2, 0, 0, "Are you sure you want to delete 'Letter.txt'?")
+CELL(13, msgbox_warning_yesnocancel, K_MSGBOX, 120, 140, 400, 160, MB_YESNOCANCEL|MB_ICONEXCLAMATION, 0, 0, "Save changes to Letter.txt?")
+CELL(14, msgbox_stop_retrycancel, K_MSGBOX, 120, 140, 400, 160, MB_RETRYCANCEL|MB_ICONSTOP, 0, 0, "The file could not be read.")
+CELL(15, msgbox_stop_abortretryignore, K_MSGBOX, 120, 140, 400, 160, MB_ABORTRETRYIGNORE|MB_ICONSTOP, 0, 0, "The file could not be read.")
+CELL(16, msgbox_plain_ok, K_MSGBOX, 120, 140, 400, 160, MB_OK, 0, 0, "Finished.")
+
+/* Sheets 17 and 18. PropertySheet from the templates "page_general" and "page_layout"; a = 1 makes it a wizard from the "wiz_" templates. */
+CELL(17, propsheet, K_PROPSHEET, 60, 20, 400, 440, 0, 0, 0, "Document Properties")
+CELL(18, wizard, K_PROPSHEET, 60, 20, 500, 400, 1, 0, 0, "New Project")
+
+/* Sheets 19 to 25. Common dialogs (comdlg32). a: 1 Open, 2 Save As, 3 Font, 4 Color, 5 Print, 6 Find (modeless), 7 Page Setup. */
+CELL(19, comdlg_open, K_COMDLG, 60, 60, 440, 280, 1, 0, 0, "")
+CELL(20, comdlg_save, K_COMDLG, 60, 60, 440, 280, 2, 0, 0, "")
+CELL(21, comdlg_font, K_COMDLG, 60, 60, 440, 340, 3, 0, 0, "")
+CELL(22, comdlg_color, K_COMDLG, 60, 60, 240, 340, 4, 0, 0, "")
+CELL(23, comdlg_print, K_COMDLG, 60, 60, 440, 340, 5, 0, 0, "")
+CELL(24, comdlg_find, K_COMDLG, 60, 60, 380, 140, 6, 0, 0, "quick")
+CELL(25, comdlg_pagesetup, K_COMDLG, 60, 60, 380, 380, 7, 0, 0, "")
+
+/* ---- Dialog templates, in dialog units (8-point MS Sans Serif: 4 by 8 units = 6 by 13 pixels on this system). ----
+ * The layout follows the 1995 guidelines' numbers: 7 units of margin, 4 between related controls, 7 between groups,
+ * buttons 50 by 14, text boxes 14 high, check boxes and option buttons 10 high, labels 8 high and 3 below the top of
+ * the text box they name. Rows are in Tab order. WS_CHILD and WS_VISIBLE are added by the program. */
+DLG(form, 227, 187, DS_MODALFRAME|WS_POPUP|WS_CAPTION|WS_SYSMENU, "Export Options")
+CTL(form, 100, "STATIC", 7, 10, 30, 8, SS_LEFT, "&Name:")
+CTL(form, 101, "EDIT", 40, 7, 100, 14, ES_AUTOHSCROLL|WS_BORDER|WS_TABSTOP, "Letter")
+CTL(form, 102, "BUTTON", 144, 7, 50, 14, BS_PUSHBUTTON|WS_TABSTOP, "&Browse...")
+CTL(form, 110, "BUTTON", 7, 28, 100, 63, BS_GROUPBOX|WS_GROUP, "Image quality")
+CTL(form, 111, "BUTTON", 13, 39, 88, 10, BS_AUTORADIOBUTTON|WS_GROUP|WS_TABSTOP, "&Draft")
+CTL(form, 112, "BUTTON", 13, 51, 88, 10, BS_AUTORADIOBUTTON, "N&ormal")
+CTL(form, 113, "BUTTON", 13, 63, 88, 10, BS_AUTORADIOBUTTON, "&Best")
+CTL(form, 114, "BUTTON", 13, 75, 88, 10, BS_AUTORADIOBUTTON|WS_DISABLED, "P&rinter managed")
+CTL(form, 120, "BUTTON", 114, 28, 106, 63, BS_GROUPBOX|WS_GROUP, "Export channels")
+CTL(form, 121, "BUTTON", 120, 39, 94, 10, BS_AUTO3STATE|WS_GROUP|WS_TABSTOP, "A&ll channels")
+CTL(form, 122, "BUTTON", 120, 51, 94, 10, BS_AUTOCHECKBOX|WS_TABSTOP, "&Music")
+CTL(form, 123, "BUTTON", 120, 63, 94, 10, BS_AUTOCHECKBOX|WS_TABSTOP, "&Effects")
+CTL(form, 124, "BUTTON", 120, 75, 94, 10, BS_AUTOCHECKBOX|WS_TABSTOP|WS_DISABLED, "Re&quired metadata")
+CTL(form, 130, "STATIC", 7, 98, 100, 8, SS_LEFT|WS_GROUP, "&Templates:")
+CTL(form, 131, "LISTBOX", 7, 109, 100, 52, LBS_NOTIFY|WS_VSCROLL|WS_BORDER|WS_TABSTOP, "Blank|Letter|Report|Invoice|Archived")
+CTL(form, 140, "STATIC", 114, 98, 106, 8, SS_LEFT, "&Paper size:")
+CTL(form, 141, "COMBOBOX", 114, 109, 106, 60, CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP, "A4|Letter|Legal|Custom")
+CTL(form, 142, "STATIC", 114, 126, 106, 8, SS_LEFT, "&Font:")
+CTL(form, 143, "COMBOBOX", 114, 137, 106, 60, CBS_DROPDOWN|CBS_AUTOHSCROLL|WS_VSCROLL|WS_TABSTOP, "Arial|Courier New|Georgia|Tahoma|Times New Roman|Verdana")
+CTL(form, 1, "BUTTON", 62, 166, 50, 14, BS_DEFPUSHBUTTON|WS_GROUP|WS_TABSTOP, "OK")
+CTL(form, 2, "BUTTON", 116, 166, 50, 14, BS_PUSHBUTTON|WS_TABSTOP, "Cancel")
+CTL(form, 9, "BUTTON", 170, 166, 50, 14, BS_PUSHBUTTON|WS_TABSTOP, "&Help")
+
+/* Property sheet pages: the small standard page, 212 by 188 units. */
+DLG(page_general, 212, 188, WS_CHILD|WS_CAPTION, "General")
+CTL(page_general, 200, "STATIC", 7, 10, 30, 8, SS_LEFT, "&Title:")
+CTL(page_general, 201, "EDIT", 40, 7, 120, 14, ES_AUTOHSCROLL|WS_BORDER|WS_TABSTOP, "Untitled")
+CTL(page_general, 202, "BUTTON", 7, 28, 120, 10, BS_AUTOCHECKBOX|WS_TABSTOP, "&Read-only")
+DLG(page_layout, 212, 188, WS_CHILD|WS_CAPTION, "Layout")
+CTL(page_layout, 210, "STATIC", 7, 10, 44, 8, SS_LEFT, "&Orientation:")
+CTL(page_layout, 211, "COMBOBOX", 54, 7, 80, 60, CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP, "Portrait|Landscape")
+CTL(page_layout, 212, "BUTTON", 7, 28, 120, 10, BS_AUTOCHECKBOX|WS_TABSTOP, "&Fit to page")
+
+/* Wizard pages. */
+DLG(wiz_name, 260, 140, WS_CHILD|WS_CAPTION, "Name")
+CTL(wiz_name, 300, "STATIC", 7, 7, 200, 8, SS_LEFT, "Type a name for the new project.")
+CTL(wiz_name, 301, "STATIC", 7, 28, 50, 8, SS_LEFT, "&Project name:")
+CTL(wiz_name, 302, "EDIT", 60, 25, 120, 14, ES_AUTOHSCROLL|WS_BORDER|WS_TABSTOP, "")
+DLG(wiz_template, 260, 140, WS_CHILD|WS_CAPTION, "Template")
+CTL(wiz_template, 310, "STATIC", 7, 10, 50, 8, SS_LEFT, "&Template:")
+CTL(wiz_template, 311, "COMBOBOX", 60, 7, 80, 60, CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP, "Blank|Drawing|Document")
+DLG(wiz_review, 260, 140, WS_CHILD|WS_CAPTION, "Review")
+CTL(wiz_review, 320, "STATIC", 7, 7, 240, 16, SS_LEFT, "Click Finish to create the project.")

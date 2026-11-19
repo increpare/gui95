@@ -11,12 +11,32 @@ It establishes, for the one Windows 95 release installed (see "Which Windows 95"
 drawn edge and control state, the sizes the system chooses (caption, menu item, list row, scroll thumb), and the
 values of `GetSysColor`, `GetSystemMetrics` and `NONCLIENTMETRICS`.
 
-It does not establish: behaviour (nothing is clicked); other releases or Internet Explorer 4's replaced common
+It does not establish: other releases or Internet Explorer 4's replaced common
 controls; anything about colours beyond what the display mode can show (a 16-bit dump holds 5:6:5 colours, a
 256-colour dump palette colours; the report's `[syscolors]` section holds the true values in any mode). The FreeDOS
 self-test and the Wine smoke test prove only that the machinery runs; their images are not a reference for anything.
 
 **Status: installed from the owner's media and captured; see the results section of `tools/win95-reference/README.md`.**
+
+## Whole windows and recorded behaviour
+
+A second test program, `refscene`, shows whole windows that the system itself makes (message boxes, a property
+sheet, a wizard, the common dialogs, a dialog from a template in dialog units, a window with menus, the common
+controls) and takes real keyboard and mouse input through the emulator. A script outside the guest presses keys and
+moves the mouse, and after every step reads back, over the emulated serial port, what Windows did: the focus owner,
+the default button, the highlighted menu item, selections, check states, and the messages the program received,
+with the guest's own clock. So this part does establish behaviour, for this release.
+
+- The captures and their measured rectangles: `tools/win95-reference/scenes.json` and `measurements/scenes.json`.
+- The scripts and what was recorded: `tools/win95-reference/scripts/` and `recordings/`.
+- How each of the 38 widget examples compares with them: [example-audit.md](example-audit.md).
+
+The same era rule applies, and every capture and recording names the library concerned: menus, dialogs, buttons,
+edit, list and combo boxes and scroll bars are `user32.dll` 4.0.0.950, the 1995 window manager; the toolbar, status
+bar, header, tab control, tree view, list view, trackbar, up-down, progress bar, hot-key control, tooltip, property
+sheet and wizard are `comctl32.dll` 4.70, the 1996 library; the common dialogs are OSR2's `comdlg32.dll` 4.0.0.951
+and `shell32.dll`. Screen dumps of whole dialogs show Microsoft's artwork and stay in the ignored `out/` folder;
+only numbers, state and short labels are committed.
 
 ## Which Windows 95
 

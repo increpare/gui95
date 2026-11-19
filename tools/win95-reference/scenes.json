@@ -1,0 +1,469 @@
+{
+ "description": "The whole-window captures of phase 1: which refscene scene, the keys or mouse steps that bring it to the state wanted, which system library draws it (the era of the evidence), and the control families it is the counterpart for. Read by scenes.mjs.",
+ "captures": [
+  {
+   "name": "commctl",
+   "scene": 4,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+   "families": [
+    "toolbar",
+    "status bar",
+    "header",
+    "tab control",
+    "up-down",
+    "trackbar",
+    "progress bar",
+    "hot-key",
+    "push-like check box"
+   ]
+  },
+  {
+   "name": "commctl-tooltip",
+   "scene": 4,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+   "families": [
+    "tooltip",
+    "toolbar"
+   ],
+   "steps": [
+    {
+     "move": {
+      "cell": "toolbar",
+      "part": "button0"
+     }
+    },
+    {
+     "wait": 1500
+    }
+   ],
+   "pointer": true
+  },
+  {
+   "name": "lists",
+   "scene": 5,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release); tree view and list view: comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+   "families": [
+    "tree view",
+    "list view",
+    "list box",
+    "multiple-selection list box",
+    "multi-line edit",
+    "edit",
+    "combo box"
+   ]
+  },
+  {
+   "name": "lists-droplist-open",
+   "scene": 5,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "combo box"
+   ],
+   "steps": [
+    {
+     "focus": "combo_droplist_live"
+    },
+    {
+     "key": "f4"
+    }
+   ]
+  },
+  {
+   "name": "lists-combo-open",
+   "scene": 5,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "combo box"
+   ],
+   "steps": [
+    {
+     "focus": "combo_edit"
+    },
+    {
+     "key": "f4"
+    }
+   ]
+  },
+  {
+   "name": "lists-tree-expanded",
+   "scene": 5,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+   "families": [
+    "tree view"
+   ],
+   "steps": [
+    {
+     "focus": "tree"
+    },
+    {
+     "key": "kp_multiply"
+    }
+   ]
+  },
+  {
+   "name": "scrollbars",
+   "scene": 6,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "scroll bar"
+   ]
+  },
+  {
+   "name": "scrollbars-arrow-pressed",
+   "scene": 6,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "scroll bar"
+   ],
+   "steps": [
+    {
+     "move": {
+      "cell": "vscroll",
+      "fy": 1,
+      "dy": -8
+     }
+    },
+    {
+     "press": "left",
+     "settle": 150
+    }
+   ],
+   "after": [
+    {
+     "release": "left"
+    }
+   ],
+   "pointer": true
+  },
+  {
+   "name": "scrollbars-thumb-pressed",
+   "scene": 6,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "scroll bar"
+   ],
+   "steps": [
+    {
+     "move": {
+      "cell": "hscroll",
+      "fx": 0,
+      "dx": 24
+     }
+    },
+    {
+     "press": "left",
+     "settle": 150
+    }
+   ],
+   "after": [
+    {
+     "release": "left"
+    }
+   ],
+   "pointer": true
+  },
+  {
+   "name": "form",
+   "scene": 7,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "dialog",
+    "group box",
+    "option button",
+    "check box",
+    "edit",
+    "list box",
+    "combo box",
+    "push button"
+   ]
+  },
+  {
+   "name": "form-droplist-open",
+   "scene": 7,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "dialog",
+    "combo box"
+   ],
+   "steps": [
+    {
+     "key": [
+      "alt",
+      "p"
+     ]
+    },
+    {
+     "key": "f4"
+    }
+   ]
+  },
+  {
+   "name": "menus",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "window",
+    "menu bar"
+   ]
+  },
+  {
+   "name": "menu-bar-armed",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "menu bar"
+   ],
+   "steps": [
+    {
+     "key": "alt"
+    }
+   ]
+  },
+  {
+   "name": "menu-file",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "menu bar",
+    "menu"
+   ],
+   "steps": [
+    {
+     "key": [
+      "alt",
+      "f"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "menu-view",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "menu"
+   ],
+   "steps": [
+    {
+     "key": [
+      "alt",
+      "v"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "menu-view-cascade",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "menu",
+    "cascading menu"
+   ],
+   "steps": [
+    {
+     "key": [
+      "alt",
+      "v"
+     ]
+    },
+    {
+     "key": "z"
+    },
+    {
+     "key": "c"
+    }
+   ]
+  },
+  {
+   "name": "menu-context",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "context menu"
+   ],
+   "steps": [
+    {
+     "key": [
+      "shift",
+      "f10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "menu-system",
+   "scene": 8,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "system menu",
+    "window"
+   ],
+   "steps": [
+    {
+     "key": [
+      "alt",
+      "spc"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "mdi",
+   "scene": 9,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "MDI",
+    "window"
+   ]
+  },
+  {
+   "name": "msgbox-info",
+   "scene": 10,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-warning-okcancel",
+   "scene": 11,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-question-yesno-default2",
+   "scene": 12,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-warning-yesnocancel",
+   "scene": 13,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-stop-retrycancel",
+   "scene": 14,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-stop-abortretryignore",
+   "scene": 15,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "msgbox-plain-ok",
+   "scene": 16,
+   "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "message box"
+   ]
+  },
+  {
+   "name": "propsheet",
+   "scene": 17,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "property sheet",
+    "tab control"
+   ]
+  },
+  {
+   "name": "propsheet-layout",
+   "scene": 17,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "property sheet",
+    "tab control"
+   ],
+   "steps": [
+    {
+     "key": [
+      "ctrl",
+      "tab"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "wizard",
+   "scene": 18,
+   "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+   "families": [
+    "wizard"
+   ]
+  },
+  {
+   "name": "comdlg-open",
+   "scene": 19,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Open dialog"
+   ]
+  },
+  {
+   "name": "comdlg-save",
+   "scene": 20,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Save As dialog"
+   ]
+  },
+  {
+   "name": "comdlg-font",
+   "scene": 21,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Font dialog"
+   ]
+  },
+  {
+   "name": "comdlg-color",
+   "scene": 22,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Color dialog"
+   ]
+  },
+  {
+   "name": "comdlg-print",
+   "scene": 23,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Print dialog"
+   ],
+   "note": "No printer is installed on the reference system, so PrintDlg shows its \"There is no default printer\" message box instead of the Print dialog. The Print dialog itself was not captured."
+  },
+  {
+   "name": "comdlg-find",
+   "scene": 24,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Find dialog (modeless)"
+   ]
+  },
+  {
+   "name": "comdlg-pagesetup",
+   "scene": 25,
+   "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+   "families": [
+    "Page Setup dialog"
+   ],
+   "note": "No printer is installed, so PageSetupDlg shows the same message box."
+  }
+ ]
+}

@@ -33,7 +33,7 @@ export function readPe(bytes) {
 }
 
 /** The DLLs refgrid may import from: all are part of the original Windows 95. */
-export const WINDOWS_95_DLLS = Object.freeze(['kernel32.dll', 'user32.dll', 'gdi32.dll', 'comctl32.dll', 'version.dll']);
+export const WINDOWS_95_DLLS = Object.freeze(['kernel32.dll', 'user32.dll', 'gdi32.dll', 'comctl32.dll', 'comdlg32.dll', 'winmm.dll', 'version.dll']);
 
 /** Problems that would stop the program loading on Windows 95 on a 486 or Pentium. An empty list means none were found. */
 export function checkForWindows95(info) {

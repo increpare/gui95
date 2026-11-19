@@ -33,26 +33,11 @@
 #define GRID_H 480
 #define SHEETS 3
 
-enum { K_EDGE, K_DFC, K_SWATCH, K_FOCUSRECT, K_TEXT, K_BUTTON, K_EDIT, K_LISTBOX, K_COMBO, K_STATIC, K_SCROLLBAR,
-       K_STATUS, K_PROGRESS, K_TRACKBAR, K_UPDOWN, K_TAB, K_HEADER, K_WINDOW, K_MENU };
-enum { FONT_GUI, FONT_CAPTION, FONT_SMCAPTION, FONT_MENU, FONT_STATUS, FONT_MESSAGE, FONT_SYSTEM, FONT_COUNT };
+#include "cells.h"   /* the kinds, ST_* flags and CELL; shared with refscene */
 
-#define ST_DISABLED 0x0001
-#define ST_PUSHED   0x0002
-#define ST_CHECKED  0x0004
-#define ST_MIXED    0x0008
-#define ST_FOCUS    0x0010
-#define ST_SELECT   0x0020
-#define ST_ACTIVE   0x0040
-#define ST_MENUBAR  0x0080
-#define ST_WHITE    0x0100
-#define ST_PAGE     0x0200
-#define ST_MINTHUMB 0x0400
-#define ST_MANY     0x0800
-#define ST_BUDDY    0x1000
-
-typedef struct { int sheet; const char *id; int kind; int x, y, w, h; DWORD a, b; unsigned state; const char *text; } CELL;
-
+/* cells.def also holds refscene's dialog templates and its sheets 4 and up; refgrid shows sheets 1 to 3 only. */
+#define DLG(name, w, h, style, caption)
+#define CTL(dlg, id, cls, x, y, w, h, style, text)
 static const CELL cells[] = {
 #define CELL(sheet, id, kind, x, y, w, h, a, b, state, text) { sheet, #id, kind, x, y, w, h, (DWORD)(a), (DWORD)(b), state, text },
 #include "cells.def"
