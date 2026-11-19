@@ -1,0 +1,38 @@
+{
+ "name": "menu-activate",
+ "title": "Menu bar: Alt, F10, arrows along the bar and wrapping",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu bar"
+ ],
+ "steps": [
+  {"scene": 8},
+  {"key": "alt", "note": "Alt alone arms the bar"},
+  {"key": "alt", "note": "Alt again leaves it"},
+  {"key": "f10", "note": "F10 arms the bar"},
+  {"key": "f10", "note": "F10 again"},
+  {"key": "alt"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right", "note": "past the last title"},
+  {"key": "right"},
+  {"key": "left"},
+  {"key": "left", "note": "back past the first title"},
+  {"key": "left"},
+  {"key": "esc"},
+  {"key": "alt", "note": "arm again"},
+  {"key": "down", "note": "Down opens the highlighted menu"},
+  {"key": "esc"},
+  {"key": "up", "note": "Up on an armed title"},
+  {"key": "esc"},
+  {"key": "ret", "note": "Enter on an armed title"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "v"], "note": "Alt+letter opens that menu"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "q"], "note": "Alt with a letter no title has"},
+  {"key": "esc"}
+ ]
+}

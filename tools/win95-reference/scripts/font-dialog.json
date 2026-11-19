@@ -1,0 +1,24 @@
+{
+ "name": "font-dialog",
+ "title": "Font dialog (comdlg32): the three lists, typing a size, Enter, Esc",
+ "drawnBy": "comdlg32 4.0.0.951 (OSR2), on user32 4.0.0.950",
+ "families": [
+  "Font dialog"
+ ],
+ "steps": [
+  {"scene": 21},
+  {"key": "down", "note": "Down in the font list"},
+  {"key": "tab"},
+  {"key": "down", "note": "Down in the style list"},
+  {"key": "tab"},
+  {"text": "12", "note": "type a size"},
+  {"key": ["alt", "k"], "note": "Strikeout"},
+  {"key": "ret", "note": "Enter: OK"},
+  {"scene": 21},
+  {"key": ["alt", "s"]},
+  {"text": "7"},
+  {"key": "ret", "note": "a size the list does not have"},
+  {"scene": 21},
+  {"key": "esc", "note": "Esc"}
+ ]
+}

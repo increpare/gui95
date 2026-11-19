@@ -1,0 +1,35 @@
+{
+ "name": "mdi",
+ "title": "MDI: Ctrl+F6, the document system menu, maximize and minimize inside the frame",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "MDI",
+  "window"
+ ],
+ "steps": [
+  {"scene": 9},
+  {"key": ["ctrl", "f6"], "note": "Ctrl+F6"},
+  {"key": ["ctrl", "f6"]},
+  {"key": ["ctrl", "tab"], "note": "Ctrl+Tab"},
+  {"key": ["alt", "minus"], "note": "Alt+minus: the document system menu"},
+  {"key": "down"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "minus"]},
+  {"key": "n", "note": "Minimize"},
+  {"key": ["ctrl", "f6"]},
+  {"key": ["alt", "minus"]},
+  {"key": "x", "note": "Maximize"},
+  {"key": "alt"},
+  {"key": "left"},
+  {"key": "left", "note": "Left from File reaches the document menu"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "minus"]},
+  {"key": "r", "note": "Restore"},
+  {"key": ["ctrl", "f4"], "note": "Ctrl+F4"},
+  {"key": ["alt", "w"], "note": "the Window menu lists the documents"},
+  {"key": "esc"},
+  {"key": "esc"}
+ ]
+}

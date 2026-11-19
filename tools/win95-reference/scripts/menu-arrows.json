@@ -1,0 +1,32 @@
+{
+ "name": "menu-arrows",
+ "title": "Drop-down menu: arrows, unavailable items, wrapping, moving between menus",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu"
+ ],
+ "steps": [
+  {"scene": 8},
+  {"key": ["alt", "f"]},
+  {"key": "down"},
+  {"key": "down", "note": "onto the unavailable Save"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down", "note": "past the last item"},
+  {"key": "up", "note": "back past the first"},
+  {"key": "up"},
+  {"key": "up"},
+  {"key": "up", "note": "the unavailable item going up"},
+  {"key": "ret", "note": "Enter on the unavailable item"},
+  {"key": "spc", "note": "Space on it"},
+  {"key": "up"},
+  {"key": "home"},
+  {"key": "end"},
+  {"key": "right", "note": "Right on an ordinary item"},
+  {"key": "left", "note": "Left in a top-level menu"},
+  {"key": "left"},
+  {"key": "esc"},
+  {"key": "esc"}
+ ]
+}

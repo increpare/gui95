@@ -1,0 +1,25 @@
+{
+ "name": "wizard",
+ "title": "Wizard: Next with a missing value, Back keeps what was typed, Finish, Esc",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "wizard"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 18},
+  {"key": "ret", "note": "Enter with the name empty"},
+  {"text": "demo"},
+  {"key": "ret", "note": "Enter: Next is the default"},
+  {"key": ["alt", "b"], "note": "Back"},
+  {"key": ["alt", "n"], "note": "Next"},
+  {"key": ["alt", "n"]},
+  {"key": "ret", "note": "Enter on the last page: Finish"},
+  {"scene": 18},
+  {"key": "esc", "note": "Esc"},
+  {"scene": 18},
+  {"text": "a"},
+  {"key": "ret"},
+  {"click": {"window": "close"}, "note": "the Close button"}
+ ]
+}

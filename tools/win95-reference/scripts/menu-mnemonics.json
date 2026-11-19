@@ -1,0 +1,36 @@
+{
+ "name": "menu-mnemonics",
+ "title": "Menu access keys: unique, duplicated, unavailable and unknown letters",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu"
+ ],
+ "steps": [
+  {"scene": 8},
+  {"key": ["alt", "f"]},
+  {"key": "o", "note": "a unique letter chooses the command"},
+  {"key": ["alt", "v"]},
+  {"key": "t", "note": "a letter two items share"},
+  {"key": "t", "note": "again"},
+  {"key": "t", "note": "again"},
+  {"key": "ret", "note": "Enter chooses the highlighted one"},
+  {"key": ["alt", "f"]},
+  {"key": "s", "note": "the letter of an unavailable item"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "f"]},
+  {"key": "q", "note": "a letter no item has"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": ["alt", "v"]},
+  {"key": "g", "note": "a check item"},
+  {"key": ["alt", "v"]},
+  {"key": "z"},
+  {"key": "2", "note": "an option item in a cascade"},
+  {"key": ["alt", "v"]},
+  {"key": "z"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": "esc"}
+ ]
+}

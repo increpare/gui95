@@ -1,0 +1,81 @@
+{
+ "name": "dialog-tab-order",
+ "title": "Dialog: Tab and Shift+Tab order, and which button looks like the default as focus moves",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "dialog",
+  "push button"
+ ],
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/dialog-tab-order.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":7},"guestTime":0,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":101,"text":"Letter"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":-1368,"what":"command","dialog":"form","id":101,"code":1024},{"t":-1368,"what":"command","dialog":"form","id":101,"code":768},{"t":-1363,"what":"command","dialog":"form","id":101,"code":256},{"t":-1354,"what":"scene 7 built"}],"controls":{"Static#100":{"text":"&Name:"},"Edit#101":{"text":"Letter","sel":"0,6","lines":1,"first":0,"length":6},"Button#102":{"text":"&Browse...","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#110":{"text":"Image quality","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#111":{"text":"&Draft","type":"radio","check":1,"pushed":0,"bmfocus":0},"Button#112":{"text":"N&ormal","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#113":{"text":"&Best","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#114":{"text":"P&rinter managed","enabled":false,"type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#120":{"text":"Export channels","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#121":{"text":"A&ll channels","type":"check3","check":2,"pushed":0,"bmfocus":0},"Button#122":{"text":"&Music","type":"check","check":1,"pushed":0,"bmfocus":0},"Button#123":{"text":"&Effects","type":"check","check":0,"pushed":0,"bmfocus":0},"Button#124":{"text":"Re&quired metadata","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0},"Static#130":{"text":"&Templates:"},"ListBox#131":{"count":5,"top":0,"sel":0},"Static#140":{"text":"&Paper size:"},"ComboBox#141":{"text":"A4","sel":0,"dropped":0,"count":4,"top":0,"editsel":"65535,65535","extended":0},"Static#142":{"text":"&Font:"},"ComboBox#143":{"text":"Arial","sel":0,"dropped":0,"count":6,"top":0,"editsel":"0,0","extended":0},"Edit#1001":{"text":"Arial","sel":"0,0","lines":1,"first":0,"length":5},"Button#1":{"text":"OK","type":"defpush","check":0,"pushed":0,"bmfocus":0},"Button#2":{"text":"Cancel","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#9":{"text":"&Help","type":"push","check":0,"pushed":0,"bmfocus":0}},"image":"dialog-tab-order/000.png"},
+  {"step":{"key":"tab"},"guestTime":449,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":102,"text":"&Browse..."},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":20,"what":"input keydown","vk":9,"repeat":0,"tick":262416,"class":"Edit","loop":"queue"},{"t":20,"what":"command","dialog":"form","id":101,"code":512},{"t":134,"what":"input keyup","vk":9,"repeat":0,"tick":262531,"class":"Button","loop":"queue"}],"changed":{"Button#102":{"type":["push","defpush"],"bmfocus":[0,1]},"Button#1":{"type":["defpush","push"]}},"image":"dialog-tab-order/001.png"},
+  {"step":{"key":"tab"},"guestTime":889,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":111,"text":"&Draft"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":467,"what":"input keydown","vk":9,"repeat":0,"tick":262864,"class":"Button","loop":"queue"},{"t":581,"what":"input keyup","vk":9,"repeat":0,"tick":262978,"class":"Button","loop":"queue"}],"changed":{"Button#102":{"type":["defpush","push"],"bmfocus":[1,0]},"Button#111":{"bmfocus":[0,1]},"Button#1":{"type":["push","defpush"]}},"image":"dialog-tab-order/002.png"},
+  {"step":{"key":"tab"},"guestTime":1328,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":907,"what":"input keydown","vk":9,"repeat":0,"tick":263304,"class":"Button","loop":"queue"},{"t":1022,"what":"input keyup","vk":9,"repeat":0,"tick":263418,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"bmfocus":[1,0]},"Button#121":{"bmfocus":[0,1]}},"image":"dialog-tab-order/003.png"},
+  {"step":{"key":"tab"},"guestTime":1768,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":1347,"what":"input keydown","vk":9,"repeat":0,"tick":263744,"class":"Button","loop":"queue"},{"t":1467,"what":"input keyup","vk":9,"repeat":0,"tick":263864,"class":"Button","loop":"queue"}],"changed":{"Button#121":{"bmfocus":[1,0]},"Button#122":{"bmfocus":[0,1]}},"image":"dialog-tab-order/004.png"},
+  {"step":{"key":"tab"},"guestTime":2262,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":1786,"what":"input keydown","vk":9,"repeat":0,"tick":264183,"class":"Button","loop":"queue"},{"t":1906,"what":"input keyup","vk":9,"repeat":0,"tick":264303,"class":"Button","loop":"queue"}],"changed":{"Button#122":{"bmfocus":[1,0]},"Button#123":{"bmfocus":[0,1]}},"image":"dialog-tab-order/005.png"},
+  {"step":{"key":"tab"},"guestTime":2703,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"ListBox","id":131,"text":""},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":2281,"what":"input keydown","vk":9,"repeat":0,"tick":264678,"class":"Button","loop":"queue"},{"t":2282,"what":"command","dialog":"form","id":131,"code":4},{"t":2400,"what":"input keyup","vk":9,"repeat":0,"tick":264797,"class":"ListBox","loop":"queue"}],"changed":{"Button#123":{"bmfocus":[1,0]}},"image":"dialog-tab-order/006.png"},
+  {"step":{"key":"tab"},"guestTime":3142,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"ComboBox","id":141,"text":"A4"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":2721,"what":"input keydown","vk":9,"repeat":0,"tick":265118,"class":"ListBox","loop":"queue"},{"t":2722,"what":"command","dialog":"form","id":131,"code":5},{"t":2722,"what":"command","dialog":"form","id":141,"code":3},{"t":2834,"what":"input keyup","vk":9,"repeat":0,"tick":265231,"class":"ComboBox","loop":"queue"}],"changed":{},"image":"dialog-tab-order/007.png"},
+  {"step":{"key":"tab"},"guestTime":3585,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":1001,"text":"Arial"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":3156,"what":"input keydown","vk":9,"repeat":0,"tick":265553,"class":"ComboBox","loop":"queue"},{"t":3156,"what":"command","dialog":"form","id":141,"code":10},{"t":3156,"what":"command","dialog":"form","id":141,"code":4},{"t":3157,"what":"command","dialog":"form","id":143,"code":3},{"t":3276,"what":"input keyup","vk":9,"repeat":0,"tick":265673,"class":"Edit","loop":"queue"}],"changed":{"ComboBox#143":{"editsel":["0,0","0,5"]},"Edit#1001":{"sel":["0,0","0,5"]}},"image":"dialog-tab-order/008.png"},
+  {"step":{"key":"tab"},"guestTime":4022,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":1,"text":"OK"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":3598,"what":"input keydown","vk":9,"repeat":0,"tick":265995,"class":"Edit","loop":"queue"},{"t":3599,"what":"command","dialog":"form","id":143,"code":10},{"t":3599,"what":"command","dialog":"form","id":143,"code":4},{"t":3717,"what":"input keyup","vk":9,"repeat":0,"tick":266114,"class":"Button","loop":"queue"}],"changed":{"ComboBox#143":{"editsel":["0,5","0,0"]},"Edit#1001":{"sel":["0,5","0,0"]},"Button#1":{"bmfocus":[0,1]}},"image":"dialog-tab-order/009.png"},
+  {"step":{"key":"tab"},"guestTime":4516,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":2,"text":"Cancel"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4036,"what":"input keydown","vk":9,"repeat":0,"tick":266433,"class":"Button","loop":"queue"},{"t":4157,"what":"input keyup","vk":9,"repeat":0,"tick":266554,"class":"Button","loop":"queue"}],"changed":{"Button#1":{"type":["defpush","push"],"bmfocus":[1,0]},"Button#2":{"type":["push","defpush"],"bmfocus":[0,1]}},"image":"dialog-tab-order/010.png"},
+  {"step":{"key":"tab"},"guestTime":4957,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":9,"text":"&Help"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4529,"what":"input keydown","vk":9,"repeat":0,"tick":266926,"class":"Button","loop":"queue"},{"t":4651,"what":"input keyup","vk":9,"repeat":0,"tick":267048,"class":"Button","loop":"queue"}],"changed":{"Button#2":{"type":["defpush","push"],"bmfocus":[1,0]},"Button#9":{"type":["push","defpush"],"bmfocus":[0,1]}},"image":"dialog-tab-order/011.png"},
+  {"step":{"key":"tab"},"guestTime":5396,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":101,"text":"Letter"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4970,"what":"input keydown","vk":9,"repeat":0,"tick":267367,"class":"Button","loop":"queue"},{"t":4971,"what":"command","dialog":"form","id":101,"code":256},{"t":5081,"what":"input keyup","vk":9,"repeat":0,"tick":267478,"class":"Edit","loop":"queue"}],"changed":{"Button#1":{"type":["push","defpush"]},"Button#9":{"type":["defpush","push"],"bmfocus":[1,0]}},"image":"dialog-tab-order/012.png"},
+  {"step":{"key":["shift","tab"]},"guestTime":5943,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":9,"text":"&Help"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":5409,"what":"input keydown","vk":16,"repeat":0,"tick":267806,"class":"Edit","loop":"queue"},{"t":5449,"what":"input keydown","vk":9,"repeat":0,"tick":267846,"class":"Edit","loop":"queue"},{"t":5449,"what":"command","dialog":"form","id":101,"code":512},{"t":5565,"what":"input keyup","vk":9,"repeat":0,"tick":267962,"class":"Button","loop":"queue"},{"t":5602,"what":"input keyup","vk":16,"repeat":0,"tick":267999,"class":"Button","loop":"queue"}],"changed":{"Button#1":{"type":["defpush","push"]},"Button#9":{"type":["push","defpush"],"bmfocus":[0,1]}},"image":"dialog-tab-order/013.png"},
+  {"step":{"key":["shift","tab"]},"guestTime":6549,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":2,"text":"Cancel"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":5957,"what":"input keydown","vk":16,"repeat":0,"tick":268354,"class":"Button","loop":"queue"},{"t":5995,"what":"input keydown","vk":9,"repeat":0,"tick":268392,"class":"Button","loop":"queue"},{"t":6108,"what":"input keyup","vk":9,"repeat":0,"tick":268505,"class":"Button","loop":"queue"},{"t":6154,"what":"input keyup","vk":16,"repeat":0,"tick":268551,"class":"Button","loop":"queue"}],"changed":{"Button#2":{"type":["push","defpush"],"bmfocus":[0,1]},"Button#9":{"type":["defpush","push"],"bmfocus":[1,0]}},"image":"dialog-tab-order/014.png"},
+  {"step":{"key":["shift","tab"]},"guestTime":7098,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":1,"text":"OK"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":6562,"what":"input keydown","vk":16,"repeat":0,"tick":268959,"class":"Button","loop":"queue"},{"t":6605,"what":"input keydown","vk":9,"repeat":0,"tick":269002,"class":"Button","loop":"queue"},{"t":6728,"what":"input keyup","vk":9,"repeat":0,"tick":269125,"class":"Button","loop":"queue"},{"t":6768,"what":"input keyup","vk":16,"repeat":0,"tick":269165,"class":"Button","loop":"queue"}],"changed":{"Button#1":{"type":["push","defpush"],"bmfocus":[0,1]},"Button#2":{"type":["defpush","push"],"bmfocus":[1,0]}},"image":"dialog-tab-order/015.png"},
+  {"step":{"key":["shift","tab"]},"guestTime":7647,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":1001,"text":"Arial"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":7112,"what":"input keydown","vk":16,"repeat":0,"tick":269509,"class":"Button","loop":"queue"},{"t":7157,"what":"input keydown","vk":9,"repeat":0,"tick":269554,"class":"Button","loop":"queue"},{"t":7158,"what":"command","dialog":"form","id":143,"code":3},{"t":7277,"what":"input keyup","vk":9,"repeat":0,"tick":269674,"class":"Edit","loop":"queue"},{"t":7312,"what":"input keyup","vk":16,"repeat":0,"tick":269709,"class":"Edit","loop":"queue"}],"changed":{"ComboBox#143":{"editsel":["0,0","0,5"]},"Edit#1001":{"sel":["0,0","0,5"]},"Button#1":{"bmfocus":[1,0]}},"image":"dialog-tab-order/016.png"}
+ ]
+}

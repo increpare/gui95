@@ -1,0 +1,80 @@
+{
+ "name": "dialog-option-group",
+ "title": "Dialog: arrow keys in an option-button group",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "option button",
+  "dialog"
+ ],
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/dialog-option-group.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":7},"guestTime":0,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":101,"text":"Letter"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":-1311,"what":"command","dialog":"form","id":101,"code":1024},{"t":-1311,"what":"command","dialog":"form","id":101,"code":768},{"t":-1305,"what":"command","dialog":"form","id":101,"code":256},{"t":-1296,"what":"scene 7 built"}],"controls":{"Static#100":{"text":"&Name:"},"Edit#101":{"text":"Letter","sel":"0,6","lines":1,"first":0,"length":6},"Button#102":{"text":"&Browse...","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#110":{"text":"Image quality","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#111":{"text":"&Draft","type":"radio","check":1,"pushed":0,"bmfocus":0},"Button#112":{"text":"N&ormal","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#113":{"text":"&Best","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#114":{"text":"P&rinter managed","enabled":false,"type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#120":{"text":"Export channels","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#121":{"text":"A&ll channels","type":"check3","check":2,"pushed":0,"bmfocus":0},"Button#122":{"text":"&Music","type":"check","check":1,"pushed":0,"bmfocus":0},"Button#123":{"text":"&Effects","type":"check","check":0,"pushed":0,"bmfocus":0},"Button#124":{"text":"Re&quired metadata","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0},"Static#130":{"text":"&Templates:"},"ListBox#131":{"count":5,"top":0,"sel":0},"Static#140":{"text":"&Paper size:"},"ComboBox#141":{"text":"A4","sel":0,"dropped":0,"count":4,"top":0,"editsel":"65535,65535","extended":0},"Static#142":{"text":"&Font:"},"ComboBox#143":{"text":"Arial","sel":0,"dropped":0,"count":6,"top":0,"editsel":"0,0","extended":0},"Edit#1001":{"text":"Arial","sel":"0,0","lines":1,"first":0,"length":5},"Button#1":{"text":"OK","type":"defpush","check":0,"pushed":0,"bmfocus":0},"Button#2":{"text":"Cancel","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#9":{"text":"&Help","type":"push","check":0,"pushed":0,"bmfocus":0}},"image":"dialog-option-group/000.png"},
+  {"step":{"key":"tab"},"guestTime":438,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":102,"text":"&Browse..."},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":19,"what":"input keydown","vk":9,"repeat":0,"tick":254227,"class":"Edit","loop":"queue"},{"t":19,"what":"command","dialog":"form","id":101,"code":512},{"t":133,"what":"input keyup","vk":9,"repeat":0,"tick":254341,"class":"Button","loop":"queue"}],"changed":{"Button#102":{"type":["push","defpush"],"bmfocus":[0,1]},"Button#1":{"type":["defpush","push"]}},"image":"dialog-option-group/001.png"},
+  {"step":{"key":"tab","note":"into the group: the selected option"},"guestTime":881,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":111,"text":"&Draft"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":457,"what":"input keydown","vk":9,"repeat":0,"tick":254665,"class":"Button","loop":"queue"},{"t":568,"what":"input keyup","vk":9,"repeat":0,"tick":254776,"class":"Button","loop":"queue"}],"changed":{"Button#102":{"type":["defpush","push"],"bmfocus":[1,0]},"Button#111":{"bmfocus":[0,1]},"Button#1":{"type":["push","defpush"]}},"image":"dialog-option-group/002.png"},
+  {"step":{"key":"down"},"guestTime":1319,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":112,"text":"N&ormal"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":899,"what":"input keydown","vk":40,"repeat":0,"tick":255107,"class":"Button","loop":"queue"},{"t":900,"what":"command","dialog":"form","id":112,"code":0},{"t":900,"what":"command","dialog":"form","id":112,"code":0},{"t":1013,"what":"input keyup","vk":40,"repeat":0,"tick":255221,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[1,0],"bmfocus":[1,0]},"Button#112":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/003.png"},
+  {"step":{"key":"down"},"guestTime":1815,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":113,"text":"&Best"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":1338,"what":"input keydown","vk":40,"repeat":0,"tick":255546,"class":"Button","loop":"queue"},{"t":1338,"what":"command","dialog":"form","id":113,"code":0},{"t":1339,"what":"command","dialog":"form","id":113,"code":0},{"t":1458,"what":"input keyup","vk":40,"repeat":0,"tick":255665,"class":"Button","loop":"queue"}],"changed":{"Button#112":{"check":[1,0],"bmfocus":[1,0]},"Button#113":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/004.png"},
+  {"step":{"key":"down","note":"past the last available option"},"guestTime":2253,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":111,"text":"&Draft"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":1834,"what":"input keydown","vk":40,"repeat":0,"tick":256042,"class":"Button","loop":"queue"},{"t":1834,"what":"command","dialog":"form","id":111,"code":0},{"t":1835,"what":"command","dialog":"form","id":111,"code":0},{"t":1950,"what":"input keyup","vk":40,"repeat":0,"tick":256158,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[0,1],"bmfocus":[0,1]},"Button#113":{"check":[1,0],"bmfocus":[1,0]}},"image":"dialog-option-group/005.png"},
+  {"step":{"key":"up"},"guestTime":2693,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":113,"text":"&Best"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":2272,"what":"input keydown","vk":38,"repeat":0,"tick":256480,"class":"Button","loop":"queue"},{"t":2272,"what":"command","dialog":"form","id":113,"code":0},{"t":2273,"what":"command","dialog":"form","id":113,"code":0},{"t":2387,"what":"input keyup","vk":38,"repeat":0,"tick":256594,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[1,0],"bmfocus":[1,0]},"Button#113":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/006.png"},
+  {"step":{"key":"right"},"guestTime":3134,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":111,"text":"&Draft"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":2713,"what":"input keydown","vk":39,"repeat":0,"tick":256921,"class":"Button","loop":"queue"},{"t":2713,"what":"command","dialog":"form","id":111,"code":0},{"t":2714,"what":"command","dialog":"form","id":111,"code":0},{"t":2818,"what":"input keyup","vk":39,"repeat":0,"tick":257026,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[0,1],"bmfocus":[0,1]},"Button#113":{"check":[1,0],"bmfocus":[1,0]}},"image":"dialog-option-group/007.png"},
+  {"step":{"key":"left"},"guestTime":3572,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":113,"text":"&Best"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":3154,"what":"input keydown","vk":37,"repeat":0,"tick":257362,"class":"Button","loop":"queue"},{"t":3155,"what":"command","dialog":"form","id":113,"code":0},{"t":3155,"what":"command","dialog":"form","id":113,"code":0},{"t":3268,"what":"input keyup","vk":37,"repeat":0,"tick":257476,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[1,0],"bmfocus":[1,0]},"Button#113":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/008.png"},
+  {"step":{"key":"left"},"guestTime":4012,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":112,"text":"N&ormal"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":3592,"what":"input keydown","vk":37,"repeat":0,"tick":257800,"class":"Button","loop":"queue"},{"t":3593,"what":"command","dialog":"form","id":112,"code":0},{"t":3594,"what":"command","dialog":"form","id":112,"code":0},{"t":3704,"what":"input keyup","vk":37,"repeat":0,"tick":257912,"class":"Button","loop":"queue"}],"changed":{"Button#112":{"check":[0,1],"bmfocus":[0,1]},"Button#113":{"check":[1,0],"bmfocus":[1,0]}},"image":"dialog-option-group/009.png"},
+  {"step":{"key":"spc","note":"Space on the focused option"},"guestTime":4453,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":112,"text":"N&ormal"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4031,"what":"input keydown","vk":32,"repeat":0,"tick":258239,"class":"Button","loop":"queue"},{"t":4146,"what":"input keyup","vk":32,"repeat":0,"tick":258354,"class":"Button","loop":"queue"},{"t":4146,"what":"command","dialog":"form","id":112,"code":0}],"changed":{},"image":"dialog-option-group/010.png"},
+  {"step":{"key":"tab","note":"Tab leaves the group"},"guestTime":4892,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4468,"what":"input keydown","vk":9,"repeat":0,"tick":258676,"class":"Button","loop":"queue"},{"t":4578,"what":"input keyup","vk":9,"repeat":0,"tick":258786,"class":"Button","loop":"queue"}],"changed":{"Button#112":{"bmfocus":[1,0]},"Button#121":{"bmfocus":[0,1]}},"image":"dialog-option-group/011.png"},
+  {"step":{"key":["shift","tab"],"note":"and comes back to the selected option"},"guestTime":5441,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":112,"text":"N&ormal"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":4912,"what":"input keydown","vk":16,"repeat":0,"tick":259120,"class":"Button","loop":"queue"},{"t":4953,"what":"input keydown","vk":9,"repeat":0,"tick":259161,"class":"Button","loop":"queue"},{"t":5062,"what":"input keyup","vk":9,"repeat":0,"tick":259270,"class":"Button","loop":"queue"},{"t":5100,"what":"input keyup","vk":16,"repeat":0,"tick":259308,"class":"Button","loop":"queue"}],"changed":{"Button#112":{"bmfocus":[0,1]},"Button#121":{"bmfocus":[1,0]}},"image":"dialog-option-group/012.png"},
+  {"step":{"key":"down","note":"arrows again"},"guestTime":5880,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":113,"text":"&Best"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":5460,"what":"input keydown","vk":40,"repeat":0,"tick":259668,"class":"Button","loop":"queue"},{"t":5460,"what":"command","dialog":"form","id":113,"code":0},{"t":5461,"what":"command","dialog":"form","id":113,"code":0},{"t":5577,"what":"input keyup","vk":40,"repeat":0,"tick":259785,"class":"Button","loop":"queue"}],"changed":{"Button#112":{"check":[1,0],"bmfocus":[1,0]},"Button#113":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/013.png"},
+  {"step":{"key":"down"},"guestTime":6318,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":111,"text":"&Draft"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":5899,"what":"input keydown","vk":40,"repeat":0,"tick":260107,"class":"Button","loop":"queue"},{"t":5900,"what":"command","dialog":"form","id":111,"code":0},{"t":5901,"what":"command","dialog":"form","id":111,"code":0},{"t":6012,"what":"input keyup","vk":40,"repeat":0,"tick":260220,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[0,1],"bmfocus":[0,1]},"Button#113":{"check":[1,0],"bmfocus":[1,0]}},"image":"dialog-option-group/014.png"},
+  {"step":{"key":"up"},"guestTime":6755,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":113,"text":"&Best"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":315,"y":323}},"events":[{"t":6336,"what":"input keydown","vk":38,"repeat":0,"tick":260544,"class":"Button","loop":"queue"},{"t":6337,"what":"command","dialog":"form","id":113,"code":0},{"t":6338,"what":"command","dialog":"form","id":113,"code":0},{"t":6456,"what":"input keyup","vk":38,"repeat":0,"tick":260664,"class":"Button","loop":"queue"}],"changed":{"Button#111":{"check":[1,0],"bmfocus":[1,0]},"Button#113":{"check":[0,1],"bmfocus":[0,1]}},"image":"dialog-option-group/015.png"}
+ ]
+}

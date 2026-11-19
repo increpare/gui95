@@ -1,0 +1,30 @@
+{
+ "name": "menu-cascade",
+ "title": "Cascading menus by keyboard, and Esc one level at a time",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu",
+  "cascading menu"
+ ],
+ "steps": [
+  {"scene": 8},
+  {"key": ["alt", "v"]},
+  {"key": "down"},
+  {"key": "right", "note": "Right on a cascading item opens it"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "ret", "note": "Enter on a cascading item opens it"},
+  {"key": "left", "note": "Left closes one cascade"},
+  {"key": "right"},
+  {"key": "esc", "note": "Esc: first level back"},
+  {"key": "esc", "note": "second"},
+  {"key": "esc", "note": "third: the bar stays armed"},
+  {"key": "esc", "note": "fourth: menu mode ends"},
+  {"key": ["alt", "v"]},
+  {"key": "z"},
+  {"key": "c"},
+  {"key": "right", "note": "Right on an ordinary item, two cascades deep"},
+  {"key": "esc"},
+  {"key": "esc"}
+ ]
+}

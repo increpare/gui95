@@ -1,0 +1,19 @@
+{
+ "name": "toggle-button",
+ "title": "Push-like check box (a latching button): Space, Enter, the mouse",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "push-like check box"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"focus": "toggle_off"},
+  {"key": "spc"},
+  {"key": "spc"},
+  {"key": "ret", "note": "Enter outside a dialog"},
+  {"click": {"cell": "toggle_off"}},
+  {"click": true},
+  {"click": {"cell": "toggle_on_disabled"}, "note": "the unavailable one"}
+ ]
+}

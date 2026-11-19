@@ -1,0 +1,75 @@
+{
+ "name": "menu-shortcuts",
+ "title": "Shortcut keys with the menu closed and open",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu",
+  "shortcut key"
+ ],
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/menu-shortcuts.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":8},"guestTime":0,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":-1310,"what":"size","type":0,"w":412,"h":254},{"t":-1310,"what":"scene 8 built"}],"controls":{},"image":"menu-shortcuts/000.png"},
+  {"step":{"key":["ctrl","n"],"note":"menu closed: the accelerator runs"},"guestTime":550,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":15,"what":"input keydown","vk":17,"repeat":0,"tick":466515,"class":"refscene.frame","loop":"queue"},{"t":56,"what":"input keydown","vk":78,"repeat":0,"tick":466556,"class":"refscene.frame","loop":"queue"},{"t":57,"what":"initmenupopup","menu":"file","level":0,"sincemove":1365},{"t":57,"what":"command","id":1001,"source":"accelerator"},{"t":170,"what":"input keyup","vk":78,"repeat":0,"tick":466670,"class":"refscene.frame","loop":"queue"},{"t":215,"what":"input keyup","vk":17,"repeat":0,"tick":466715,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/001.png"},
+  {"step":{"key":["alt","f"]},"guestTime":1113,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":true,"levels":1,"bar":"&File","open":[{"name":"file","highlight":0,"text":"&New Ctrl+N"}]},"tops":[{"class":"#32768","text":""},{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":561,"what":"input syskeydown","vk":18,"repeat":0,"tick":467061,"class":"refscene.frame","loop":"queue"},{"t":608,"what":"input syskeydown","vk":70,"repeat":0,"tick":467108,"class":"refscene.frame","loop":"queue"},{"t":608,"what":"syscommand f100"},{"t":608,"what":"entermenuloop","popup":0},{"t":608,"what":"menuselect","menu":"bar","item":0,"flags":90,"mouse":0,"text":"&File"},{"t":609,"what":"initmenupopup","menu":"file","level":0,"sincemove":1917},{"t":609,"what":"menuselect","menu":"file","item":1001,"flags":80,"mouse":0,"text":"&New Ctrl+N"},{"t":724,"what":"input syskeyup","vk":70,"repeat":0,"tick":467224,"class":"refscene.frame","loop":"queue"},{"t":765,"what":"input keyup","vk":18,"repeat":0,"tick":467265,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/002.png"},
+  {"step":{"key":["ctrl","n"],"note":"menu open"},"guestTime":1649,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":true,"levels":1,"bar":"&File","open":[{"name":"file","highlight":0,"text":"&New Ctrl+N"}]},"tops":[{"class":"#32768","text":""},{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":1123,"what":"input keydown","vk":17,"repeat":0,"tick":467622,"class":"refscene.frame","loop":"queue"},{"t":1162,"what":"input keydown","vk":78,"repeat":0,"tick":467662,"class":"refscene.frame","loop":"queue"},{"t":1163,"what":"menuchar","char":14,"type":10,"menu":"file"},{"t":1285,"what":"input keyup","vk":78,"repeat":0,"tick":467785,"class":"refscene.frame","loop":"queue"},{"t":1320,"what":"input keyup","vk":17,"repeat":0,"tick":467820,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/003.png"},
+  {"step":{"key":"esc"},"guestTime":2104,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":true,"levels":0,"bar":"&File","open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":1665,"what":"input keydown","vk":27,"repeat":0,"tick":468165,"class":"refscene.frame","loop":"queue"},{"t":1666,"what":"menuselect","menu":"bar","item":0,"flags":90,"mouse":0,"text":"&File"},{"t":1778,"what":"input keyup","vk":27,"repeat":0,"tick":468278,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/004.png"},
+  {"step":{"key":"esc"},"guestTime":2596,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":2118,"what":"input keydown","vk":27,"repeat":0,"tick":468618,"class":"refscene.frame","loop":"queue"},{"t":2119,"what":"menuselect closed"},{"t":2119,"what":"exitmenuloop"},{"t":2236,"what":"input keyup","vk":27,"repeat":0,"tick":468736,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/005.png"},
+  {"step":{"key":"alt"},"guestTime":3037,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":true,"levels":0,"bar":"&File","open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":2605,"what":"input syskeydown","vk":18,"repeat":0,"tick":469105,"class":"refscene.frame","loop":"queue"},{"t":2727,"what":"input syskeyup","vk":18,"repeat":0,"tick":469227,"class":"refscene.frame","loop":"queue"},{"t":2727,"what":"syscommand f100"},{"t":2727,"what":"entermenuloop","popup":0},{"t":2727,"what":"menuselect","menu":"bar","item":0,"flags":90,"mouse":0,"text":"&File"}],"changed":{},"image":"menu-shortcuts/006.png"},
+  {"step":{"key":["ctrl","n"],"note":"bar armed"},"guestTime":3528,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":3056,"what":"input keydown","vk":17,"repeat":0,"tick":469556,"class":"refscene.frame","loop":"queue"},{"t":3101,"what":"input keydown","vk":78,"repeat":0,"tick":469600,"class":"refscene.frame","loop":"queue"},{"t":3101,"what":"menuchar","char":14,"type":0,"menu":"bar"},{"t":3102,"what":"menuselect closed"},{"t":3102,"what":"exitmenuloop"},{"t":3206,"what":"input keyup","vk":78,"repeat":0,"tick":469706,"class":"refscene.frame","loop":"queue"},{"t":3242,"what":"input keyup","vk":17,"repeat":0,"tick":469742,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/007.png"},
+  {"step":{"key":"esc"},"guestTime":3972,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":3543,"what":"input keydown","vk":27,"repeat":0,"tick":470043,"class":"refscene.frame","loop":"queue"},{"t":3672,"what":"input keyup","vk":27,"repeat":0,"tick":470172,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/008.png"},
+  {"step":{"key":["ctrl","c"],"note":"another accelerator"},"guestTime":4520,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":3988,"what":"input keydown","vk":17,"repeat":0,"tick":470487,"class":"refscene.frame","loop":"queue"},{"t":4033,"what":"input keydown","vk":67,"repeat":0,"tick":470533,"class":"refscene.frame","loop":"queue"},{"t":4033,"what":"initmenupopup","menu":"edit","level":0,"sincemove":931},{"t":4033,"what":"command","id":1023,"source":"accelerator"},{"t":4148,"what":"input keyup","vk":67,"repeat":0,"tick":470647,"class":"refscene.frame","loop":"queue"},{"t":4187,"what":"input keyup","vk":17,"repeat":0,"tick":470687,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/009.png"},
+  {"step":{"key":["alt","f4"],"note":"Alt+F4"},"guestTime":5011,"state":{"active":{"class":"refscene.frame","text":"Letter.txt - Example"},"focus":{"class":"refscene.frame","id":0,"cell":"frame","text":"Letter.txt - Example"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"refscene.frame","text":"Letter.txt - Example"}],"cursor":{"x":202,"y":94}},"events":[{"t":4530,"what":"input syskeydown","vk":18,"repeat":0,"tick":471030,"class":"refscene.frame","loop":"queue"},{"t":4574,"what":"input syskeydown","vk":115,"repeat":0,"tick":471074,"class":"refscene.frame","loop":"queue"},{"t":4574,"what":"syscommand f060"},{"t":4574,"what":"close"},{"t":4684,"what":"input syskeyup","vk":115,"repeat":0,"tick":471184,"class":"refscene.frame","loop":"queue"},{"t":4725,"what":"input keyup","vk":18,"repeat":0,"tick":471225,"class":"refscene.frame","loop":"queue"}],"changed":{},"image":"menu-shortcuts/010.png"}
+ ]
+}

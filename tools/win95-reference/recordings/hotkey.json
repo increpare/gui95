@@ -1,0 +1,76 @@
+{
+ "name": "hotkey",
+ "title": "Hot-key control: recording a chord, clearing it",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "hot-key"
+ ],
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/hotkey.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":4},"guestTime":0,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":-1320,"what":"command","id":329,"code":1024,"cell":"-"},{"t":-1320,"what":"command","id":329,"code":768,"cell":"-"},{"t":-1314,"what":"command","id":330,"code":1024,"cell":"-"},{"t":-1314,"what":"command","id":330,"code":768,"cell":"-"},{"t":-1312,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":1843},{"t":-1309,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":1846},{"t":-1308,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":1847},{"t":-1305,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":1850},{"t":-1304,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":1851},{"t":-1303,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":1852},{"t":-1300,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":1855},{"t":-1297,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":1858},{"t":-1296,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":1859},{"t":-1292,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":1863},{"t":-1290,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":1865},{"t":-1288,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":1867},{"t":-1271,"what":"scene 4 built"},{"t":-1270,"what":"notify","cell":"toolbar","id":323,"code":"code-12","sincemove":0},{"t":-1262,"what":"notify","cell":"toolbar_divider","id":324,"code":"code-12","sincemove":8},{"t":-1252,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":18},{"t":-1239,"what":"notify","cell":"trackbar_disabled_live","id":333,"code":"code-12","sincemove":31}],"controls":{"toolbar":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"toolbar_divider":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"status_grip_live":{"text":"Ready"},"header_live":{"widths":"80,80,80"},"tab_live":{"sel":0,"tabfocus":0,"count":3,"rows":1},"tab_multiline":{"sel":0,"tabfocus":0,"count":10,"rows":2},"updown":{"text":"2","sel":"0,0","lines":1,"first":0,"length":1},"updown~1":{"pos":2,"error":0,"min":1,"max":20},"updown_disabled":{"text":"2","enabled":false,"sel":"0,0","lines":1,"first":0,"length":1},"updown_disabled~1":{"enabled":false,"pos":2,"error":0,"min":1,"max":20},"trackbar_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_noticks_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_disabled_live":{"enabled":false,"pos":70,"min":0,"max":100,"line":1,"page":20},"trackbar_vert_live":{"pos":50,"min":0,"max":100,"line":1,"page":20},"progress_0_live":{},"progress_25":{},"progress_100_live":{},"hotkey":{"vk":75,"mods":3},"toggle_off":{"text":"Show grid","type":"check","check":0,"pushed":0,"bmfocus":0},"toggle_on_disabled":{"text":"Snap (locked)","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0}},"image":"hotkey/000.png"},
+  {"step":{"focus":"hotkey"},"guestTime":333,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[],"changed":{},"image":"hotkey/001.png"},
+  {"step":{"key":["ctrl","alt","k"],"note":"Ctrl+Alt+K"},"guestTime":933,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":353,"what":"input keydown","vk":17,"repeat":0,"tick":321334,"class":"msctls_hotkey32","loop":"queue"},{"t":353,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":394,"what":"input keydown","vk":18,"repeat":0,"tick":321374,"class":"msctls_hotkey32","loop":"queue"},{"t":394,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":434,"what":"input keydown","vk":75,"repeat":0,"tick":321414,"class":"msctls_hotkey32","loop":"queue"},{"t":434,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":545,"what":"input keyup","vk":75,"repeat":0,"tick":321526,"class":"msctls_hotkey32","loop":"queue"},{"t":577,"what":"input keyup","vk":18,"repeat":0,"tick":321558,"class":"msctls_hotkey32","loop":"queue"},{"t":617,"what":"input keyup","vk":17,"repeat":0,"tick":321598,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"mods":[3,6]}},"image":"hotkey/002.png"},
+  {"step":{"key":"k","note":"a plain letter"},"guestTime":1373,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":953,"what":"input keydown","vk":75,"repeat":0,"tick":321934,"class":"msctls_hotkey32","loop":"queue"},{"t":953,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":1073,"what":"input keyup","vk":75,"repeat":0,"tick":322054,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"mods":[6,0]}},"image":"hotkey/003.png"},
+  {"step":{"key":["shift","k"],"note":"Shift with a letter"},"guestTime":1923,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":1392,"what":"input keydown","vk":16,"repeat":0,"tick":322373,"class":"msctls_hotkey32","loop":"queue"},{"t":1393,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":1436,"what":"input keydown","vk":75,"repeat":0,"tick":322417,"class":"msctls_hotkey32","loop":"queue"},{"t":1436,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":1558,"what":"input keyup","vk":75,"repeat":0,"tick":322539,"class":"msctls_hotkey32","loop":"queue"},{"t":1598,"what":"input keyup","vk":16,"repeat":0,"tick":322579,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"mods":[0,1]}},"image":"hotkey/004.png"},
+  {"step":{"key":["ctrl","f5"],"note":"Ctrl with a function key"},"guestTime":2469,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":1939,"what":"input keydown","vk":17,"repeat":0,"tick":322919,"class":"msctls_hotkey32","loop":"queue"},{"t":1939,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":1980,"what":"input keydown","vk":116,"repeat":0,"tick":322961,"class":"msctls_hotkey32","loop":"queue"},{"t":1980,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":2092,"what":"input keyup","vk":116,"repeat":0,"tick":323073,"class":"msctls_hotkey32","loop":"queue"},{"t":2139,"what":"input keyup","vk":17,"repeat":0,"tick":323120,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"vk":[75,116],"mods":[1,2]}},"image":"hotkey/005.png"},
+  {"step":{"key":"backspace","note":"Backspace"},"guestTime":2912,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":2484,"what":"input keydown","vk":8,"repeat":0,"tick":323465,"class":"msctls_hotkey32","loop":"queue"},{"t":2484,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":2598,"what":"input keyup","vk":8,"repeat":0,"tick":323579,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"vk":[116,0],"mods":[2,0]}},"image":"hotkey/006.png"},
+  {"step":{"key":["ctrl","k"],"note":"Ctrl+K"},"guestTime":3461,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":2932,"what":"input keydown","vk":17,"repeat":0,"tick":323913,"class":"msctls_hotkey32","loop":"queue"},{"t":2932,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":2968,"what":"input keydown","vk":75,"repeat":0,"tick":323948,"class":"msctls_hotkey32","loop":"queue"},{"t":2968,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":3088,"what":"input keyup","vk":75,"repeat":0,"tick":324069,"class":"msctls_hotkey32","loop":"queue"},{"t":3127,"what":"input keyup","vk":17,"repeat":0,"tick":324108,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"vk":[0,75],"mods":[0,2]}},"image":"hotkey/007.png"},
+  {"step":{"key":"delete","note":"Delete"},"guestTime":3956,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":3480,"what":"input keydown","vk":46,"repeat":0,"tick":324461,"class":"msctls_hotkey32","loop":"queue"},{"t":3480,"what":"command","id":338,"code":768,"cell":"hotkey"},{"t":3597,"what":"input keyup","vk":46,"repeat":0,"tick":324578,"class":"msctls_hotkey32","loop":"queue"}],"changed":{"hotkey":{"vk":[75,0],"mods":[2,0]}},"image":"hotkey/008.png"},
+  {"step":{"key":"esc","note":"Esc"},"guestTime":4453,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":3976,"what":"input keydown","vk":27,"repeat":0,"tick":324957,"class":"msctls_hotkey32","loop":"queue"},{"t":4104,"what":"input keyup","vk":27,"repeat":0,"tick":325085,"class":"msctls_hotkey32","loop":"queue"}],"changed":{},"image":"hotkey/009.png"},
+  {"step":{"key":"tab","note":"Tab"},"guestTime":4888,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":4472,"what":"input keydown","vk":9,"repeat":0,"tick":325453,"class":"msctls_hotkey32","loop":"queue"},{"t":4589,"what":"input keyup","vk":9,"repeat":0,"tick":325570,"class":"msctls_hotkey32","loop":"queue"}],"changed":{},"image":"hotkey/010.png"},
+  {"step":{"key":"ret","note":"Enter"},"guestTime":5330,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":4908,"what":"input keydown","vk":13,"repeat":0,"tick":325889,"class":"msctls_hotkey32","loop":"queue"},{"t":5024,"what":"input keyup","vk":13,"repeat":0,"tick":326004,"class":"msctls_hotkey32","loop":"queue"}],"changed":{},"image":"hotkey/011.png"},
+  {"step":{"key":"spc","note":"Space"},"guestTime":5821,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"msctls_hotkey32","id":338,"cell":"hotkey","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":5349,"what":"input keydown","vk":32,"repeat":0,"tick":326330,"class":"msctls_hotkey32","loop":"queue"},{"t":5467,"what":"input keyup","vk":32,"repeat":0,"tick":326448,"class":"msctls_hotkey32","loop":"queue"}],"changed":{},"image":"hotkey/012.png"}
+ ]
+}

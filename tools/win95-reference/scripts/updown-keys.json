@@ -1,0 +1,37 @@
+{
+ "name": "updown-keys",
+ "title": "Up-down control with its buddy: arrow keys, limits, typed values, the buttons, auto-repeat",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "up-down"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"focus": "updown"},
+  {"key": "up"},
+  {"key": "up"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down", "note": "at the minimum"},
+  {"key": "pgup"},
+  {"key": "pgdn"},
+  {"key": "home"},
+  {"key": "end"},
+  {"key": ["shift", "home"]},
+  {"text": "20", "note": "type the maximum"},
+  {"key": "up", "note": "Up at the maximum"},
+  {"key": ["shift", "home"]},
+  {"text": "25", "note": "type a value above the maximum"},
+  {"key": "up", "note": "Up from there"},
+  {"key": ["shift", "home"]},
+  {"text": "7"},
+  {"click": {"cell": "updown", "class": "msctls_updown32", "fy": 0.25}, "note": "click the up button"},
+  {"click": {"cell": "updown", "class": "msctls_updown32", "fy": 0.75}, "note": "click the down button"},
+  {"move": {"cell": "updown", "class": "msctls_updown32", "fy": 0.25}, "note": "hold the up button"},
+  {"press": "left"},
+  {"wait": 3000},
+  {"release": "left"}
+ ]
+}
