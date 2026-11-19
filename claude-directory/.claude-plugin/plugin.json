@@ -1,6 +1,6 @@
 {
   "name": "gui95",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Build and review Windows 95-inspired web and Electron interfaces using GUI95’s live guidance, 38 widget templates, source references, assets and build kits. Requires the connected GUI95 reference service.",
   "author": {
     "name": "Stephen Lavelle",

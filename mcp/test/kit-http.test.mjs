@@ -28,7 +28,7 @@ test('real MCP client discovers versioned build kits and rejects unrecognized ar
  for(const tool of tools.tools.filter(tool=>tool.name!=='submit_gui95_feedback')) assert.equal(tool.annotations.readOnlyHint,true);
  const result=await client.callTool({name:'list_gui95_kits',arguments:{}});
  assert.ok(result.structuredContent.components.some(component=>component.id==='menu'));
- assert.equal(result.structuredContent.kit_version,'1.2.0');
+ assert.equal(result.structuredContent.kit_version,'1.3.0');
  assert.equal(result.structuredContent.icons.count,105);
  assert.equal((await fetch(base+'/artifacts/'+ 'a'.repeat(64)+'.zip')).status,404);
  assert.equal((await fetch(base+'/kit/../../mcp/store.mjs')).status,404);
@@ -49,7 +49,7 @@ test('all seven feature areas return usable artifacts through a real MCP client'
  const starter=await call('generate_gui95_starter',{template:'editor',name:'HTTP Fixture',id:'http-fixture'});assert.ok(starter.files.some(file=>file.path==='package.json'));
  const evidence=await call('get_gui95_evidence',{query:'dialog',limit:5});assert.ok(evidence.items.length);assert.ok(evidence.items.some(item=>item.source.url||item.local_refs?.some(ref=>ref.sha256)));
  const repairs=await call('get_gui95_repairs',{query:'pointer'});assert.ok(repairs.items.length);
- const updates=await call('check_gui95_updates',{manifest:{schema_version:1,components:{menu:'1.2.0'}}});assert.equal(updates.components[0].status,'current');
+ const updates=await call('check_gui95_updates',{manifest:{schema_version:1,components:{menu:'1.3.0'}}});assert.equal(updates.components[0].status,'current');
  assert.equal((await fetch(base+'/icons')).status,200);
  assert.equal((await fetch(base+'/icons/'+icons.icons[0].name+'.png?size=32')).headers.get('content-type'),'image/png');
  assert.equal((await fetch(base+'/kit/components/gui95.mjs')).status,200);

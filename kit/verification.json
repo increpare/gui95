@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "kit_version": "1.2.0",
+  "kit_version": "1.3.0",
   "checked_date": "2026-11-19",
   "environment": {
     "os": "macOS 26.6.2 (25G83)",
@@ -10,11 +10,11 @@
     "playwright": "1.62.1"
   },
   "combined_suite": {
-    "tests": 421,
-    "passed": 407,
+    "tests": 443,
+    "passed": 429,
     "failed": 0,
     "skipped": 14,
-    "skipped_scope": "Kit 197/197 and MCP 27/27 passed; delivery helpers and the Windows 95 reference tools 183 passed with 14 skipped (cases for other operating systems). The widget example checker passed 49/49 separately."
+    "skipped_scope": "Kit 205/205 and MCP 27/27 passed; delivery helpers, the Windows 95 reference tools and the example audit tools 197 passed with 14 skipped (cases for other operating systems). The widget example checker, the example audit builder and the evidence register builder passed their --check runs separately."
   },
   "gallery": {
     "scales": [
@@ -31,14 +31,14 @@
     "failures": 0,
     "screenshots_captured": 8,
     "period_lint": "passed: 0 violations in 220 visible elements (the verifier's four wide-viewport runs)",
-    "visual_review": "Scale 1 wide inspected in the comfortable density; the other seven captured but not reviewed. The period density was looked at in a separate partial screenshot of the gallery, not through the verifier. Headless Chromium hides scrollbar parts.",
-    "wording_and_layout_lints": "run once on the gallery in the comfortable density: 11 wording warnings in 59 pieces of interface text and 5 layout warnings in 35 controls. Both lints warn only; the findings were not triaged or fixed for this release."
+    "visual_review": "Scale 1 wide inspected in the comfortable density; the other seven captured but not reviewed. The period density was not run through the verifier; its controls were compared with the Windows 95 capture in the example audit. Headless Chromium hides scrollbar parts.",
+    "wording_and_layout_lints": "run once on the gallery in the comfortable density and exited 0. Both lints warn only; the findings were not counted, triaged or fixed for this release."
   },
   "state_atlas": {
     "baseline": "kit/test/baseline/state-atlas.png (comfortable) and kit/test/baseline/state-atlas-period.png (period)",
     "viewport": "809 x 442 at device scale factor 1",
-    "result": "passed: each density matched its stored baseline exactly (0 differing pixels); a one-level change to the raised bevel highlight was detected; the atlas page passed the period lint. The comfortable baseline gained cells for held check boxes and option buttons, a focused drop-down list and a selected unavailable menu command, and changed where the behaviour fixes repainted; the period baseline is new in 1.2.0.",
-    "scope": "Both baselines were rendered on this macOS machine in headless Chromium. Windows and Linux were not run for 1.2.0. The atlas checks what the kit stylesheet paints; comparison with Windows 95 is the separate record below."
+    "result": "passed: each density matched its stored baseline exactly (0 differing pixels). The comfortable baseline is the 1.2.0 one, unchanged. The period baseline was regenerated for 1.3.0 and changed in the tree, up-down, slider and toolbar cells.",
+    "scope": "Both baselines were rendered on this macOS machine in headless Chromium. Windows and Linux were not run for 1.3.0. The atlas checks what the kit stylesheet paints; comparison with Windows 95 is the separate record below."
   },
   "native_editor": {
     "electron": "not re-run since 1.0.0; the 1.0.0 record of 2026-10-18 used 44.9.0, which starters still pin",
@@ -54,10 +54,11 @@
     "native_picker_ui": "not automated"
   },
   "reference_snapshot_hashes": 109,
-  "scope": "These results apply to the maintained kit fixtures and the component gallery in headless Chromium on macOS. 1.2.0 adds dialog layout attributes, a period density, behaviour changes to menus and controls, two warn-only lints and the period evidence register. The new menu behaviour (arrow keys stopping on unavailable commands, the 400 ms submenu rest) is covered by tests but has not been judged in use by a person. The generated Electron editor was not built, packaged or launched. Consumer applications, native window behavior on any operating system, OS display scaling and screen readers require their own checks.",
+  "scope": "These results apply to the maintained kit fixtures and the component gallery in headless Chromium on macOS. 1.3.0 adds measured period sizes for the tree, up-down control, slider thumb, browser-drawn list box and toolbar, a property sheet layout, a wizard button row, a default-button frame that follows the focus in dialogs, and tab arrow keys that stop at the ends. These are covered by tests and by the example audit but have not been judged in use by a person. The generated Electron editor was not built, packaged or launched. Consumer applications, native window behavior on any operating system, OS display scaling and screen readers require their own checks.",
   "windows_95_comparison": {
     "reference": "Windows 95 4.00.1111 C (OSR2.5) installed from the owner's media in QEMU, captured 19 November 2026 at 24-bit, 16-bit and 256 colours by tools/win95-reference",
     "result": "At 24-bit, of 54 paired control states: 21 match pixel for pixel, 17 have the same edges at a different size, 6 differ in size and were not compared pixel by pixel, 10 differ in drawing.",
-    "scope": "Compared with the comfortable atlas before the density switch was merged; the period density was compared with the capture control by control by its own author, not re-run here. user, gdi and their 32-bit counterparts report version 4.0.0.950, as in the 1995 release; comctl32 is 4.70 (1996), so status bar, tab, slider and progress results describe that library. The original August 1995 release was not captured, and no toolbar was captured. Captures are not distributed."
+    "scope": "The 54-state result above is the 1.2.0 comparison with the comfortable atlas and was not re-run for 1.3.0. user, gdi and their 32-bit counterparts report version 4.0.0.950, as in the 1995 release; comctl32 is 4.70 (1996), so status bar, tab, slider and progress results describe that library. The original August 1995 release was not captured. Captures are not distributed.",
+    "example_audit": "For 1.3.0 each of the 38 widget examples was compared, in the period density, with captures and step-by-step recordings of the same system (docs/example-audit.md): 27 examples verified (11 of them apart from recorded browser limits), 2 verified with open differences (check box and option button rows 1 or 2 px further apart), 3 partly checked and 6 not verifiable. Verified means every difference found was fixed or recorded with a reason, not that the example is identical."
   }
 }
