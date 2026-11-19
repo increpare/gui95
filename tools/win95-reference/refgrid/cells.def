@@ -1,0 +1,286 @@
+/*
+ * The refgrid cell table: the one place that says what is drawn and where.
+ * refgrid.c includes this file to build its cell array; grid-export.mjs parses it to write grid.json.
+ *
+ *   CELL(sheet, id, kind, x, y, w, h, a, b, state, text)
+ *
+ * sheet  1 = drawn with DrawEdge and DrawFrameControl, 2 = real child controls, 3 = top-level windows and the menu.
+ * x y w h  pixels in the 640 by 480 grid window, which sits at the top left of the screen. They must be plain
+ *          integers. Nothing may overlap the ready marker (x 0 to 39, y 0 to 7).
+ * a, b   meaning depends on the kind; see the comment above each block.
+ * state  ST_* flags applied by message after the control is created.
+ * Edit by hand; keep one cell per line.
+ */
+
+/* Sheet 1. DrawEdge: one row per edge type, one column per flag set (BF_RECT is always added by the program). */
+CELL(1, edge_raised_none, K_EDGE, 8, 16, 48, 24, EDGE_RAISED, 0, 0, "")
+CELL(1, edge_raised_soft, K_EDGE, 64, 16, 48, 24, EDGE_RAISED, BF_SOFT, 0, "")
+CELL(1, edge_raised_flat, K_EDGE, 120, 16, 48, 24, EDGE_RAISED, BF_FLAT, 0, "")
+CELL(1, edge_raised_mono, K_EDGE, 176, 16, 48, 24, EDGE_RAISED, BF_MONO, 0, "")
+CELL(1, edge_sunken_none, K_EDGE, 8, 48, 48, 24, EDGE_SUNKEN, 0, 0, "")
+CELL(1, edge_sunken_soft, K_EDGE, 64, 48, 48, 24, EDGE_SUNKEN, BF_SOFT, 0, "")
+CELL(1, edge_sunken_flat, K_EDGE, 120, 48, 48, 24, EDGE_SUNKEN, BF_FLAT, 0, "")
+CELL(1, edge_sunken_mono, K_EDGE, 176, 48, 48, 24, EDGE_SUNKEN, BF_MONO, 0, "")
+CELL(1, edge_etched_none, K_EDGE, 8, 80, 48, 24, EDGE_ETCHED, 0, 0, "")
+CELL(1, edge_etched_soft, K_EDGE, 64, 80, 48, 24, EDGE_ETCHED, BF_SOFT, 0, "")
+CELL(1, edge_etched_flat, K_EDGE, 120, 80, 48, 24, EDGE_ETCHED, BF_FLAT, 0, "")
+CELL(1, edge_etched_mono, K_EDGE, 176, 80, 48, 24, EDGE_ETCHED, BF_MONO, 0, "")
+CELL(1, edge_bump_none, K_EDGE, 8, 112, 48, 24, EDGE_BUMP, 0, 0, "")
+CELL(1, edge_bump_soft, K_EDGE, 64, 112, 48, 24, EDGE_BUMP, BF_SOFT, 0, "")
+CELL(1, edge_bump_flat, K_EDGE, 120, 112, 48, 24, EDGE_BUMP, BF_FLAT, 0, "")
+CELL(1, edge_bump_mono, K_EDGE, 176, 112, 48, 24, EDGE_BUMP, BF_MONO, 0, "")
+CELL(1, edge_raisedouter_none, K_EDGE, 8, 144, 48, 24, BDR_RAISEDOUTER, 0, 0, "")
+CELL(1, edge_raisedouter_soft, K_EDGE, 64, 144, 48, 24, BDR_RAISEDOUTER, BF_SOFT, 0, "")
+CELL(1, edge_raisedouter_flat, K_EDGE, 120, 144, 48, 24, BDR_RAISEDOUTER, BF_FLAT, 0, "")
+CELL(1, edge_raisedouter_mono, K_EDGE, 176, 144, 48, 24, BDR_RAISEDOUTER, BF_MONO, 0, "")
+CELL(1, edge_sunkenouter_none, K_EDGE, 8, 176, 48, 24, BDR_SUNKENOUTER, 0, 0, "")
+CELL(1, edge_sunkenouter_soft, K_EDGE, 64, 176, 48, 24, BDR_SUNKENOUTER, BF_SOFT, 0, "")
+CELL(1, edge_sunkenouter_flat, K_EDGE, 120, 176, 48, 24, BDR_SUNKENOUTER, BF_FLAT, 0, "")
+CELL(1, edge_sunkenouter_mono, K_EDGE, 176, 176, 48, 24, BDR_SUNKENOUTER, BF_MONO, 0, "")
+CELL(1, edge_raisedinner_none, K_EDGE, 8, 208, 48, 24, BDR_RAISEDINNER, 0, 0, "")
+CELL(1, edge_raisedinner_soft, K_EDGE, 64, 208, 48, 24, BDR_RAISEDINNER, BF_SOFT, 0, "")
+CELL(1, edge_raisedinner_flat, K_EDGE, 120, 208, 48, 24, BDR_RAISEDINNER, BF_FLAT, 0, "")
+CELL(1, edge_raisedinner_mono, K_EDGE, 176, 208, 48, 24, BDR_RAISEDINNER, BF_MONO, 0, "")
+CELL(1, edge_sunkeninner_none, K_EDGE, 8, 240, 48, 24, BDR_SUNKENINNER, 0, 0, "")
+CELL(1, edge_sunkeninner_soft, K_EDGE, 64, 240, 48, 24, BDR_SUNKENINNER, BF_SOFT, 0, "")
+CELL(1, edge_sunkeninner_flat, K_EDGE, 120, 240, 48, 24, BDR_SUNKENINNER, BF_FLAT, 0, "")
+CELL(1, edge_sunkeninner_mono, K_EDGE, 176, 240, 48, 24, BDR_SUNKENINNER, BF_MONO, 0, "")
+
+/* DrawFrameControl, DFC_BUTTON: push button. */
+CELL(1, dfc_push_normal, K_DFC, 248, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH, 0, "")
+CELL(1, dfc_push_pushed, K_DFC, 304, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH|DFCS_PUSHED, 0, "")
+CELL(1, dfc_push_checked, K_DFC, 360, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH|DFCS_CHECKED, 0, "")
+CELL(1, dfc_push_inactive, K_DFC, 416, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_push_flat, K_DFC, 472, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH|DFCS_FLAT, 0, "")
+CELL(1, dfc_push_mono, K_DFC, 528, 16, 48, 24, DFC_BUTTON, DFCS_BUTTONPUSH|DFCS_MONO, 0, "")
+
+/* DFC_BUTTON: check box, 13 by 13. "mixed" is the 3-state box, DFCS_BUTTON3STATE|DFCS_CHECKED. */
+CELL(1, dfc_check_unchecked, K_DFC, 248, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK, 0, "")
+CELL(1, dfc_check_checked, K_DFC, 272, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_CHECKED, 0, "")
+CELL(1, dfc_check_pushed, K_DFC, 296, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_PUSHED, 0, "")
+CELL(1, dfc_check_checked_pushed, K_DFC, 320, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_CHECKED|DFCS_PUSHED, 0, "")
+CELL(1, dfc_check_inactive, K_DFC, 344, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_check_checked_inactive, K_DFC, 368, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_CHECKED|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_check_mixed, K_DFC, 392, 48, 13, 13, DFC_BUTTON, DFCS_BUTTON3STATE|DFCS_CHECKED, 0, "")
+CELL(1, dfc_check_mixed_pushed, K_DFC, 416, 48, 13, 13, DFC_BUTTON, DFCS_BUTTON3STATE|DFCS_CHECKED|DFCS_PUSHED, 0, "")
+CELL(1, dfc_check_mixed_inactive, K_DFC, 440, 48, 13, 13, DFC_BUTTON, DFCS_BUTTON3STATE|DFCS_CHECKED|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_check_flat, K_DFC, 464, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_FLAT, 0, "")
+CELL(1, dfc_check_checked_flat, K_DFC, 488, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_CHECKED|DFCS_FLAT, 0, "")
+CELL(1, dfc_check_checked_mono, K_DFC, 512, 48, 13, 13, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_CHECKED|DFCS_MONO, 0, "")
+
+/* DFC_BUTTON: option button, 13 by 13. */
+CELL(1, dfc_radio_unchecked, K_DFC, 248, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO, 0, "")
+CELL(1, dfc_radio_checked, K_DFC, 272, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_CHECKED, 0, "")
+CELL(1, dfc_radio_pushed, K_DFC, 296, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_PUSHED, 0, "")
+CELL(1, dfc_radio_checked_pushed, K_DFC, 320, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_CHECKED|DFCS_PUSHED, 0, "")
+CELL(1, dfc_radio_inactive, K_DFC, 344, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_radio_checked_inactive, K_DFC, 368, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_CHECKED|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_radio_flat, K_DFC, 392, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_FLAT, 0, "")
+CELL(1, dfc_radio_checked_flat, K_DFC, 416, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_CHECKED|DFCS_FLAT, 0, "")
+CELL(1, dfc_radio_checked_mono, K_DFC, 440, 72, 13, 13, DFC_BUTTON, DFCS_BUTTONRADIO|DFCS_CHECKED|DFCS_MONO, 0, "")
+
+/* DFC_SCROLL: arrows, 16 by 16; one row per direction, columns normal, pushed, inactive, flat. */
+CELL(1, dfc_scroll_up_normal, K_DFC, 248, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLUP, 0, "")
+CELL(1, dfc_scroll_up_pushed, K_DFC, 272, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLUP|DFCS_PUSHED, 0, "")
+CELL(1, dfc_scroll_up_inactive, K_DFC, 296, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLUP|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_scroll_up_flat, K_DFC, 320, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLUP|DFCS_FLAT, 0, "")
+CELL(1, dfc_scroll_down_normal, K_DFC, 248, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLDOWN, 0, "")
+CELL(1, dfc_scroll_down_pushed, K_DFC, 272, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLDOWN|DFCS_PUSHED, 0, "")
+CELL(1, dfc_scroll_down_inactive, K_DFC, 296, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLDOWN|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_scroll_down_flat, K_DFC, 320, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLDOWN|DFCS_FLAT, 0, "")
+CELL(1, dfc_scroll_left_normal, K_DFC, 248, 144, 16, 16, DFC_SCROLL, DFCS_SCROLLLEFT, 0, "")
+CELL(1, dfc_scroll_left_pushed, K_DFC, 272, 144, 16, 16, DFC_SCROLL, DFCS_SCROLLLEFT|DFCS_PUSHED, 0, "")
+CELL(1, dfc_scroll_left_inactive, K_DFC, 296, 144, 16, 16, DFC_SCROLL, DFCS_SCROLLLEFT|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_scroll_left_flat, K_DFC, 320, 144, 16, 16, DFC_SCROLL, DFCS_SCROLLLEFT|DFCS_FLAT, 0, "")
+CELL(1, dfc_scroll_right_normal, K_DFC, 248, 168, 16, 16, DFC_SCROLL, DFCS_SCROLLRIGHT, 0, "")
+CELL(1, dfc_scroll_right_pushed, K_DFC, 272, 168, 16, 16, DFC_SCROLL, DFCS_SCROLLRIGHT|DFCS_PUSHED, 0, "")
+CELL(1, dfc_scroll_right_inactive, K_DFC, 296, 168, 16, 16, DFC_SCROLL, DFCS_SCROLLRIGHT|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_scroll_right_flat, K_DFC, 320, 168, 16, 16, DFC_SCROLL, DFCS_SCROLLRIGHT|DFCS_FLAT, 0, "")
+
+/* DFC_SCROLL: drop-down arrow, size grips. DFC_MENU: the menu glyphs. */
+CELL(1, dfc_combo_normal, K_DFC, 360, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLCOMBOBOX, 0, "")
+CELL(1, dfc_combo_pushed, K_DFC, 384, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLCOMBOBOX|DFCS_PUSHED, 0, "")
+CELL(1, dfc_combo_inactive, K_DFC, 408, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLCOMBOBOX|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_combo_flat, K_DFC, 432, 96, 16, 16, DFC_SCROLL, DFCS_SCROLLCOMBOBOX|DFCS_FLAT, 0, "")
+CELL(1, dfc_sizegrip, K_DFC, 360, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLSIZEGRIP, 0, "")
+CELL(1, dfc_sizegrip_right, K_DFC, 384, 120, 16, 16, DFC_SCROLL, DFCS_SCROLLSIZEGRIPRIGHT, 0, "")
+CELL(1, dfc_menu_arrow, K_DFC, 360, 144, 16, 16, DFC_MENU, DFCS_MENUARROW, 0, "")
+CELL(1, dfc_menu_check, K_DFC, 384, 144, 16, 16, DFC_MENU, DFCS_MENUCHECK, 0, "")
+CELL(1, dfc_menu_bullet, K_DFC, 408, 144, 16, 16, DFC_MENU, DFCS_MENUBULLET, 0, "")
+CELL(1, dfc_menu_arrowright, K_DFC, 432, 144, 16, 16, DFC_MENU, DFCS_MENUARROWRIGHT, 0, "")
+
+/* DFC_CAPTION: 16 by 14; one row per button, columns normal, pushed, inactive, flat. */
+CELL(1, dfc_caption_close_normal, K_DFC, 472, 96, 16, 14, DFC_CAPTION, DFCS_CAPTIONCLOSE, 0, "")
+CELL(1, dfc_caption_close_pushed, K_DFC, 496, 96, 16, 14, DFC_CAPTION, DFCS_CAPTIONCLOSE|DFCS_PUSHED, 0, "")
+CELL(1, dfc_caption_close_inactive, K_DFC, 520, 96, 16, 14, DFC_CAPTION, DFCS_CAPTIONCLOSE|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_caption_close_flat, K_DFC, 544, 96, 16, 14, DFC_CAPTION, DFCS_CAPTIONCLOSE|DFCS_FLAT, 0, "")
+CELL(1, dfc_caption_min_normal, K_DFC, 472, 116, 16, 14, DFC_CAPTION, DFCS_CAPTIONMIN, 0, "")
+CELL(1, dfc_caption_min_pushed, K_DFC, 496, 116, 16, 14, DFC_CAPTION, DFCS_CAPTIONMIN|DFCS_PUSHED, 0, "")
+CELL(1, dfc_caption_min_inactive, K_DFC, 520, 116, 16, 14, DFC_CAPTION, DFCS_CAPTIONMIN|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_caption_min_flat, K_DFC, 544, 116, 16, 14, DFC_CAPTION, DFCS_CAPTIONMIN|DFCS_FLAT, 0, "")
+CELL(1, dfc_caption_max_normal, K_DFC, 472, 136, 16, 14, DFC_CAPTION, DFCS_CAPTIONMAX, 0, "")
+CELL(1, dfc_caption_max_pushed, K_DFC, 496, 136, 16, 14, DFC_CAPTION, DFCS_CAPTIONMAX|DFCS_PUSHED, 0, "")
+CELL(1, dfc_caption_max_inactive, K_DFC, 520, 136, 16, 14, DFC_CAPTION, DFCS_CAPTIONMAX|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_caption_max_flat, K_DFC, 544, 136, 16, 14, DFC_CAPTION, DFCS_CAPTIONMAX|DFCS_FLAT, 0, "")
+CELL(1, dfc_caption_restore_normal, K_DFC, 472, 156, 16, 14, DFC_CAPTION, DFCS_CAPTIONRESTORE, 0, "")
+CELL(1, dfc_caption_restore_pushed, K_DFC, 496, 156, 16, 14, DFC_CAPTION, DFCS_CAPTIONRESTORE|DFCS_PUSHED, 0, "")
+CELL(1, dfc_caption_restore_inactive, K_DFC, 520, 156, 16, 14, DFC_CAPTION, DFCS_CAPTIONRESTORE|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_caption_restore_flat, K_DFC, 544, 156, 16, 14, DFC_CAPTION, DFCS_CAPTIONRESTORE|DFCS_FLAT, 0, "")
+CELL(1, dfc_caption_help_normal, K_DFC, 472, 176, 16, 14, DFC_CAPTION, DFCS_CAPTIONHELP, 0, "")
+CELL(1, dfc_caption_help_pushed, K_DFC, 496, 176, 16, 14, DFC_CAPTION, DFCS_CAPTIONHELP|DFCS_PUSHED, 0, "")
+CELL(1, dfc_caption_help_inactive, K_DFC, 520, 176, 16, 14, DFC_CAPTION, DFCS_CAPTIONHELP|DFCS_INACTIVE, 0, "")
+CELL(1, dfc_caption_help_flat, K_DFC, 544, 176, 16, 14, DFC_CAPTION, DFCS_CAPTIONHELP|DFCS_FLAT, 0, "")
+
+/* One solid swatch per GetSysColor index, 0 (COLOR_SCROLLBAR) to 24 (COLOR_INFOBK). */
+CELL(1, syscolor_00, K_SWATCH, 8, 288, 20, 20, 0, 0, 0, "")
+CELL(1, syscolor_01, K_SWATCH, 32, 288, 20, 20, 1, 0, 0, "")
+CELL(1, syscolor_02, K_SWATCH, 56, 288, 20, 20, 2, 0, 0, "")
+CELL(1, syscolor_03, K_SWATCH, 80, 288, 20, 20, 3, 0, 0, "")
+CELL(1, syscolor_04, K_SWATCH, 104, 288, 20, 20, 4, 0, 0, "")
+CELL(1, syscolor_05, K_SWATCH, 128, 288, 20, 20, 5, 0, 0, "")
+CELL(1, syscolor_06, K_SWATCH, 152, 288, 20, 20, 6, 0, 0, "")
+CELL(1, syscolor_07, K_SWATCH, 176, 288, 20, 20, 7, 0, 0, "")
+CELL(1, syscolor_08, K_SWATCH, 200, 288, 20, 20, 8, 0, 0, "")
+CELL(1, syscolor_09, K_SWATCH, 224, 288, 20, 20, 9, 0, 0, "")
+CELL(1, syscolor_10, K_SWATCH, 248, 288, 20, 20, 10, 0, 0, "")
+CELL(1, syscolor_11, K_SWATCH, 272, 288, 20, 20, 11, 0, 0, "")
+CELL(1, syscolor_12, K_SWATCH, 296, 288, 20, 20, 12, 0, 0, "")
+CELL(1, syscolor_13, K_SWATCH, 320, 288, 20, 20, 13, 0, 0, "")
+CELL(1, syscolor_14, K_SWATCH, 344, 288, 20, 20, 14, 0, 0, "")
+CELL(1, syscolor_15, K_SWATCH, 368, 288, 20, 20, 15, 0, 0, "")
+CELL(1, syscolor_16, K_SWATCH, 392, 288, 20, 20, 16, 0, 0, "")
+CELL(1, syscolor_17, K_SWATCH, 416, 288, 20, 20, 17, 0, 0, "")
+CELL(1, syscolor_18, K_SWATCH, 440, 288, 20, 20, 18, 0, 0, "")
+CELL(1, syscolor_19, K_SWATCH, 464, 288, 20, 20, 19, 0, 0, "")
+CELL(1, syscolor_20, K_SWATCH, 488, 288, 20, 20, 20, 0, 0, "")
+CELL(1, syscolor_21, K_SWATCH, 512, 288, 20, 20, 21, 0, 0, "")
+CELL(1, syscolor_22, K_SWATCH, 536, 288, 20, 20, 22, 0, 0, "")
+CELL(1, syscolor_23, K_SWATCH, 560, 288, 20, 20, 23, 0, 0, "")
+CELL(1, syscolor_24, K_SWATCH, 584, 288, 20, 20, 24, 0, 0, "")
+
+/* DrawFocusRect, and one line of text in each system font (a = FONT_* index); the last is drawn unavailable with DrawState. */
+CELL(1, focusrect, K_FOCUSRECT, 8, 320, 48, 24, 0, 0, 0, "")
+CELL(1, text_gui, K_TEXT, 72, 320, 128, 20, FONT_GUI, 0, 0, "Sample Text 0123")
+CELL(1, text_caption, K_TEXT, 208, 320, 128, 20, FONT_CAPTION, 0, 0, "Sample Text 0123")
+CELL(1, text_smcaption, K_TEXT, 344, 320, 128, 20, FONT_SMCAPTION, 0, 0, "Sample Text 0123")
+CELL(1, text_menu, K_TEXT, 480, 320, 128, 20, FONT_MENU, 0, 0, "Sample Text 0123")
+CELL(1, text_status, K_TEXT, 72, 348, 128, 20, FONT_STATUS, 0, 0, "Sample Text 0123")
+CELL(1, text_message, K_TEXT, 208, 348, 128, 20, FONT_MESSAGE, 0, 0, "Sample Text 0123")
+CELL(1, text_system, K_TEXT, 344, 348, 128, 20, FONT_SYSTEM, 0, 0, "Sample Text 0123")
+CELL(1, text_gui_disabled, K_TEXT, 480, 348, 128, 20, FONT_GUI, 0, ST_DISABLED, "Sample Text 0123")
+
+/* Sheet 2. Real child controls; state is set by message, never by the mouse. a = window style, b = a value (scroll or progress position). */
+
+/* Push buttons, 75 by 23. */
+CELL(2, button_normal, K_BUTTON, 8, 16, 75, 23, BS_PUSHBUTTON, 0, 0, "Button")
+CELL(2, button_default, K_BUTTON, 91, 16, 75, 23, BS_DEFPUSHBUTTON, 0, 0, "Button")
+CELL(2, button_pushed, K_BUTTON, 174, 16, 75, 23, BS_PUSHBUTTON, 0, ST_PUSHED, "Button")
+CELL(2, button_default_pushed, K_BUTTON, 257, 16, 75, 23, BS_DEFPUSHBUTTON, 0, ST_PUSHED, "Button")
+CELL(2, button_focus, K_BUTTON, 340, 16, 75, 23, BS_PUSHBUTTON, 0, ST_FOCUS, "Button")
+CELL(2, button_default_focus, K_BUTTON, 423, 16, 75, 23, BS_DEFPUSHBUTTON, 0, ST_FOCUS, "Button")
+CELL(2, button_disabled, K_BUTTON, 506, 16, 75, 23, BS_PUSHBUTTON, 0, ST_DISABLED, "Button")
+
+/* Check boxes, 76 by 16. */
+CELL(2, check_unchecked, K_BUTTON, 8, 48, 76, 16, BS_AUTOCHECKBOX, 0, 0, "Check")
+CELL(2, check_checked, K_BUTTON, 96, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_CHECKED, "Check")
+CELL(2, check_pushed, K_BUTTON, 184, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_PUSHED, "Check")
+CELL(2, check_checked_pushed, K_BUTTON, 272, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_CHECKED|ST_PUSHED, "Check")
+CELL(2, check_disabled, K_BUTTON, 360, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_DISABLED, "Check")
+CELL(2, check_checked_disabled, K_BUTTON, 448, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_CHECKED|ST_DISABLED, "Check")
+CELL(2, check_focus, K_BUTTON, 536, 48, 76, 16, BS_AUTOCHECKBOX, 0, ST_FOCUS, "Check")
+CELL(2, check_mixed, K_BUTTON, 8, 72, 76, 16, BS_AUTO3STATE, 0, ST_MIXED, "Check")
+CELL(2, check_mixed_pushed, K_BUTTON, 96, 72, 76, 16, BS_AUTO3STATE, 0, ST_MIXED|ST_PUSHED, "Check")
+CELL(2, check_mixed_disabled, K_BUTTON, 184, 72, 76, 16, BS_AUTO3STATE, 0, ST_MIXED|ST_DISABLED, "Check")
+CELL(2, check_pushlike_checked, K_BUTTON, 272, 72, 75, 23, BS_AUTOCHECKBOX|BS_PUSHLIKE, 0, ST_CHECKED, "Button")
+
+/* Option buttons, 76 by 16. */
+CELL(2, radio_unchecked, K_BUTTON, 8, 104, 76, 16, BS_RADIOBUTTON, 0, 0, "Option")
+CELL(2, radio_checked, K_BUTTON, 96, 104, 76, 16, BS_RADIOBUTTON, 0, ST_CHECKED, "Option")
+CELL(2, radio_pushed, K_BUTTON, 184, 104, 76, 16, BS_RADIOBUTTON, 0, ST_PUSHED, "Option")
+CELL(2, radio_disabled, K_BUTTON, 272, 104, 76, 16, BS_RADIOBUTTON, 0, ST_DISABLED, "Option")
+CELL(2, radio_checked_disabled, K_BUTTON, 360, 104, 76, 16, BS_RADIOBUTTON, 0, ST_CHECKED|ST_DISABLED, "Option")
+CELL(2, radio_checked_focus, K_BUTTON, 448, 104, 76, 16, BS_RADIOBUTTON, 0, ST_CHECKED|ST_FOCUS, "Option")
+
+/* Edit controls, 84 by 23 (none has the focus: a blinking caret would make the image depend on time). */
+CELL(2, edit_normal, K_EDIT, 8, 128, 84, 23, ES_AUTOHSCROLL, 0, 0, "Text")
+CELL(2, edit_readonly, K_EDIT, 100, 128, 84, 23, ES_AUTOHSCROLL|ES_READONLY, 0, 0, "Text")
+CELL(2, edit_disabled, K_EDIT, 192, 128, 84, 23, ES_AUTOHSCROLL, 0, ST_DISABLED, "Text")
+
+/* Combo boxes, 84 wide; h is the expected closed height, the measured rectangle is in the report. */
+CELL(2, combo_droplist, K_COMBO, 8, 160, 84, 21, CBS_DROPDOWNLIST, 0, ST_SELECT, "")
+CELL(2, combo_droplist_focus, K_COMBO, 100, 160, 84, 21, CBS_DROPDOWNLIST, 0, ST_SELECT|ST_FOCUS, "")
+CELL(2, combo_droplist_disabled, K_COMBO, 192, 160, 84, 21, CBS_DROPDOWNLIST, 0, ST_SELECT|ST_DISABLED, "")
+CELL(2, combo_dropdown, K_COMBO, 284, 160, 84, 21, CBS_DROPDOWN, 0, ST_SELECT, "")
+CELL(2, combo_dropdown_disabled, K_COMBO, 376, 160, 84, 21, CBS_DROPDOWN, 0, ST_SELECT|ST_DISABLED, "")
+
+/* List boxes, 84 by 56, and a group box. */
+CELL(2, list_select_focus, K_LISTBOX, 8, 192, 84, 56, 0, 0, ST_SELECT|ST_FOCUS, "")
+CELL(2, list_select, K_LISTBOX, 100, 192, 84, 56, 0, 0, ST_SELECT, "")
+CELL(2, list_plain, K_LISTBOX, 192, 192, 84, 56, 0, 0, 0, "")
+CELL(2, list_select_disabled, K_LISTBOX, 284, 192, 84, 56, 0, 0, ST_SELECT|ST_DISABLED, "")
+CELL(2, list_scroll, K_LISTBOX, 376, 192, 100, 56, WS_VSCROLL, 0, ST_SELECT|ST_MANY, "")
+CELL(2, groupbox, K_BUTTON, 492, 192, 100, 56, BS_GROUPBOX, 0, 0, "Group")
+
+/* Static controls. */
+CELL(2, static_etchedhorz, K_STATIC, 8, 268, 84, 2, SS_ETCHEDHORZ, 0, 0, "")
+CELL(2, static_etchedvert, K_STATIC, 100, 260, 2, 40, SS_ETCHEDVERT, 0, 0, "")
+CELL(2, static_etchedframe, K_STATIC, 112, 260, 60, 40, SS_ETCHEDFRAME, 0, 0, "")
+CELL(2, static_sunken, K_STATIC, 180, 260, 60, 20, SS_SUNKEN, 0, 0, "Sunken")
+CELL(2, static_blackframe, K_STATIC, 248, 260, 40, 20, SS_BLACKFRAME, 0, 0, "")
+CELL(2, static_grayframe, K_STATIC, 296, 260, 40, 20, SS_GRAYFRAME, 0, 0, "")
+CELL(2, static_whiteframe, K_STATIC, 344, 260, 40, 20, SS_WHITEFRAME, 0, 0, "")
+CELL(2, static_label, K_STATIC, 392, 260, 64, 13, SS_LEFT, 0, 0, "Label:")
+CELL(2, static_label_disabled, K_STATIC, 464, 260, 64, 13, SS_LEFT, 0, ST_DISABLED, "Label:")
+
+/* Scroll bars: range 0 to 100 at position b. ST_PAGE gives a proportional thumb (page 40); ST_MINTHUMB a page of 1 in 10000, the smallest thumb. */
+CELL(2, hscroll_plain, K_SCROLLBAR, 8, 308, 120, 16, SBS_HORZ, 30, 0, "")
+CELL(2, vscroll_plain, K_SCROLLBAR, 536, 260, 16, 100, SBS_VERT, 30, 0, "")
+CELL(2, hscroll_page, K_SCROLLBAR, 136, 308, 120, 16, SBS_HORZ, 30, ST_PAGE, "")
+CELL(2, vscroll_page, K_SCROLLBAR, 560, 260, 16, 100, SBS_VERT, 30, ST_PAGE, "")
+CELL(2, hscroll_minthumb, K_SCROLLBAR, 264, 308, 120, 16, SBS_HORZ, 30, ST_MINTHUMB, "")
+CELL(2, vscroll_minthumb, K_SCROLLBAR, 584, 260, 16, 100, SBS_VERT, 30, ST_MINTHUMB, "")
+CELL(2, hscroll_disabled, K_SCROLLBAR, 392, 308, 120, 16, SBS_HORZ, 30, ST_DISABLED, "")
+CELL(2, vscroll_disabled, K_SCROLLBAR, 608, 260, 16, 100, SBS_VERT, 30, ST_DISABLED, "")
+
+/* Common controls (comctl32). Status bars: two parts, with and without a size grip. */
+CELL(2, status_grip, K_STATUS, 8, 336, 250, 20, SBARS_SIZEGRIP, 0, 0, "Ready")
+CELL(2, status, K_STATUS, 266, 336, 250, 20, 0, 0, 0, "Ready")
+
+/* Progress bars at b percent, and a header with three items. */
+CELL(2, progress_45, K_PROGRESS, 8, 364, 120, 16, 0, 45, 0, "")
+CELL(2, progress_0, K_PROGRESS, 136, 364, 120, 16, 0, 0, 0, "")
+CELL(2, progress_100, K_PROGRESS, 264, 364, 120, 16, 0, 100, 0, "")
+CELL(2, header, K_HEADER, 392, 364, 240, 20, HDS_BUTTONS, 0, 0, "")
+
+/* Trackbars: range 0 to 10 at position b. */
+CELL(2, trackbar, K_TRACKBAR, 8, 392, 120, 30, TBS_HORZ|TBS_AUTOTICKS, 4, 0, "")
+CELL(2, trackbar_noticks, K_TRACKBAR, 136, 392, 120, 30, TBS_HORZ|TBS_NOTICKS, 4, 0, "")
+CELL(2, trackbar_disabled, K_TRACKBAR, 264, 392, 120, 30, TBS_HORZ|TBS_AUTOTICKS, 7, ST_DISABLED, "")
+CELL(2, trackbar_vert, K_TRACKBAR, 392, 392, 30, 80, TBS_VERT|TBS_AUTOTICKS, 3, 0, "")
+
+/* Up-down controls: attached to a buddy edit (the cell is the edit plus the arrows), and alone. */
+CELL(2, updown_buddy, K_UPDOWN, 8, 430, 84, 23, UDS_ALIGNRIGHT|UDS_SETBUDDYINT|UDS_ARROWKEYS, 42, ST_BUDDY, "")
+CELL(2, updown_buddy_disabled, K_UPDOWN, 100, 430, 84, 23, UDS_ALIGNRIGHT|UDS_SETBUDDYINT|UDS_ARROWKEYS, 42, ST_BUDDY|ST_DISABLED, "")
+CELL(2, updown_horz, K_UPDOWN, 192, 430, 40, 20, UDS_HORZ, 0, 0, "")
+CELL(2, updown_vert, K_UPDOWN, 240, 430, 16, 23, 0, 0, 0, "")
+
+/* Tab control with three tabs, the first selected. */
+CELL(2, tab, K_TAB, 432, 392, 200, 80, 0, 0, 0, "")
+
+/* Sheet 3. Top-level windows owned by the grid window. a = style, b = extended style. ST_ACTIVE draws the active caption; ST_MENUBAR adds a menu bar; ST_WHITE gives a COLOR_WINDOW client area. */
+CELL(3, window_active, K_WINDOW, 8, 16, 220, 100, WS_OVERLAPPEDWINDOW, 0, ST_ACTIVE|ST_MENUBAR|ST_WHITE, "Active")
+CELL(3, window_inactive, K_WINDOW, 8, 124, 220, 100, WS_OVERLAPPEDWINDOW|WS_HSCROLL|WS_VSCROLL, 0, ST_WHITE, "Inactive")
+CELL(3, dialog_active, K_WINDOW, 236, 16, 180, 80, WS_POPUP|WS_CAPTION|WS_SYSMENU, WS_EX_DLGMODALFRAME, ST_ACTIVE, "Dialog")
+CELL(3, dialog_inactive_help, K_WINDOW, 236, 104, 180, 80, WS_POPUP|WS_CAPTION|WS_SYSMENU, WS_EX_DLGMODALFRAME|WS_EX_CONTEXTHELP, 0, "Dialog")
+CELL(3, toolwindow_active, K_WINDOW, 236, 192, 180, 60, WS_POPUP|WS_CAPTION|WS_SYSMENU, WS_EX_TOOLWINDOW, ST_ACTIVE, "Tool")
+CELL(3, toolwindow_inactive, K_WINDOW, 8, 232, 220, 48, WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_THICKFRAME, WS_EX_TOOLWINDOW, 0, "Tool")
+CELL(3, frame_dlgframe, K_WINDOW, 424, 16, 100, 60, WS_POPUP|WS_DLGFRAME, 0, 0, "")
+CELL(3, frame_border, K_WINDOW, 424, 84, 100, 40, WS_POPUP|WS_BORDER, 0, 0, "")
+CELL(3, frame_thickframe, K_WINDOW, 424, 132, 100, 60, WS_POPUP|WS_THICKFRAME, 0, 0, "")
+CELL(3, frame_clientedge, K_WINDOW, 532, 16, 100, 60, WS_POPUP, WS_EX_CLIENTEDGE, ST_WHITE, "")
+CELL(3, frame_staticedge, K_WINDOW, 532, 84, 100, 40, WS_POPUP, WS_EX_STATICEDGE, 0, "")
+CELL(3, frame_windowedge, K_WINDOW, 532, 132, 100, 60, WS_POPUP, WS_EX_WINDOWEDGE, 0, "")
+CELL(3, frame_dlgmodal, K_WINDOW, 424, 200, 100, 52, WS_POPUP, WS_EX_DLGMODALFRAME, 0, "")
+
+/* The pop-up menu, tracked open at x, y by window_active with its second item highlighted. w and h only reserve space: the measured window and item rectangles are in the report. */
+CELL(3, menu, K_MENU, 8, 292, 200, 180, 0, 0, 0, "")

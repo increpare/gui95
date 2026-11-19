@@ -1,0 +1,11 @@
+# Build and capture output; disk images. Nothing here may be committed: a Windows 95 image is Microsoft's software.
+/out/
+/images/
+*.exe
+*.o
+*.obj
+*.map
+*.img
+*.qcow2
+*.iso
+*.err

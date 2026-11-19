@@ -70,11 +70,25 @@ test('draft statements point to the final rule that replaced them, and low confi
     if (rule.supersedes) assert.equal(byId.get(rule.supersedes).superseded_by, rule.id);
     if (rule.era !== 'win95-1995') assert.equal(rule.kit.status, 'not-applicable', rule.id + ': the kit is judged against Windows 95 rules only');
   }
-  for (const id of ['edge-light-colour-value', 'title-bar-height', 'scroll-thumb-minimum', 'menu-bar-open-title']) {
+  // Still open: no source settles it and the capture did not include it.
+  for (const id of ['menu-bar-open-title']) {
     const rule = byId.get(id);
     assert.equal(rule.kit.status, 'unknown', id);
     assert.equal(rule.confidence.level, 'low', id);
     assert.match(rule.notes, /capture/, id);
+  }
+  // Settled by the Windows 95 OSR2.5 capture: each names the capture as a source and is no longer low confidence.
+  for (const id of ['edge-light-colour-value', 'title-bar-height', 'scroll-thumb-minimum']) {
+    const rule = byId.get(id);
+    assert.ok(rule.sources.some((source) => source.kind === 'win95-capture' && source.checked), id);
+    assert.equal(rule.confidence.level, 'high', id);
+    assert.match(rule.confidence.reason, /OSR2\.5/, id);
+    assert.match(rule.notes, /capture/, id);
+  }
+  // A record measured on OSR2.5 must say so wherever the common controls library drew it.
+  for (const rule of rules) for (const source of rule.sources) if (source.kind === 'win95-capture') {
+    assert.equal(source.checked, '2026-11-19', rule.id);
+    assert.match(source.location, /capture|Report/, rule.id);
   }
 });
 
@@ -83,7 +97,7 @@ test('search filters by control, topic, era, kit status, confidence and text, an
   assert.equal(all.schema_version, 1);
   assert.equal(all.total, rules.length);
   assert.ok(all.items.length <= 20);
-  assert.match(all.caveat, /not.*compared with a real Windows 95 system/);
+  assert.match(all.caveat, /not.*compared with a real Windows 95 system.*win95-capture.*OSR2\.5.*not on the 1995 original/);
   for (const item of findRules({ limit: 20, query: 'menu' }).items) {
     assert.deepEqual(Object.keys(item).slice(0, 4), ['id', 'title', 'standing', 'rule']);
     assert.deepEqual(Object.keys(item.standing), ['era', 'era_label', 'confidence', 'confidence_reason', 'may_state_as_windows_95', 'cite_as']);
@@ -116,7 +130,8 @@ test('standing cannot present a draft, another era or a low-confidence record as
       assert.equal(standing.may_state_as_windows_95, 'no', rule.id);
       assert.match(standing.cite_as, /^(Not|Unsettled)/, rule.id);
     } else assert.equal(standing.may_state_as_windows_95, rule.confidence.level === 'high' ? 'yes' : 'with-caveat', rule.id);
-    assert.match(standing.cite_as, rule.era === 'win95-1995' && rule.confidence.level !== 'low' ? /not yet compared with a real system/ : /Not|Unsettled/, rule.id);
+    const captured = rule.sources.some((source) => source.kind === 'win95-capture');
+    assert.match(standing.cite_as, rule.era === 'win95-1995' && rule.confidence.level !== 'low' ? (captured ? /measured on Windows 95 4\.00\.1111 C \(OSR2\.5, 1996\), not on the 1995 original/ : /not yet compared with a real system/) : /Not|Unsettled/, rule.id);
   }
   assert.match(getRule('draft-control-spacing').standing.cite_as, /draft.*dialog-control-spacing/);
   assert.match(getRule('win31-bold-system-font').standing.cite_as, /Not Windows 95: Windows 3\.x/);
