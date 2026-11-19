@@ -22,6 +22,54 @@ The scope root and its descendants use `border-box` sizing, so a viewport-sized 
 
 The stylesheet holds four edge recipes as custom properties, each a two-line `box-shadow`. `--gui95-raised` is the edge of push buttons, caption buttons and tab pages: white outside and light gray inside on the top and left. `--gui95-raised-plain` is the edge of windows, dialogs, pop-up menus, scroll bar parts and spin arrows: light gray outside and white inside. `--gui95-sunken` is the edge of fields, lists and wells: gray outside and black inside. `--gui95-pressed` is a held or latched push button: black outside and gray inside. In all four the bottom and right lines own the top-right and bottom-left corner pixels, which is why each recipe lists its bottom-right shadows first. Use the recipe that matches the kind of surface; a window drawn with the button edge is a small but real difference from Windows 95.
 
+## Density
+
+The kit draws menus, title bars, list rows and a few other controls larger than Windows 95 did, because a 22px menu command is easier to hit with a trackpad on a modern display than a 17px one. `data-gui95-density` chooses between the two sets of sizes:
+
+| Value | Sizes | Use it when |
+| --- | --- | --- |
+| `comfortable` (the default; the attribute may be left out) | The sizes GUI95 has always drawn. | The interface is used with a trackpad or touch screen, or you are not trying to match screenshots. |
+| `period` | The sizes Windows 95 used, measured on a running copy at 96 dpi. | The interface should be the same size as the real thing, pixel for pixel. |
+
+Put the attribute on the scope root, or on any element inside it. It applies to that element and everything in it, so one application can mix the two: a period dialog in a comfortable shell, or the reverse. A menu takes the density of the place it is in the document, not of the button that opens it.
+
+```html
+<body class="gui95" data-gui95-density="period">
+  ...
+  <section data-gui95-density="comfortable">a comfortable part of a period application</section>
+</body>
+```
+
+**Period is the authentic one.** Comfortable stays the default so that existing applications do not change size, and because the period targets are small: a 17px menu command and a 13px list row are well under the 24px that current accessibility guidance asks of a pointer target. The period density adds no invisible padding to make up for that. If you choose it, you are choosing Windows 95's targets too.
+
+What changes, in pixels (comfortable, then period):
+
+| Control | Comfortable | Period |
+| --- | --- | --- |
+| Pop-up menu command | 22 high; text 26 from the menu's edge | 17 high; text 24 from the edge, one pixel above centre |
+| Menu separator | 8 high, line 1px short at each end | 9 high, line the full width of the item |
+| Menu check mark and submenu arrow | 7 from the item's edge | 6 from the edge; the arrow one pixel higher |
+| Menu bar | 22 high, headings 20, 1px apart | 19 high, headings 18, touching, flush with the bar's top and sides |
+| `.title-bar` | 20 high; buttons 3 from the top and right | 18 high with one line of face colour under it; buttons 2 from the top and right |
+| `.window` frame | 3 | 4, the sizable window frame (`dialog` keeps the 3px dialog frame in both) |
+| List box row (`role="option"`) | 16.84 high, text 3 in | 13 high, text 1 in |
+| Drop-down list, closed | 23 high | 21 high |
+| Option button | 12 × 12 | The same 12 × 12 artwork in a 13 × 13 box, as wide as a check box |
+| `.status-bar` | 22.84 high, panes 18.84, 2px edge all round | 20 high, panes 18, no edge at the left, right or bottom |
+| `role="tab"` | 20.84 high (selected 24.84) | 18 high (selected 22) |
+| Toolbar button | 24 × 23, 2px apart | 24 × 22, touching |
+| Group box caption (plain `fieldset`) | Text 13 from the frame's left, 4px clear each side | Text 9 from the left, 2px clear each side |
+
+Push buttons, text fields, check boxes, sliders, progress bars, up-down controls, scroll bars, trees and every [dialog layout measure](#the-measures) are the same in both. A dialog laid out with the layout attributes has the same margins, gaps and button sizes in either density; the one visible difference inside it is that a drop-down list is 21px high beside 23px text fields, as it was in Windows 95.
+
+In the period density those controls set their text on a 13px line (`--gui95-text-cell`), the height of 8-point MS Sans Serif. In the comfortable density they keep whatever line height they inherit, as before. Either way a `line-height` rule of your own on a menu command, list row, tab, title bar or status pane still wins.
+
+Toolbar buttons touch in the period density. Windows 95 set related buttons edge to edge and left a gap between groups; the kit has no group separator, so give the first button of a new group `margin-left:6px`.
+
+Each size is a custom property, declared once with its comfortable value and once with its period value, so you can change one without leaving the density: for example `--gui95-menu-item-h:20px` on a menu. The properties are `--gui95-window-frame`, `--gui95-caption-h`, `--gui95-caption-pad`, `--gui95-caption-align`, `--gui95-caption-gap`, `--gui95-menubar-pad`, `--gui95-menubar-gap`, `--gui95-menubar-item-h`, `--gui95-menubar-item-drop`, `--gui95-menu-item-h`, `--gui95-menu-item-pad`, `--gui95-menu-check-x`, `--gui95-menu-arrow-x`, `--gui95-menu-odd`, `--gui95-menu-separator-margin`, `--gui95-list-row-pad`, `--gui95-drop-h`, `--gui95-drop-pad-y`, `--gui95-drop-arrow-x`, `--gui95-drop-arrow-y`, `--gui95-drop-arrow-off-y`, `--gui95-option-box`, `--gui95-option-at`, `--gui95-status-pad`, `--gui95-status-pane-pad`, `--gui95-tab-h`, `--gui95-tab-drop`, `--gui95-tab-lift`, `--gui95-toolbar-button-h`, `--gui95-toolbar-gap`, `--gui95-legend-shift`, `--gui95-legend-pad` and `--gui95-text-cell`.
+
+Where the period numbers come from, what was measured and what was only read from documents, is in [the design guide](../../docs/design-guide.md#density-period-and-comfortable-sizes). [gallery.html](gallery.html) has two option buttons at the top that switch the whole page between the densities; `gallery.html?density=period` opens it in the period density.
+
 ## Primitives drawn by the stylesheet
 
 These need no JavaScript. Write ordinary semantic markup inside the scope and the stylesheet replaces the host's drawing with hard edges and pixel artwork.
@@ -31,7 +79,7 @@ These need no JavaScript. Write ordinary semantic markup inside the scope and th
 | Default push button | `<button class="default">` or `<button data-gui95-default>` | A 1px black frame as the outermost pixel of the button's own box, with the raised bevel one pixel further in, so a default button occupies and paints exactly the same rectangle as its neighbours. While pressed, the frame stays and the bevel becomes one gray line round a flat face, as Windows draws a pressed default button. |
 | Read-only text field | `<input readonly>`, `<textarea readonly>` | Sunken field on the gray face `#c0c0c0` with black text. |
 | Check box | `<input type="checkbox">` | 13px sunken white box with a pixel check mark; gray face when unavailable; dithered face for the mixed state (set `indeterminate` from script). While the mouse button is held on the box or its label the interior is the gray face; `data-gui95-state="pressed"` shows the same state for a static picture. Focus is drawn round the label: see above. |
-| Option button | `<input type="radio">` | 12px pixel artwork with no CSS radius, in selected, unavailable and held variants; the interior is the gray face while the mouse button is held, as for a check box. |
+| Option button | `<input type="radio">` | 12px pixel artwork with no CSS radius (in a 13px box in the [period density](#density)), in selected, unavailable and held variants; the interior is the gray face while the mouse button is held, as for a check box. |
 | Drop-down list | `<select>` without `multiple` or `size` | Sunken field with a drawn 16px arrow button, which has the plain raised edge of a scroll arrow (light gray outside, white inside). With the keyboard focus and the list closed, the text area is navy with white text and a dotted rectangle; `data-gui95-state="focused"` shows the same state for a static picture. An unavailable list has an engraved arrow: gray with a white copy one pixel down and right, as on an unavailable up-down control. The opened list is still the host's popup, and opening, closing and Esc are the host's behaviour. |
 | Slider | `<input type="range">` | 4px sunken channel and an 11 × 21 thumb with the `--gui95-raised` edge. |
 | Vertical slider | `<input type="range" aria-orientation="vertical">` with `writing-mode: vertical-lr; direction: rtl` | 4px-wide sunken channel and a 21 × 11 thumb centred on it. |
@@ -265,6 +313,6 @@ From `kit/`, run `pnpm install --frozen-lockfile`, `pnpm exec playwright install
 
 Run the period lint against any running page with `node kit/verify/period-lint.mjs http://127.0.0.1:PORT/`. It reports rounded corners, blurred shadows, translucency, transitions, hand cursors, keyword bevels, host-drawn controls, modern system fonts, control text that is not 11px and dimmed dialog backdrops inside the GUI95 scope, each with the classic treatment to use instead. The gallery must pass it.
 
-Run `node kit/cli.mjs atlas` (or `node kit/verify/atlas.mjs`, or `pnpm run test:atlas` in `kit/`) after changing `gui95.css`. It renders [atlas.html](atlas.html), every stylesheet-drawn control state on a fixed grid, in headless Chromium and compares it pixel for pixel with `test/baseline/state-atlas.png`; `--update` accepts an intended change once you have looked at the difference image it writes. Text is deliberately left out so the image does not depend on fonts. It is a rendering regression check, not proof of Windows 95 fidelity. See [the state atlas](../verify/README.md#state-atlas).
+Run `node kit/cli.mjs atlas` (or `node kit/verify/atlas.mjs`, or `pnpm run test:atlas` in `kit/`) after changing `gui95.css`. It renders [atlas.html](atlas.html), every stylesheet-drawn control state on a fixed grid, in headless Chromium and compares it pixel for pixel with `test/baseline/state-atlas.png`, then does the same in the [period density](#density) against `test/baseline/state-atlas-period.png`; `--density period` or `--density comfortable` checks one of them. `--update` accepts an intended change once you have looked at the difference image it writes. Text is deliberately left out so the image does not depend on fonts. It is a rendering regression check, not proof of Windows 95 fidelity. See [the state atlas](../verify/README.md#state-atlas).
 
 For a running consumer or the gallery, run `node kit/verify/runner.mjs http://127.0.0.1:PORT/components/gallery.html /absolute/output`. See [the runner contract](../verify/README.md). Screenshots require visual review; a passed browser assertion does not claim Windows fidelity, native window behavior or screen-reader coverage.

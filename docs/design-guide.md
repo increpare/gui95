@@ -179,6 +179,65 @@ Three values are the kit's own choice, because no period source gives a number: 
 
 Rules that go with the measures, all from the final guidelines: end a field's label with a colon, except on buttons, tabs and group boxes; top-align a check box or option button with a label of more than one line; keep buttons a consistent size, allowing one longer button only where matching it would greatly widen the set; and place a button that applies to one field beside that field.
 
+## Density: period and comfortable sizes
+
+GUI95 draws several controls larger than Windows 95 did. That is a choice, not an oversight: a larger menu command is easier to hit with a trackpad on a modern display. The kit therefore has two densities, chosen with `data-gui95-density` on the scope root or on any subtree:
+
+- **`period`** is the authentic one. Its sizes are the ones a running copy of Windows 95 reported and drew.
+- **`comfortable`** is the default, and what the kit drew before the switch existed. It stays the default so that existing applications do not change size, and because period targets are small by today's standards: a menu command is 17 px high and a list row 13 px, where current accessibility guidance asks for 24 px. The period density does not pad them invisibly; that would make it inauthentic.
+
+Say which one an application uses. Do not describe a comfortable interface as pixel-accurate.
+
+**Source of the period sizes.** A test program was run on Windows 95 4.00.1111 C (OSR2.5), installed from an original disc in an emulator, at 96 dpi with the default "Windows Standard" scheme, 640 × 480 in 24-bit colour, and captured on 19 November 2026. It recorded the system metrics and each control's rectangle, and the screen was saved as an image. The "Windows 95" column below is read from that report and from the pixels of those images. The kit columns were measured in Chromium at device scale 1.
+
+| Control | Windows 95 | Kit, period | Kit, comfortable |
+| --- | --- | --- | --- |
+| Pop-up menu command, height | 17 | 17 | 22 |
+| Pop-up menu margin inside the frame | 3 | 3 | 3 |
+| Menu text, from the menu's outer edge | 24 | 24 | 26 |
+| Menu text line (13 px) inside the command | 1 above, 3 below | 1 above, 3 below | Centred |
+| Menu separator | 9 high; line 3 px down, the full width of the item | 9; 3 px down; full width | 8; 3 px down; 1 px short at each end |
+| Menu check mark (7 × 7) | 6 from the item's left, 5 down | 6, 5 | 7, 7 |
+| Menu option mark (6 × 6) | 7 from the item's left, 5 down | 7, 5 | 7, 8 |
+| Submenu arrow (4 × 7) | 6 from the item's right, 4 down | 6, 4 | 7, 7 |
+| Menu bar height (`SM_CYMENU`) | 19 | 19 | 22 |
+| Menu bar heading | 18 high, flush with the bar's top and sides, headings touching | 18, flush, touching | 20, inset 1 px, 1 px apart |
+| Title bar (`SM_CYCAPTION` 19) | An 18 px bar and one line of face colour under it | 18 and 1 | 20 and none |
+| Title bar buttons | 16 × 14, 2 px from the top and from the right end | 16 × 14, 2 and 2 | 16 × 14, 3 and 3 |
+| Title bar text line | 2 above, 3 below | 2 above, 3 below | Centred |
+| Sizable window frame (`SM_CXFRAME`) | 4 | 4 (`.window`) | 3 |
+| Dialog frame (`SM_CXDLGFRAME`) | 3 | 3 (`dialog`) | 3 |
+| List box row | 13; text starts 1 px in | 13; 1 | 16.84; 3 |
+| Drop-down list, closed | 21 (field 15, button 16 × 17) | 21 (15, 16 × 17) | 23 (17, 16 × 19) |
+| Drop-down arrow (7 × 4) | 4 px from the button's left edge, 6 below the field's top | The same | 5 px from the left, centred |
+| Option button | 12 × 12 artwork in a 13 × 13 box, at its top right | The same | 12 × 12 box |
+| Check box | 13 × 13 | 13 × 13 | 13 × 13 |
+| Command button; text field | 75 × 23; 23 high | 75 × 23; 23 | 75 × 23; 23 |
+| Group box caption | Text starts 9 px from the frame's left; the frame is cleared 2 px each side of it | 9; 2 | 13; 4 |
+| Scroll bar width | 16 | 16 | 16 |
+| Status bar † | 20 high; panes 18, starting 2 px down, with no edge at the left, right or bottom | 20; 18; the same | 22.84; 18.84; 2 px edge all round |
+| Tab † | 18 high; the selected tab 22, 2 px taller and 2 px over the page | 18; 22 | 20.84; 24.84 |
+| Toolbar button ‡ | 24 × 22, related buttons edge to edge | 24 × 22, touching | 24 × 23, 2 px apart |
+
+† **Era caveat.** OSR2.5 is the 1996 release. Its window manager and graphics files (`user.exe`, `gdi.exe`) carry version 4.0.0.950, the same as the August 1995 release, so menus, title bars, frames, list boxes, drop-down lists, buttons, group boxes and scroll bars are good evidence for 1995. Its common controls library is `comctl32.dll` 4.70, the 1996 version. The status bar and tab rows are therefore evidence for that library; the 1995 library may have differed and has not been measured.
+
+‡ **Not measured.** The capture has no toolbar. The size is the one *The Windows Interface Guidelines for Software Design* (1995) gives for the smaller toolbar button, with its rule that related buttons are set edge to edge; Howlett (1996) says the button edges were designed to meet. Wine's toolbar control defaults to 23 × 22, one pixel narrower; the kit follows the published 24.
+
+Compared with crops of the real screen, the period rendering of the pop-up menu, the menu bar, an active, an inactive and a dialog title bar, the list box, the closed drop-down list (at rest, with the focus and unavailable), the option button and the status bar has no differing pixel in any edge, frame, highlight, mark or arrow. Every difference that remains is inside the text, which the kit sets in a modern outline font where Windows used the MS Sans Serif bitmap font, or in the colour of the dotted focus rectangle (see below).
+
+Not in the period density, and why:
+
+- **Tool window caption.** Windows 95's small caption is 16 px (`SM_CYSMCAPTION`: a 15 px bar and a line). The kit has no tool-window title bar in either density.
+- **Tree rows.** The capture has no tree and no other source gives a row height at better than low confidence, so trees are the same in both densities.
+- **The fractional comfortable rows.** A comfortable list row is 16.84 px, a tab 20.84 and a status bar 22.84, because 11 px text at a line height of 1.35 is 14.85 px. Rounding them would move every later row, by more than a pixel after a few rows, so comfortable is left exactly as it was. The period density has no fractional height.
+
+What the capture shows that is not a matter of size, and that the kit does not yet follow in either density:
+
+- Inactive title bar text is the face colour, `#c0c0c0`. The kit draws it white.
+- The focus rectangle on a selected list row is drawn by inverting pixels, so its dots are yellow (`#ffff7f`) on the navy bar; on a focused drop-down list they alternate yellow and black. The kit draws white dots.
+- A group box's etched frame lies wholly inside the control's rectangle. The kit's reaches one pixel past it at the right and bottom.
+- The group box caption in the dialog layout primitives (`fieldset[data-gui95-group]`) starts 7 px in with 1 px cleared, from an earlier reading of source code. The real one starts 9 px in with 2 px cleared, as the period density now draws a plain `fieldset`.
+
 ## Layout and icons
 
 The compact appearance relies on `min-width: 0` and `min-height: 0` in nested flex/grid panes, deliberate scrolling, and separators made of light/dark lines. Removing those minimum-size rules can push a list or inspector outside its window.

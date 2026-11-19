@@ -8,6 +8,8 @@
   compared pixel for pixel with kit/test/baseline/state-atlas.png. The atlas contains no text, so the image does
   not depend on installed fonts: each label is an empty fixed-size placeholder whose bottom edge is drawn in the
   label's colour, and the atlas sets font-size and line-height to 0 so font metrics cannot move anything.
+  atlas.html?density=period draws the same grid in the period density, compared with state-atlas-period.png; a
+  label there is 13px high, the text line of that density, where the comfortable atlas uses 14px.
 -->
 <style>
 html{overflow:hidden;background:#008080}
@@ -18,9 +20,12 @@ body.gui95{margin:0;background:#008080}
 #atlas>.rows2{grid-row:span 2}
 /* Rows 1-4 hold the small cells in source order and the list box; the larger controls have fixed areas in rows 5-9. */
 #menubar-cell{grid-area:5/1/6/3}#active-cell{grid-area:6/1/8/3}#inactive-cell{grid-area:8/1/10/3}#status-cell{grid-area:5/3/6/5}#tabs-cell{grid-area:6/3/10/5}#list-cell{grid-area:3/8/5/9}#menu-cell{grid-area:5/5/10/7}#tree-cell{grid-area:5/7/10/9}
-.atlas-label{display:block;flex:none;width:var(--w,32px);height:var(--h,14px);box-shadow:inset 0 -1px currentColor}
+.atlas-label{display:block;flex:none;width:var(--w,32px);height:var(--h,var(--gui95-text-cell,14px));box-shadow:inset 0 -1px currentColor}
+/* The tree takes no size from the density, so its labels keep the 14px line in both. */
+#tree-cell .atlas-label{height:14px}
 #atlas>.cell>button{width:75px;height:23px}
-#atlas>.cell>:is(input:not([type]),select){width:84px;height:23px}
+#atlas>.cell>input:not([type]){width:84px;height:23px}
+#atlas>.cell>select{width:84px}
 </style>
 </head>
 <body class="gui95">
@@ -77,6 +82,6 @@ body.gui95{margin:0;background:#008080}
 <!-- Tree: expanded and collapsed branches with disclosure boxes, connector lines and a selected row. -->
 <div class="cell" id="tree-cell"><ul data-gui95-tree aria-label="Tree" style="width:184px;height:176px"><li role="treeitem" aria-expanded="true"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:48px"></span></span><ul role="group"><li role="treeitem" aria-selected="true"><span data-gui95-tree-label><span class="atlas-label" style="--w:56px"></span></span></li><li role="treeitem" aria-expanded="true"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:40px"></span></span><ul role="group"><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:44px"></span></span></li><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:36px"></span></span></li></ul></li><li role="treeitem" aria-expanded="false"><span data-gui95-tree-label><span data-gui95-disclosure></span><span class="atlas-label" style="--w:32px"></span></span><ul role="group" hidden><li role="treeitem"><span data-gui95-tree-label></span></li></ul></li></ul></li><li role="treeitem"><span data-gui95-tree-label><span class="atlas-label" style="--w:40px"></span></span></li></ul></div>
 </main>
-<script>document.getElementById('mixed').indeterminate=true;</script>
+<script>document.getElementById('mixed').indeterminate=true;const density=new URLSearchParams(location.search).get('density');if(density)document.body.setAttribute('data-gui95-density',density);</script>
 </body>
 </html>

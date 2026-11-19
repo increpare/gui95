@@ -1,11 +1,14 @@
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import { BASELINE, VIEWPORT, checkAtlas, compareImages, describeFailure, openAtlas, renderAtlas } from '../verify/atlas.mjs';
+import { BASELINE, BASELINES, DENSITIES, VIEWPORT, checkAtlas, compareImages, describeFailure, openAtlas, renderAtlas } from '../verify/atlas.mjs';
 import { lintPage } from '../verify/period-lint.mjs';
 
+// A kit downloaded as a component bundle carries the comfortable baseline only; kit/test/density.test.mjs, which is not in the bundle, requires the period one in the repository.
+const periodBaseline = existsSync(BASELINES.period) ? false : 'this copy of the kit has no period baseline';
 let browser;
 before(async () => { browser = await chromium.launch({ headless: true, args: ['--force-color-profile=srgb'] }); });
 after(async () => { await browser?.close(); });
@@ -13,6 +16,21 @@ after(async () => { await browser?.close(); });
 test('the rendered state atlas equals the stored baseline', async () => {
   const report = await checkAtlas({ browser });
   assert.equal(report.different, 0, describeFailure(report));
+});
+
+test('the state atlas in the period density equals its own baseline', { skip: periodBaseline }, async () => {
+  assert.deepEqual(DENSITIES, ['comfortable', 'period']);
+  assert.equal(BASELINES.comfortable, BASELINE, 'the default atlas is the comfortable one');
+  const report = await checkAtlas({ browser, density: 'period' });
+  assert.equal(report.different, 0, describeFailure(report));
+});
+
+test('the two densities draw different atlases, and an unknown density is refused', async () => {
+  const [comfortable, stated, period] = [await renderAtlas({ browser }), await renderAtlas({ browser, density: 'comfortable' }), await renderAtlas({ browser, density: 'period' })];
+  assert.equal(compareImages(comfortable, stated).different, 0, 'stating the default changes nothing');
+  const result = compareImages(comfortable, period);
+  assert.ok(result.different > 0 && result.sameSize, 'the period atlas differs on the same grid');
+  await assert.rejects(renderAtlas({ browser, density: 'compact' }), /Unknown density/);
 });
 
 test('a one-level change to the raised bevel white edge is detected', async () => {
@@ -26,9 +44,10 @@ test('a one-level change to the raised bevel white edge is detected', async () =
   assert.equal(result.sameSize, true);
 });
 
-test('the atlas fills its fixed viewport on whole pixels and renders no text', async () => {
-  const { page, close } = await openAtlas({ browser });
+for (const density of DENSITIES) test(`the ${density} atlas fills its fixed viewport on whole pixels and renders no text`, async () => {
+  const { page, close } = await openAtlas({ browser, density });
   try {
+    assert.equal(await page.evaluate(() => document.body.getAttribute('data-gui95-density')), density === 'comfortable' ? null : density);
     const layout = await page.evaluate(() => {
       const atlas = document.querySelector('#atlas').getBoundingClientRect();
       // The stylesheet itself centres the 11px disclosure box in a 16px tree row (2.5px); Chromium snaps it the same way everywhere.
@@ -46,15 +65,17 @@ test('the atlas fills its fixed viewport on whole pixels and renders no text', a
   } finally { await close(); }
 });
 
-test('the atlas page passes the period lint', async () => {
-  const { page, close } = await openAtlas({ browser });
+for (const density of DENSITIES) test(`the ${density} atlas page passes the period lint`, async () => {
+  const { page, close } = await openAtlas({ browser, density });
   try {
     const report = await lintPage(page);
     assert.deepEqual(report.violations.map(item => `${item.rule} ${item.element}`), []);
   } finally { await close(); }
 });
 
-test('the baseline is a device-scale-1 PNG of the fixed viewport', async () => {
-  const png = await readFile(BASELINE);
-  assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [VIEWPORT.width, VIEWPORT.height]);
+test('each baseline is a device-scale-1 PNG of the fixed viewport', async () => {
+  for (const density of DENSITIES.filter(density => density === 'comfortable' || !periodBaseline)) {
+    const png = await readFile(BASELINES[density]);
+    assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [VIEWPORT.width, VIEWPORT.height], density);
+  }
 });
