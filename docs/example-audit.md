@@ -10,7 +10,7 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 
 - **Real system:** Windows 95 4.00.1111 C (OSR2.5). `user32.dll`, `gdi32.dll`: 4.0.0.950 (the version number of the 1995 release). `comctl32.dll`: 4.70.0.1146 (the 1996 library; evidence for 1996, not 1995). `comdlg32.dll`: 4.0.0.951; `shell32.dll`: 4.0.0.1111 (OSR2). Each record names the era of its own evidence.
 - **Examples:** Chromium 151.0.7922.34 through Playwright 1.62.1 on darwin, 1280 x 900 at scale 1, `data-gui95-density="period"`. Text is drawn by the host's fonts, so widths that follow text are not comparable and are not counted as differences; native controls (text boxes, lists, drop-down lists, sliders) take their keys from the browser and the host, so their differences are recorded as host limits and belong to this host.
-- **Method:** [tools/win95-reference/README.md](../tools/win95-reference/README.md) for the captures and recordings; `tools/example-audit/` for the comparison (`specs.mjs` says which element stands for which real control; `run.mjs` runs it; `decisions.json` holds the judgement of every difference).
+- **Method:** [win95-reference.md](win95-reference.md) (and `tools/win95-reference/README.md` in the repository) for the captures and recordings; `tools/example-audit/` for the comparison (`specs.mjs` says which element stands for which real control; `run.mjs` runs it; `decisions.json` holds the judgement of every difference).
 - **Statuses:** *fixed* in this audit; *open* (listed for the owner); *deliberate* (the example or the kit differs on purpose, with the reason); *host limit* (the browser or the host decides, not the page).
 
 ## Summary
