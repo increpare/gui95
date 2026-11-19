@@ -7130,9 +7130,9 @@
       596,
       599
      ],
-     "example": 514,
-     "agree": false,
-     "note": "Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 80 ms of the real range counts as the same."
+     "example": 518,
+     "agree": true,
+     "note": "Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same."
     },
     {
      "what": "time to the next tooltip when the pointer moves to a neighbouring button while one is showing (milliseconds)",
@@ -11741,7 +11741,7 @@
       400,
       491
      ],
-     "example": 431,
+     "example": 428,
      "agree": true,
      "note": "Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms."
     }

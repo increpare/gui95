@@ -15,7 +15,9 @@ const binaryTypes = new Map(Object.entries({
 }));
 export const sourceURL = name => 'https://github.com/increpare/gui95/blob/master/' + name.split('/').map(encodeURIComponent).join('/');
 const core = ['SKILL.md','README.md','LICENSE','THIRD-PARTY-NOTICES.md','PRIVACY.md','references/snapshot-manifest.json'];
-const excluded = new Set(['node_modules','dist','out','coverage','var']);
+// The last four are machine data of the Windows 95 reference and the example audit (recorded steps, measured rectangles, step scripts, raw comparison output):
+// large, not reading matter, and their vocabulary would drown the guides in search. docs/example-audit.md is their readable form.
+const excluded = new Set(['node_modules','dist','out','coverage','var','recordings','measurements','scripts','results.json']);
 export const safeName = name => typeof name==='string' && name.length>0 && !name.includes('\\') && !path.posix.isAbsolute(name) && !name.split('/').some(part=>part==='..'||part==='.'||part==='');
 
 function kindFor(name, mime) {

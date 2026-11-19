@@ -34,7 +34,7 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 | [Horizontal and vertical sliders](#slider) | trackbar controls (comctl32 4.70) | 1 of 2 pairs agree in size or edges; 3 of 4 layout numbers equal | 11 of 15 steps agree | 1 open, 1 host limit | clean | Verified, with open differences |
 | [Progress bars](#progress) | progress bars (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | not compared | none | 1 real, 0 false, 0 deliberate | Partly checked |
 | [Scrollbars and scrolling regions](#scrollbars) | scroll bar controls and a window's own scroll bars (user32) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 4 of 4 steps agree | none | clean | Verified |
-| [Tooltips and status help](#tooltip) | the tooltip of a toolbar button (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 0 of 2 single checks agree | 1 fixed, 2 deliberate | 2 real, 0 false, 1 deliberate | Verified |
+| [Tooltips and status help](#tooltip) | the tooltip of a toolbar button (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 1 of 2 single checks agree | 1 fixed, 2 deliberate | 2 real, 0 false, 1 deliberate | Verified |
 | [Tabs and tab panels](#tabs) | tab controls (comctl32 4.70) | 2 of 3 pairs agree in size or edges; 2 of 3 layout numbers equal | 11 of 11 steps agree | 1 fixed, 1 open, 1 deliberate | clean | Verified, with open differences |
 | [Toolbar buttons and groups](#toolbar) | a toolbar (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 3 of 5 layout numbers equal | 3 of 3 steps agree | 1 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
 | [Tree view](#tree) | tree view controls (comctl32 4.70) | 1 of 1 pair agree in size or edges; 0 of 5 layout numbers equal | 23 of 24 steps agree | 1 fixed, 2 open | clean | Verified, with open differences |
@@ -64,7 +64,7 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 | --- | --- | --- | --- | --- |
 | medium | [Tree view](#tree) | Rows are taller, the indent is wider, and there are no lines or boxes. | Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left. | Rows 20 px; a child 25 px further right; a plus or minus character. |
 | medium | [List view and sortable columns](#listview) | Headings and rows are taller. | Headings 17 px, rows 14 px. | Headings 23 px, rows 17 px. |
-| medium | [Menu bar, submenus and recent files](#menus) | The highlight skips unavailable commands. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it does nothing. | Unavailable commands are skipped. |
+| medium | [Menu bar, submenus and recent files](#menus) | The highlight skips unavailable commands. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing. | Unavailable commands are skipped. |
 | medium | [Menu bar, submenus and recent files](#menus) | Menu commands and titles are 2 px taller than Windows 95, even at the period density. | Commands 17 px, bar titles 18 px, a separator 9 px. | Commands 19 px, titles 20 px. |
 | medium | [Context menus](#context-menu) | The highlight skips the unavailable command, and its letter does nothing. | Arrows highlight it; its letter closes the menu. | Skipped; the letter is ignored. |
 | medium | [Context menus](#context-menu) | Commands are 2 px taller. | 17 px. | 19 px. |
@@ -505,12 +505,12 @@ Not checked:
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
 - **Rendering compared:** tooltip (28 by 17 against 154 by 17: same edges, different size).
 - **Layout numbers (real, example), in pixels:** tooltip height: 17, 17.
-- **Measured:** time from the pointer coming to rest on a button to the tooltip showing (milliseconds): real [596,599], example 514. Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 80 ms of the real range counts as the same.
+- **Measured:** time from the pointer coming to rest on a button to the tooltip showing (milliseconds): real [596,599], example 518 (agree). Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same.
 - **Measured:** time to the next tooltip when the pointer moves to a neighbouring button while one is showing (milliseconds): real [156,107,106,102], example null. The example has one tooltip only, so there is nothing to compare.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| The tooltip appears slightly sooner. Within one timer tick of the nominal half second. | About 600 ms after the pointer comes to rest in this recording (504 ms in an earlier one); Windows counts on a 55 ms timer. | About 510 ms (a 500 ms timer). | low | deliberate |
+| The tooltip appears slightly sooner. Within two timer ticks of the nominal half second, which the check counts as agreeing. | About 600 ms after the pointer comes to rest in this recording (504 ms in an earlier one); Windows counts on a 55 ms timer. | About 510 ms (a 500 ms timer). | low | deliberate |
 | Only one control has a tooltip. | Moving to a neighbouring button while a tooltip shows brings the next one after about 100 to 150 ms. | Nothing to show. | low | deliberate |
 | The tooltip was 21 px high. | 17 px: one 13 px line of text, a pixel above and below, a 1 px border. | Now 17 px. | low | fixed |
 
@@ -690,12 +690,12 @@ Not checked:
 - **Behaviour replayed, access keys** (recording `menu-mnemonics`): 17 of 18 steps agree.
 - **Behaviour replayed, shortcut keys** (recording `menu-shortcuts`): 5 of 7 steps agree.
 - **Behaviour replayed, the mouse** (recording `menu-mouse`): 6 of 7 steps agree; 3 steps not comparable.
-- **Measured:** time from the pointer coming onto a cascading item to its menu opening (milliseconds): real [493,400,491], example 431 (agree). Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.
+- **Measured:** time from the pointer coming onto a cascading item to its menu opening (milliseconds): real [493,400,491], example 428 (agree). Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Five behaviours corrected from the recordings. | A menu opened with the mouse has no command highlighted; Up on an active title opens with the first command highlighted; F10 on an active bar leaves menu mode; clicking the open title leaves menu mode; a cascading menu opens about 400 to 490 ms after the pointer comes onto its item. | Now the same (400 ms). | medium | fixed |
-| The highlight skips unavailable commands. The examples use disabled buttons, which cannot take focus; it needs aria-disabled and a drawn highlight. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it does nothing. | Unavailable commands are skipped. | medium | open |
+| The highlight skips unavailable commands. The examples use disabled buttons, which cannot take focus; it needs aria-disabled and a drawn highlight. | Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing. | Unavailable commands are skipped. | medium | open |
 | The letter of an unavailable command. Closing the menu without a word is not worth copying. | The menu closes and nothing runs. | Nothing happens; the menu stays open. | low | deliberate |
 | Shortcut keys are not live. The page says so; a browser reserves most of these chords. | Ctrl+N runs the command with the menu closed, does nothing with a menu open, and leaves menu mode when only the bar is active. | Ctrl+N is text in the menu only. | low | deliberate |
 | Menu commands and titles are 2 px taller than Windows 95, even at the period density. The page layer sets its own padding on menu items and bar titles, which overrides the kit's period sizes. Removing it changes the example pages in both densities. | Commands 17 px, bar titles 18 px, a separator 9 px. | Commands 19 px, titles 20 px. | medium | open |

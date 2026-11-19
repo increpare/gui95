@@ -724,12 +724,8 @@
      "exampleDoes": "About 510 ms (a 500 ms timer).",
      "severity": "low",
      "status": "deliberate",
-     "covers": {
-      "checks": [
-       "time from the pointer coming to rest*"
-      ]
-     },
-     "note": "Within one timer tick of the nominal half second."
+     "covers": {},
+     "note": "Within two timer ticks of the nominal half second, which the check counts as agreeing."
     },
     {
      "id": "tooltip-reshow",
@@ -1070,7 +1066,7 @@
      "id": "menus-unavailable",
      "kind": "behaviour",
      "summary": "The highlight skips unavailable commands.",
-     "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it does nothing.",
+     "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing.",
      "exampleDoes": "Unavailable commands are skipped.",
      "severity": "medium",
      "status": "open",

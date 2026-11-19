@@ -85,6 +85,16 @@ test('draft statements point to the final rule that replaced them, and low confi
     assert.match(rule.confidence.reason, /OSR2\.5/, id);
     assert.match(rule.notes, /capture/, id);
   }
+  // Behaviour recorded on the real system: the source names a recording that exists, and a record resting on the 1996 common controls says so and is not called high confidence.
+  for (const rule of rules) for (const source of rule.sources) if (source.kind === 'win95-recording') {
+    assert.equal(source.checked, '2026-11-19', rule.id);
+    const file = /^(tools\/win95-reference\/recordings\/[\w-]+\.json): /.exec(source.location);
+    assert.ok(file && readFileSync(new URL(file[1], root)).length > 0, `${rule.id}: ${source.location}`);
+    if (/comctl32 4\.70/.test(rule.confidence.reason)) assert.notEqual(rule.confidence.level, 'high', rule.id);
+  }
+  assert.equal(byId.get('button-default-follows-focus').kit.status, 'matches');
+  assert.equal(byId.get('button-default-follows-focus').confidence.level, 'high');
+  for (const id of ['menu-opened-by-mouse-has-no-highlight', 'tab-arrows-stop-at-ends', 'drop-down-list-keys', 'message-box-esc-and-close', 'tree-view-keys']) assert.ok(byId.get(id).sources.every((source) => source.kind === 'win95-recording'), id);
   // A record measured on OSR2.5 must say so wherever the common controls library drew it.
   for (const rule of rules) for (const source of rule.sources) if (source.kind === 'win95-capture') {
     assert.equal(source.checked, '2026-11-19', rule.id);
@@ -130,7 +140,7 @@ test('standing cannot present a draft, another era or a low-confidence record as
       assert.equal(standing.may_state_as_windows_95, 'no', rule.id);
       assert.match(standing.cite_as, /^(Not|Unsettled)/, rule.id);
     } else assert.equal(standing.may_state_as_windows_95, rule.confidence.level === 'high' ? 'yes' : 'with-caveat', rule.id);
-    const captured = rule.sources.some((source) => source.kind === 'win95-capture');
+    const captured = rule.sources.some((source) => source.kind === 'win95-capture' || source.kind === 'win95-recording');
     assert.match(standing.cite_as, rule.era === 'win95-1995' && rule.confidence.level !== 'low' ? (captured ? /measured on Windows 95 4\.00\.1111 C \(OSR2\.5, 1996\), not on the 1995 original/ : /not yet compared with a real system/) : /Not|Unsettled/, rule.id);
   }
   assert.match(getRule('draft-control-spacing').standing.cite_as, /draft.*dialog-control-spacing/);

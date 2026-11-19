@@ -39,10 +39,11 @@ export const SOURCE_KINDS = Object.freeze({
   'reactos-source': 'ReactOS source code, a reimplementation of Windows (master as retrieved on 2026-11-18; GPL)',
   'file-manager-templates': 'Microsoft File Manager dialog templates, published by Microsoft (Windows 3.1 resources)',
   'measured': 'Measured by rendering',
-  'win95-capture': 'Measured on real Windows 95 4.00.1111 C (OSR2.5; user and gdi files 4.0.0.950, comctl32 4.70) in an emulator with tools/win95-reference, 19 November 2026'
+  'win95-capture': 'Measured on real Windows 95 4.00.1111 C (OSR2.5; user and gdi files 4.0.0.950, comctl32 4.70) in an emulator with tools/win95-reference, 19 November 2026',
+  'win95-recording': 'Behaviour recorded step by step on real Windows 95 4.00.1111 C (OSR2.5; user files 4.0.0.950, comctl32 4.70) in an emulator with tools/win95-reference: keys and mouse through the emulator, state read back from the system after each step, 19 November 2026'
 });
 export const VISIBILITY = Object.freeze(['obvious', 'visible', 'subtle', 'invisible']);
-export const CAVEAT = 'This register records what written sources and reimplementations say and what the GUI95 kit does. It is not a certification of fidelity. Most records have not been compared with a real Windows 95 system; those that have carry a source of kind win95-capture, measured on Windows 95 4.00.1111 C (OSR2.5, 1996), not on the 1995 original. Quote each rule with its era and confidence.';
+export const CAVEAT = 'This register records what written sources and reimplementations say and what the GUI95 kit does. It is not a certification of fidelity. Most records have not been compared with a real Windows 95 system; those that have carry a source of kind win95-capture (pixels and sizes) or win95-recording (behaviour), measured on Windows 95 4.00.1111 C (OSR2.5, 1996), not on the 1995 original. Quote each rule with its era and confidence.';
 
 const copy = (value) => structuredClone(value);
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value) &&
@@ -67,7 +68,7 @@ function standing(record) {
   if (era === 'win95-draft') return { ...base, may_state_as_windows_95: 'no', cite_as: `Not the Windows 95 rule: a February 1995 draft statement that the final 1995 book changed${record.superseded_by ? ` (see ${record.superseded_by})` : ''}.` };
   if (era !== 'win95-1995') return { ...base, may_state_as_windows_95: 'no', cite_as: `Not Windows 95: ${ERAS[era]}.` };
   if (confidence.level === 'low') return { ...base, may_state_as_windows_95: 'no', cite_as: 'Unsettled: low confidence. Do not state this as Windows 95 behaviour; say what each source reports.' };
-  const captured = record.sources.some((source) => source.kind === 'win95-capture');
+  const captured = record.sources.some((source) => source.kind === 'win95-capture' || source.kind === 'win95-recording');
   const compared = captured ? 'measured on Windows 95 4.00.1111 C (OSR2.5, 1996), not on the 1995 original' : 'not yet compared with a real system';
   if (confidence.level === 'medium') return { ...base, may_state_as_windows_95: 'with-caveat', cite_as: `Probably Windows 95 (1995): medium confidence. Name the source when repeating it; ${compared}.` };
   return { ...base, may_state_as_windows_95: 'yes', cite_as: `Windows 95 (1995): high confidence from the sources cited; ${compared}.` };

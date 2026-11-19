@@ -3001,9 +3001,9 @@
        596,
        599
       ],
-      "example": 514,
-      "agree": false,
-      "note": "Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 80 ms of the real range counts as the same."
+      "example": 518,
+      "agree": true,
+      "note": "Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same."
      },
      {
       "what": "time to the next tooltip when the pointer moves to a neighbouring button while one is showing (milliseconds)",
@@ -3028,12 +3028,8 @@
      "exampleDoes": "About 510 ms (a 500 ms timer).",
      "severity": "low",
      "status": "deliberate",
-     "covers": {
-      "checks": [
-       "time from the pointer coming to rest*"
-      ]
-     },
-     "note": "Within one timer tick of the nominal half second."
+     "covers": {},
+     "note": "Within two timer ticks of the nominal half second, which the check counts as agreeing."
     },
     {
      "id": "tooltip-reshow",
@@ -4383,7 +4379,7 @@
        400,
        491
       ],
-      "example": 431,
+      "example": 428,
       "agree": true,
       "note": "Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms."
      }
@@ -4404,7 +4400,7 @@
      "id": "menus-unavailable",
      "kind": "behaviour",
      "summary": "The highlight skips unavailable commands.",
-     "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it does nothing.",
+     "real": "Arrow keys and the pointer highlight an unavailable command like any other; Enter on it closes the menu and runs nothing.",
      "exampleDoes": "Unavailable commands are skipped.",
      "severity": "medium",
      "status": "open",

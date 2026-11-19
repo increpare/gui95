@@ -38,15 +38,20 @@ const authoring=new Map([[controls,'controls'],[navigation,'navigation'],[menus,
 const metadata=entries.map(({setup,body,...rest})=>({...rest,file:`${rest.id}.html`,authoring_path:authoring.get(rest.id)}));
 outputs.set('manifest.json',JSON.stringify({schema:1,license:'MIT',examples:metadata},null,2)+'\n');
 
+// The audit against real Windows 95 (tools/build-example-audit.mjs writes it; run that first after an audit change).
+const audit=await readFile(new URL('examples/widgets/audit.json',root),'utf8').then(text=>new Map(JSON.parse(text).examples.map(record=>[record.id,record])),()=>new Map());
+const checked=id=>{const record=audit.get(id);if(!record)return 'not audited';const open=record.differences.filter(d=>d.status==='open').length;return `[${record.verdictText}](example-audit.md#${id})${open?` (${open} open)`:''}`;};
 const coverage=`# Widget coverage and independent examples
 
 The [gallery](../demo/dist/widgets/index.html) contains **${entries.length} self-contained examples** for standard Windows 95 control families, common dialog patterns, and explicit browser adapters. Each page includes states, keyboard behavior, scope limits, and period/current source pointers. They are original MIT implementations, independent of the archived application engines. This is a reference and starting point, not a packaged component API or a claim of complete Win32 emulation.
 
 ## Find a template
 
-| Family | Example | What it covers |
-| --- | --- | --- |
-${entries.map(e=>`| ${e.family} | [${e.title}](../demo/dist/widgets/${e.id}.html) | ${e.states} |`).join('\n')}
+| Family | Example | What it covers | Checked against Windows 95 |
+| --- | --- | --- | --- |
+${entries.map(e=>`| ${e.family} | [${e.title}](../demo/dist/widgets/${e.id}.html) | ${e.states} | ${checked(e.id)} |`).join('\n')}
+
+The last column is the verdict of the [example audit](example-audit.md), which compared each example at the period density with real Windows 95 running in an emulator: its rendering with screen dumps and its behaviour with step-by-step recordings. Follow a link for exactly what was compared, what differs and what was not checked. "Verified" there means both were compared and nothing is left open; it is not a claim about anything the record does not list.
 
 ## Reuse one example
 

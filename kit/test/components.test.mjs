@@ -254,8 +254,9 @@ test('tab arrows, Home and End move and select, skipping unavailable tabs, and a
   await page.locator('#t1').focus();
   await page.keyboard.press('ArrowRight');assert.equal(await active(),'t2');assert.deepEqual(await tabState(),{selected:['t2'],stops:['t2'],shown:['p2']});
   await page.keyboard.press('ArrowRight');assert.equal(await active(),'t5','disabled and aria-disabled tabs are skipped');
-  await page.keyboard.press('ArrowRight');assert.equal(await active(),'t1','movement wraps');
-  await page.keyboard.press('ArrowLeft');assert.equal(await active(),'t5');await page.keyboard.press('Home');assert.equal(await active(),'t1');await page.keyboard.press('End');assert.equal(await active(),'t5');
+  // Recorded on Windows 95 (tools/win95-reference/recordings/tab-control.json): the arrows stop at the first and last tab.
+  await page.keyboard.press('ArrowRight');assert.equal(await active(),'t5','Right on the last tab stays there');
+  await page.keyboard.press('ArrowLeft');assert.equal(await active(),'t2');await page.keyboard.press('Home');assert.equal(await active(),'t1');await page.keyboard.press('ArrowLeft');assert.equal(await active(),'t1','Left on the first tab stays there');await page.keyboard.press('End');assert.equal(await active(),'t5');
   await page.keyboard.press('ArrowUp');assert.equal(await active(),'t2');await page.keyboard.press('ArrowDown');assert.equal(await active(),'t5');
   assert.deepEqual(await tabState(),{selected:['t5'],stops:['t5'],shown:['p5']});
   assert.deepEqual((await page.evaluate(()=>window.selections))[0],['t2','p2','t2']);

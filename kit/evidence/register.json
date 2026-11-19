@@ -1069,34 +1069,40 @@
       "rule": "In a dialog, a push button that receives the input focus becomes the default button and takes the black frame; the original default gets it back when focus moves to a control that is not a push button.",
       "era": "win95-1995",
       "confidence": {
-        "level": "low",
-        "reason": "The research notes report it without a line reference, and the code that moves the frame was not read. It is long-standing Windows behaviour, but no source cited here shows it."
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
       },
-      "evidence_type": "inferred",
+      "evidence_type": "measured",
       "sources": [
         {
           "kind": "wine-source",
           "location": "dlls/user32/button.c, lines 754–759 (PB_Paint())",
           "url": "https://github.com/wine-mirror/wine/blob/master/dlls/user32/button.c",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/dialog-tab-order.json: steps 1 to 16: as Tab moves the focus, the push button that has it takes the default style and the designated default button loses it; it returns when the focus is on a text box, option button, check box or list",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 1
+        "sources_checked": 1,
+        "sources_total": 2
       },
       "kit": {
-        "status": "not-implemented",
+        "status": "matches",
         "checked": [
-          "kit/components/gui95.css · button.default",
-          "kit/components/gui95.mjs · dialogs"
+          "kit/components/gui95.css · the default look in a dialog",
+          "kit/test/default-button.test.mjs"
         ],
-        "method": "read",
-        "date": "2026-11-18",
-        "detail": "The frame is tied to a fixed class or attribute. Nothing moves it when another button is focused."
+        "method": "rendered",
+        "date": "2026-11-19",
+        "detail": "Fixed after 1.2.0. Inside a dialog, a dialog role or a dialog layout, the focused push button is drawn with the default frame and the designated default plain; outside a dialog nothing moves. Latching buttons, title bar buttons and up-down buttons are left out."
       },
-      "notes": "The cited lines show only where the frame is drawn; the hand-off itself is in dialog code that was not read. Treat as needing confirmation."
+      "notes": "The cited lines show only where the frame is drawn; the hand-off itself is in dialog code that was not read. Treat as needing confirmation. The same is recorded in message boxes (msgbox-keys) and the Find dialog (find-dialog). DM_GETDEFID keeps answering the designated button throughout: only the drawing moves."
     },
     {
       "id": "button-height-14-dlu",
@@ -2250,12 +2256,18 @@
           "location": "PDF p. 137",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=137",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/combo-edit.json: steps 2 to 4: with the list closed, Down and Up put the next and previous list item in the text box",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 2
+        "sources_checked": 1,
+        "sources_total": 3
       },
       "kit": {
         "status": "not-applicable",
@@ -2716,12 +2728,18 @@
           "location": "PDF p. 140–141",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=140",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/header.json: a click on a heading only notifies the program; a divider drag changes the width when the button is released; a double-click on a divider only notifies",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 2
+        "sources_checked": 1,
+        "sources_total": 3
       },
       "kit": {
         "status": "not-implemented",
@@ -2730,7 +2748,7 @@
         "date": "2026-11-18",
         "detail": "The kit has no header (column heading) control."
       },
-      "notes": ""
+      "notes": "Recorded with comctl32 4.70 (1996)."
     },
     {
       "id": "selection-keeps-glyphs-visible",
@@ -3217,8 +3235,8 @@
       "rule": "Moving through a menu with the arrow keys selects unavailable items too, highlighting them with gray text and no engraving. Only separators are skipped.",
       "era": "win95-1995",
       "confidence": {
-        "level": "medium",
-        "reason": "Read from Wine alone; the research library has no second implementation of this control."
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
       },
       "evidence_type": "structural",
       "sources": [
@@ -3233,12 +3251,18 @@
           "location": "dlls/win32u/menu.c, lines 2731–2742 (draw_menu_item())",
           "url": "https://github.com/wine-mirror/wine/blob/master/dlls/win32u/menu.c",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/menu-arrows.json: steps 3, 11 to 13: Down and Up highlight the unavailable Save; Enter on it closes the menu and runs nothing",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 1,
-        "sources_total": 2
+        "sources_checked": 2,
+        "sources_total": 3
       },
       "kit": {
         "status": "matches",
@@ -3250,7 +3274,7 @@
         "detail": "Fixed after 1.1.2. Arrow keys, Home and End stop on unavailable commands, which show the navy bar with gray text and no engraving; Enter, Space and mnemonics do nothing there; separators are skipped. A natively disabled button cannot take focus, so its menu takes focus and names it with aria-activedescendant. The pointer still does not highlight unavailable commands.",
         "date": "2026-11-18"
       },
-      "notes": "Until this fix the kit skipped unavailable entries, a kit test asserted it and docs/design-guide.md still describes the Vector95 reference menus as skipping them. The test was changed with the behaviour; no record was found that skipping had been chosen against the Windows behaviour."
+      "notes": "Until this fix the kit skipped unavailable entries, a kit test asserted it and docs/design-guide.md still describes the Vector95 reference menus as skipping them. The test was changed with the behaviour; no record was found that skipping had been chosen against the Windows behaviour. Recorded as well: the pointer highlights an unavailable item (menu-mouse, step 23) and a click on it leaves the menu open; the access key of an unavailable item closes the menu without a command (menu-mnemonics, step 9)."
     },
     {
       "id": "menu-unavailable-text",
@@ -3314,12 +3338,18 @@
           "location": "PDF p. 114",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=114",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/menu-mouse.json: steps 3 and 10: a cascading menu was told to open 400, 491 and 493 ms after the pointer first highlighted its parent item, on the guest's clock",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 1,
-        "sources_total": 2
+        "sources_checked": 2,
+        "sources_total": 3
       },
       "kit": {
         "status": "matches",
@@ -3330,7 +3360,7 @@
         "detail": "Fixed after 1.1.2. The highlight follows the pointer at once; a submenu opens after the pointer has rested 400 ms on its parent item, and an open one closes 400 ms after the pointer moves to a sibling unless the pointer reaches the submenu first. A press on the parent, Right arrow and Enter open it at once. 400 ms is the Windows default menu delay as given in Wine's system parameters (dlls/win32u/sysparams.c, MENUSHOWDELAY); the guidelines give no number.",
         "date": "2026-11-18"
       },
-      "notes": "Found while compiling the register; the research notes listed the rule as unchanged between editions but did not compare the kit."
+      "notes": "Found while compiling the register; the research notes listed the rule as unchanged between editions but did not compare the kit. Windows 95 has no setting to read for this delay (SPI_GETMENUSHOWDELAY is refused), so it was measured: 400 ms, or 400 ms plus a timer tick or two when the pointer was still settling."
     },
     {
       "id": "menu-escape-unwinds-one-level",
@@ -3356,12 +3386,18 @@
           "location": "PDF p. 108",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=108",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/menu-cascade.json: steps 9 to 12: with two cascades open, Esc closes one menu at a time; the third Esc leaves the bar active on its title and the fourth ends menu mode",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 2
+        "sources_checked": 1,
+        "sources_total": 3
       },
       "kit": {
         "status": "matches",
@@ -3372,7 +3408,7 @@
         "date": "2026-11-18",
         "detail": "Esc returns from a submenu to its parent and closes the top-level menu; F10 and Alt plus a letter open menus."
       },
-      "notes": ""
+      "notes": "Recorded as well (menu-activate): Alt or F10 alone makes the bar active on its first title and the same key again leaves it; Down, Up and Enter on an active title all open its menu with the first item highlighted; Alt with a letter no title has enters and leaves menu mode at once."
     },
     {
       "id": "menu-window-menu-keys",
@@ -3382,8 +3418,8 @@
       "rule": "The window (system) menu opens with Alt+Space or the secondary mouse button on the title bar, and also by pressing Alt and arrowing past the first or last menu-bar title. An MDI child's menu opens with Alt+Hyphen.",
       "era": "win95-1995",
       "confidence": {
-        "level": "medium",
-        "reason": "Stated in the final guidelines, which also keep an older sentence saying arrow keys wrap round the menu bar: the two conflict in the source."
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
       },
       "evidence_type": "stated",
       "sources": [
@@ -3404,12 +3440,18 @@
           "location": "PDF p. 112",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=112",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/menu-activate.json: steps 8 to 12: Right from the last title highlights the window menu, Right again the first title; Left from the first title likewise",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 3
+        "sources_checked": 1,
+        "sources_total": 4
       },
       "kit": {
         "status": "not-implemented",
@@ -3420,7 +3462,7 @@
         "date": "2026-11-18",
         "detail": "There is no window menu; Left and Right wrap round the menu bar."
       },
-      "notes": ""
+      "notes": "The recording settles the conflict in the source: the arrows do not go straight from the last title to the first; the window menu is between them."
     },
     {
       "id": "menu-avoid-multiple-columns",
@@ -4451,12 +4493,18 @@
           "location": "win32ss/user/ntuser/scrollbar.c, lines 20–21",
           "url": "https://github.com/reactos/reactos/blob/master/win32ss/user/ntuser/scrollbar.c",
           "checked": "2026-11-18"
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/scrollbar.json: steps 6 to 15: holding an arrow or the trough repeats after 440 to 490 ms and then about every 55 ms (one timer tick); updown-keys steps 23 and 24: an up-down repeats after 590 ms, about every 115 ms, and after two seconds goes by fives",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 2,
-        "sources_total": 2
+        "sources_checked": 3,
+        "sources_total": 3
       },
       "kit": {
         "status": "not-applicable",
@@ -5644,12 +5692,18 @@
           "location": "PDF p. 154",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=154",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/msgbox-keys.json: steps 9, 10, 24 and 42 to 44: Left and Right move the focus between the buttons of a message box and wrap",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 1,
-        "sources_total": 2
+        "sources_checked": 2,
+        "sources_total": 3
       },
       "kit": {
         "status": "not-applicable",
@@ -5658,7 +5712,7 @@
         "date": "2026-11-18",
         "detail": "A rule for the application's own design or text. The kit supplies no control or check that either follows or breaks it."
       },
-      "notes": ""
+      "notes": "Recorded as well (dialog-option-group): in a group of option buttons the arrows move and select, wrap, and skip an unavailable option."
     },
     {
       "id": "focus-shown-on-mouse-press",
@@ -5684,12 +5738,18 @@
           "location": "PDF p. 296",
           "url": "https://ics.uci.edu/~kobsa/courses/ICS104/course-notes/Microsoft_WindowsGuidelines.pdf#page=296",
           "checked": null
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/checkbox-states.json: step 17, and dialog-buttons step 20: pressing the mouse button on a check box or push button gives it the focus before the button is released",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 0,
-        "sources_total": 2
+        "sources_checked": 1,
+        "sources_total": 3
       },
       "kit": {
         "status": "differs-unintended",
@@ -5800,7 +5860,7 @@
       "era": "win95-1995",
       "confidence": {
         "level": "medium",
-        "reason": "Read from Wine alone; the research library has no second implementation of this control. The final guidelines say only that the standard control supplies the timing."
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5) with comctl32 4.70, the 1996 common controls: evidence for the 1996 library, not the 1995 one. The delays agree with the reading of Wine."
       },
       "evidence_type": "structural",
       "sources": [
@@ -5821,12 +5881,18 @@
           "location": "S118C6.htm, \"Tooltips\"; printed p. 343",
           "url": "https://techshelps.github.io/MSDN/WINGUIDE/S118C6.htm",
           "checked": "2026-11-18"
+        },
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/tooltip.json: the tooltip was shown 504 to 599 ms after the pointer came to rest (the double-click time is 500) and the next one 102 to 156 ms after moving to a neighbouring button",
+          "url": null,
+          "checked": "2026-11-19"
         }
       ],
       "verification": {
         "commissioning_review": false,
-        "sources_checked": 2,
-        "sources_total": 3
+        "sources_checked": 3,
+        "sources_total": 4
       },
       "kit": {
         "status": "not-implemented",
@@ -5835,7 +5901,7 @@
         "date": "2026-11-18",
         "detail": "The stylesheet has no tooltip style and the runtime no tooltip behaviour."
       },
-      "notes": ""
+      "notes": "Measured (commctl-tooltip capture): a one-line tooltip is 17 px high."
     },
     {
       "id": "tooltip-scope-and-placement",
@@ -8096,6 +8162,332 @@
       },
       "superseded_by": "caption-button-secondary-click",
       "notes": ""
+    },
+    {
+      "id": "menu-opened-by-mouse-has-no-highlight",
+      "title": "A menu opened with the mouse has no item highlighted",
+      "topic": "menus",
+      "control": "menu",
+      "rule": "A menu opened by clicking its title, and a pop-up menu opened by Shift+F10 or the secondary button, has no item highlighted until an arrow key or the pointer chooses one. A menu opened from the keyboard (Alt and a letter, or Down, Up or Enter on an active title) has its first item highlighted.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/menu-mouse.json: steps 1, 22 and 30, and context-menu steps 1, 17 and 19: the open menu reports no highlighted item; menu-activate steps 16 to 20: opened by key, the first item is highlighted",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "unknown",
+        "checked": [
+          "kit/components/gui95.mjs · menus"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "Not compared for the kit runtime. The standalone menu and context-menu examples were changed to do this."
+      },
+      "notes": "Clicking the open title again leaves menu mode altogether."
+    },
+    {
+      "id": "tab-arrows-stop-at-ends",
+      "title": "Arrow keys on a tab stop at the first and last tab",
+      "topic": "tabs",
+      "control": "tabs",
+      "rule": "Left and Right on a focused tab select the neighbouring tab and stop at the ends; Home and End select the first and last; Up and Down do nothing. In a property sheet Ctrl+Tab and Ctrl+Page Down go to the next page and wrap, Ctrl+Shift+Tab and Ctrl+Page Up to the previous.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "medium",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5) with comctl32 4.70, the 1996 common controls: evidence for the 1996 library, not the 1995 one."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/tab-control.json: steps 2 to 11: Right at the last tab and Left at the first change nothing; propsheet-keys steps 1 to 8: the Ctrl chords wrap",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "differs-unintended",
+        "checked": [
+          "kit/components/gui95.mjs · tabs",
+          "kit/test/components.test.mjs"
+        ],
+        "method": "rendered",
+        "date": "2026-11-19",
+        "detail": "Fixed after 1.2.0 for Left and Right, which now stop at the ends, with Ctrl+Tab and Ctrl+Page Up and Down still going round. Up and Down still move between tabs, which the real control does not do."
+      },
+      "notes": "In a property sheet the tabs are the last stop in the Tab order, after the buttons (propsheet-keys steps 9 to 12).",
+      "visibility": "subtle"
+    },
+    {
+      "id": "check-box-keys",
+      "title": "Space cycles a check box; plus checks and minus clears",
+      "topic": "check-and-option",
+      "control": "check-box",
+      "rule": "Space toggles a check box, and takes a three-state box through unchecked, checked, mixed. On an ordinary check box plus checks it and minus clears it; a three-state box ignores both.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/checkbox-states.json: steps 2 to 13",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-applicable",
+        "checked": [
+          "kit/components/gui95.mjs"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "The kit leaves this to the browser's own control."
+      },
+      "notes": "Recorded as well: pressing on a check box and sliding off before releasing changes nothing."
+    },
+    {
+      "id": "drop-down-list-keys",
+      "title": "A closed drop-down list changes value with the arrow keys; Esc on the open list does not restore",
+      "topic": "lists",
+      "control": "drop-down-list",
+      "rule": "With the list closed, Up, Down, Home, End, Page Up and letters change the value at once. F4 and Alt+Down open the list, F4 and Alt+Up close it. With the list open the arrows change the value shown as they go, and Esc closes the list keeping that value. Pointing at an item and then clicking outside does restore the old value.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/combo-droplist.json: steps 2 to 33",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-applicable",
+        "checked": [
+          "kit/components/gui95.mjs"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "The kit leaves this to the browser's own control."
+      },
+      "notes": "Enter and Tab also close the open list keeping the value; Esc and Enter with the list closed go to the dialog. Later versions of Windows restore the old value on Esc; this one does not."
+    },
+    {
+      "id": "list-box-letter-keys",
+      "title": "A letter key selects the next list item starting with that letter",
+      "topic": "lists",
+      "control": "list-box",
+      "rule": "In a list box each letter key stands alone: it selects the next item that starts with that letter, going round to the top. Typing two letters quickly selects by the second. Right and Left act as Down and Up.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/listbox-single.json: steps 12 to 19: G, G, H; then J and U typed quickly select Uniform, not Juliet",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-applicable",
+        "checked": [
+          "kit/components/gui95.mjs"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "The kit leaves this to the browser's own control."
+      },
+      "notes": "Extended-selection lists (listbox-extended): Shift with an arrow extends, Shift+F8 enters a mode where arrows move without selecting and Space toggles, Ctrl+/ selects everything."
+    },
+    {
+      "id": "message-box-esc-and-close",
+      "title": "What Esc and the Close button do in a message box",
+      "topic": "messages",
+      "control": "message-box",
+      "rule": "In a message box with a Cancel button, Esc and the Close button choose Cancel. With OK alone they choose OK. With Yes and No, or Abort, Retry and Ignore, and no Cancel, Esc and Alt+F4 do nothing and the Close button is unavailable. A button's underlined letter chooses it without Alt.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/msgbox-keys.json: steps 1 to 45",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-applicable",
+        "checked": [
+          "kit/components/gui95.mjs · dialogs"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "The kit draws message boxes; what Esc does is the application's choice of buttons."
+      },
+      "notes": "The initial focus is on the default button, the second when MB_DEFBUTTON2 asks for it."
+    },
+    {
+      "id": "dialog-access-key-on-push-button",
+      "title": "An access key presses a push button without moving the focus",
+      "topic": "focus",
+      "control": "dialog",
+      "rule": "In a dialog, the access key of a push button presses it and leaves the focus where it was. The access key of a check box moves the focus to it and toggles it; of a label, moves the focus to the control after it. When the focus is not in a text box or list, the letter works without Alt.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "high",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5), whose user files are version 4.0.0.950 like the 1995 release; not recorded on the 1995 original."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/dialog-access-keys.json: steps 1 to 17",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-implemented",
+        "checked": [
+          "kit/components/gui95.mjs · dialogs"
+        ],
+        "method": "read",
+        "date": "2026-11-19",
+        "detail": "The kit has no access-key handling for dialog controls."
+      },
+      "notes": "With two controls sharing a letter the first one after the focus is taken each time; a push button, which does not take the focus, is therefore found again and again."
+    },
+    {
+      "id": "tree-view-keys",
+      "title": "Tree view: plus, minus, asterisk and Backspace",
+      "topic": "lists",
+      "control": "tree",
+      "rule": "In a tree view Right expands a closed item and then moves to its first child; Left collapses an open item and then moves to its parent. Plus expands, minus collapses, asterisk expands everything below, Backspace moves to the parent. A click on a label selects it; a click on the plus or minus box, or a double-click on the label, opens or closes the branch.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "medium",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5) with comctl32 4.70, the 1996 common controls: evidence for the 1996 library, not the 1995 one."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/tree-keys.json: steps 2 to 25",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "unknown",
+        "checked": [
+          "kit/components/gui95.mjs · trees"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "Not compared for the kit runtime. The standalone tree example was changed to do this."
+      },
+      "notes": "A letter key selects the next visible item starting with that letter; the same letter again goes to the one after."
+    },
+    {
+      "id": "trackbar-keys",
+      "title": "Trackbar: Right and Down increase, Left and Up decrease",
+      "topic": "sliders-and-progress",
+      "control": "slider",
+      "rule": "On a trackbar Right and Down add one step, Left and Up take one away, Page Down and Page Up move by a page (a fifth of the range by default), Home goes to the minimum and End to the maximum. A vertical trackbar has its minimum at the top.",
+      "era": "win95-1995",
+      "confidence": {
+        "level": "medium",
+        "reason": "Recorded on Windows 95 4.00.1111 C (OSR2.5) with comctl32 4.70, the 1996 common controls: evidence for the 1996 library, not the 1995 one."
+      },
+      "evidence_type": "measured",
+      "sources": [
+        {
+          "kind": "win95-recording",
+          "location": "tools/win95-reference/recordings/trackbar-keys.json: steps 2 to 21",
+          "url": null,
+          "checked": "2026-11-19"
+        }
+      ],
+      "verification": {
+        "commissioning_review": false,
+        "sources_checked": 1,
+        "sources_total": 1
+      },
+      "kit": {
+        "status": "not-applicable",
+        "checked": [
+          "kit/components/gui95.mjs"
+        ],
+        "method": "not-checked",
+        "date": "2026-11-19",
+        "detail": "The kit leaves this to the browser's own control."
+      },
+      "notes": "A browser's range input has Up increase, the opposite. A click in the channel moves by a page towards the click."
     }
   ]
 }

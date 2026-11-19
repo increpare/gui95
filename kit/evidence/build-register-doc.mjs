@@ -12,7 +12,7 @@ const TOPICS = {
   'messages': 'Messages', 'files-and-documents': 'Files and documents', 'icons': 'Icons', 'wizards': 'Wizards', 'fonts-and-colour': 'Fonts, colour and display',
   'wording': 'Wording', 'terminology': 'Terminology'
 };
-const SHORT = { 'final-guidelines': 'Final guidelines', 'draft-guidelines': 'February draft', 'manual-of-style': 'Manual of Style', 'howlett': 'Howlett', 'wine-source': 'Wine', 'reactos-source': 'ReactOS', 'file-manager-templates': 'File Manager', 'measured': 'Measured', 'win95-capture': 'Windows 95 capture' };
+const SHORT = { 'final-guidelines': 'Final guidelines', 'draft-guidelines': 'February draft', 'manual-of-style': 'Manual of Style', 'howlett': 'Howlett', 'wine-source': 'Wine', 'reactos-source': 'ReactOS', 'file-manager-templates': 'File Manager', 'measured': 'Measured', 'win95-capture': 'Windows 95 capture', 'win95-recording': 'Windows 95 recording' };
 const ERA_SHORT = { 'win95-1995': 'Windows 95 (1995)', 'win95-draft': 'Draft only', 'win3x': 'Windows 3.x', 'win98-ie4': 'Windows 98 / IE 4', 'later': 'Later' };
 const cell = (text) => String(text).replace(/\|/g, '\\|').replace(/\n/g, ' ');
 const table = (head, rows) => [`| ${head.join(' | ')} |`, `| ${head.map(() => '---').join(' | ')} |`, ...rows.map((row) => `| ${row.map(cell).join(' | ')} |`)].join('\n');
