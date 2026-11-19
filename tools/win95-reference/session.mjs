@@ -30,6 +30,7 @@ for (const file of [o.disk, o.floppy, o.cdrom]) if (file) await access(file);
 
 const work = '/tmp/refgrid-session', data = path.join(here, 'out', 'session-data.img');
 const exe = path.join(here, 'out', 'REFGRID.EXE'), files = {};
+files['STARTUP.REG'] = path.join(here, 'refgrid', 'startup.reg');   // regedit /s d:\\startup.reg makes Windows start D:\\REFGRID.EXE
 try { await access(exe); files['REFGRID.EXE'] = exe; } catch { process.stdout.write('out/REFGRID.EXE is not built yet; the data disk will be empty.\n'); }
 await buildDataDisk(data, files, work);
 let extraDisk;

@@ -43,9 +43,10 @@ All from this folder. Docker must be running.
 With a Windows 95 disk image prepared as the doc describes:
 
 ```sh
-./run.sh capture --disk /images/win95-osr2.qcow2 --bits 16     # high colour
-./run.sh capture --disk /images/win95-osr2.qcow2 --bits 8      # 256 colours
-node compare.mjs --capture out/capture-16bit/win95-4.00.1111b-16bit-capture.json --images out/pairs-16bit --json out/compare-16bit.json
+./run.sh capture --disk /images/win95-osr2.qcow2 --icount 4 --bits 16                             # high colour
+./run.sh capture --disk /images/win95-osr2.qcow2 --icount 4 --bits 8                              # 256 colours
+./run.sh capture --disk /images/win95-osr2.qcow2 --icount 4 --bits 24 --width 640 --height 480    # true colour
+node compare.mjs --capture out/capture-16bit/win95-4.00.1111c-16bit-capture.json --images out/pairs-16bit --json out/compare-16bit.json
 ```
 
 Other commands: `./run.sh newdisk NAME SIZE`, `./run.sh session ...`, `./run.sh session-bg ...`, `./run.sh vmctl ...`,
@@ -127,7 +128,7 @@ first, which closes the pop-up menu so the next key reaches the program.
 6. sends `Esc`, `Q`; waits for Windows to shut down; stops QEMU;
 7. reads `REFGRID.TXT` back from the data disk and names the output from what the report says the guest is.
 
-Output, in `out/capture-<bits>bit/`: `win95-4.00.1111b-16bit-sheet1.png` (and 2, 3; the name carries the build and
+Output, in `out/capture-<bits>bit/`: `win95-4.00.1111c-16bit-sheet1.png` (and 2, 3; the name carries the build and
 service-release letter the guest reports), `…-report.txt`, `…-capture.json`.
 The prefix comes from the guest's own `GetVersionEx`; a guest that is not Windows 95 4.00 cannot produce a file
 named `win95-…`. Each PNG carries a `Source` text chunk saying what drew it. The script exits 1 with a warning if
@@ -138,27 +139,67 @@ the guest is not Windows 95, Internet Explorer 4's common controls are present, 
 5:6:5 pixel expanded to 8 bits (`#c0c0c0` appears as `#c6c3c6`); `compare.mjs` reduces the kit's image the same way.
 
 **Video adapter.** QEMU's Cirrus Logic GD5446 PCI (`-vga cirrus`), the adapter QEMU's documentation names for
-Windows 95 guests. Reports agree that the later OEM releases (OSR2, the owner's media) include a driver for it and
-disagree about the original 1995 release; neither has been confirmed here yet. See the doc for the fallbacks, which were designed in:
+Windows 95 guests. OSR2.5 detected it and installed its driver from the CD with no help; it offers 256 colours, 16-bit at 800 by 600
+and 24-bit at 640 by 480 (24-bit at 800 by 600 is not listed). Reports disagree about the original 1995 release. See the doc for the fallbacks, which were designed in:
 the grid fits the standard VGA driver's 640 by 480.
 
-**If keys do not reach the program**: `--keys off` boots once per sheet and powers off after each dump.
+**If keys do not reach the program**: `--keys off` boots once per sheet and powers off after each dump (not yet needed).
 
-## What has been tested, and what has not
+## What has been run
 
-Tested on this machine (Apple Silicon, Docker Desktop):
+On this machine (Apple Silicon, Docker Desktop), 18 and 19 November 2026:
 
 - the image builds; `refgrid.c` compiles and links; `check-pe.mjs` passes and lists the imports;
-- `./run.sh selftest`: QEMU runs headless in the container; `screendump` returns the FreeDOS screen; keys sent by QMP reach the guest; a file DOS writes to the data disk comes back to the host;
-- `capture.mjs` on a blank disk: overlay, data disk, polling, timeout and the diagnostic last-screen image;
-- `compare.mjs` on synthetic input, and the unit tests.
+- `./run.sh selftest` (FreeDOS): headless QEMU, screen dump, keys, file round trip through the data disk;
+- **Windows 95 installed from the owner's OSR2 CD** (the owner accepted the licence and typed the key), and
+  **captured at 24-bit (640 by 480), 16-bit and 256 colours (800 by 600)**: mode change by `refgrid`, all three
+  sheets, clean shutdown, report read back; `compare.mjs` run on each;
+- the unit tests, `compare.mjs` on synthetic input, and `capture.mjs`'s timeout path on a blank disk.
 
-Run with the owner's CD so far: booting it and text-mode Setup (partition, format, ScanDisk), up to the licence
-agreement.
+Not run: the original 1995 release; a non-bootable CD (`--floppy`, `--source`); `--keys off`; `--machine isapc`;
+`--vga std`. The Wine smoke test currently stops after sheet 1 (its key does not reach Wine's virtual desktop).
 
-Not yet tested: `REFGRID.EXE` starting on Windows 95; every control rendering as
-intended; the display-mode change; the marker being reached; the shutdown; the rest of the install. Expect to fix
-things on first contact.
+Every session and capture of this image needs `--icount 4`: without it Windows 95 stops with a protection error
+in IOS, the known failure on a too-fast CPU (see the doc).
 
-Known limit: `-icount` (a fixed, slower guest CPU) stops QMP keys reaching the guest in the FreeDOS test, so it is
-off by default; with it, use `--keys off`.
+## First results (Windows 95 4.00.1111 C, OSR2.5)
+
+The guest reports build 1111 with service-release letter C; `user.exe`, `user32.dll`, `gdi.exe` and `gdi32.dll`
+are version 4.0.0.950, `kernel32.dll` and `shell32.dll` 4.0.0.1111, `comctl32.dll` 4.70.0.1146. The window manager
+and GDI files therefore carry the same version number as the 1995 release; the common controls do not.
+
+Numbers from the report:
+
+| Question | Windows 95 OSR2.5 | Kit before this capture |
+| --- | --- | --- |
+| `COLOR_3DLIGHT` | `#dfdfdf` at 24-bit; reported as `#e0e0e0` at 16-bit and `#c0c0c0` at 256 colours | `#dfdfdf` |
+| Pop-up menu item height | 17 px; separator item 9 px | 22 |
+| Menu bar | items 18 px high; `SM_CYMENU` 19 | 20 |
+| Caption | `SM_CYCAPTION` 19 (18 plus a 1 px line); small caption 16 | 20 |
+| Caption button | `SM_CXSIZE` by `SM_CYSIZE` 18 by 18 (button drawn 16 by 14) | 16 by 14 |
+| List box row | 13 px | 16.84 |
+| Drop-down list, closed | 21 px high (field 15, item 13) | 23 |
+| Scroll bar | 16 px wide; plain thumb 16 px; smallest thumb 8 px | |
+| Dialog units, 8-point MS Sans Serif | 4 by 8 units = 6 by 13 px, so a 50 by 14 button is 75 by 23 px | 75 by 23 |
+| Fonts | caption, menu, status, message: MS Sans Serif, height -11 (caption bold); cell height 13 | |
+
+From the 24-bit comparison (`mapping.json`, 49 pairs): 12 pairs match pixel for pixel in the compared area: the
+push button at rest, pushed, latched and unavailable (outer 4 px ring); the check box unchecked, checked, mixed,
+unavailable and unavailable-checked (whole 13 by 13 box); the text field normal, unavailable and read-only (ring).
+14 more have the same edge colours but a different size (menu items, menu bar items, progress bar, status bar
+part, unselected tab). The rest differ, among them:
+
+- **Default push button**: Windows draws a 1 px black frame and the raised edge inside it; the kit's atlas cell does not.
+- **Pressed default button** (reference only): a black frame, then a single `#808080` line, then the face. No bevel.
+- **Focused closed drop-down list** (reference only): the field is filled with the highlight colour and holds a focus rectangle.
+- **Option button**: `DrawFrameControl` fills 13 by 13 where the kit draws 12 by 12.
+- **Window frame**: same four outer lines (`#dfdfdf`, `#ffffff` / `#000000`, `#808080`), but the kit's caption starts one pixel sooner.
+- **Caption buttons**: the edges agree; the glyphs differ by 12 to 26 pixels.
+- **Combo box, menu, caption and list row sizes**, as in the table.
+
+At 256 colours the light line of every raised edge is `#c0c0c0`, because that is what `COLOR_3DLIGHT` is there.
+`DFCS_SCROLLSIZEGRIPRIGHT` drew an up arrow, not a grip. `GetMenuItemRect` answers for a pop-up relative to the
+owner window on Windows 95; `refgrid` corrects for it and says so in the report.
+
+The captures, reports and comparison output are in `out/` (ignored by git): `capture-24bit/`, `capture-16bit/`,
+`capture-8bit/`, `compare-*.txt`, `compare-*.json`, `pairs-*/`.

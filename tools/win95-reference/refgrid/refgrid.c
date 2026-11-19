@@ -265,7 +265,18 @@ static void buildSheetPart(void)
         HWND menuWnd = FindWindowA("#32768", NULL);
         if (menuWnd) { GetWindowRect(menuWnd, &rc); putRect("menu", &rc); } else put("menu=window not found\r\n");
         n = GetMenuItemCount(hPopup);
-        for (i = 0; i < n; i++) if (GetMenuItemRect(hMenuOwner, hPopup, i, &rc) || GetMenuItemRect(NULL, hPopup, i, &rc)) { wsprintfA(key, "menu.item%d", i); putRect(key, &rc); }
+        if (n > 0 && n <= 16) {
+            RECT item[16]; int total = 0, dx = 0, dy = 0; BOOL ok = TRUE;
+            for (i = 0; i < n; i++) { ok = ok && (GetMenuItemRect(hMenuOwner, hPopup, i, &item[i]) || GetMenuItemRect(NULL, hPopup, i, &item[i])); total += item[i].bottom - item[i].top; }
+            /* Windows 95 reports a pop-up's item rectangles from the owner's client corner, not on the screen. When the
+               first item is not inside the menu window, move them all so the block of items is centred in the window. */
+            if (ok && menuWnd && (item[0].left < rc.left || item[0].top < rc.top || item[0].right > rc.right || item[n - 1].bottom > rc.bottom)) {
+                dx = rc.left + ((rc.right - rc.left) - (item[0].right - item[0].left)) / 2 - item[0].left;
+                dy = rc.top + ((rc.bottom - rc.top) - total) / 2 - item[0].top;
+                put("menu.items=moved by %d,%d: GetMenuItemRect answered relative to the owner window\r\n", dx, dy);
+            }
+            if (ok) for (i = 0; i < n; i++) { OffsetRect(&item[i], dx, dy); wsprintfA(key, "menu.item%d", i); putRect(key, &item[i]); }
+        }
         if (hMenuOwner && GetMenu(hMenuOwner)) for (i = 0; i < GetMenuItemCount(GetMenu(hMenuOwner)); i++) if (GetMenuItemRect(hMenuOwner, GetMenu(hMenuOwner), i, &rc)) { wsprintfA(key, "menubar.item%d", i); putRect(key, &rc); }
     } else if (sheet == 3) { put("menu=not open when measured\r\n"); failed = 1; }
 }
