@@ -397,7 +397,7 @@
    "x": 312,
    "y": 156,
    "w": 84,
-   "h": 30,
+   "h": 28,
    "cell": {
     "x": 304,
     "y": 148,
@@ -407,7 +407,7 @@
    "what": "fieldset"
   },
   "fieldset.legend0": {
-   "x": 313,
+   "x": 321,
    "y": 156,
    "w": 32,
    "h": 13,
@@ -415,17 +415,82 @@
    "what": "legend"
   },
   "hr": {
+   "x": 312,
+   "y": 186,
+   "w": 84,
+   "h": 2,
+   "cell": {
+    "x": 304,
+    "y": 148,
+    "w": 100,
+    "h": 48
+   },
+   "what": "hr"
+  },
+  "select-focused-drop-down-list": {
    "x": 514,
    "y": 156,
    "w": 84,
-   "h": 2,
+   "h": 23,
    "cell": {
     "x": 506,
     "y": 148,
     "w": 100,
     "h": 48
    },
-   "what": "hr"
+   "what": "select \"Focused drop-down list\""
+  },
+  "checkbox-held": {
+   "x": 615,
+   "y": 156,
+   "w": 13,
+   "h": 13,
+   "cell": {
+    "x": 607,
+    "y": 148,
+    "w": 100,
+    "h": 48
+   },
+   "what": "checkbox \"Held\""
+  },
+  "checkbox-held-checked": {
+   "x": 640,
+   "y": 156,
+   "w": 13,
+   "h": 13,
+   "cell": {
+    "x": 607,
+    "y": 148,
+    "w": 100,
+    "h": 48
+   },
+   "what": "checkbox \"Held checked\""
+  },
+  "radio-held-off": {
+   "x": 665,
+   "y": 156,
+   "w": 12,
+   "h": 12,
+   "cell": {
+    "x": 607,
+    "y": 148,
+    "w": 100,
+    "h": 48
+   },
+   "what": "radio \"Held off\""
+  },
+  "radio-held-on": {
+   "x": 689,
+   "y": 156,
+   "w": 12,
+   "h": 12,
+   "cell": {
+    "x": 607,
+    "y": 148,
+    "w": 100,
+    "h": 48
+   },
+   "what": "radio \"Held on\""
   },
   "list": {
    "x": 716,
@@ -567,6 +632,19 @@
    "partOf": "tabs",
    "what": "tab unavailable"
   },
+  "tabpanel": {
+   "x": 211,
+   "y": 276,
+   "w": 176,
+   "h": 80,
+   "cell": {
+    "x": 203,
+    "y": 246,
+    "w": 201,
+    "h": 195
+   },
+   "what": "tabpanel"
+  },
   "active": {
    "x": 9,
    "y": 254,
@@ -653,7 +731,7 @@
    "x": 413,
    "y": 205,
    "w": 176,
-   "h": 190,
+   "h": 212,
    "cell": {
     "x": 405,
     "y": 197,
@@ -733,6 +811,14 @@
    "h": 22,
    "partOf": "menu",
    "what": "menuitem"
+  },
+  "menu.menuitemcheckbox3": {
+   "x": 416,
+   "y": 392,
+   "w": 170,
+   "h": 22,
+   "partOf": "menu",
+   "what": "menuitemcheckbox unavailable checked or selected"
   },
   "tree": {
    "x": 615,

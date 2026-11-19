@@ -170,7 +170,7 @@ and GDI files therefore carry the same version number as the 1995 release; the c
 
 Numbers from the report:
 
-| Question | Windows 95 OSR2.5 | Kit before this capture |
+| Question | Windows 95 OSR2.5 | Kit |
 | --- | --- | --- |
 | `COLOR_3DLIGHT` | `#dfdfdf` at 24-bit; reported as `#e0e0e0` at 16-bit and `#c0c0c0` at 256 colours | `#dfdfdf` |
 | Pop-up menu item height | 17 px; separator item 9 px | 22 |
@@ -183,23 +183,71 @@ Numbers from the report:
 | Dialog units, 8-point MS Sans Serif | 4 by 8 units = 6 by 13 px, so a 50 by 14 button is 75 by 23 px | 75 by 23 |
 | Fonts | caption, menu, status, message: MS Sans Serif, height -11 (caption bold); cell height 13 | |
 
-From the 24-bit comparison (`mapping.json`, 49 pairs): 12 pairs match pixel for pixel in the compared area: the
-push button at rest, pushed, latched and unavailable (outer 4 px ring); the check box unchecked, checked, mixed,
-unavailable and unavailable-checked (whole 13 by 13 box); the text field normal, unavailable and read-only (ring).
-14 more have the same edge colours but a different size (menu items, menu bar items, progress bar, status bar
-part, unselected tab). The rest differ, among them:
+### Comparison with the kit's atlas (re-run 19 November 2026 after merging `master`)
 
-- **Default push button**: Windows draws a 1 px black frame and the raised edge inside it; the kit's atlas cell does not.
-- **Pressed default button** (reference only): a black frame, then a single `#808080` line, then the face. No bevel.
-- **Focused closed drop-down list** (reference only): the field is filled with the highlight colour and holds a focus rectangle.
-- **Option button**: `DrawFrameControl` fills 13 by 13 where the kit draws 12 by 12.
-- **Window frame**: same four outer lines (`#dfdfdf`, `#ffffff` / `#000000`, `#808080`), but the kit's caption starts one pixel sooner.
-- **Caption buttons**: the edges agree; the glyphs differ by 12 to 26 pixels.
-- **Combo box, menu, caption and list row sizes**, as in the table.
+`mapping.json` now has 54 pairs: the merged atlas added a held check box and option button and a focused drop-down
+list, which have reference cells; its highlighted unavailable menu command has none and stays unmapped.
 
-At 256 colours the light line of every raised edge is `#c0c0c0`, because that is what `COLOR_3DLIGHT` is there.
-`DFCS_SCROLLSIZEGRIPRIGHT` drew an up arrow, not a grip. `GetMenuItemRect` answers for a pop-up relative to the
-owner window on Windows 95; `refgrid` corrects for it and says so in the report.
+| Depth | Match pixel for pixel | Same edges, different size | Size differs (pixels not compared) | Differs |
+| --- | --- | --- | --- | --- |
+| 24-bit | 21 | 17 | 6 | 10 |
+| 16-bit | 0 | 0 | 6 | 48 |
+| 256 colours | 0 | 13 | 6 | 35 |
+
+The 24-bit capture is the one to read. At 16-bit Windows reports `COLOR_3DLIGHT` as `#e0e0e0`, which a 5:6:5 display
+shows one step lighter than the kit's `#dfdfdf`, so every raised edge differs by that one colour; at 256 colours the
+light line is the face colour. Neither is a fault in the kit's drawing.
+
+**Matching at 24-bit (21):** push button at rest, pushed, latched, unavailable and default (outer 4 px ring); check
+box unchecked, checked, mixed, unavailable, unavailable-checked, held and held-checked (whole box); option button
+off, on, unavailable, unavailable-on, held-off and held-on (whole 12 by 12 circle); text field normal, unavailable
+and read-only (ring).
+
+**Differences that are now gone:**
+
+- The default push button: its black frame is inside the box and the ring now matches pixel for pixel.
+- The option button: an error in this comparison, not in the kit. `DrawFrameControl` draws the 12 by 12 circle at
+  the top right of the 13 by 13 rectangle it is given; compared on the circle itself, all six states match.
+- The window frame: the kit's window has a dialog's 3 px frame and, compared with the dialog cell, the six pixels
+  inward from every side are identical. (A sizable window's frame is 4 px; the kit has no such frame.)
+- The group box: the etched line matches once the white line the kit draws just outside its box is included.
+- Held check boxes and option buttons, which the kit did not have, now exist and match.
+
+**Size differences that remain** (the edges agree; the density switch is the place to address them):
+
+| Part | Windows 95 | Kit |
+| --- | --- | --- |
+| Pop-up menu item | 17 px high | 22 |
+| Menu separator item | 9 px | 8 |
+| Menu bar title / bar | 18 / 19 px | 20 / 22 |
+| Title bar | 18 px | 20 |
+| Closed drop-down list (plain, unavailable, focused) | 21 px | 23 |
+| List box row | 13 px | 16 |
+| Status bar | 20 px (2 above the panes, none below) | 22 (2 above, 2 below) |
+| Caption button inset | 2 px from top and right | 3 |
+| Check box to label | 5 px | 4 |
+| Group box caption | text starts 9 px from the left | 13 |
+
+**Drawing differences that remain:**
+
+- Caption buttons: the kit's stylesheet draws no glyph. The button edges match exactly; the 12 to 26 differing pixels are the glyph.
+- Menu separator: Windows starts the etched line at the item's left edge; the kit insets it by one pixel.
+- Focus rectangle on a default button: Windows puts it on the fifth pixel in, the kit on the fourth (an ordinary button, fourth pixel, agrees).
+- Scroll arrows: the kit's artwork sits one pixel to the right (columns 5 to 11 against 4 to 10); the rows agree.
+- Menu text and check mark: one pixel further right in the kit.
+- At 256 colours Windows has no light line at all; the kit always draws `#dfdfdf`.
+
+**Not like for like, so not settled by this comparison:** the trackbar (both rectangles are the whole control), the
+selected tab (`TCM_GETITEMRECT` gives the tab's inside, the kit's rectangle its outline), the up-down control (refgrid
+measures the shrunken buddy edit) and the list box ring (it crosses a selected row that sits at a different height).
+Read the side-by-side images in `out/pairs-24bit/` for those. A toolbar was not captured.
+
+**Other things the capture showed:** the pressed default button is a black frame, one `#808080` line, then the face;
+the focused closed drop-down list has one window-colour pixel inside its edge, then the highlight with an inverted
+dotted rectangle on its outline, the button untouched; `DFCS_SCROLLSIZEGRIPRIGHT` drew an up arrow, not a grip;
+`GetMenuItemRect` answers for a pop-up relative to the owner window, which `refgrid` corrects and reports. These and
+the measurements above are recorded, with their sources, in `docs/evidence-register.md` (55 records carry a
+"Windows 95 capture" source).
 
 The captures, reports and comparison output are in `out/` (ignored by git): `capture-24bit/`, `capture-16bit/`,
 `capture-8bit/`, `compare-*.txt`, `compare-*.json`, `pairs-*/`.

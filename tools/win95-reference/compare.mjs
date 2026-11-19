@@ -87,8 +87,12 @@ export function compare({ grid, report, sheets, atlas, atlasCells, mapping, bits
     if (cellById.has(entry.reference)) usedReference.add(entry.reference);
     else if (cellById.has(entry.reference.split('.')[0])) usedReference.add(entry.reference.split('.')[0]);
     if (!reference) { problems.push(`mapping: reference "${entry.reference}" is neither a cell nor a measured part in the report`); continue; }
+    // referencePart [dx, dy, w, h] narrows the reference to part of its rectangle (the glyph inside a larger cell).
+    if (entry.referencePart) { const [dx, dy, w, h] = entry.referencePart; reference.rect = { x: reference.rect.x + dx, y: reference.rect.y + dy, w, h }; reference.source += `, part ${entry.referencePart.join(',')}`; }
     const image = sheetImages[reference.sheet];
-    const result = { reference: entry.reference, atlas: entry.atlas, compare: entry.compare, note: entry.note, referenceRect: reference.rect, referenceRectSource: reference.source, sheet: reference.sheet, atlasRect: { x: target.x, y: target.y, w: target.w, h: target.h } };
+    // atlasGrow [left, top, right, bottom] widens the kit's rectangle to take in lines it draws just outside its box.
+    const [gl, gt, gr, gb] = entry.atlasGrow ?? [0, 0, 0, 0];
+    const result = { reference: entry.reference, atlas: entry.atlas, compare: entry.compare, note: entry.note, referenceRect: reference.rect, referenceRectSource: reference.source, sheet: reference.sheet, atlasRect: { x: target.x - gl, y: target.y - gt, w: target.w + gl + gr, h: target.h + gt + gb } };
     pairs.push(result);
     if (!image) { result.status = 'no image'; result.detail = `sheet ${reference.sheet} was not captured`; continue; }
     const depth = entry.depth ?? defaults.depth, ring = entry.ring ?? defaults.ring, a = reference.rect, b = result.atlasRect;

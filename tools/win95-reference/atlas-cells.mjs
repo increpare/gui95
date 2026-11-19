@@ -19,17 +19,19 @@ try {
     const kind = el => el.matches('[data-gui95-spin]') ? 'updown' : el.getAttribute('role') ?? (el.tagName === 'INPUT' ? el.type : el.className && typeof el.className === 'string' && el.className.split(' ')[0] !== 'atlas-label' && el.tagName === 'DIV' ? el.className.split(' ')[0] : el.tagName.toLowerCase());
     const result = {};
     for (const cell of document.querySelectorAll('#atlas > .cell')) {
-      const control = cell.firstElementChild;
-      const label = control.getAttribute('aria-label') ?? control.querySelector('[aria-label]')?.getAttribute('aria-label') ?? '';
-      let key = cell.id ? cell.id.replace(/-cell$/, '') : slug(`${kind(control)} ${label}`);
-      while (result[key]) key += '-2';
-      result[key] = { ...rect(control), cell: rect(cell), what: `${kind(control)}${label ? ` "${label}"` : ''}` };
-      const counts = {};
-      for (const part of control.querySelectorAll('button, input, [role=option], [role=tab], [role=tabpanel], [role=separator], [role=treeitem] > [data-gui95-tree-label], .title-bar, .window-body, .status-bar > div, legend')) {
-        const name = kind(part), n = counts[name] = (counts[name] ?? -1) + 1;
-        const partLabel = part.getAttribute('aria-label');
-        result[`${key}.${name}${n}`] = { ...rect(part), partOf: key, what: `${name}${partLabel ? ` "${partLabel}"` : ''}${part.matches('[data-gui95-state=pressed]') ? ' pressed' : ''}${part.matches(':disabled,[aria-disabled=true]') ? ' unavailable' : ''}${part.matches(':focus') ? ' highlighted' : ''}${part.matches('[aria-checked=true],[aria-selected=true]') ? ' checked or selected' : ''}` };
-      }
+      // A cell may hold several controls side by side (the four held boxes; a group box above an etched line).
+      [...cell.children].forEach((control, index) => {
+        const label = control.getAttribute('aria-label') ?? control.querySelector('[aria-label]')?.getAttribute('aria-label') ?? '';
+        let key = cell.id && index === 0 ? cell.id.replace(/-cell$/, '') : slug(`${kind(control)} ${label}`);
+        while (result[key]) key += '-2';
+        result[key] = { ...rect(control), cell: rect(cell), what: `${kind(control)}${label ? ` "${label}"` : ''}` };
+        const counts = {};
+        for (const part of control.querySelectorAll('button, input, [role=option], [role=tab], [role=tabpanel], [role=separator], [role=treeitem] > [data-gui95-tree-label], .title-bar, .window-body, .status-bar > div, legend')) {
+          const name = kind(part), n = counts[name] = (counts[name] ?? -1) + 1;
+          const partLabel = part.getAttribute('aria-label');
+          result[`${key}.${name}${n}`] = { ...rect(part), partOf: key, what: `${name}${partLabel ? ` "${partLabel}"` : ''}${part.matches('[data-gui95-state=pressed]') ? ' pressed' : ''}${part.matches(':disabled,[aria-disabled=true]') ? ' unavailable' : ''}${part.matches(':focus') ? ' highlighted' : ''}${part.matches('[aria-checked=true],[aria-selected=true]') ? ' checked or selected' : ''}` };
+        }
+      });
     }
     return result;
   });

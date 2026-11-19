@@ -72,7 +72,7 @@ test('period rules reach an MCP client with era and confidence ahead of every ru
  assert.ok(differs.items.length>=1&&differs.items.every(item=>item.control==='menu'&&item.kit.status==='differs-unintended'));
  const draft=await call('get_gui95_period_rules',{era:'win95-draft',limit:20});
  assert.ok(draft.items.length&&draft.items.every(item=>item.standing.may_state_as_windows_95==='no'&&item.superseded_by));
- const open=await call('get_gui95_period_rules',{id:'edge-light-colour-value'});
+ const open=await call('get_gui95_period_rules',{id:'menu-bar-open-title'});
  assert.equal(open.rule.kit.status,'unknown');assert.equal(open.rule.standing.may_state_as_windows_95,'no');assert.match(open.rule.standing.cite_as,/^Unsettled/);
  const summary=await call('get_gui95_period_rules',{summary:true});
  assert.equal(Object.values(summary.by_kit_status).reduce((a,b)=>a+b,0),summary.total);assert.ok(summary.unintended_differences.length&&summary.controls.includes('menu'));
