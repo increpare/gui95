@@ -1,0 +1,35 @@
+{
+ "name": "context-menu",
+ "title": "Pop-up (context) menu: Shift+F10, the Application key, right-click, arrows, access keys",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "context menu"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 8},
+  {"key": ["shift", "f10"], "note": "Shift+F10"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down", "note": "the unavailable item"},
+  {"key": "down", "note": "wrap"},
+  {"key": "up"},
+  {"key": "esc"},
+  {"key": "compose", "note": "the Application key"},
+  {"key": "r", "note": "access key"},
+  {"key": ["shift", "f10"]},
+  {"key": "d", "note": "access key of the unavailable item"},
+  {"key": "esc"},
+  {"key": ["shift", "f10"]},
+  {"key": "left", "note": "Left"},
+  {"key": "right", "note": "Right"},
+  {"key": "esc"},
+  {"rightclick": {"cell": "frame", "fx": 0.5, "fy": 0.6}, "note": "right-click in the window"},
+  {"click": {"x": 560, "y": 440}, "note": "click outside"},
+  {"rightclick": {"cell": "frame", "fx": 0.3, "fy": 0.5}},
+  {"click": {"menu": "context", "item": 0}, "note": "click the first command"},
+  {"rightclick": {"cell": "frame", "fx": 0.3, "fy": 0.5}},
+  {"rightclick": {"cell": "frame", "fx": 0.6, "fy": 0.7}, "note": "right-click elsewhere while it is open"},
+  {"key": "esc"}
+ ]
+}

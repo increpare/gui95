@@ -26,7 +26,7 @@ const marker = (image, sheet, first = [255, 0, 0]) => { fill(image, 0, 0, 8, 8, 
 
 test('the cell table parses, stays inside the grid, and no two cells on a sheet overlap', async () => {
   const grid = await loadGrid();
-  assert.deepEqual(grid.sheets, [1, 2, 3]);
+  assert.deepEqual(grid.sheets, Array.from({ length: 25 }, (_, i) => i + 1), 'refgrid shows sheets 1 to 3, refscene 4 to 25');
   assert.deepEqual(overlaps(grid.cells), []);
   assert.ok(grid.cells.every(cell => cell.w > 0 && cell.h > 0));
 });

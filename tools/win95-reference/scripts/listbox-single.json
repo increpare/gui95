@@ -1,0 +1,34 @@
+{
+ "name": "listbox-single",
+ "title": "Single-selection list box: arrows, Home, End, Page Up, Page Down, typing",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "list box"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 5},
+  {"focus": "list_long"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "up"},
+  {"key": "pgdn"},
+  {"key": "pgdn"},
+  {"key": "pgup"},
+  {"key": "end"},
+  {"key": "down", "note": "at the end"},
+  {"key": "home"},
+  {"key": "up", "note": "at the start"},
+  {"key": "right"},
+  {"key": "left"},
+  {"key": "g", "note": "a letter goes to the next item starting with it"},
+  {"key": "g"},
+  {"key": "h"},
+  {"text": "ju", "note": "two letters quickly"},
+  {"wait": 2500},
+  {"key": "j"},
+  {"key": "spc", "note": "Space"},
+  {"click": {"cell": "list_long", "part": "item10"}, "note": "click an item"},
+  {"dblclick": true, "note": "double-click"}
+ ]
+}

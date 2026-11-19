@@ -1,0 +1,82 @@
+{
+ "name": "header",
+ "title": "Header control: clicking a column heading, dragging a divider, double-clicking a divider",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "header"
+ ],
+ "pointer": true,
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/header.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":4},"guestTime":0,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":20,"y":327}},"events":[{"t":-1294,"what":"command","id":329,"code":1024,"cell":"-"},{"t":-1294,"what":"command","id":329,"code":768,"cell":"-"},{"t":-1289,"what":"command","id":330,"code":1024,"cell":"-"},{"t":-1288,"what":"command","id":330,"code":768,"cell":"-"},{"t":-1286,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":507},{"t":-1283,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":510},{"t":-1282,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":511},{"t":-1279,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":514},{"t":-1278,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":515},{"t":-1277,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":516},{"t":-1274,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":519},{"t":-1271,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":522},{"t":-1270,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":523},{"t":-1267,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":526},{"t":-1264,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":529},{"t":-1263,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":530},{"t":-1245,"what":"scene 4 built"},{"t":-1244,"what":"notify","cell":"toolbar","id":323,"code":"code-12","sincemove":1},{"t":-1236,"what":"notify","cell":"toolbar_divider","id":324,"code":"code-12","sincemove":9},{"t":-1227,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":18},{"t":-1213,"what":"notify","cell":"trackbar_disabled_live","id":333,"code":"code-12","sincemove":32}],"controls":{"toolbar":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"toolbar_divider":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"status_grip_live":{"text":"Ready"},"header_live":{"widths":"80,80,80"},"tab_live":{"sel":0,"tabfocus":0,"count":3,"rows":1},"tab_multiline":{"sel":0,"tabfocus":0,"count":10,"rows":2},"updown":{"text":"2","sel":"0,0","lines":1,"first":0,"length":1},"updown~1":{"pos":2,"error":0,"min":1,"max":20},"updown_disabled":{"text":"2","enabled":false,"sel":"0,0","lines":1,"first":0,"length":1},"updown_disabled~1":{"enabled":false,"pos":2,"error":0,"min":1,"max":20},"trackbar_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_noticks_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_disabled_live":{"enabled":false,"pos":70,"min":0,"max":100,"line":1,"page":20},"trackbar_vert_live":{"pos":50,"min":0,"max":100,"line":1,"page":20},"progress_0_live":{},"progress_25":{},"progress_100_live":{},"hotkey":{"vk":75,"mods":3},"toggle_off":{"text":"Show grid","type":"check","check":0,"pushed":0,"bmfocus":0},"toggle_on_disabled":{"text":"Snap (locked)","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0}},"image":"header/000.png"},
+  {"step":{"click":{"cell":"header_live","part":"item0"},"note":"click a heading"},"pointer":{"x":48,"y":124,"moves":4},"guestTime":1042,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":48,"y":124}},"events":[{"t":651,"what":"input lbuttondown","vk":0,"repeat":0,"tick":311185,"class":"SysHeader32","loop":"queue"},{"t":652,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":98},{"t":719,"what":"input lbuttonup","vk":0,"repeat":0,"tick":311246,"class":"SysHeader32","loop":"queue"},{"t":719,"what":"notify","cell":"header_live","code":"hdn_itemclick","item":0},{"t":720,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":1}],"changed":{},"image":"header/001.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0"},"note":"press and slide off"},"pointer":{"x":48,"y":124,"moves":0},"guestTime":1480,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":48,"y":124}},"events":[],"changed":{},"image":"header/002.png"},
+  {"step":{"press":"left"},"guestTime":1813,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":48,"y":124}},"events":[{"t":1500,"what":"input lbuttondown","vk":0,"repeat":0,"tick":312023,"class":"SysHeader32","loop":"queue"},{"t":1501,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":782}],"changed":{},"image":"header/003.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0","dy":40}},"pointer":{"x":48,"y":164,"moves":1},"guestTime":2523,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":48,"y":164}},"events":[{"t":2090,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":0}],"changed":{},"image":"header/004.png"},
+  {"step":{"release":"left"},"guestTime":2853,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":48,"y":164}},"events":[{"t":2542,"what":"input lbuttonup","vk":0,"repeat":0,"tick":313067,"class":"SysHeader32","loop":"queue"}],"changed":{},"image":"header/005.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0","fx":1,"dx":1},"note":"drag the divider after the first heading"},"pointer":{"x":88,"y":124,"moves":1},"guestTime":3515,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[],"changed":{},"image":"header/006.png"},
+  {"step":{"press":"left"},"guestTime":3784,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":3537,"what":"input lbuttondown","vk":0,"repeat":0,"tick":314056,"class":"SysHeader32","loop":"queue"},{"t":3537,"what":"notify","cell":"header_live","id":326,"code":"hdn_begintrack","sincemove":476}],"changed":{},"image":"header/007.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0","fx":1,"dx":31}},"pointer":{"x":118,"y":124,"moves":1},"guestTime":4335,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":118,"y":124}},"events":[{"t":3962,"what":"notify","cell":"header_live","id":326,"code":"code-308","sincemove":0}],"changed":{},"image":"header/008.png"},
+  {"step":{"release":"left"},"guestTime":4722,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":118,"y":124}},"events":[{"t":4354,"what":"input lbuttonup","vk":0,"repeat":0,"tick":314880,"class":"SysHeader32","loop":"queue"},{"t":4354,"what":"notify","cell":"header_live","id":326,"code":"hdn_endtrack","sincemove":392},{"t":4354,"what":"notify","cell":"header_live","id":326,"code":"code-300","sincemove":392},{"t":4354,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":392},{"t":4355,"what":"notify","cell":"header_live","id":326,"code":"hdn_itemchanged","sincemove":393},{"t":4355,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":0}],"changed":{"header_live":{"widths":["80,80,80","110,80,80"]}},"image":"header/009.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0","fx":1,"dx":1},"note":"drag it far to the left"},"pointer":{"x":118,"y":124,"moves":0},"guestTime":5157,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":118,"y":124}},"events":[],"changed":{},"image":"header/010.png"},
+  {"step":{"press":"left"},"guestTime":5493,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":118,"y":124}},"events":[{"t":5177,"what":"input lbuttondown","vk":0,"repeat":0,"tick":315704,"class":"SysHeader32","loop":"queue"},{"t":5177,"what":"notify","cell":"header_live","id":326,"code":"hdn_begintrack","sincemove":822}],"changed":{},"image":"header/011.png"},
+  {"step":{"move":{"cell":"header_live","part":"item0","fx":0,"dx":-4}},"pointer":{"x":4,"y":124,"moves":2},"guestTime":6259,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":4,"y":124}},"events":[{"t":5718,"what":"notify","cell":"header_live","id":326,"code":"code-308","sincemove":0},{"t":5883,"what":"notify","cell":"header_live","id":326,"code":"code-308","sincemove":0}],"changed":{},"image":"header/012.png"},
+  {"step":{"release":"left"},"guestTime":6589,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":4,"y":124}},"events":[{"t":6278,"what":"input lbuttonup","vk":0,"repeat":0,"tick":316803,"class":"SysHeader32","loop":"queue"},{"t":6279,"what":"notify","cell":"header_live","id":326,"code":"hdn_endtrack","sincemove":396},{"t":6279,"what":"notify","cell":"header_live","id":326,"code":"code-300","sincemove":396},{"t":6279,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":396},{"t":6279,"what":"notify","cell":"header_live","id":326,"code":"hdn_itemchanged","sincemove":396},{"t":6281,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":0}],"changed":{"header_live":{"widths":["110,80,80","0,80,80"]}},"image":"header/013.png"},
+  {"step":{"dblclick":{"cell":"header_live","part":"item1","fx":1,"dx":1},"note":"double-click a divider"},"pointer":{"x":88,"y":124,"moves":3},"guestTime":7798,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":7251,"what":"input lbuttondown","vk":0,"repeat":0,"tick":317785,"class":"SysHeader32","loop":"queue"},{"t":7252,"what":"notify","cell":"header_live","id":326,"code":"hdn_begintrack","sincemove":213},{"t":7291,"what":"input lbuttonup","vk":0,"repeat":0,"tick":317819,"class":"SysHeader32","loop":"queue"},{"t":7291,"what":"notify","cell":"header_live","id":326,"code":"hdn_endtrack","sincemove":252},{"t":7291,"what":"notify","cell":"header_live","id":326,"code":"code-300","sincemove":252},{"t":7291,"what":"notify","cell":"header_live","id":326,"code":"hdn_itemchanged","sincemove":252},{"t":7292,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":0},{"t":7409,"what":"input lbuttondblclk","vk":0,"repeat":0,"tick":317943,"class":"SysHeader32","loop":"queue"},{"t":7409,"what":"notify","cell":"header_live","id":326,"code":"hdn_dividerdblclick","sincemove":117},{"t":7452,"what":"input lbuttonup","vk":0,"repeat":0,"tick":317984,"class":"SysHeader32","loop":"queue"}],"changed":{},"image":"header/014.png"},
+  {"step":{"focus":"header_live"},"guestTime":8127,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"SysHeader32","id":326,"cell":"header_live","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[],"changed":{},"image":"header/015.png"},
+  {"step":{"key":"right","note":"keys with the focus forced onto it"},"guestTime":8567,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"SysHeader32","id":326,"cell":"header_live","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":8147,"what":"input keydown","vk":39,"repeat":0,"tick":318681,"class":"SysHeader32","loop":"queue"},{"t":8267,"what":"input keyup","vk":39,"repeat":0,"tick":318801,"class":"SysHeader32","loop":"queue"}],"changed":{},"image":"header/016.png"},
+  {"step":{"key":"ret"},"guestTime":9021,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"SysHeader32","id":326,"cell":"header_live","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":88,"y":124}},"events":[{"t":8586,"what":"input keydown","vk":13,"repeat":0,"tick":319120,"class":"SysHeader32","loop":"queue"},{"t":8701,"what":"input keyup","vk":13,"repeat":0,"tick":319235,"class":"SysHeader32","loop":"queue"}],"changed":{},"image":"header/017.png"}
+ ]
+}

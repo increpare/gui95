@@ -1,0 +1,28 @@
+{
+ "name": "dialog-tab-order",
+ "title": "Dialog: Tab and Shift+Tab order, and which button looks like the default as focus moves",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "dialog",
+  "push button"
+ ],
+ "steps": [
+  {"scene": 7},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": ["shift", "tab"]},
+  {"key": ["shift", "tab"]},
+  {"key": ["shift", "tab"]},
+  {"key": ["shift", "tab"]}
+ ]
+}

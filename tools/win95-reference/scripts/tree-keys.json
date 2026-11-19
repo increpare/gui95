@@ -1,0 +1,37 @@
+{
+ "name": "tree-keys",
+ "title": "Tree view: arrows, plus, minus, asterisk, Backspace, typing, the mouse",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "tree view"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 5},
+  {"focus": "tree"},
+  {"key": "down"},
+  {"key": "right", "note": "Right on a collapsed item expands it"},
+  {"key": "right", "note": "Right on an expanded item goes to its first child"},
+  {"key": "down"},
+  {"key": "down", "note": "past the branch"},
+  {"key": "up"},
+  {"key": "up"},
+  {"key": "left", "note": "Left on a child goes to its parent"},
+  {"key": "left", "note": "Left on an expanded item collapses it"},
+  {"key": "backspace", "note": "Backspace goes to the parent"},
+  {"key": "kp_subtract", "note": "minus collapses"},
+  {"key": "kp_add", "note": "plus expands"},
+  {"key": "kp_multiply", "note": "asterisk expands everything below"},
+  {"key": "end"},
+  {"key": "home"},
+  {"key": "p", "note": "typing a letter"},
+  {"key": "p"},
+  {"key": "ret"},
+  {"key": "kp_subtract", "note": "collapse with a child selected elsewhere"},
+  {"key": "home"},
+  {"key": "kp_subtract", "note": "collapse the item holding the selection"},
+  {"click": {"cell": "tree", "part": "row1", "fx": 0, "dx": 9}, "note": "click a plus button"},
+  {"click": {"cell": "tree", "part": "text1"}, "note": "click a label"},
+  {"dblclick": {"cell": "tree", "part": "text0"}, "note": "double-click a label"}
+ ]
+}

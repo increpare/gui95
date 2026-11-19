@@ -1,0 +1,23 @@
+{
+ "name": "hotkey",
+ "title": "Hot-key control: recording a chord, clearing it",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "hot-key"
+ ],
+ "steps": [
+  {"scene": 4},
+  {"focus": "hotkey"},
+  {"key": ["ctrl", "alt", "k"], "note": "Ctrl+Alt+K"},
+  {"key": "k", "note": "a plain letter"},
+  {"key": ["shift", "k"], "note": "Shift with a letter"},
+  {"key": ["ctrl", "f5"], "note": "Ctrl with a function key"},
+  {"key": "backspace", "note": "Backspace"},
+  {"key": ["ctrl", "k"], "note": "Ctrl+K"},
+  {"key": "delete", "note": "Delete"},
+  {"key": "esc", "note": "Esc"},
+  {"key": "tab", "note": "Tab"},
+  {"key": "ret", "note": "Enter"},
+  {"key": "spc", "note": "Space"}
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "name": "find-dialog",
+ "title": "Modeless Find dialog (comdlg32): Enter, the check box, Esc",
+ "drawnBy": "comdlg32 4.0.0.951 (OSR2), on user32 4.0.0.950",
+ "families": [
+  "Find dialog (modeless)"
+ ],
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/find-dialog.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12485,
+   "hostMs": 15077,
+   "ratio": 0.8281
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 3,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":24},"guestTime":0,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Edit","id":1152,"text":"quick"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":-1304,"what":"scene 24 built"}],"controls":{"Static#65535":{"text":"Fi&nd what:"},"Edit#1152":{"text":"quick","sel":"0,5","lines":1,"first":0,"length":5},"Button#1040":{"text":"Match &whole word only","type":"check","check":0,"pushed":0,"bmfocus":0},"Button#1041":{"text":"Match &case","type":"check","check":0,"pushed":0,"bmfocus":0},"Button#1072":{"text":"Direction","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#1056":{"text":"&Up","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#1057":{"text":"&Down","type":"radio","check":1,"pushed":0,"bmfocus":0},"Button#1":{"text":"&Find Next","type":"defpush","check":0,"pushed":0,"bmfocus":0},"Button#2":{"text":"Cancel","type":"push","check":0,"pushed":0,"bmfocus":0}},"image":"find-dialog/000.png"},
+  {"step":{"key":"ret","note":"Enter: Find Next"},"guestTime":439,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Edit","id":1152,"text":"quick"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":17,"what":"input keydown","vk":13,"repeat":0,"tick":23284,"class":"Edit","loop":"queue"},{"t":17,"what":"find","flags":9,"findnext":1,"term":0,"matchcase":0,"down":1,"text":"quick"},{"t":125,"what":"input keyup","vk":13,"repeat":0,"tick":23392,"class":"Edit","loop":"queue"}],"changed":{},"image":"find-dialog/001.png"},
+  {"step":{"key":["alt","c"],"note":"Match case"},"guestTime":934,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":451,"what":"input syskeydown","vk":18,"repeat":0,"tick":23718,"class":"Edit","loop":"queue"},{"t":492,"what":"input syskeydown","vk":67,"repeat":0,"tick":23759,"class":"Edit","loop":"queue"},{"t":602,"what":"input syskeyup","vk":67,"repeat":0,"tick":23869,"class":"Button","loop":"queue"},{"t":637,"what":"input keyup","vk":18,"repeat":0,"tick":23903,"class":"Button","loop":"queue"}],"changed":{"Button#1041":{"check":[0,1],"bmfocus":[0,1]}},"image":"find-dialog/002.png"},
+  {"step":{"key":"ret"},"guestTime":1374,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":947,"what":"input keydown","vk":13,"repeat":0,"tick":24214,"class":"Button","loop":"queue"},{"t":948,"what":"find","flags":"0000000d","findnext":1,"term":0,"matchcase":1,"down":1,"text":"quick"},{"t":1065,"what":"input keyup","vk":13,"repeat":0,"tick":24332,"class":"Button","loop":"queue"}],"changed":{},"image":"find-dialog/003.png"},
+  {"step":{"key":["shift","home"],"note":"empty the text"},"guestTime":1881,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":1385,"what":"input keydown","vk":16,"repeat":0,"tick":24652,"class":"Button","loop":"queue"},{"t":1427,"what":"input keydown","vk":36,"repeat":0,"tick":24694,"class":"Button","loop":"queue"},{"t":1538,"what":"input keyup","vk":36,"repeat":0,"tick":24805,"class":"Button","loop":"queue"},{"t":1576,"what":"input keyup","vk":16,"repeat":0,"tick":24843,"class":"Button","loop":"queue"}],"changed":{},"image":"find-dialog/004.png"},
+  {"step":{"key":"delete"},"guestTime":2320,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":1893,"what":"input keydown","vk":46,"repeat":0,"tick":25160,"class":"Button","loop":"queue"},{"t":2016,"what":"input keyup","vk":46,"repeat":0,"tick":25283,"class":"Button","loop":"queue"}],"changed":{},"image":"find-dialog/005.png"},
+  {"step":{"key":"ret","note":"Enter with nothing to find"},"guestTime":2758,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":2331,"what":"input keydown","vk":13,"repeat":0,"tick":25598,"class":"Button","loop":"queue"},{"t":2331,"what":"find","flags":"0000000d","findnext":1,"term":0,"matchcase":1,"down":1,"text":"quick"},{"t":2453,"what":"input keyup","vk":13,"repeat":0,"tick":25720,"class":"Button","loop":"queue"}],"changed":{},"image":"find-dialog/006.png"},
+  {"step":{"text":"a"},"guestTime":3199,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1041,"text":"Match &case"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":2770,"what":"input keydown","vk":65,"repeat":0,"tick":26037,"class":"Button","loop":"queue"},{"t":2882,"what":"input keyup","vk":65,"repeat":0,"tick":26148,"class":"Button","loop":"queue"}],"changed":{},"image":"find-dialog/007.png"},
+  {"step":{"key":"tab"},"guestTime":3639,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1057,"text":"&Down"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":3212,"what":"input keydown","vk":9,"repeat":0,"tick":26479,"class":"Button","loop":"queue"},{"t":3331,"what":"input keyup","vk":9,"repeat":0,"tick":26598,"class":"Button","loop":"queue"}],"changed":{"Button#1041":{"bmfocus":[1,0]},"Button#1057":{"bmfocus":[0,1]}},"image":"find-dialog/008.png"},
+  {"step":{"key":"tab"},"guestTime":4079,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1,"text":"&Find Next"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":3651,"what":"input keydown","vk":9,"repeat":0,"tick":26918,"class":"Button","loop":"queue"},{"t":3761,"what":"input keyup","vk":9,"repeat":0,"tick":27028,"class":"Button","loop":"queue"}],"changed":{"Button#1057":{"bmfocus":[1,0]},"Button#1":{"bmfocus":[0,1]}},"image":"find-dialog/009.png"},
+  {"step":{"key":"tab"},"guestTime":4518,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":2,"text":"Cancel"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":4091,"what":"input keydown","vk":9,"repeat":0,"tick":27357,"class":"Button","loop":"queue"},{"t":4204,"what":"input keyup","vk":9,"repeat":0,"tick":27470,"class":"Button","loop":"queue"}],"changed":{"Button#1":{"type":["defpush","push"],"bmfocus":[1,0]},"Button#2":{"type":["push","defpush"],"bmfocus":[0,1]}},"image":"find-dialog/010.png"},
+  {"step":{"key":"tab"},"guestTime":4958,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Edit","id":1152,"text":"quick"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":4530,"what":"input keydown","vk":9,"repeat":0,"tick":27797,"class":"Button","loop":"queue"},{"t":4644,"what":"input keyup","vk":9,"repeat":0,"tick":27911,"class":"Edit","loop":"queue"}],"changed":{"Button#1":{"type":["push","defpush"]},"Button#2":{"type":["defpush","push"],"bmfocus":[1,0]}},"image":"find-dialog/011.png"},
+  {"step":{"key":"tab"},"guestTime":5397,"state":{"active":{"class":"#32770","text":"Find"},"focus":{"class":"Button","id":1040,"text":"Match &whole word only"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Find"}],"cursor":{"x":500,"y":400}},"events":[{"t":4969,"what":"input keydown","vk":9,"repeat":0,"tick":28236,"class":"Edit","loop":"queue"},{"t":5082,"what":"input keyup","vk":9,"repeat":0,"tick":28349,"class":"Button","loop":"queue"}],"changed":{"Button#1040":{"bmfocus":[0,1]}},"image":"find-dialog/012.png"},
+  {"step":{"key":"esc","note":"Esc closes it"},"guestTime":5892,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":500,"y":400}},"events":[{"t":5409,"what":"input keydown","vk":27,"repeat":0,"tick":28675,"class":"Button","loop":"queue"},{"t":5409,"what":"find","flags":45,"findnext":0,"term":1,"matchcase":1,"down":1,"text":"quick"},{"t":5522,"what":"input keyup","vk":27,"repeat":0,"tick":28789,"class":"refscene.host","loop":"queue"}],"changed":{"Static#65535":{"(gone)":true},"Edit#1152":{"(gone)":true},"Button#1040":{"(gone)":true},"Button#1041":{"(gone)":true},"Button#1072":{"(gone)":true},"Button#1056":{"(gone)":true},"Button#1057":{"(gone)":true},"Button#1":{"(gone)":true},"Button#2":{"(gone)":true}},"image":"find-dialog/013.png"}
+ ]
+}

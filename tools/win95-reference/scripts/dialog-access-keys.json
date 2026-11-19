@@ -1,0 +1,29 @@
+{
+ "name": "dialog-access-keys",
+ "title": "Dialog: access keys with and without Alt, a duplicated letter, labels, unavailable controls",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "dialog",
+  "access key"
+ ],
+ "steps": [
+  {"scene": 7},
+  {"key": ["alt", "n"], "note": "the label of the text box"},
+  {"key": ["alt", "m"], "note": "a check box: moves focus and toggles"},
+  {"key": "e", "note": "a letter without Alt, focus on a check box"},
+  {"key": "m", "note": "again without Alt"},
+  {"key": ["alt", "b"], "note": "a letter shared by Browse and Best"},
+  {"key": ["alt", "b"], "note": "again"},
+  {"key": ["alt", "b"], "note": "again"},
+  {"key": ["alt", "t"], "note": "the label of the list box"},
+  {"key": "l", "note": "a letter without Alt in a list box"},
+  {"key": "h", "note": "another"},
+  {"key": ["alt", "p"], "note": "label of the drop-down list"},
+  {"key": ["alt", "r"], "note": "an unavailable option button"},
+  {"key": ["alt", "q"], "note": "an unavailable check box"},
+  {"key": ["alt", "x"], "note": "a letter nothing has"},
+  {"key": ["alt", "h"], "note": "Help: a push button with a unique letter"},
+  {"key": ["alt", "n"]},
+  {"key": "m", "note": "a letter without Alt in a text box types it"}
+ ]
+}

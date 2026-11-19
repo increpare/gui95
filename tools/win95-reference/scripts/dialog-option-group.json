@@ -1,0 +1,27 @@
+{
+ "name": "dialog-option-group",
+ "title": "Dialog: arrow keys in an option-button group",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "option button",
+  "dialog"
+ ],
+ "steps": [
+  {"scene": 7},
+  {"key": "tab"},
+  {"key": "tab", "note": "into the group: the selected option"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down", "note": "past the last available option"},
+  {"key": "up"},
+  {"key": "right"},
+  {"key": "left"},
+  {"key": "left"},
+  {"key": "spc", "note": "Space on the focused option"},
+  {"key": "tab", "note": "Tab leaves the group"},
+  {"key": ["shift", "tab"], "note": "and comes back to the selected option"},
+  {"key": "down", "note": "arrows again"},
+  {"key": "down"},
+  {"key": "up"}
+ ]
+}

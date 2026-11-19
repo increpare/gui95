@@ -1,0 +1,26 @@
+{
+ "name": "listbox-multiple",
+ "title": "Multiple-selection list box: arrows move the focus only, Space toggles",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "multiple-selection list box"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 5},
+  {"focus": "list_multiple"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "spc", "note": "Space toggles the focused item"},
+  {"key": "down"},
+  {"key": "spc"},
+  {"key": "up"},
+  {"key": "up"},
+  {"key": "spc"},
+  {"key": "end"},
+  {"key": "home"},
+  {"key": ["shift", "down"], "note": "Shift+Down"},
+  {"click": {"cell": "list_multiple", "part": "item3"}, "note": "click toggles"},
+  {"click": true}
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "name": "checkbox-states",
+ "title": "Check boxes: Space, three-state cycling, plus and minus, the mouse",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "check box"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 7},
+  {"key": ["alt", "l"], "note": "the three-state box starts mixed; its access key clicks it"},
+  {"key": "spc", "note": "Space"},
+  {"key": "spc"},
+  {"key": "spc"},
+  {"key": "spc"},
+  {"key": "minus", "note": "minus"},
+  {"key": ["shift", "equal"], "note": "plus"},
+  {"key": "equal", "note": "equals"},
+  {"key": "tab"},
+  {"key": "spc", "note": "an ordinary check box"},
+  {"key": "spc"},
+  {"key": "minus", "note": "minus"},
+  {"key": ["shift", "equal"], "note": "plus"},
+  {"click": {"control": 123}, "note": "click a check box label"},
+  {"click": true},
+  {"move": {"control": 123}, "note": "press and slide off"},
+  {"press": "left"},
+  {"move": {"control": 123, "dy": 60}},
+  {"release": "left"},
+  {"click": {"control": 124}, "note": "click the unavailable box"}
+ ]
+}

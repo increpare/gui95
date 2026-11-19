@@ -1,0 +1,34 @@
+{
+ "name": "combo-edit",
+ "title": "Editable combo box in a dialog: typing, arrows, F4, Alt+Down, Esc, Enter",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "combo box",
+  "dialog"
+ ],
+ "steps": [
+  {"scene": 7},
+  {"key": ["alt", "f"]},
+  {"key": "down", "note": "closed: Down takes the next item"},
+  {"key": "down"},
+  {"key": "up"},
+  {"text": "ge", "note": "type text"},
+  {"key": "f4", "note": "F4 opens; the list finds the typed text"},
+  {"key": "down", "note": "Down in the open list"},
+  {"key": "esc", "note": "Esc with the list open"},
+  {"text": "x", "note": "type"},
+  {"key": "f4"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "ret", "note": "Enter with the list open"},
+  {"key": ["alt", "down"], "note": "Alt+Down"},
+  {"key": "down"},
+  {"key": ["alt", "up"], "note": "Alt+Up"},
+  {"key": "home"},
+  {"key": ["shift", "end"]},
+  {"text": "my font"},
+  {"key": "down", "note": "Down with text that matches nothing"},
+  {"key": "esc", "note": "Esc with the list closed"},
+  {"key": "ret", "note": "Enter with the list closed"}
+ ]
+}

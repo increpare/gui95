@@ -1,0 +1,85 @@
+{
+ "name": "checkbox-states",
+ "title": "Check boxes: Space, three-state cycling, plus and minus, the mouse",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "check box"
+ ],
+ "pointer": true,
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/checkbox-states.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":7},"guestTime":0,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Edit","id":101,"text":"Letter"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":-1427,"what":"command","dialog":"form","id":101,"code":1024},{"t":-1427,"what":"command","dialog":"form","id":101,"code":768},{"t":-1421,"what":"command","dialog":"form","id":101,"code":256},{"t":-1413,"what":"scene 7 built"}],"controls":{"Static#100":{"text":"&Name:"},"Edit#101":{"text":"Letter","sel":"0,6","lines":1,"first":0,"length":6},"Button#102":{"text":"&Browse...","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#110":{"text":"Image quality","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#111":{"text":"&Draft","type":"radio","check":1,"pushed":0,"bmfocus":0},"Button#112":{"text":"N&ormal","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#113":{"text":"&Best","type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#114":{"text":"P&rinter managed","enabled":false,"type":"radio","check":0,"pushed":0,"bmfocus":0},"Button#120":{"text":"Export channels","type":"group","check":0,"pushed":0,"bmfocus":0},"Button#121":{"text":"A&ll channels","type":"check3","check":2,"pushed":0,"bmfocus":0},"Button#122":{"text":"&Music","type":"check","check":1,"pushed":0,"bmfocus":0},"Button#123":{"text":"&Effects","type":"check","check":0,"pushed":0,"bmfocus":0},"Button#124":{"text":"Re&quired metadata","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0},"Static#130":{"text":"&Templates:"},"ListBox#131":{"count":5,"top":0,"sel":0},"Static#140":{"text":"&Paper size:"},"ComboBox#141":{"text":"A4","sel":0,"dropped":0,"count":4,"top":0,"editsel":"65535,65535","extended":0},"Static#142":{"text":"&Font:"},"ComboBox#143":{"text":"Arial","sel":0,"dropped":0,"count":6,"top":0,"editsel":"0,0","extended":0},"Edit#1001":{"text":"Arial","sel":"0,0","lines":1,"first":0,"length":5},"Button#1":{"text":"OK","type":"defpush","check":0,"pushed":0,"bmfocus":0},"Button#2":{"text":"Cancel","type":"push","check":0,"pushed":0,"bmfocus":0},"Button#9":{"text":"&Help","type":"push","check":0,"pushed":0,"bmfocus":0}},"image":"checkbox-states/000.png"},
+  {"step":{"key":["alt","l"],"note":"the three-state box starts mixed; its access key clicks it"},"guestTime":544,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":25,"what":"input syskeydown","vk":18,"repeat":0,"tick":162059,"class":"Edit","loop":"queue"},{"t":69,"what":"input syskeydown","vk":76,"repeat":0,"tick":162104,"class":"Edit","loop":"queue"},{"t":70,"what":"command","dialog":"form","id":101,"code":512},{"t":71,"what":"command","dialog":"form","id":121,"code":0},{"t":177,"what":"input syskeyup","vk":76,"repeat":0,"tick":162211,"class":"Button","loop":"queue"},{"t":219,"what":"input keyup","vk":18,"repeat":0,"tick":162254,"class":"Button","loop":"queue"}],"changed":{"Button#121":{"check":[2,0],"bmfocus":[0,1]}},"image":"checkbox-states/001.png"},
+  {"step":{"key":"spc","note":"Space"},"guestTime":983,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":564,"what":"input keydown","vk":32,"repeat":0,"tick":162599,"class":"Button","loop":"queue"},{"t":679,"what":"input keyup","vk":32,"repeat":0,"tick":162714,"class":"Button","loop":"queue"},{"t":680,"what":"command","dialog":"form","id":121,"code":0}],"changed":{"Button#121":{"check":[0,1]}},"image":"checkbox-states/002.png"},
+  {"step":{"key":"spc"},"guestTime":1423,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":1002,"what":"input keydown","vk":32,"repeat":0,"tick":163037,"class":"Button","loop":"queue"},{"t":1133,"what":"input keyup","vk":32,"repeat":0,"tick":163168,"class":"Button","loop":"queue"},{"t":1134,"what":"command","dialog":"form","id":121,"code":0}],"changed":{"Button#121":{"check":[1,2]}},"image":"checkbox-states/003.png"},
+  {"step":{"key":"spc"},"guestTime":1869,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":1443,"what":"input keydown","vk":32,"repeat":0,"tick":163478,"class":"Button","loop":"queue"},{"t":1558,"what":"input keyup","vk":32,"repeat":0,"tick":163593,"class":"Button","loop":"queue"},{"t":1559,"what":"command","dialog":"form","id":121,"code":0}],"changed":{"Button#121":{"check":[2,0]}},"image":"checkbox-states/004.png"},
+  {"step":{"key":"spc"},"guestTime":2300,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":1889,"what":"input keydown","vk":32,"repeat":0,"tick":163923,"class":"Button","loop":"queue"},{"t":2009,"what":"input keyup","vk":32,"repeat":0,"tick":164044,"class":"Button","loop":"queue"},{"t":2010,"what":"command","dialog":"form","id":121,"code":0}],"changed":{"Button#121":{"check":[0,1]}},"image":"checkbox-states/005.png"},
+  {"step":{"key":"minus","note":"minus"},"guestTime":2742,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":2320,"what":"input keydown","vk":189,"repeat":0,"tick":164355,"class":"Button","loop":"queue"},{"t":2434,"what":"input keyup","vk":189,"repeat":0,"tick":164469,"class":"Button","loop":"queue"}],"changed":{},"image":"checkbox-states/006.png"},
+  {"step":{"key":["shift","equal"],"note":"plus"},"guestTime":3293,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":2762,"what":"input keydown","vk":16,"repeat":0,"tick":164797,"class":"Button","loop":"queue"},{"t":2808,"what":"input keydown","vk":187,"repeat":0,"tick":164843,"class":"Button","loop":"queue"},{"t":2930,"what":"input keyup","vk":187,"repeat":0,"tick":164965,"class":"Button","loop":"queue"},{"t":2961,"what":"input keyup","vk":16,"repeat":0,"tick":164996,"class":"Button","loop":"queue"}],"changed":{},"image":"checkbox-states/007.png"},
+  {"step":{"key":"equal","note":"equals"},"guestTime":3789,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":121,"text":"A&ll channels"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":3313,"what":"input keydown","vk":187,"repeat":0,"tick":165348,"class":"Button","loop":"queue"},{"t":3440,"what":"input keyup","vk":187,"repeat":0,"tick":165475,"class":"Button","loop":"queue"}],"changed":{},"image":"checkbox-states/008.png"},
+  {"step":{"key":"tab"},"guestTime":4225,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":3807,"what":"input keydown","vk":9,"repeat":0,"tick":165842,"class":"Button","loop":"queue"},{"t":3918,"what":"input keyup","vk":9,"repeat":0,"tick":165953,"class":"Button","loop":"queue"}],"changed":{"Button#121":{"bmfocus":[1,0]},"Button#122":{"bmfocus":[0,1]}},"image":"checkbox-states/009.png"},
+  {"step":{"key":"spc","note":"an ordinary check box"},"guestTime":4669,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":4245,"what":"input keydown","vk":32,"repeat":0,"tick":166279,"class":"Button","loop":"queue"},{"t":4356,"what":"input keyup","vk":32,"repeat":0,"tick":166390,"class":"Button","loop":"queue"},{"t":4356,"what":"command","dialog":"form","id":122,"code":0}],"changed":{"Button#122":{"check":[1,0]}},"image":"checkbox-states/010.png"},
+  {"step":{"key":"spc"},"guestTime":5160,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":4688,"what":"input keydown","vk":32,"repeat":0,"tick":166723,"class":"Button","loop":"queue"},{"t":4804,"what":"input keyup","vk":32,"repeat":0,"tick":166839,"class":"Button","loop":"queue"},{"t":4804,"what":"command","dialog":"form","id":122,"code":0}],"changed":{"Button#122":{"check":[0,1]}},"image":"checkbox-states/011.png"},
+  {"step":{"key":"minus","note":"minus"},"guestTime":5598,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":5179,"what":"input keydown","vk":189,"repeat":0,"tick":167214,"class":"Button","loop":"queue"},{"t":5179,"what":"command","dialog":"form","id":122,"code":0},{"t":5293,"what":"input keyup","vk":189,"repeat":0,"tick":167327,"class":"Button","loop":"queue"}],"changed":{"Button#122":{"check":[1,0]}},"image":"checkbox-states/012.png"},
+  {"step":{"key":["shift","equal"],"note":"plus"},"guestTime":6147,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":122,"text":"&Music"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":500,"y":400}},"events":[{"t":5618,"what":"input keydown","vk":16,"repeat":0,"tick":167653,"class":"Button","loop":"queue"},{"t":5656,"what":"input keydown","vk":187,"repeat":0,"tick":167691,"class":"Button","loop":"queue"},{"t":5656,"what":"command","dialog":"form","id":122,"code":0},{"t":5763,"what":"input keyup","vk":187,"repeat":0,"tick":167798,"class":"Button","loop":"queue"},{"t":5799,"what":"input keyup","vk":16,"repeat":0,"tick":167834,"class":"Button","loop":"queue"}],"changed":{"Button#122":{"check":[0,1]}},"image":"checkbox-states/013.png"},
+  {"step":{"click":{"control":123},"note":"click a check box label"},"pointer":{"x":273,"y":152,"moves":4},"guestTime":7358,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":152}},"events":[{"t":6925,"what":"input lbuttondown","vk":0,"repeat":0,"tick":168959,"class":"Button","loop":"queue"},{"t":7004,"what":"input lbuttonup","vk":0,"repeat":0,"tick":169035,"class":"Button","loop":"queue"},{"t":7005,"what":"command","dialog":"form","id":123,"code":0}],"changed":{"Button#122":{"bmfocus":[1,0]},"Button#123":{"check":[0,1],"bmfocus":[0,1]}},"image":"checkbox-states/014.png"},
+  {"step":{"click":true},"guestTime":7798,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":152}},"events":[{"t":7377,"what":"input lbuttondblclk","vk":0,"repeat":0,"tick":169402,"class":"Button","loop":"queue"},{"t":7454,"what":"input lbuttonup","vk":0,"repeat":0,"tick":169484,"class":"Button","loop":"queue"},{"t":7454,"what":"command","dialog":"form","id":123,"code":0}],"changed":{"Button#123":{"check":[1,0]}},"image":"checkbox-states/015.png"},
+  {"step":{"move":{"control":123},"note":"press and slide off"},"pointer":{"x":273,"y":152,"moves":0},"guestTime":8346,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":152}},"events":[],"changed":{},"image":"checkbox-states/016.png"},
+  {"step":{"press":"left"},"guestTime":8677,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":152}},"events":[{"t":8365,"what":"input lbuttondown","vk":0,"repeat":0,"tick":170390,"class":"Button","loop":"queue"}],"changed":{"Button#123":{"pushed":[0,1]}},"image":"checkbox-states/017.png"},
+  {"step":{"move":{"control":123,"dy":60}},"pointer":{"x":273,"y":212,"moves":1},"guestTime":9237,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":212}},"events":[],"changed":{"Button#123":{"pushed":[1,0]}},"image":"checkbox-states/018.png"},
+  {"step":{"release":"left"},"guestTime":9568,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":212}},"events":[{"t":9256,"what":"input lbuttonup","vk":0,"repeat":0,"tick":171283,"class":"Button","loop":"queue"}],"changed":{},"image":"checkbox-states/019.png"},
+  {"step":{"click":{"control":124},"note":"click the unavailable box"},"pointer":{"x":273,"y":172,"moves":1},"guestTime":10448,"state":{"active":{"class":"#32770","text":"Export Options"},"focus":{"class":"Button","id":123,"text":"&Effects"},"defaultId":1,"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[{"class":"#32770","text":"Export Options"}],"cursor":{"x":273,"y":172}},"events":[{"t":10012,"what":"input lbuttondown","vk":0,"repeat":0,"tick":172046,"class":"#32770","loop":"queue"},{"t":10093,"what":"input lbuttonup","vk":0,"repeat":0,"tick":172127,"class":"#32770","loop":"queue"}],"changed":{},"image":"checkbox-states/020.png"}
+ ]
+}

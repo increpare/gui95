@@ -1,0 +1,24 @@
+{
+ "name": "color-dialog",
+ "title": "Color dialog (comdlg32): arrows in the basic colours, Space, Enter, Esc",
+ "drawnBy": "comdlg32 4.0.0.951 (OSR2), on user32 4.0.0.950",
+ "families": [
+  "Color dialog"
+ ],
+ "steps": [
+  {"scene": 22},
+  {"key": "right", "note": "Right in the grid of basic colours"},
+  {"key": "right"},
+  {"key": "down"},
+  {"key": "spc", "note": "Space selects the focused colour"},
+  {"key": "ret", "note": "Enter: OK"},
+  {"scene": 22},
+  {"key": "right"},
+  {"key": "ret", "note": "Enter without Space"},
+  {"scene": 22},
+  {"key": "tab", "note": "Tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "esc", "note": "Esc"}
+ ]
+}

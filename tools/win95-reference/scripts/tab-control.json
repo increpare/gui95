@@ -1,0 +1,34 @@
+{
+ "name": "tab-control",
+ "title": "Tab control: arrows, Home and End, rows, the mouse",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "tab control"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"focus": "tab_live"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right", "note": "at the last tab"},
+  {"key": "left"},
+  {"key": "left"},
+  {"key": "left", "note": "at the first tab"},
+  {"key": "end"},
+  {"key": "home"},
+  {"key": "down"},
+  {"key": "up"},
+  {"click": {"cell": "tab_live", "part": "item2"}, "note": "click a tab"},
+  {"focus": "tab_multiline"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right", "note": "into the other row"},
+  {"key": "right"},
+  {"key": "end"},
+  {"key": "home"},
+  {"click": {"cell": "tab_multiline", "part": "item7"}, "note": "click a tab in the back row"}
+ ]
+}

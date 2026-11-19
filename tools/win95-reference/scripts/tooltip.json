@@ -1,0 +1,36 @@
+{
+ "name": "tooltip",
+ "title": "Tooltip: the delay before it shows, moving to the next button, leaving",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "tooltip",
+  "toolbar"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"move": {"cell": "toolbar", "part": "button0"}, "settle": 50, "note": "rest on a toolbar button"},
+  {"wait": 150, "settle": 0},
+  {"wait": 150, "settle": 0},
+  {"wait": 150, "settle": 0},
+  {"wait": 150, "settle": 0},
+  {"wait": 150, "settle": 0},
+  {"wait": 300, "settle": 0},
+  {"wait": 600},
+  {"move": {"cell": "toolbar", "part": "button2"}, "settle": 50, "note": "move to another button while it shows"},
+  {"wait": 150, "settle": 0},
+  {"wait": 300, "settle": 0},
+  {"wait": 600},
+  {"move": {"x": 500, "y": 420}, "note": "leave the toolbar"},
+  {"wait": 500},
+  {"move": {"cell": "toolbar", "part": "button0"}, "note": "come back"},
+  {"wait": 1500},
+  {"press": "left", "note": "press the button under the tooltip"},
+  {"release": "left"},
+  {"wait": 1500},
+  {"click": {"cell": "toolbar", "part": "button4"}, "note": "a check button"},
+  {"click": {"cell": "toolbar", "part": "button5"}},
+  {"click": {"cell": "toolbar", "part": "button6"}, "note": "an unavailable button"},
+  {"wait": 1500}
+ ]
+}

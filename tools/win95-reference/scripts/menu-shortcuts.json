@@ -1,0 +1,22 @@
+{
+ "name": "menu-shortcuts",
+ "title": "Shortcut keys with the menu closed and open",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "menu",
+  "shortcut key"
+ ],
+ "steps": [
+  {"scene": 8},
+  {"key": ["ctrl", "n"], "note": "menu closed: the accelerator runs"},
+  {"key": ["alt", "f"]},
+  {"key": ["ctrl", "n"], "note": "menu open"},
+  {"key": "esc"},
+  {"key": "esc"},
+  {"key": "alt"},
+  {"key": ["ctrl", "n"], "note": "bar armed"},
+  {"key": "esc"},
+  {"key": ["ctrl", "c"], "note": "another accelerator"},
+  {"key": ["alt", "f4"], "note": "Alt+F4"}
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "name": "trackbar-keys",
+ "title": "Trackbar: arrows, Page Up, Page Down, Home, End, horizontal and vertical, the mouse",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "trackbar"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"focus": "trackbar_live"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "left"},
+  {"key": "up", "note": "Up"},
+  {"key": "down", "note": "Down"},
+  {"key": "pgdn", "note": "Page Down"},
+  {"key": "pgup", "note": "Page Up"},
+  {"key": "end"},
+  {"key": "right", "note": "at the maximum"},
+  {"key": "home"},
+  {"key": "left", "note": "at the minimum"},
+  {"focus": "trackbar_vert_live"},
+  {"key": "down", "note": "vertical: Down"},
+  {"key": "up", "note": "Up"},
+  {"key": "pgdn"},
+  {"key": "pgup"},
+  {"key": "home"},
+  {"key": "end"},
+  {"key": "right"},
+  {"key": "left"},
+  {"click": {"cell": "trackbar_live", "fx": 0.8, "fy": 0.3}, "note": "click the channel away from the thumb"},
+  {"click": true},
+  {"move": {"cell": "trackbar_live", "part": "thumb"}, "note": "drag the thumb"},
+  {"press": "left"},
+  {"move": {"cell": "trackbar_live", "fx": 0.3, "fy": 0.3}},
+  {"release": "left"}
+ ]
+}

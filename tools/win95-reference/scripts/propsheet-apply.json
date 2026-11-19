@@ -1,0 +1,31 @@
+{
+ "name": "propsheet-apply",
+ "title": "Property sheet: when Apply is available, and what Apply, OK, Cancel, Esc and Close do",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "property sheet"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 17},
+  {"text": "x", "note": "a change makes Apply available"},
+  {"key": ["alt", "a"], "note": "Apply"},
+  {"text": "y", "note": "a second change"},
+  {"key": "esc", "note": "Esc after an Apply and a later change"},
+  {"scene": 17},
+  {"text": "z"},
+  {"key": "ret", "note": "Enter: OK"},
+  {"scene": 17},
+  {"text": "q"},
+  {"click": {"window": "close"}, "note": "the Close button with a pending change"},
+  {"scene": 17},
+  {"key": ["ctrl", "tab"]},
+  {"key": ["alt", "o"]},
+  {"key": "down", "note": "a change on the second page"},
+  {"key": ["ctrl", "tab"]},
+  {"click": {"text": "Apply"}, "note": "click Apply: which pages are told"},
+  {"click": {"text": "Cancel"}, "note": "Cancel after Apply with nothing pending"},
+  {"scene": 17},
+  {"click": {"text": "OK"}, "note": "OK with nothing changed"}
+ ]
+}

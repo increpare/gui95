@@ -413,9 +413,10 @@ function tabs(root, listen) {
       if (moveFocus) focus(tab);
       if (changed && announce) emit(tablist, 'tab-select', { tab, panel, id: tab.id || null });
     };
-    const step = (offset, moveFocus = true) => {
+    // The arrow keys stop at the first and last tab; Ctrl+Tab and Ctrl+Page Down go round. Both as recorded on Windows 95.
+    const step = (offset, moveFocus = true, wrap = false) => {
       const options = available(), index = options.indexOf(current);
-      if (options.length) select(options[(index + offset + options.length) % options.length], { moveFocus });
+      if (options.length) select(options[wrap ? (index + offset + options.length) % options.length : Math.max(0, Math.min(options.length - 1, index + offset))], { moveFocus });
     };
     select(available().find(tab => tab.getAttribute('aria-selected') === 'true') || available()[0], { announce: false });
     listen(tablist, 'click', event => { const tab = event.target.closest?.('[role="tab"]'); if (tab && tablist.contains(tab)) select(tab, { moveFocus: true }); });
@@ -434,7 +435,7 @@ function tabs(root, listen) {
       const offset = event.key === 'Tab' ? (event.shiftKey ? -1 : 1) : event.key === 'PageDown' && !event.shiftKey ? 1 : event.key === 'PageUp' && !event.shiftKey ? -1 : 0;
       if (!offset) return;
       event.preventDefault();
-      step(offset);
+      step(offset, true, true);
     };
     for (const owner of new Set([tablist, ...panels()])) listen(owner, 'keydown', pageKeys);
   }

@@ -1,0 +1,41 @@
+{
+ "name": "listview-keys",
+ "title": "List view: arrows, Home, End, typing, sorting by a header click, icon view",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "list view",
+  "header"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 5},
+  {"focus": "listview_report"},
+  {"key": "down"},
+  {"key": "down"},
+  {"key": "down", "note": "at the end"},
+  {"key": "up"},
+  {"key": "home"},
+  {"key": "end"},
+  {"key": "n", "note": "typing a letter"},
+  {"key": "right"},
+  {"key": "left"},
+  {"key": "spc", "note": "Space"},
+  {"key": ["ctrl", "spc"], "note": "Ctrl+Space"},
+  {"click": {"cell": "listview_report", "dy": -40, "fx": 0.1, "fy": 0.5}, "note": "click the Name header"},
+  {"wait": 300},
+  {"click": true, "note": "click it again"},
+  {"wait": 300},
+  {"click": {"cell": "listview_report", "dy": -40, "fx": 0.7, "fy": 0.5}, "note": "click the Size header"},
+  {"click": {"cell": "listview_report", "part": "label1"}, "note": "click an item"},
+  {"click": {"cell": "listview_report", "fx": 0.5, "fy": 0.9}, "note": "click the empty space"},
+  {"focus": "listview_icon"},
+  {"key": "right"},
+  {"key": "right"},
+  {"key": "right", "note": "at the end"},
+  {"key": "left"},
+  {"key": "down"},
+  {"key": "home"},
+  {"key": "end"},
+  {"dblclick": {"cell": "listview_icon", "part": "icon1"}, "note": "double-click an icon"}
+ ]
+}

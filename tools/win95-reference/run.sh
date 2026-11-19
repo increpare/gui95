@@ -9,6 +9,10 @@
 #   ./run.sh session-bg [options]  the same, detached (container "refgrid-vm"); stop it with ./run.sh session-stop
 #   ./run.sh vmctl ...             screen dumps and keys for the running session (see vmctl.mjs)
 #   ./run.sh capture [options]     boot the prepared image headless and capture every sheet
+#   ./run.sh scenes [options]      boot refscene and capture every whole-window scene (sheets 4 and up) with its measurements
+#   ./run.sh record [options]      boot refscene and record the behaviour scripts in scripts/ (keys, mouse, state after each step)
+#   ./run.sh scene-start --disk F  keep refscene running in the background (container "refscene-vm") for development;
+#   ./run.sh scene-exec FILE.mjs   run a script against it;  ./run.sh scene-stop   stop it
 #   ./run.sh shell                 a shell in the container
 #   node compare.mjs ...           compare a capture with the kit's atlas (runs on the host, no container)
 #
@@ -44,7 +48,12 @@ case "$command" in
   session-bg)   in_container rw -d -p 127.0.0.1:5900:5900 --name refgrid-vm "$IMAGE" node session.mjs "$@" ;;
   session-stop) "$DOCKER" stop -t 20 refgrid-vm ;;
   vmctl)        "$DOCKER" exec -w /work refgrid-vm node vmctl.mjs "$@" ;;
+  scene-start)  in_container ro -d -e REFSCENE_INI --name refscene-vm "$IMAGE" node scene-session.mjs "$@" ;;
+  scene-exec)   "$DOCKER" exec -w /work refscene-vm node "$@" ;;
+  scene-stop)   "$DOCKER" stop -t 20 refscene-vm ;;
+  scenes)       in_container ro "$IMAGE" node scenes.mjs "$@" ;;
+  record)       in_container ro "$IMAGE" node record.mjs "$@" ;;
   capture)      in_container ro "$IMAGE" node capture.mjs "$@" ;;
   shell)        in_container rw "$IMAGE" bash ;;
-  *)            sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//' ;;
+  *)            sed -n '2,22p' "$0" | sed 's/^# \{0,1\}//' ;;
 esac

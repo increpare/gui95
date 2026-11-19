@@ -1,0 +1,38 @@
+{
+ "name": "dialog-buttons",
+ "title": "Dialog: Enter, Space and Esc with focus on a text box, a button, a check box; the Close button",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "dialog",
+  "push button"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 7},
+  {"key": "ret", "note": "Enter in the text box"},
+  {"key": "spc", "note": "Space in the text box"},
+  {"key": "backspace"},
+  {"key": "tab", "note": "focus on Browse: it takes the default look"},
+  {"key": "ret", "note": "Enter on Browse"},
+  {"key": "spc", "note": "Space on Browse"},
+  {"key": "tab", "note": "focus on an option button: OK looks default again"},
+  {"key": "ret", "note": "Enter there"},
+  {"key": ["shift", "tab"], "note": "back"},
+  {"key": ["shift", "tab"]},
+  {"key": ["shift", "tab"], "note": "focus on Help"},
+  {"key": "ret", "note": "Enter on Help"},
+  {"key": ["shift", "tab"], "note": "focus on Cancel"},
+  {"key": "ret", "note": "Enter on Cancel"},
+  {"key": ["shift", "tab"], "note": "focus on OK"},
+  {"key": "spc", "note": "Space on OK"},
+  {"key": "esc", "note": "Esc"},
+  {"click": {"window": "close"}, "note": "the Close button"},
+  {"move": {"control": 9}, "note": "press Help and slide off"},
+  {"press": "left"},
+  {"move": {"control": 9, "dy": 40}},
+  {"release": "left", "note": "released outside: no command"},
+  {"move": {"control": 9}},
+  {"press": "left"},
+  {"release": "left", "note": "pressed and released inside"}
+ ]
+}

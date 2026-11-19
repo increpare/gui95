@@ -1,0 +1,79 @@
+{
+ "name": "listbox-multiple",
+ "title": "Multiple-selection list box: arrows move the focus only, Space toggles",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "multiple-selection list box"
+ ],
+ "pointer": true,
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/listbox-multiple.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":5},"guestTime":0,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":-1304,"what":"notify","cell":"-","id":341,"code":"tvn_itemexpanding","sincemove":439},{"t":-1303,"what":"notify","cell":"-","id":341,"code":"tvn_itemexpanded","sincemove":440},{"t":-1303,"what":"notify","cell":"-","id":341,"code":"code-401","sincemove":440},{"t":-1303,"what":"notify","cell":"-","id":341,"code":"tvn_selchanged","sincemove":440},{"t":-1303,"what":"notify","cell":"-","id":341,"code":"code-12","sincemove":440},{"t":-1294,"what":"notify","cell":"-","id":342,"code":"tvn_itemexpanding","sincemove":449},{"t":-1294,"what":"notify","cell":"-","id":342,"code":"tvn_itemexpanded","sincemove":449},{"t":-1293,"what":"notify","cell":"-","id":342,"code":"code-401","sincemove":450},{"t":-1293,"what":"notify","cell":"-","id":342,"code":"tvn_selchanged","sincemove":450},{"t":-1293,"what":"notify","cell":"-","id":342,"code":"code-12","sincemove":450},{"t":-1288,"what":"notify","cell":"-","id":343,"code":"code-102","sincemove":455},{"t":-1287,"what":"notify","cell":"-","id":343,"code":"code-102","sincemove":456},{"t":-1287,"what":"notify","cell":"-","id":343,"code":"code-102","sincemove":456},{"t":-1287,"what":"notify","cell":"-","id":343,"code":"code-100","sincemove":456},{"t":-1287,"what":"notify","cell":"-","code":"lvn_itemchanged","item":0,"new":3,"old":0},{"t":-1284,"what":"notify","cell":"-","id":344,"code":"code-102","sincemove":459},{"t":-1284,"what":"notify","cell":"-","id":344,"code":"code-102","sincemove":459},{"t":-1284,"what":"notify","cell":"-","id":344,"code":"code-102","sincemove":459},{"t":-1283,"what":"notify","cell":"-","id":344,"code":"code-100","sincemove":460},{"t":-1283,"what":"notify","cell":"-","code":"lvn_itemchanged","item":0,"new":3,"old":0},{"t":-1247,"what":"command","id":352,"code":1024,"cell":"-"},{"t":-1247,"what":"command","id":352,"code":768,"cell":"-"},{"t":-1245,"what":"command","id":352,"code":1024,"cell":"edit_single"},{"t":-1245,"what":"command","id":352,"code":768,"cell":"edit_single"},{"t":-1245,"what":"command","id":353,"code":1024,"cell":"-"},{"t":-1245,"what":"command","id":353,"code":768,"cell":"-"},{"t":-1243,"what":"command","id":353,"code":1024,"cell":"edit_password"},{"t":-1243,"what":"command","id":353,"code":768,"cell":"edit_password"},{"t":-1221,"what":"scene 5 built"},{"t":-1220,"what":"notify","cell":"tree","id":341,"code":"code-12","sincemove":1},{"t":-1218,"what":"notify","cell":"tree_icons","id":342,"code":"code-12","sincemove":3},{"t":-1216,"what":"notify","cell":"listview_report","id":343,"code":"code-12","sincemove":5},{"t":-1215,"what":"notify","cell":"listview_icon","id":344,"code":"code-12","sincemove":6}],"controls":{"tree":{"items":"*[-]Documents|[+]Projects|Readme.txt|[+]Pictures"},"tree_icons":{"items":"*[-]Documents|[+]Projects|Readme.txt|[+]Pictures"},"listview_report":{"count":3,"lvfocus":0,"top":0,"sel":0,"order":"Drawing.bmp|Notes.txt|Report.txt"},"SysHeader32#0":{"widths":"150,70"},"listview_icon":{"count":3,"lvfocus":0,"top":0,"sel":0,"order":"Drawing.bmp|Notes.txt|Report.txt"},"list_extended":{"count":4,"top":0,"anchor":2,"sel":"0,2"},"list_multiple":{"count":4,"top":0,"anchor":2,"sel":"0,2"},"list_long":{"count":26,"top":0,"sel":0},"list_single":{"count":5,"top":0,"sel":0},"list_long_extended":{"count":26,"top":0,"anchor":-1,"sel":"none"},"edit_multi":{"text":"First line  Second line","sel":"0,0","lines":2,"first":0,"length":23,"vpos":0,"hpos":0},"edit_multi_long":{"text":"Alpha is line 1 of this longer text, which wraps.  Bravo is line 2 of this longer text, which wraps.","sel":"0,0","lines":53,"first":0,"length":1351,"vpos":0,"hpos":0},"edit_single":{"text":"Letter","sel":"0,0","lines":1,"first":0,"length":6},"edit_password":{"text":"secret","sel":"0,0","lines":1,"first":0,"length":6},"combo_droplist_live":{"text":"A4","sel":0,"dropped":0,"count":4,"top":0,"editsel":"65535,65535","extended":0},"combo_edit":{"text":"Arial","sel":0,"dropped":0,"count":6,"top":0,"editsel":"0,0","extended":0},"Edit#1001":{"text":"Arial","sel":"0,0","lines":1,"first":0,"length":5},"combo_long":{"text":"Alpha","sel":0,"dropped":0,"count":26,"top":0,"editsel":"65535,65535","extended":0}},"image":"listbox-multiple/000.png"},
+  {"step":{"focus":"list_multiple"},"guestTime":333,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":57,"what":"command","id":346,"code":4,"cell":"list_multiple"}],"changed":{},"image":"listbox-multiple/001.png"},
+  {"step":{"key":"down"},"guestTime":768,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":349,"what":"input keydown","vk":40,"repeat":0,"tick":348439,"class":"ListBox","loop":"queue"},{"t":350,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":466,"what":"input keyup","vk":40,"repeat":0,"tick":348556,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/002.png"},
+  {"step":{"key":"down"},"guestTime":1209,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":788,"what":"input keydown","vk":40,"repeat":0,"tick":348879,"class":"ListBox","loop":"queue"},{"t":789,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":908,"what":"input keyup","vk":40,"repeat":0,"tick":348999,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/003.png"},
+  {"step":{"key":"spc","note":"Space toggles the focused item"},"guestTime":1708,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":1229,"what":"input keydown","vk":32,"repeat":0,"tick":349320,"class":"ListBox","loop":"queue"},{"t":1230,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":1346,"what":"input keyup","vk":32,"repeat":0,"tick":349437,"class":"ListBox","loop":"queue"}],"changed":{"list_multiple":{"sel":["0,2",0]}},"image":"listbox-multiple/004.png"},
+  {"step":{"key":"down"},"guestTime":2140,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":1731,"what":"input keydown","vk":40,"repeat":0,"tick":349821,"class":"ListBox","loop":"queue"},{"t":1731,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":1845,"what":"input keyup","vk":40,"repeat":0,"tick":349936,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/005.png"},
+  {"step":{"key":"spc"},"guestTime":2585,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":2160,"what":"input keydown","vk":32,"repeat":0,"tick":350251,"class":"ListBox","loop":"queue"},{"t":2161,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":2271,"what":"input keyup","vk":32,"repeat":0,"tick":350362,"class":"ListBox","loop":"queue"}],"changed":{"list_multiple":{"anchor":[2,3],"sel":[0,"0,3"]}},"image":"listbox-multiple/006.png"},
+  {"step":{"key":"up"},"guestTime":3022,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":2600,"what":"input keydown","vk":38,"repeat":0,"tick":350691,"class":"ListBox","loop":"queue"},{"t":2601,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":2711,"what":"input keyup","vk":38,"repeat":0,"tick":350802,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/007.png"},
+  {"step":{"key":"up"},"guestTime":3462,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":3037,"what":"input keydown","vk":38,"repeat":0,"tick":351128,"class":"ListBox","loop":"queue"},{"t":3038,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":3155,"what":"input keyup","vk":38,"repeat":0,"tick":351246,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/008.png"},
+  {"step":{"key":"spc"},"guestTime":3907,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":3482,"what":"input keydown","vk":32,"repeat":0,"tick":351573,"class":"ListBox","loop":"queue"},{"t":3483,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":3600,"what":"input keyup","vk":32,"repeat":0,"tick":351691,"class":"ListBox","loop":"queue"}],"changed":{"list_multiple":{"anchor":[3,1],"sel":["0,3","0,1,3"]}},"image":"listbox-multiple/009.png"},
+  {"step":{"key":"end"},"guestTime":4395,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":3928,"what":"input keydown","vk":35,"repeat":0,"tick":352019,"class":"ListBox","loop":"queue"},{"t":3929,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":4048,"what":"input keyup","vk":35,"repeat":0,"tick":352139,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/010.png"},
+  {"step":{"key":"home"},"guestTime":4838,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":4417,"what":"input keydown","vk":36,"repeat":0,"tick":352508,"class":"ListBox","loop":"queue"},{"t":4418,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":4526,"what":"input keyup","vk":36,"repeat":0,"tick":352617,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/011.png"},
+  {"step":{"key":["shift","down"],"note":"Shift+Down"},"guestTime":5399,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":173,"y":270}},"events":[{"t":4859,"what":"input keydown","vk":16,"repeat":0,"tick":352950,"class":"ListBox","loop":"queue"},{"t":4896,"what":"input keydown","vk":40,"repeat":0,"tick":352986,"class":"ListBox","loop":"queue"},{"t":4897,"what":"command","id":346,"code":1,"cell":"list_multiple"},{"t":5015,"what":"input keyup","vk":40,"repeat":0,"tick":353106,"class":"ListBox","loop":"queue"},{"t":5055,"what":"input keyup","vk":16,"repeat":0,"tick":353146,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/012.png"},
+  {"step":{"click":{"cell":"list_multiple","part":"item3"},"note":"click toggles"},"pointer":{"x":181,"y":203,"moves":3},"guestTime":6430,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":181,"y":203}},"events":[{"t":6051,"what":"input lbuttondown","vk":0,"repeat":0,"tick":354141,"class":"ListBox","loop":"queue"},{"t":6122,"what":"input lbuttonup","vk":0,"repeat":0,"tick":354213,"class":"ListBox","loop":"queue"},{"t":6122,"what":"command","id":346,"code":1,"cell":"list_multiple"}],"changed":{"list_multiple":{"anchor":[1,3],"sel":["0,1,3","0,1"]}},"image":"listbox-multiple/013.png"},
+  {"step":{"click":true},"guestTime":6871,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"ListBox","id":346,"cell":"list_multiple","text":""},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":181,"y":203}},"events":[{"t":6450,"what":"input lbuttondblclk","vk":0,"repeat":0,"tick":354528,"class":"ListBox","loop":"queue"},{"t":6450,"what":"command","id":346,"code":2,"cell":"list_multiple"},{"t":6531,"what":"input lbuttonup","vk":0,"repeat":0,"tick":354611,"class":"ListBox","loop":"queue"}],"changed":{},"image":"listbox-multiple/014.png"}
+ ]
+}

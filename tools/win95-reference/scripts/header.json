@@ -1,0 +1,29 @@
+{
+ "name": "header",
+ "title": "Header control: clicking a column heading, dragging a divider, double-clicking a divider",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+ "families": [
+  "header"
+ ],
+ "pointer": true,
+ "steps": [
+  {"scene": 4},
+  {"click": {"cell": "header_live", "part": "item0"}, "note": "click a heading"},
+  {"move": {"cell": "header_live", "part": "item0"}, "note": "press and slide off"},
+  {"press": "left"},
+  {"move": {"cell": "header_live", "part": "item0", "dy": 40}},
+  {"release": "left"},
+  {"move": {"cell": "header_live", "part": "item0", "fx": 1, "dx": 1}, "note": "drag the divider after the first heading"},
+  {"press": "left"},
+  {"move": {"cell": "header_live", "part": "item0", "fx": 1, "dx": 31}},
+  {"release": "left"},
+  {"move": {"cell": "header_live", "part": "item0", "fx": 1, "dx": 1}, "note": "drag it far to the left"},
+  {"press": "left"},
+  {"move": {"cell": "header_live", "part": "item0", "fx": 0, "dx": -4}},
+  {"release": "left"},
+  {"dblclick": {"cell": "header_live", "part": "item1", "fx": 1, "dx": 1}, "note": "double-click a divider"},
+  {"focus": "header_live"},
+  {"key": "right", "note": "keys with the focus forced onto it"},
+  {"key": "ret"}
+ ]
+}

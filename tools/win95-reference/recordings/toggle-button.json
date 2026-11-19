@@ -1,0 +1,72 @@
+{
+ "name": "toggle-button",
+ "title": "Push-like check box (a latching button): Space, Enter, the mouse",
+ "drawnBy": "user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "push-like check box"
+ ],
+ "pointer": true,
+ "source": "Recorded on Windows 95 4.00.1111 C (OSR2.5) by tools/win95-reference/record.mjs from scripts/toggle-button.json. Screen dumps: out/recordings/ (not in git).",
+ "run": {
+  "guest": {
+   "name": "Windows 95 4.00.1111 C (OSR2.5)",
+   "files": {
+    "comctl32.dll": "4.70.0.1146",
+    "user32.dll": "4.0.0.950",
+    "gdi32.dll": "4.0.0.950",
+    "kernel32.dll": "4.0.0.1111",
+    "user.exe": "4.0.0.950",
+    "gdi.exe": "4.0.0.950",
+    "shell32.dll": "4.0.0.1111"
+   },
+   "comdlg32": "4.0.0.951",
+   "input": {
+    "GetDoubleClickTime": "500",
+    "GetCaretBlinkTime": "500",
+    "SPI_GETKEYBOARDDELAY": "0",
+    "SPI_GETKEYBOARDSPEED": "15",
+    "SPI_GETMOUSE": "2,0,1",
+    "SPI_GETMENUSHOWDELAY": "not supported (error 0)",
+    "SM_CXDOUBLECLK": "4",
+    "SM_CYDOUBLECLK": "4",
+    "SM_CXDRAG": "2",
+    "SM_CYDRAG": "2",
+    "SM_MOUSEPRESENT": "1",
+    "SM_CMOUSEBUTTONS": "2",
+    "SM_SWAPBUTTON": "0"
+   }
+  },
+  "emulator": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "clock": {
+   "guestMs": 12265,
+   "hostMs": 15068,
+   "ratio": 0.814
+  },
+  "pointer": {
+   "asked": {
+    "x": 500,
+    "y": 400
+   },
+   "reportedByWindows": {
+    "x": 500,
+    "y": 400
+   },
+   "arrowTipInScreenDump": {
+    "x": 500,
+    "y": 400
+   },
+   "moves": 6,
+   "agrees": true
+  }
+ },
+ "steps": [
+  {"step":{"scene":4},"guestTime":0,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"refscene.host","id":0,"text":"refscene"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":164,"y":261}},"events":[{"t":-1318,"what":"command","id":329,"code":1024,"cell":"-"},{"t":-1318,"what":"command","id":329,"code":768,"cell":"-"},{"t":-1313,"what":"command","id":330,"code":1024,"cell":"-"},{"t":-1313,"what":"command","id":330,"code":768,"cell":"-"},{"t":-1310,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":639},{"t":-1308,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":641},{"t":-1306,"what":"notify","cell":"-","id":331,"code":"code-12","sincemove":643},{"t":-1303,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":646},{"t":-1302,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":647},{"t":-1301,"what":"notify","cell":"-","id":332,"code":"code-12","sincemove":648},{"t":-1298,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":651},{"t":-1296,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":653},{"t":-1294,"what":"notify","cell":"-","id":333,"code":"code-12","sincemove":655},{"t":-1291,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":658},{"t":-1288,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":661},{"t":-1287,"what":"notify","cell":"-","id":334,"code":"code-12","sincemove":662},{"t":-1268,"what":"scene 4 built"},{"t":-1267,"what":"notify","cell":"toolbar","id":323,"code":"code-12","sincemove":1},{"t":-1259,"what":"notify","cell":"toolbar_divider","id":324,"code":"code-12","sincemove":9},{"t":-1250,"what":"notify","cell":"header_live","id":326,"code":"code-12","sincemove":18},{"t":-1236,"what":"notify","cell":"trackbar_disabled_live","id":333,"code":"code-12","sincemove":32}],"controls":{"toolbar":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"toolbar_divider":{"buttons":"3001:04,3002:06,3003:04,0:04,3004:05,3005:04,3006:00,3007:14,0:04,3008:01,3009:04"},"status_grip_live":{"text":"Ready"},"header_live":{"widths":"80,80,80"},"tab_live":{"sel":0,"tabfocus":0,"count":3,"rows":1},"tab_multiline":{"sel":0,"tabfocus":0,"count":10,"rows":2},"updown":{"text":"2","sel":"0,0","lines":1,"first":0,"length":1},"updown~1":{"pos":2,"error":0,"min":1,"max":20},"updown_disabled":{"text":"2","enabled":false,"sel":"0,0","lines":1,"first":0,"length":1},"updown_disabled~1":{"enabled":false,"pos":2,"error":0,"min":1,"max":20},"trackbar_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_noticks_live":{"pos":40,"min":0,"max":100,"line":1,"page":20},"trackbar_disabled_live":{"enabled":false,"pos":70,"min":0,"max":100,"line":1,"page":20},"trackbar_vert_live":{"pos":50,"min":0,"max":100,"line":1,"page":20},"progress_0_live":{},"progress_25":{},"progress_100_live":{},"hotkey":{"vk":75,"mods":3},"toggle_off":{"text":"Show grid","type":"check","check":0,"pushed":0,"bmfocus":0},"toggle_on_disabled":{"text":"Snap (locked)","enabled":false,"type":"check","check":1,"pushed":0,"bmfocus":0}},"image":"toggle-button/000.png"},
+  {"step":{"focus":"toggle_off"},"guestTime":329,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":164,"y":261}},"events":[],"changed":{"toggle_off":{"bmfocus":[0,1]}},"image":"toggle-button/001.png"},
+  {"step":{"key":"spc"},"guestTime":824,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":164,"y":261}},"events":[{"t":346,"what":"input keydown","vk":32,"repeat":0,"tick":574874,"class":"Button","loop":"queue"},{"t":465,"what":"input keyup","vk":32,"repeat":0,"tick":574993,"class":"Button","loop":"queue"},{"t":466,"what":"command","id":339,"code":0,"cell":"toggle_off"}],"changed":{"toggle_off":{"check":[0,1]}},"image":"toggle-button/002.png"},
+  {"step":{"key":"spc"},"guestTime":1263,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":164,"y":261}},"events":[{"t":840,"what":"input keydown","vk":32,"repeat":0,"tick":575368,"class":"Button","loop":"queue"},{"t":959,"what":"input keyup","vk":32,"repeat":0,"tick":575486,"class":"Button","loop":"queue"},{"t":960,"what":"command","id":339,"code":0,"cell":"toggle_off"}],"changed":{"toggle_off":{"check":[1,0]}},"image":"toggle-button/003.png"},
+  {"step":{"key":"ret","note":"Enter outside a dialog"},"guestTime":1701,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":164,"y":261}},"events":[{"t":1279,"what":"input keydown","vk":13,"repeat":0,"tick":575807,"class":"Button","loop":"queue"},{"t":1395,"what":"input keyup","vk":13,"repeat":0,"tick":575923,"class":"Button","loop":"queue"}],"changed":{},"image":"toggle-button/004.png"},
+  {"step":{"click":{"cell":"toggle_off"}},"pointer":{"x":367,"y":301,"moves":4},"guestTime":2689,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":367,"y":301}},"events":[{"t":2312,"what":"input lbuttondown","vk":0,"repeat":0,"tick":576840,"class":"Button","loop":"queue"},{"t":2387,"what":"input lbuttonup","vk":0,"repeat":0,"tick":576915,"class":"Button","loop":"queue"},{"t":2388,"what":"command","id":339,"code":0,"cell":"toggle_off"}],"changed":{"toggle_off":{"check":[0,1]}},"image":"toggle-button/005.png"},
+  {"step":{"click":true},"guestTime":3130,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":367,"y":301}},"events":[{"t":2707,"what":"input lbuttondblclk","vk":0,"repeat":0,"tick":577230,"class":"Button","loop":"queue"},{"t":2776,"what":"input lbuttonup","vk":0,"repeat":0,"tick":577300,"class":"Button","loop":"queue"},{"t":2777,"what":"command","id":339,"code":0,"cell":"toggle_off"}],"changed":{"toggle_off":{"check":[1,0]}},"image":"toggle-button/006.png"},
+  {"step":{"click":{"cell":"toggle_on_disabled"},"note":"the unavailable one"},"pointer":{"x":458,"y":301,"moves":3},"guestTime":4065,"state":{"active":{"class":"refscene.host","text":"refscene"},"focus":{"class":"Button","id":339,"cell":"toggle_off","text":"Show grid"},"menu":{"loop":false,"levels":0,"bar":null,"open":[]},"tops":[],"cursor":{"x":458,"y":301}},"events":[{"t":3632,"what":"input lbuttondown","vk":0,"repeat":0,"tick":578160,"class":"refscene.host","loop":"queue"},{"t":3706,"what":"input lbuttonup","vk":0,"repeat":0,"tick":578234,"class":"refscene.host","loop":"queue"}],"changed":{},"image":"toggle-button/007.png"}
+ ]
+}

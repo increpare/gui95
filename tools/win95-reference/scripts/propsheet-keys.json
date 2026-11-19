@@ -1,0 +1,36 @@
+{
+ "name": "propsheet-keys",
+ "title": "Property sheet: Ctrl+Tab, Ctrl+Page Down, Tab between the page, the buttons and the tabs, arrows on a tab",
+ "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+ "families": [
+  "property sheet",
+  "tab control"
+ ],
+ "steps": [
+  {"scene": 17},
+  {"key": ["ctrl", "tab"], "note": "Ctrl+Tab"},
+  {"key": ["ctrl", "tab"], "note": "again: wraps"},
+  {"key": ["ctrl", "shift", "tab"], "note": "Ctrl+Shift+Tab"},
+  {"key": ["ctrl", "shift", "tab"]},
+  {"key": ["ctrl", "pgdn"], "note": "Ctrl+Page Down"},
+  {"key": ["ctrl", "pgdn"], "note": "again"},
+  {"key": ["ctrl", "pgup"], "note": "Ctrl+Page Up"},
+  {"key": ["ctrl", "pgup"]},
+  {"key": "tab", "note": "Tab from the first field"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab", "note": "onto the tabs"},
+  {"key": "right", "note": "Right on a focused tab"},
+  {"key": "right", "note": "at the last tab"},
+  {"key": "left"},
+  {"key": "left", "note": "at the first tab"},
+  {"key": "tab", "note": "Tab from the tabs into the page"},
+  {"key": ["shift", "tab"], "note": "Shift+Tab back onto the tabs"},
+  {"key": "down", "note": "Down on a focused tab"},
+  {"key": "up"},
+  {"key": "ret", "note": "Enter with focus on a tab"},
+  {"scene": 17},
+  {"key": ["alt", "r"], "note": "an access key on the page"},
+  {"key": "esc", "note": "Esc"}
+ ]
+}

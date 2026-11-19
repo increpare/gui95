@@ -1,0 +1,24 @@
+{
+ "name": "find-dialog",
+ "title": "Modeless Find dialog (comdlg32): Enter, the check box, Esc",
+ "drawnBy": "comdlg32 4.0.0.951 (OSR2), on user32 4.0.0.950",
+ "families": [
+  "Find dialog (modeless)"
+ ],
+ "steps": [
+  {"scene": 24},
+  {"key": "ret", "note": "Enter: Find Next"},
+  {"key": ["alt", "c"], "note": "Match case"},
+  {"key": "ret"},
+  {"key": ["shift", "home"], "note": "empty the text"},
+  {"key": "delete"},
+  {"key": "ret", "note": "Enter with nothing to find"},
+  {"text": "a"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "tab"},
+  {"key": "esc", "note": "Esc closes it"}
+ ]
+}

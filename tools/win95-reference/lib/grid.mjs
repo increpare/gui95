@@ -51,5 +51,5 @@ export function overlaps(cells) {
 
 export async function loadGrid(file = CELLS_DEF) {
   const cells = parseCells(await readFile(file, 'utf8'));
-  return { description: 'refgrid cell table, generated from refgrid/cells.def by grid-export.mjs. Coordinates are screen pixels; each sheet is one screen dump.', size: GRID_SIZE, marker: MARKER_AREA, sheets: [...new Set(cells.map(c => c.sheet))].sort(), cells };
+  return { description: 'refgrid cell table, generated from refgrid/cells.def by grid-export.mjs. Coordinates are screen pixels; each sheet is one screen dump.', size: GRID_SIZE, marker: MARKER_AREA, sheets: [...new Set(cells.map(c => c.sheet))].sort((a, b) => a - b), cells };
 }
