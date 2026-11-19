@@ -108,11 +108,15 @@ export function commitNumber(input, { delta = 0 } = {}) {
   return value;
 }
 
+/** Milliseconds the pointer rests on a menu item before its submenu opens, or the open one closes: the Windows default. */
+const MENU_SHOW_DELAY = 400;
+let generatedMenuItemIds = 0;
 function menus(root, listen) {
   const doc = ownerDocument(root);
   const headings = all(root, '[data-gui95-menubar] [data-gui95-menu]');
   const popupFor = trigger => doc.getElementById(trigger?.dataset.gui95Menu);
-  const items = popup => [...popup.children].filter(item => item.matches('[role^="menuitem"]') && !isDisabled(item));
+  // Arrow keys, Home and End stop on unavailable commands too, as Windows menus did; only separators and hidden items are passed over.
+  const items = popup => [...popup.children].filter(item => item.matches('[role^="menuitem"]') && !item.hidden);
   const triggers = all(root, '[data-gui95-menu]');
   for (const trigger of triggers) {
     trigger.setAttribute('aria-haspopup', 'menu');
@@ -121,13 +125,42 @@ function menus(root, listen) {
   }
   for (const popup of all(root, '[role="menu"]')) {
     popup.hidden = true;
+    popup.tabIndex = -1;
     for (const item of items(popup)) item.tabIndex = -1;
   }
-  let chain = [], previous, lastPoint, pressTarget;
+  let chain = [], previous, lastPoint, pressTarget, marked, timer, timerItem;
+  const view = doc.defaultView;
+  const cancelTimer = () => { view.clearTimeout(timer); timer = timerItem = undefined; };
+  const unmark = () => {
+    if (!marked) return;
+    delete marked.dataset.gui95Active;
+    marked.closest('[role="menu"]')?.removeAttribute('aria-activedescendant');
+    marked = undefined;
+  };
+  // Move the menu selection. A natively disabled button cannot take focus, so its menu takes it and names the item as its active descendant.
+  const select = item => {
+    unmark();
+    if (!item?.isConnected) return;
+    if (!item.matches(':disabled')) { item.focus({ preventScroll: true }); return; }
+    const popup = item.closest('[role="menu"]');
+    if (!popup) return;
+    if (!item.id) item.id = `gui95-menuitem-${++generatedMenuItemIds}`;
+    marked = item;
+    item.dataset.gui95Active = '';
+    popup.setAttribute('aria-activedescendant', item.id);
+    popup.focus({ preventScroll: true });
+  };
   const hideFrom = level => {
     for (const entry of chain.splice(level)) { entry.popup.hidden = true; entry.trigger.setAttribute('aria-expanded', 'false'); }
+    if (marked && !chain.some(entry => entry.popup.contains(marked))) unmark();
   };
-  const close = (restore = true) => { hideFrom(0); if (restore) focus(previous); previous = undefined; };
+  const close = (restore = true) => { cancelTimer(); hideFrom(0); if (restore) focus(previous); previous = undefined; };
+  // Shortcut text starts at one column shared by the whole menu: every shortcut box takes the width of the widest.
+  const alignShortcuts = popup => {
+    popup.style.removeProperty('--gui95-shortcut-column');
+    const keys = [...popup.children].filter(item => item.matches('[role^="menuitem"]')).flatMap(item => [...item.querySelectorAll('[data-gui95-shortcut]')]);
+    if (keys.length > 1) popup.style.setProperty('--gui95-shortcut-column', `${Math.ceil(Math.max(...keys.map(key => key.getBoundingClientRect().width)))}px`);
+  };
   const position = (popup, trigger, nested) => {
     popup.style.position = 'fixed'; popup.style.zIndex = String(1000 + chain.length);
     popup.style.maxHeight = `${Math.max(50, doc.defaultView.innerHeight - 8)}px`;
@@ -147,25 +180,35 @@ function menus(root, listen) {
     const level = parent ? chain.findIndex(entry => entry.popup === parent) + 1 : 0;
     if (parent && !level) return;
     if (!chain.length) previous = doc.activeElement;
+    cancelTimer();
     hideFrom(level);
     popup.hidden = false;
     trigger.setAttribute('aria-expanded', 'true');
     chain.push({ trigger, popup });
+    alignShortcuts(popup);
     position(popup, trigger, !!parent);
-    if (keyboard) focus(items(popup)[0]);
+    if (keyboard) select(items(popup)[0]);
   };
   const selectPointer = target => {
     const heading = target.closest?.('[data-gui95-menubar] [data-gui95-menu]');
-    if (heading && chain.length && chain[0].trigger !== heading) { open(heading); focus(heading); return; }
+    if (heading && chain.length && chain[0].trigger !== heading) { open(heading); select(heading); return; }
     const item = target.closest?.('[role^="menuitem"]');
     if (!item || isDisabled(item)) return;
     const popup = item.closest('[role="menu"]');
     const level = chain.findIndex(entry => entry.popup === popup);
     if (level < 0) return;
-    focus(item);
-    if (item.dataset.gui95Menu) {
-      if (chain[level + 1]?.trigger !== item) open(item);
-    } else hideFrom(level + 1);
+    select(item);
+    // The highlight follows the pointer at once; a submenu opens, or the open one closes, only after the pointer has rested on the item, so the pointer can cross a sibling on its way into a submenu.
+    if (timerItem === item) return;
+    cancelTimer();
+    const waiting = item.dataset.gui95Menu ? chain[level + 1]?.trigger !== item : chain.length > level + 1;
+    if (!waiting) return;
+    timerItem = item;
+    timer = view.setTimeout(() => {
+      cancelTimer();
+      if (doc.activeElement !== item || chain[level]?.popup !== popup) return;
+      if (item.dataset.gui95Menu) open(item); else hideFrom(level + 1);
+    }, MENU_SHOW_DELAY);
   };
   listen(doc, 'pointermove', event => {
     const point = [event.clientX, event.clientY];
@@ -223,25 +266,26 @@ function menus(root, listen) {
     if (event.key === 'Tab') { close(); return; }
     if (['Alt', 'Control', 'Meta', 'Shift'].includes(event.key)) return;
     event.preventDefault(); event.stopImmediatePropagation();
-    const current = doc.activeElement;
+    cancelTimer();
+    const current = marked || doc.activeElement;
     const entry = chain.find(entry => entry.popup.contains(current)) || chain.at(-1);
     const level = chain.indexOf(entry);
     const options = items(entry.popup), index = options.indexOf(current);
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { hideFrom(level + 1); focus(options[(index + (event.key === 'ArrowDown' ? 1 : options.length - 1) + options.length) % options.length]); }
-    else if (event.key === 'Home' || event.key === 'End') { hideFrom(level + 1); focus(options[event.key === 'Home' ? 0 : options.length - 1]); }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { hideFrom(level + 1); select(options[(index + (event.key === 'ArrowDown' ? 1 : options.length - 1) + options.length) % options.length]); }
+    else if (event.key === 'Home' || event.key === 'End') { hideFrom(level + 1); select(options[event.key === 'Home' ? 0 : options.length - 1]); }
     else if (event.key === 'ArrowRight') {
       if (current.dataset.gui95Menu) open(current, true);
       else { const enabled = headings.filter(item => !isDisabled(item)); const next = enabled[(enabled.indexOf(chain[0].trigger) + 1) % enabled.length]; open(next, true); }
     } else if (event.key === 'ArrowLeft') {
-      if (level > 0) { const trigger = entry.trigger; hideFrom(level); focus(trigger); }
+      if (level > 0) { const trigger = entry.trigger; hideFrom(level); select(trigger); }
       else { const enabled=headings.filter(item=>!isDisabled(item)); open(enabled[(enabled.indexOf(chain[0].trigger)+enabled.length-1)%enabled.length],true); }
     } else if (event.key === 'Escape') {
-      if (level > 0) { const trigger = entry.trigger; hideFrom(level); focus(trigger); } else close();
+      if (level > 0) { const trigger = entry.trigger; hideFrom(level); select(trigger); } else close();
     } else if (event.key === 'Enter' || event.key === ' ') {
       if (!event.repeat && !isDisabled(current)) { if (current.dataset.gui95Menu) open(current, true); else current.click(); }
     } else if (event.key.length === 1) {
-      const matches = options.filter(item => (item.dataset.gui95Mnemonic || item.textContent.trim()[0] || '').toLowerCase() === event.key.toLowerCase());
-      if (matches.length) { const next = matches[(matches.indexOf(current) + 1) % matches.length]; focus(next); if (matches.length === 1) { if (next.dataset.gui95Menu) open(next, true); else next.click(); } }
+      const matches = options.filter(item => !isDisabled(item) && (item.dataset.gui95Mnemonic || item.textContent.trim()[0] || '').toLowerCase() === event.key.toLowerCase());
+      if (matches.length) { const next = matches[(matches.indexOf(current) + 1) % matches.length]; select(next); if (matches.length === 1) { if (next.dataset.gui95Menu) open(next, true); else next.click(); } }
     }
   }, true);
   listen(doc.defaultView, 'resize', () => close(false));

@@ -54,3 +54,10 @@ test('the atlas command compares the state atlas with its baseline',()=>{
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/matches/);
 });
+test('the wording and layout lint commands need an explicit URL and exit 2 without one',()=>{
+ for(const command of ['lint-wording','lint-layout']){
+  const result=spawnSync(process.execPath,[cli,command],{encoding:'utf8',timeout:30000});
+  assert.equal(result.status,2,result.stdout+result.stderr);
+  assert.match(result.stderr,new RegExp('node kit/cli\\.mjs '+command+' URL'));
+ }
+});

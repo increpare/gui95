@@ -14,6 +14,7 @@ Use a starter for a new application, a component kit for an existing architectur
 | `generate_gui95_layout` | Parameterized properties/preferences/inspector/editor files |
 | `generate_gui95_starter` | Utility/document-editor/list-detail browser with browser and Electron entry points |
 | `get_gui95_evidence` | Claim-specific sources, source type, section/page, applicability and local content identity |
+| `get_gui95_period_rules` | Rules about how Windows 95 looked or behaved, each with era, confidence, sources and whether the kit follows it; see the [period evidence register](evidence-register.md) |
 | `get_gui95_repairs` | Symptoms, causes, integration changes and regression scenarios |
 | `check_gui95_updates` | Comparison of a bounded component-version manifest to the release catalog |
 

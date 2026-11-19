@@ -146,6 +146,39 @@ Use the [text dialog screenshot](../references/vector95/artifacts/layer-ui-check
 
 Carry field labels, validation, keyboard focus, cancel behavior, and focus restoration into any extraction. Match the commit model to the task: a preview that changes immediately and a form that commits on OK are different interactions. The native dialog behavior and the application event handlers must be reviewed together.
 
+## Dialog layout measures
+
+Windows 95 dialogs were laid out in dialog units, not pixels. One horizontal unit is a quarter of the dialog font's average character width; one vertical unit is an eighth of its height. The kit's [dialog layout attributes](../kit/components/README.md#laying-out-a-dialog) apply the measures below, so use those attributes and do not copy the pixel values into your own rules.
+
+**The pixel values are provisional.** They assume that 8-point MS Sans Serif at 96 dpi, which the kit's 11 px control text stands for, has a 6 × 13 px character cell. One horizontal unit is then 1.5 px and one vertical unit 1.625 px. This conversion was worked out on 18 November 2026 from the definition of the unit; it has not been checked against a running copy of Windows 95, and a real capture may correct it. The two units are declared once in `kit/components/gui95.css`, and every measure is derived from them.
+
+| Measure | Kit | Final guidelines, 1995 | Howlett, figure 6.16 | File Manager templates |
+| --- | --- | --- | --- | --- |
+| Window edge to contents | 7 units, 11 px | 7 units "recommended" | 8 units, 12 px | Left 3 or 5, top 6, right 6, bottom 4 |
+| Between controls | 4 units, 6 px | At least 4 units (the draft said 3) | 4 units, 6 px | Stacked buttons 3 units apart (34 cases), 6 (15) or 7 (5); buttons in a row 6 |
+| Single-line control height | 14 units, 23 px | 14 units | 14 units, 22 px | All 111 buttons 14 units; most text fields 12 |
+| Command button width | At least 50 units, 75 px; one width for the set | "A consistent length"; no number | 53 units, 80 px, the "default length" | 40 units (85 of 111 buttons), 50 (12) |
+| Command button placement | A bottom row, right-aligned, or a right-hand column | A stack in the upper right corner or a row along the bottom; default button first; OK and Cancel together; Help last | Not stated | OK above Cancel in a right-hand column in all 23 dialogs that have both |
+| Label directly above its field | 1 unit, 2 px | Labels go above or to the left; no gap given | Not stated | 1 unit (12 cases); to the left with a 2-unit gap (6) |
+| Label beside its field | On the field's text line | "Align the height of the text with text displayed in the text box" | Not stated | Vertically centred |
+| Group box, frame to contents | 6 units at the sides and bottom; first control 11 units below the top | Not given | Not given | Left 5 and top 11 units in 3 of 7 group boxes, bottom 3 in 2 (later master file only) |
+| Property page size | 212 × 188, 227 × 215 or 252 × 218 units on request | Those three sizes, "recommended" | Not stated | None |
+| Largest secondary window | Not enforced | 263 × 263 units (about 395 × 427 px) | Not stated | None |
+
+Sources: *The Windows Interface Guidelines for Software Design* (Microsoft Press, 1995), chapter 13, "Font and Size", "Grouping and Spacing", "Alignment" and "Placement", with figures 13.23 and 13.24 (from printed page 385); Virginia Howlett, *Visual Interface Design for Windows* (1996), figure 6.16; and the dialog templates of Microsoft's File Manager (`winfile.USEnglish.rc`, Windows 3.1 resources, 36 dialogs and 111 push buttons). See the [period reading shelf](historical-sources.md) and the [bibliography](bibliography.md).
+
+Where the sources disagree, and what the kit does:
+
+- **Margin, 7 or 8 units.** The final guidelines recommend 7. Howlett's figure marks 8 units (12 px) at every edge, but it is a design prototype of Display Properties, not the shipped dialog. The kit uses 7.
+- **Spacing, 3 or 4 units.** File Manager stacks its buttons 3 units apart and keeps 3 to 6 units at the window edge. That is Windows 3.1 practice, and 3 units was also the minimum in the February 1995 draft of the guidelines. The final book raised it to 4, and Howlett's figure agrees. The kit uses 4.
+- **Button width, 40, 50 or 53 units.** File Manager's usual button is 40 units wide. Howlett's prototype marks 53. The final guidelines give no number. The kit keeps 50 units (75 px), the width it already used. No source on the period shelf gives that number, so treat it as the least well sourced of these measures.
+- **Control height, 22 or 23 px.** Every source says 14 units. Howlett's figure converts that to 22 px because it uses about 1.5 px per unit in both directions. With a 1.625 px vertical unit it is 22.75 px, which the kit rounds to 23.
+- **Row gap, 6 or 7 px.** Four vertical units are 6.5 px. The kit rounds down to 6, so that a control and its gap together come to 29 px, the nearest whole pixel to the 18-unit pitch of 29.25 px. Windows itself rounded each control's position separately, so real gaps were 6 or 7 px.
+
+Three values are the kit's own choice, because no period source gives a number: the 7-unit space between a dialog's contents and its bottom button row (the guidelines say only to "use spacing between groups"), the group box's inner margins (the only evidence is seven group boxes in File Manager's later, NT-era template file), and the caption position in a group box, whose text starts 7 px from the frame's left edge as in Wine's reimplementation of the control.
+
+Rules that go with the measures, all from the final guidelines: end a field's label with a colon, except on buttons, tabs and group boxes; top-align a check box or option button with a label of more than one line; keep buttons a consistent size, allowing one longer button only where matching it would greatly widen the set; and place a button that applies to one field beside that field.
+
 ## Layout and icons
 
 The compact appearance relies on `min-width: 0` and `min-height: 0` in nested flex/grid panes, deliberate scrolling, and separators made of light/dark lines. Removing those minimum-size rules can push a list or inspector outside its window.

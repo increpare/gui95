@@ -1,6 +1,6 @@
 # Build-kit evidence, repairs, and version checks
 
-The build kit keeps exact supported claims in [the evidence data](../kit/evidence/evidence.json), integration regressions in [the repair data](../kit/evidence/repairs.json), and component versions with their per-release changes in [the release catalog](../kit/evidence/releases.json). The synchronous API is [catalog.mjs](../kit/evidence/catalog.mjs). It reads those files once at import and performs no network requests or consumer filesystem reads.
+The build kit keeps exact supported claims in [the evidence data](../kit/evidence/evidence.json), rules about how Windows 95 looked and behaved in [the period evidence register](#the-period-evidence-register), integration regressions in [the repair data](../kit/evidence/repairs.json), and component versions with their per-release changes in [the release catalog](../kit/evidence/releases.json). The synchronous API is [catalog.mjs](../kit/evidence/catalog.mjs). It reads those files once at import and performs no network requests or consumer filesystem reads.
 
 ## What a citation establishes
 
@@ -40,6 +40,44 @@ Repairs contain symptoms, cause, minimal fix, affected component IDs, `applicabl
 
 An `available` regression case names a current-kit test file, exact case name, and execution command. Availability does not record a passing result. A `consumer_required` case has no test file or command: its named scenario requires the consuming application's host or document model. Host privilege boundaries, save revisions, packaging, physical-pixel mapping, and short-window layouts require those consumer checks. Preserved tests under `references/` remain evidence of regression intent and are not reported as newly passing.
 
+## The period evidence register
+
+The fourth data file, [register.json](../kit/evidence/register.json), answers a different question from the citations above: not "what supports this integration decision?" but "what did Windows 95 actually do here, and does the kit do the same?" It has one record per rule and is published for people as the [period evidence register](evidence-register.md). It is a sibling file with its own module, [register.mjs](../kit/evidence/register.mjs), not more rows in `evidence.json`, because its records have a different shape: several sources for one rule, an era, a confidence, and a kit status. An evidence record has one source and local line references and makes no statement about the kit.
+
+Each record has:
+
+| Field | Meaning |
+| --- | --- |
+| `id`, `title`, `topic`, `control` | A stable kebab-case ID, a one-line title, the group the generated document files it under, and the control or surface (`all` when it is general) |
+| `rule` | The rule in one or two plain sentences, paraphrased; at most a short phrase is quoted |
+| `era` | `win95-1995` (the original release and the final 1995 guidelines), `win95-draft` (a February 1995 draft statement the final book changed), `win3x`, `win98-ie4` or `later` |
+| `confidence` | `level` (`high`, `medium`, `low`) and a one-line `reason` |
+| `evidence_type` | `stated`, `figure`, `structural` (from source code), `inferred` or `measured` |
+| `sources` | Each with `kind`, a `location` precise enough to check, a public `url` or `null`, and `checked`: the date the compiler read at least one of the cited locations against the source and found it says what the rule states, or `null` |
+| `verification` | `commissioning_review` (whether the review that commissioned the research verified the record; `false` throughout for now) and the counts `sources_checked` and `sources_total` |
+| `kit` | `status` (`matches`, `differs-unintended`, `differs-deliberate`, `not-implemented`, `not-applicable`, `unknown`), `checked` (the file and selector or function looked at), `method` (`rendered`, `read` or `not-checked`), `date` and a `detail` sentence |
+| `visibility` | Only on unintended differences: `obvious`, `visible`, `subtle` or `invisible` |
+| `supersedes`, `superseded_by` | Link a final 1995 rule and the draft statement it replaced |
+| `notes` | Caveats, such as sources that contradict each other |
+
+Source kinds are `final-guidelines`, `draft-guidelines`, `manual-of-style`, `howlett`, `wine-source`, `reactos-source`, `file-manager-templates` and `measured`. Final-guidelines locations are a section file and title, with the printed page where known, and link to `https://techshelps.github.io/MSDN/WINGUIDE/<section>.htm`. Wine and ReactOS locations are a repository path, line numbers and the enclosing function, taken from the master branches as retrieved on 18 November 2026; the linked files may since have moved on. The books are in copyright and the source code is LGPL and GPL, so records state facts and cite locations and never reproduce a passage or code.
+
+The kit is judged only against Windows 95 rules: a record of any other era has the status `not-applicable`. A status of `matches` or `differs` always names what was looked at and how. Open questions, where the sources disagree or do not reach Windows 95, are records with low confidence and the status `unknown`.
+
+```js
+import { findRules, getRule, summarizeRegister } from './kit/evidence/register.mjs';
+
+findRules({ query: 'shortcut', control: 'menu', era: 'win95-1995', kit_status: 'differs-unintended', confidence: 'high', limit: 5 });
+getRule('edge-window-frame-raised-plain');
+summarizeRegister();
+```
+
+`findRules` returns `{ schema_version: 1, compiled, kit_version_checked, caveat, total, items }`. Query terms must all occur in the record; a match in the ID, title or control ranks first, and ties keep register order. `topic` and `control` are exact and return nothing when unknown; `era`, `kit_status` and `confidence` must be one of their listed values and throw a short `TypeError` otherwise. `limit` is 1–20, default 20. `getRule` returns one record or `null`. `summarizeRegister` returns counts by kit status, confidence, era and topic, the topic and control vocabularies, the unintended differences ordered by visibility, and the open questions.
+
+Every returned record puts a `standing` object directly after `id` and `title` and before `rule`: `era`, `era_label`, `confidence`, `confidence_reason`, `may_state_as_windows_95` and `cite_as`. `may_state_as_windows_95` is `yes` only for a `win95-1995` record of high confidence, `with-caveat` for medium, and `no` for a low-confidence record or any other era. The MCP tool `get_gui95_period_rules` returns the same shape; see [the service notes](mcp-service.md).
+
+To change the register, edit `register.json` and run `node kit/evidence/build-register-doc.mjs`, which rewrites [docs/evidence-register.md](evidence-register.md). The same script with `--check` exits with an error when the document is out of date, and the tests run that check. When the kit changes, re-check the affected records' `kit` fields against the stylesheet and update `kit_version_checked`; a release that fixes an unintended difference should change that record's status in the same commit.
+
 ## Consumer manifests and version decisions
 
 ```json
@@ -69,4 +107,4 @@ The catalog lists releases 1.0.0, 1.1.0, 1.1.1 and 1.1.2. An older numeric value
 
 ## Verification
 
-Run `node --test kit/test/evidence.test.mjs` from the repository root to check source fields, local line bounds and preserved hashes, search limits and unknown inputs, repair ranges, executable regression references, and deterministic update decisions. Run the component test commands separately for current component behavior. Neither command runs archived consumer applications or replaces visible checks in their supported desktop hosts. See [provenance](provenance.md) and [integration lessons](integration-lessons.md) for that boundary.
+Run `node --test kit/test/register.test.mjs` to check the register's record fields, links between draft and final rules, search filters, the `standing` object and that the generated document is up to date. Run `node --test kit/test/evidence.test.mjs` from the repository root to check source fields, local line bounds and preserved hashes, search limits and unknown inputs, repair ranges, executable regression references, and deterministic update decisions. Run the component test commands separately for current component behavior. Neither command runs archived consumer applications or replaces visible checks in their supported desktop hosts. See [provenance](provenance.md) and [integration lessons](integration-lessons.md) for that boundary.

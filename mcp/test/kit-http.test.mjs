@@ -56,3 +56,30 @@ test('all seven feature areas return usable artifacts through a real MCP client'
  assert.equal((await fetch(base+'/reference?path=docs/widgets.md&sha256=wrong')).status,409);
  const bad=await client.callTool({name:'generate_gui95_layout',arguments:{type:'properties',title:'Bad',fields:[{id:'../escape',label:'No'}]}});assert.equal(bad.isError,true);
 });
+
+test('period rules reach an MCP client with era and confidence ahead of every rule',async t=>{
+ const {client}=await live(t);
+ const call=async(name,args={})=>{const result=await client.callTool({name,arguments:args});assert.notEqual(result.isError,true,JSON.stringify(result));return result.structuredContent;};
+ const tool=(await client.listTools()).tools.find(tool=>tool.name==='get_gui95_period_rules');
+ assert.equal(tool.annotations.readOnlyHint,true);
+ assert.match(tool.description,/era/);assert.match(tool.description,/confidence/);assert.match(tool.description,/has been compared with a real Windows 95 system/);
+ assert.deepEqual(tool.inputSchema.properties.era.enum,['win95-1995','win95-draft','win3x','win98-ie4','later']);
+ assert.deepEqual(tool.inputSchema.properties.kit_status.enum,['matches','differs-unintended','differs-deliberate','not-implemented','not-applicable','unknown']);
+ const found=await call('get_gui95_period_rules',{query:'menu shortcut',limit:5});
+ assert.ok(found.items.length&&found.items.length<=5);assert.match(found.caveat,/real Windows 95 system/);assert.ok(found.content_revision);
+ for(const item of found.items){assert.deepEqual(Object.keys(item).slice(0,4),['id','title','standing','rule']);assert.ok(item.standing.era&&item.standing.confidence&&item.standing.cite_as);assert.ok(item.sources.length&&item.kit.status);}
+ const differs=await call('get_gui95_period_rules',{control:'menu',kit_status:'differs-unintended',limit:20});
+ assert.ok(differs.items.length>=1&&differs.items.every(item=>item.control==='menu'&&item.kit.status==='differs-unintended'));
+ const draft=await call('get_gui95_period_rules',{era:'win95-draft',limit:20});
+ assert.ok(draft.items.length&&draft.items.every(item=>item.standing.may_state_as_windows_95==='no'&&item.superseded_by));
+ const open=await call('get_gui95_period_rules',{id:'edge-light-colour-value'});
+ assert.equal(open.rule.kit.status,'unknown');assert.equal(open.rule.standing.may_state_as_windows_95,'no');assert.match(open.rule.standing.cite_as,/^Unsettled/);
+ const summary=await call('get_gui95_period_rules',{summary:true});
+ assert.equal(Object.values(summary.by_kit_status).reduce((a,b)=>a+b,0),summary.total);assert.ok(summary.unintended_differences.length&&summary.controls.includes('menu'));
+ assert.equal((await client.callTool({name:'get_gui95_period_rules',arguments:{id:'no-such-rule'}})).isError,true);
+ assert.equal((await client.callTool({name:'get_gui95_period_rules',arguments:{era:'windows-95'}})).isError,true);
+ const search=await call('search_gui95',{query:'period evidence register unintended differences'});
+ assert.ok(JSON.stringify(search).includes('docs/evidence-register.md'));
+ const materials=await call('list_gui95_materials',{});
+ assert.ok(JSON.stringify(materials).includes('docs/evidence-register.md'));
+});

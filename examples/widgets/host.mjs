@@ -16,14 +16,14 @@ e('window','Window shell, system menu, move and size','Windows and dialogs',`
 'A browser child-window pattern, not OS window chrome or full MDI management. Native Electron controls must use host APIs. This sample constrains geometry to its workspace.'),
 
 e('open-file','Open file through the browser','Host integrations',`
-<label class="field">Choose a text file <input id="file" type="file" accept="text/*,.txt,.md,.csv"></label><p id="metadata">No file selected.</p><label class="field">Read-only preview <textarea id="preview" readonly rows="6"></textarea></label>`,
+<div data-gui95-stack><div data-gui95-stack="tight"><label for="file">Choose a text file:</label><input id="file" type="file" accept="text/*,.txt,.md,.csv"></div><p id="metadata">No file selected.</p><div data-gui95-stack="tight"><label for="preview">Read-only preview:</label><textarea id="preview" readonly rows="6"></textarea></div></div>`,
 ({$,on,report})=>{let revision=0;on($('#file'),'change',async()=>{const request=++revision,file=$('#file').files[0];if(!file)return;if(file.size>1024*1024){report('Choose a text file smaller than 1 MiB for this preview.');return;}try{const text=await file.text();if(request!==revision)return;$('#metadata').textContent=`${file.name} — ${file.size} bytes`;$('#preview').value=text;report(`Opened ${file.name}`);}catch{report('Could not read the selected file.');}});},
 'No selection, chosen file, successful read, preview limit and read failure. Canceling the host picker keeps the existing document.',
 'Tab reaches the native file input; activate it to open the host picker. Picker navigation and cancellation belong to the browser/OS.',
 'A working host adapter, not a drawn Windows 95 file dialog. A browser cannot enumerate arbitrary folders or guarantee native MRU/filter behavior. Only a user-selected file is read.'),
 
 e('save-file','Save file through the browser','Host integrations',`
-<div class="stack"><label class="field">File name <input id="filename" value="notes.txt" required></label><label class="field">Text to save <textarea id="text" rows="5">Hello from GUI95.</textarea></label><button id="save">Save file…</button></div>`,
+<div data-gui95-stack><div data-gui95-form><label for="filename">File name:</label><input id="filename" value="notes.txt" required><label for="text">Text to save:</label><textarea id="text" rows="5">Hello from GUI95.</textarea></div><button id="save">Save file…</button></div>`,
 ({$,on,report})=>on($('#save'),'click',()=>{const name=$('#filename');if(!name.reportValidity())return;const url=URL.createObjectURL(new Blob([$('#text').value],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name.value.replace(/[\\/:*?"<>|]/g,'_');document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);report('Download requested. Check your browser’s download destination.');}),
 'Edited content/name and a real UTF-8 text download request.','Tab reaches Save; Space or Enter requests the download. Destination prompts follow browser settings.',
 'The browser may download immediately or ask for a destination. A download request is not proof a file was saved. For overwrite confirmation, persistent paths and native Save As, use a host adapter.'),
