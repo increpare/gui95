@@ -1,4 +1,5 @@
 // Renders components/atlas.html in headless Chromium and compares it, pixel for pixel, with the stored baseline.
+// The atlas is drawn once for each density (data-gui95-density), each with its own baseline.
 // A headless-Chromium rendering regression check of what gui95.css paints; it is not Windows 95 fidelity proof.
 import { createServer } from 'node:http';
 import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
@@ -11,9 +12,14 @@ import { chromium } from 'playwright';
 const kitRoot = fileURLToPath(new URL('../', import.meta.url));
 export const ATLAS_PAGE = path.join(kitRoot, 'components', 'atlas.html');
 export const BASELINE = path.join(kitRoot, 'test', 'baseline', 'state-atlas.png');
+/** One baseline for each density. 'comfortable' is the stylesheet's default and is rendered with no density attribute. */
+export const BASELINES = Object.freeze({ comfortable: BASELINE, period: path.join(kitRoot, 'test', 'baseline', 'state-atlas-period.png') });
+export const DENSITIES = Object.freeze(Object.keys(BASELINES));
+const stem = density => density === 'comfortable' ? 'state-atlas' : `state-atlas-${density}`;
+const known = density => { if (!Object.hasOwn(BASELINES, density)) throw new Error(`Unknown density "${density}". Use ${DENSITIES.join(' or ')}.`); return density; };
 /** The atlas grid is exactly this size; the page is captured at device scale factor 1. */
 export const VIEWPORT = Object.freeze({ width: 809, height: 442 });
-export const UPDATE_HINT = 'After reviewing the difference image, run `node kit/verify/atlas.mjs --update` to accept an intended change.';
+export const UPDATE_HINT = 'After reviewing the difference image, run `node kit/verify/atlas.mjs --update` (add `--density period` or `--density comfortable` to rewrite one baseline only) to accept an intended change.';
 
 /** Serve only the atlas page and the stylesheet. `stylesheet` replaces gui95.css (used to prove that changes are detected). */
 async function serve(stylesheet) {
@@ -29,8 +35,9 @@ async function serve(stylesheet) {
   return { url: `http://127.0.0.1:${server.address().port}/atlas.html`, close: () => new Promise(resolve => server.close(resolve)) };
 }
 
-/** Open the atlas in a fresh page at device scale factor 1. Call close() when done. */
-export async function openAtlas({ stylesheet, browser } = {}) {
+/** Open the atlas in a fresh page at device scale factor 1, in the given density. Call close() when done. */
+export async function openAtlas({ stylesheet, browser, density = 'comfortable' } = {}) {
+  known(density);
   const own = !browser;
   // A fixed sRGB output keeps the screenshot independent of the machine's display colour profile.
   browser ??= await chromium.launch({ headless: true, args: ['--force-color-profile=srgb'] });
@@ -39,7 +46,7 @@ export async function openAtlas({ stylesheet, browser } = {}) {
   const page = await context.newPage();
   const close = async () => { await context.close(); await site.close(); if (own) await browser.close(); };
   try {
-    await page.goto(site.url);
+    await page.goto(density === 'comfortable' ? site.url : `${site.url}?density=${density}`);
     // The highlighted menu item is drawn by :focus; wait for its autofocus to land before capturing.
     await page.waitForFunction(() => document.activeElement?.hasAttribute('autofocus'));
     return { page, close };
@@ -117,18 +124,19 @@ export function compareImages(expectedBytes, actualBytes) {
  * Render the atlas and compare it with the baseline. On a difference, the actual and difference images are written
  * to `output` (default: a new folder in the system temporary directory) and their paths are returned.
  */
-export async function checkAtlas({ baseline = BASELINE, output, ...options } = {}) {
+export async function checkAtlas({ density = 'comfortable', baseline = BASELINES[known(density)], output, ...options } = {}) {
+  options.density = density;
   const actual = await renderAtlas(options);
   let stored;
   try { stored = await readFile(baseline); } catch (error) { if (error.code !== 'ENOENT') throw error; }
   const result = stored ? compareImages(stored, actual) : { different: VIEWPORT.width * VIEWPORT.height, box: null, sameSize: false, missing: true };
-  if (!result.different) return { status: 'passed', baseline, different: 0 };
+  if (!result.different) return { status: 'passed', density, baseline, different: 0 };
   const folder = output ? path.resolve(output) : await mkdtemp(path.join(os.tmpdir(), 'gui95-atlas-'));
   await mkdir(folder, { recursive: true });
-  const files = { actual: path.join(folder, 'state-atlas.actual.png') };
+  const files = { actual: path.join(folder, `${stem(density)}.actual.png`) };
   await writeFile(files.actual, actual);
-  if (result.diff) { files.diff = path.join(folder, 'state-atlas.diff.png'); await writeFile(files.diff, result.diff); }
-  return { status: 'failed', baseline, missing: !!result.missing, different: result.different, box: result.box, sameSize: result.sameSize, output: folder, files };
+  if (result.diff) { files.diff = path.join(folder, `${stem(density)}.diff.png`); await writeFile(files.diff, result.diff); }
+  return { status: 'failed', density, baseline, missing: !!result.missing, different: result.different, box: result.box, sameSize: result.sameSize, output: folder, files };
 }
 
 export function describeFailure(report) {
@@ -139,21 +147,30 @@ export function describeFailure(report) {
 }
 
 /** Rewrite the baseline from the current rendering. */
-export async function updateAtlas({ baseline = BASELINE, ...options } = {}) {
+export async function updateAtlas({ density = 'comfortable', baseline = BASELINES[known(density)], ...options } = {}) {
+  options.density = density;
   const png = await renderAtlas(options);
   await mkdir(path.dirname(baseline), { recursive: true });
   await writeFile(baseline, png);
-  return { status: 'updated', baseline, bytes: png.length };
+  return { status: 'updated', density, baseline, bytes: png.length };
 }
 
 export async function main(args) {
-  const outIndex = args.indexOf('--out'), output = outIndex < 0 ? undefined : args[outIndex + 1];
-  if (outIndex >= 0 && (!output || output.startsWith('--'))) { process.stderr.write('Usage: node kit/verify/atlas.mjs [--update] [--out DIRECTORY]\n'); return 2; }
-  if (args.includes('--update')) { const report = await updateAtlas(); process.stdout.write(`Baseline written: ${report.baseline}\n`); return 0; }
-  const report = await checkAtlas({ output });
-  if (report.status === 'passed') { process.stdout.write(`State atlas matches ${report.baseline}\n`); return 0; }
-  process.stdout.write(describeFailure(report) + '\nOutput folder: ' + report.output + '\n');
-  return 1;
+  const usage = 'Usage: node kit/verify/atlas.mjs [--density comfortable|period] [--update] [--out DIRECTORY]\n';
+  const value = flag => { const index = args.indexOf(flag); return index < 0 ? undefined : args[index + 1] ?? ''; };
+  const output = value('--out'), density = value('--density');
+  if ((output !== undefined && (!output || output.startsWith('--'))) || (density !== undefined && !DENSITIES.includes(density))) { process.stderr.write(usage); return 2; }
+  // Without --density both are checked, or both rewritten.
+  const densities = density ? [density] : DENSITIES;
+  let code = 0;
+  for (const each of densities) {
+    if (args.includes('--update')) { const report = await updateAtlas({ density: each }); process.stdout.write(`Baseline written (${each}): ${report.baseline}\n`); continue; }
+    const report = await checkAtlas({ density: each, output });
+    if (report.status === 'passed') { process.stdout.write(`State atlas (${each}) matches ${report.baseline}\n`); continue; }
+    process.stdout.write(`(${each}) ` + describeFailure(report) + '\nOutput folder: ' + report.output + '\n');
+    code = 1;
+  }
+  return code;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
