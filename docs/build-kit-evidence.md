@@ -91,7 +91,7 @@ To change the register, edit `register.json` and run `node kit/evidence/build-re
 }
 ```
 
-Stable control IDs are `menu`, `dialog`, `splitter`, `tree`, `toolbar`, `number-field`, `tabs`, and `listbox`; all eight are at **1.1.2**, and `tabs` and `listbox` were first released in 1.1.0. The separately versioned guidance IDs are `electron-shell`, `save-lifecycle`, `packaging`, and `scaling`, still at 1.0.0. Guidance IDs identify advice versions; they are not additional executable controls.
+Stable control IDs are `menu`, `dialog`, `splitter`, `tree`, `toolbar`, `number-field`, `tabs`, and `listbox`; all eight are at **1.2.0**, and `tabs` and `listbox` were first released in 1.1.0. The separately versioned guidance IDs are `electron-shell`, `save-lifecycle`, `packaging`, and `scaling`, still at 1.0.0. Guidance IDs identify advice versions; they are not additional executable controls.
 
 `checkUpdates(manifest)` accepts up to 50 component declarations and returns `{ schema_version: 1, status, components, errors }`, with components sorted by ID. A structurally invalid manifest returns `status: "invalid_manifest"`, an empty component list, and bounded errors. A valid structure returns `status: "ok"` even when an individual declaration is unknown or invalid; inspect each entry. Entries contain `id`, `installed`, `latest`, `status`, `compatibility`, matching repair IDs, `changes`, and a short explanatory `note`. For an older declaration, `changes` lists each later cataloged release up to `latest` as `{ version, date, summary }`; otherwise it is empty.
 
@@ -103,7 +103,7 @@ Stable control IDs are `menu`, `dialog`, `splitter`, `tree`, `toolbar`, `number-
 | `unknown_component` | ID absent from the release catalog | `unsupported`, with `latest: null` |
 | `invalid_version` | Version is not an exact supported stable string | `unsupported` |
 
-The catalog lists releases 1.0.0, 1.1.0, 1.1.1 and 1.1.2. An older numeric value that is not listed in a component's `released_versions` is not evidence of a real prior release, and no migration is tested. The checker compares declarations and does not install, modify, or execute anything. A version match never establishes browser, OS, Electron, accessibility, or application compatibility. The initial data deliberately makes no `verified` compatibility claim.
+The catalog lists releases 1.0.0, 1.1.0, 1.1.1, 1.1.2 and 1.2.0. An older numeric value that is not listed in a component's `released_versions` is not evidence of a real prior release, and no migration is tested. The checker compares declarations and does not install, modify, or execute anything. A version match never establishes browser, OS, Electron, accessibility, or application compatibility. The initial data deliberately makes no `verified` compatibility claim.
 
 ## Verification
 

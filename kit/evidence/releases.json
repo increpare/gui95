@@ -1,12 +1,13 @@
 [
   {
     "id": "menu",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -31,17 +32,23 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "Arrow keys, Home and End now stop on unavailable commands (only separators are skipped) and Enter, Space and mnemonics do nothing there; shortcut text is left-aligned in one column per menu; a submenu opens after the pointer rests 400 ms on its parent and at once from the keyboard or a press. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "dialog",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -66,17 +73,23 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to dialog behaviour; dialogs gain the opt-in layout attributes described below. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "splitter",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -101,17 +114,23 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to splitter behaviour. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "tree",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -136,17 +155,23 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to tree behaviour. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "toolbar",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -171,17 +196,23 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to toolbar behaviour; in the period density toolbar buttons touch, a size taken from the 1995 guidelines and not measured. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "number-field",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.0.0",
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -206,16 +237,22 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to number field behaviour; unavailable up-down arrows are engraved. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "tabs",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -235,16 +272,22 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to tab behaviour; tabs are 18 px in the period density (measured on the 1996 common controls library). Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },
   {
     "id": "listbox",
-    "latest": "1.1.2",
+    "latest": "1.2.0",
     "released_versions": [
       "1.1.0",
       "1.1.1",
-      "1.1.2"
+      "1.1.2",
+      "1.2.0"
     ],
     "kind": "ui-control",
     "compatibility": "unverified",
@@ -264,6 +307,11 @@
         "version": "1.1.2",
         "date": "2026-11-18",
         "summary": "No change to this control's behaviour or to the runtime. Shared stylesheet: every two-line edge now gives the bottom and right lines the top-right and bottom-left corner pixels, as Windows draws them; windows, dialogs, pop-up menus, scroll bar arrows and thumb and spin arrows take a new plain raised edge, --gui95-raised-plain (light gray outside, white inside), while push buttons and tab pages keep --gui95-raised; a held or latched push button takes a new --gui95-pressed edge (black outside, gray inside) in place of the field's sunken edge; a pressed default button keeps its black frame and shows one gray line round a flat face. Arrangements taken from the edge-drawing code of Wine and ReactOS and a border diagram in Howlett's Visual Interface Design for Windows, not from a Windows 95 screenshot. A page that draws its own window with --gui95-raised keeps the button edge until it switches to --gui95-raised-plain. The state atlas baseline is regenerated."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-11-19",
+        "summary": "No change to list box behaviour; rows are 13 px in the period density. Shared stylesheet and kit: opt-in dialog layout attributes (data-gui95-dialog-layout, -dialog-body, -buttons, -form, -stack, -row, -fill, -group, -page) built on two dialog-unit custom properties, with the 7-unit margin, 4-unit gap, 14-unit control height and 50-unit command button of the final 1995 guidelines; a density switch, data-gui95-density=\"period\", giving the sizes measured on Windows 95 4.00.1111 C (OSR2.5) on 19 November 2026 (17 px menu commands, 18 px title bar, 13 px list rows, 21 px closed drop-down list) while \"comfortable\", the default, keeps the previous sizes; check boxes and option buttons show a face-coloured interior while held and take the focus rectangle round the label text; a focused closed drop-down list highlights its text area only; unavailable drop-down and up-down arrows are engraved; a group box caption interrupts the white line as well as the shadow line; the slider thumb's corners follow the edge rule; the default push button's black frame is inside the button's own box. New warn-only lints, lint-wording and lint-layout, and a register of 190 period rules (kit/evidence/register.json). Existing selectors keep their comfortable metrics; a page that relied on a default button painting one pixel outside its box, or on arrow keys skipping unavailable menu commands, will see a difference. Checked against a capture of real Windows 95: 21 of 54 compared control states match pixel for pixel at 24-bit."
       }
     ]
   },

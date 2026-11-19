@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 import { BASELINE, BASELINES, DENSITIES, VIEWPORT, checkAtlas, compareImages, describeFailure, openAtlas, renderAtlas } from '../verify/atlas.mjs';
 import { lintPage } from '../verify/period-lint.mjs';
 
-// A kit downloaded as a component bundle carries the comfortable baseline only; kit/test/density.test.mjs, which is not in the bundle, requires the period one in the repository.
+// A component bundle carries both baselines from 1.2.0; an older bundle has the comfortable one only, so the period check skips there. kit/test/density.test.mjs, which is not in the bundle, requires both in the repository.
 const periodBaseline = existsSync(BASELINES.period) ? false : 'this copy of the kit has no period baseline';
 let browser;
 before(async () => { browser = await chromium.launch({ headless: true, args: ['--force-color-profile=srgb'] }); });

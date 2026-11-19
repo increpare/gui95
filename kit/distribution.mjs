@@ -8,7 +8,7 @@ import { version } from './components/gui95.mjs';
 export const KIT_VERSION = version;
 export const COMPONENTS = ['menu', 'dialog', 'splitter', 'tree', 'toolbar', 'number-field', 'tabs', 'listbox'];
 /** Shipped beside the shared runtime in every component bundle, so a downloaded kit can run its own checks. */
-export const COMPONENT_CHECK_FILES = Object.freeze(['components/gallery.html','components/atlas.html','test/components.test.mjs','test/components-runner.test.mjs','test/period-lint.test.mjs','test/atlas.test.mjs','test/baseline/state-atlas.png','verify/runner.mjs','verify/period-lint.mjs','verify/atlas.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']);
+export const COMPONENT_CHECK_FILES = Object.freeze(['components/gallery.html','components/atlas.html','test/components.test.mjs','test/components-runner.test.mjs','test/period-lint.test.mjs','test/atlas.test.mjs','test/baseline/state-atlas.png','test/baseline/state-atlas-period.png','verify/runner.mjs','verify/period-lint.mjs','verify/atlas.mjs','verify/README.md','package.json','pnpm-lock.yaml','pnpm-workspace.yaml']);
 /** Kit files read as bytes rather than UTF-8 text. */
 export const isBinaryKitFile = name => path.extname(name) === '.png';
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');

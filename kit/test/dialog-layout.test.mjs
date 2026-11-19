@@ -76,8 +76,11 @@ test('form grid: one field column, labels on the field text line, multi-line con
   assert.equal(fields[4].width,80,'an up-down control keeps its own width');
   for(let i=1;i<fields.length;i++)assert.equal(fields[i].top-Math.max(fields[i-1].bottom,labels[i-1].bottom),6,`row gap before ${pairs[i][1]}`);
   // A label's text starts where its field's text starts: 4px down in a field, 3px in a list box, flush for plain text.
-  const offsets=await Promise.all(pairs.map(async([label,field],i)=>Math.round((await textTop(label)-fields[i].top)*100)/100));
-  const fieldText=await Promise.all(['fonts','size'].map(async id=>Math.round((await textTop(id)-(await rect(id)).top)*100)/100));
+  // Read the label's text top less the font's own half-leading (where its text sits inside its content box), so the
+  // check holds for whichever fallback font the host has: Linux fonts put the text about 1px lower in the same line box.
+  const lead=id=>page.evaluate(id=>{const el=document.getElementById(id),r=el.getBoundingClientRect(),cs=getComputedStyle(el);const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let node;while((node=walker.nextNode()))if(node.data.trim()){const range=document.createRange();range.selectNodeContents(node);return range.getClientRects()[0].top-(r.top+parseFloat(cs.borderTopWidth)+parseFloat(cs.paddingTop));}return 0;},id);
+  const offsets=await Promise.all(pairs.map(async([label,field],i)=>Math.round((await textTop(label)-await lead(label)-fields[i].top)*100)/100));
+  const fieldText=await Promise.all([['fonts','fonts-label'],['size','size-label']].map(async([id,label])=>Math.round((await textTop(id)-await lead(label)-(await rect(id)).top)*100)/100));
   for(const index of [0,1,2,4])assert.ok(Math.abs(offsets[index]-4)<0.2,`${pairs[index][0]} sits on the field text line: ${offsets[index]}`);
   assert.ok(Math.abs(offsets[3]-fieldText[0])<0.2,'list box label matches the first option');assert.ok(Math.abs(offsets[6]-fieldText[1])<0.2,'static text label matches its value');
   assert.ok(Math.abs(offsets[5]-4)<0.2,'slider label is centred on the 14-unit height');

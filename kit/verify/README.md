@@ -145,6 +145,7 @@ A check box or option button is measured together with its wrapping label, as th
 node kit/verify/atlas.mjs                  # compare; exits 1 on any difference
 node kit/verify/atlas.mjs --out my-atlas   # write the actual and difference images there
 node kit/verify/atlas.mjs --update         # accept the current rendering as the baseline
+node kit/verify/atlas.mjs --density period # the same three for the period density and its own baseline
 node kit/cli.mjs atlas [--update]          # the same through the kit CLI
 ```
 

@@ -8,7 +8,7 @@ const kitFile = (name) => readFileSync(new URL('../' + name, import.meta.url), '
 const repoFile = (name) => readFileSync(new URL('../../' + name, import.meta.url), 'utf8');
 
 test('the kit states one release version everywhere it names it', () => {
-  assert.equal(KIT_VERSION, '1.1.2');
+  assert.equal(KIT_VERSION, '1.2.0');
   assert.equal(runtimeVersion, KIT_VERSION);
   assert.equal(JSON.parse(kitFile('package.json')).version, KIT_VERSION);
   assert.match(kitFile('components/gui95.css').split('\n')[0], new RegExp(`^/\\* GUI95 ${KIT_VERSION.replaceAll('.', '\\.')} `));

@@ -1,4 +1,4 @@
-# GUI95 components 1.1.2
+# GUI95 components 1.2.0
 
 Independent vanilla components with scoped CSS and native HTML controls. This is a maintained implementation informed by [the visual guide](../../docs/design-guide.md) and [integration lessons](../../docs/integration-lessons.md), separate from the preserved reference sources. No framework, font download, or global application shortcut handler is required.
 
