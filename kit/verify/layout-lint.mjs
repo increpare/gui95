@@ -12,6 +12,8 @@ export const UNITS = Object.freeze({
   verticalPx: 1.625,          // one vertical dialog unit (assumed)
   minGap: 4,                  // dialog units between controls (final guidelines, Grouping and Spacing, figure 13.23)
   margin: 7,                  // dialog units from the window edge to its controls (same figure)
+  wizardMargin: 6,            // the same for a wizard (measured on Windows 95: 10px round its buttons)
+  sheetMargin: 4,             // the same for a property sheet, between its frame and the tab control (measured on Windows 95: 6px and 7px)
   maxWindow: 263,             // dialog units, each way, for a secondary window (final guidelines, Font and Size)
   tolerancePx: 0.5,           // slack for sub-pixel layout before a threshold counts as missed
   nearMissPx: 2.5,            // edges or baselines this close but not equal count as a missed alignment
@@ -35,7 +37,7 @@ export const RULES = Object.freeze({
   'duplicate-access-key': `Access keys are unique within one dialog box or menu. ${FINAL}, Access Keys: stated.`,
   'ok-cancel-access-key': `OK and Cancel take no access key: Enter and Esc already reach them. ${FINAL}, Access Keys: stated.`,
   'apply-access-key': `Reserve "A" for the Apply button. ${FINAL}, Access Keys: stated.`,
-  'dialog-margin': `Leave ${UNITS.margin} dialog units (${px(UNITS.margin, UNITS.horizontalPx)}px across, ${px(UNITS.margin, UNITS.verticalPx)}px down under the assumed conversion) between the edge of a dialog box and its controls. ${FINAL}, figure 13.23: stated.`,
+  'dialog-margin': `Leave ${UNITS.margin} dialog units (${px(UNITS.margin, UNITS.horizontalPx)}px across, ${px(UNITS.margin, UNITS.verticalPx)}px down under the assumed conversion) between the edge of a dialog box and its controls; a property sheet leaves ${UNITS.sheetMargin} units round its tab control (measured on Windows 95). ${FINAL}, figure 13.23: stated.`,
   'window-too-large': `Avoid a secondary window larger than ${UNITS.maxWindow} by ${UNITS.maxWindow} dialog units (${px(UNITS.maxWindow, UNITS.horizontalPx)} by ${px(UNITS.maxWindow, UNITS.verticalPx)}px under the assumed conversion). ${FINAL}, Font and Size: stated.`
 });
 /** Every rule warns by default. Pass strict to make any finding fail. */
@@ -200,10 +202,12 @@ function layoutInPage(h, config) {
       for (const node of element.childNodes) if (node.nodeType === 3 && node.textContent.trim()) { const range = document.createRange(); range.selectNodeContents(node); const rect = range.getBoundingClientRect(); if (rect.width && rect.height) rects.push(rect); }
     }
     if (!rects.length) continue;
-    const least = { left: U.margin * U.horizontalPx, right: U.margin * U.horizontalPx, top: U.margin * U.verticalPx, bottom: U.margin * U.verticalPx };
+    // A property sheet (a dialog whose own content is a tab control) frames its pages with 4 units; the 7-unit margin is inside each page. A wizard's button row sits 10px from the edges.
+    const units = [...dialog.querySelectorAll('[role="tablist"]')].some(list => list.closest(containerSelector) === dialog && h.visible(list)) ? U.sheetMargin : dialog.querySelector('[data-gui95-buttons="wizard"]') ? U.wizardMargin : U.margin;
+    const least = { left: units * U.horizontalPx, right: units * U.horizontalPx, top: units * U.verticalPx, bottom: units * U.verticalPx };
     const margins = { left: Math.min(...rects.map(rect => rect.left)) - client.left, top: Math.min(...rects.map(rect => rect.top)) - client.top, right: client.right - Math.max(...rects.map(rect => rect.right)), bottom: client.bottom - Math.max(...rects.map(rect => rect.bottom)) };
     const short = Object.keys(margins).filter(side => margins[side] < least[side] - tol);
-    if (short.length) h.report(dialog, 'dialog-margin', `${short.map(side => `${side} ${round(margins[side])}px`).join(', ')}; minimum ${round(least.left)}px at the sides and ${round(least.top)}px at top and bottom (${U.margin} dialog units)`);
+    if (short.length) h.report(dialog, 'dialog-margin', `${short.map(side => `${side} ${round(margins[side])}px`).join(', ')}; minimum ${round(least.left)}px at the sides and ${round(least.top)}px at top and bottom (${units} dialog units)`);
   }
 
   // baseline-near-miss: a label beside the single-line field it names.

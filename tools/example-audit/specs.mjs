@@ -131,8 +131,8 @@ export default [
     visual: [{
       pairs: [
         { name: 'number box', sel: '#copies', real: { capture: 'commctl', cell: 'updown', class: 'Edit' }, sides: ['top', 'left', 'bottom'], note: 'The up-down control sits inside the right end of the real text box.' },
-        { name: 'up button', sel: '[data-gui95-delta="1"]', real: { capture: 'commctl', cell: 'updown', class: 'msctls_updown32', inset: [0, 0, 0, 12] }, ring: 2, note: 'The upper half of the real up-down control.' },
-        { name: 'both buttons', sel: page => page.evaluate(() => { const a = document.querySelector('[data-gui95-delta="1"]').getBoundingClientRect(), b = document.querySelector('[data-gui95-delta="-1"]').getBoundingClientRect(); return { x: a.left, y: a.top, w: a.width, h: b.bottom - a.top }; }), real: { capture: 'commctl', cell: 'updown', class: 'msctls_updown32' }, layoutOnly: true }
+        { name: 'up button', sel: page => page.evaluate(() => { const a = document.querySelector('[data-gui95-delta="1"]').getBoundingClientRect(); return { x: a.left, y: a.top - 2, w: a.width + 2, h: a.height + 2 }; }), real: { capture: 'commctl', cell: 'updown', class: 'msctls_updown32', inset: [0, 0, 0, 12] }, ring: 2, note: 'The upper half of the real up-down control, which draws the end of the text box frame round its buttons; the example rectangle takes in the same two pixels of the field frame above and to the right.' },
+        { name: 'both buttons', sel: page => page.evaluate(() => { const a = document.querySelector('[data-gui95-delta="1"]').getBoundingClientRect(), b = document.querySelector('[data-gui95-delta="-1"]').getBoundingClientRect(); return { x: a.left, y: a.top - 2, w: a.width + 2, h: b.bottom - a.top + 4 }; }), real: { capture: 'commctl', cell: 'updown', class: 'msctls_updown32' }, layoutOnly: true, note: 'With the two pixels of frame the real control draws above, below and to the right of its buttons.' }
       ],
       metrics: [['number box height', 'height', 'number box'], ['up-down width', 'width', 'both buttons'], ['up-down height', 'height', 'both buttons']]
     }],
@@ -223,8 +223,8 @@ export default [
     id: 'slider',
     visual: [{
       pairs: [
-        // A pseudo-element has no rectangle a script can read: the size is the kit stylesheet's (11 by 21, on a 4-pixel channel) and the place follows from the value.
-        { name: 'slider thumb', sel: page => page.evaluate(() => { const el = document.querySelector('#volume'), r = el.getBoundingClientRect(); return { x: r.left + (el.value - el.min) / (el.max - el.min) * (r.width - 11), y: r.top + Math.ceil((r.height - 4) / 2) - 9, w: 11, h: 21 }; }), real: { capture: 'commctl', cell: 'trackbar_noticks_live', part: 'thumb' }, ring: 2 },
+        // A pseudo-element has no rectangle a script can read: the size is the kit stylesheet's (11 by 21, on a 4-pixel channel), the place along the channel follows from the value, and the place across it is the stylesheet's own offset for the density.
+        { name: 'slider thumb', sel: page => page.evaluate(() => { const el = document.querySelector('#volume'), r = el.getBoundingClientRect(); return { x: r.left + (el.value - el.min) / (el.max - el.min) * (r.width - 11), y: r.top + Math.ceil((r.height - 4) / 2) + parseFloat(getComputedStyle(el).getPropertyValue('--gui95-slider-thumb-y')), w: 11, h: 21 }; }), real: { capture: 'commctl', cell: 'trackbar_noticks_live', part: 'thumb' }, ring: 2 },
         { name: 'slider channel', sel: page => page.evaluate(() => { const el = document.querySelector('#volume'), r = el.getBoundingClientRect(); return { x: r.left, y: r.top + Math.ceil((r.height - 4) / 2), w: r.width, h: 4 }; }), real: { capture: 'commctl', cell: 'trackbar_noticks_live', part: 'channel' }, sides: ['top', 'bottom'], depth: 2 }
       ],
       metrics: [['thumb width', 'width', 'slider thumb'], ['thumb height', 'height', 'slider thumb'], ['channel height', 'height', 'slider channel'], ['channel below the top of the thumb', 'dy', 'slider thumb', 'slider channel']]

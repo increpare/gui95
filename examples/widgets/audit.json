@@ -45,29 +45,35 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "default button",
       "real": "75 by 23",
-      "example": "52 by 23",
-      "result": "same-edges",
+      "example": "75 by 23",
+      "result": "frame-identical",
+      "differingPixels": 207,
+      "ofWhichInTheFrame": 0,
       "note": "OK in the real dialog while the focus is in the text box."
      },
      {
       "name": "push button",
       "real": "75 by 23",
-      "example": "46 by 23",
-      "result": "same-edges"
+      "example": "75 by 23",
+      "result": "frame-identical",
+      "differingPixels": 194,
+      "ofWhichInTheFrame": 0
      },
      {
       "name": "unavailable button",
       "real": "75 by 23",
-      "example": "76 by 23",
-      "result": "same-edges",
+      "example": "75 by 23",
+      "result": "frame-identical",
+      "differingPixels": 268,
+      "ofWhichInTheFrame": 0,
       "note": "Apply in the real property sheet before anything has changed."
      },
      {
@@ -81,8 +87,8 @@
      {
       "name": "space between two buttons in a row",
       "real": 6,
-      "example": 8,
-      "same": false
+      "example": 6,
+      "same": true
      },
      {
       "name": "button height",
@@ -93,8 +99,8 @@
      {
       "name": "button width",
       "real": 75,
-      "example": 46,
-      "same": false
+      "example": 75,
+      "same": true
      },
      {
       "name": "text box height",
@@ -161,18 +167,12 @@
     {
      "id": "buttons-row-spacing",
      "kind": "layout",
-     "summary": "Buttons are 8 px apart and as wide as their labels.",
+     "summary": "Buttons were 8 px apart and as wide as their labels.",
      "real": "Buttons in a row 4 dialog units (6 px) apart, each 50 units (75 px) wide.",
-     "exampleDoes": "8 px apart; width from the label.",
+     "exampleDoes": "Now the same: the row is the kit's button row.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "space between two buttons in a row",
-       "button width"
-      ]
-     },
-     "note": "Page-layer spacing (the .row rule), not the kit's button row, which measures 6 px and 75 px in the modal example."
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "lint": {
@@ -485,7 +485,7 @@
      {
       "name": "group box",
       "real": "159 by 102",
-      "example": "854 by 113",
+      "example": "854 by 105",
       "result": "layout only"
      }
     ],
@@ -493,13 +493,13 @@
      {
       "name": "from the top of one check box row to the next",
       "real": 19,
-      "example": 23,
+      "example": 21,
       "same": false
      },
      {
       "name": "first row below the top of the group box",
       "real": 17,
-      "example": 21,
+      "example": 18,
       "same": false
      },
      {
@@ -517,7 +517,7 @@
       "name": "checkbox-states",
       "recording": "checkbox-states",
       "compared": 19,
-      "agreed": 8,
+      "agreed": 7,
       "differing": [
        {
         "step": 2,
@@ -574,6 +574,22 @@
         ]
        },
        {
+        "step": 6,
+        "did": "press minus (minus)",
+        "differences": [
+         {
+          "where": "facts.Button#121.check",
+          "real": 1,
+          "example": 0
+         },
+         {
+          "where": "facts.Button#122.check",
+          "real": 1,
+          "example": 0
+         }
+        ]
+       },
+       {
         "step": 10,
         "did": "press spc (an ordinary check box)",
         "differences": [
@@ -600,9 +616,9 @@
         "did": "press minus (minus)",
         "differences": [
          {
-          "where": "facts.Button#122.check",
-          "real": 0,
-          "example": 1
+          "where": "facts.Button#121.check",
+          "real": 1,
+          "example": 0
          }
         ]
        },
@@ -611,9 +627,9 @@
         "did": "press shift+equal (plus)",
         "differences": [
          {
-          "where": "facts.Button#122.check",
+          "where": "facts.Button#121.check",
           "real": 1,
-          "example": 0
+          "example": 2
          }
         ]
        },
@@ -682,8 +698,11 @@
        "checkbox-states#3",
        "checkbox-states#4",
        "checkbox-states#5",
+       "checkbox-states#6",
        "checkbox-states#10",
        "checkbox-states#11",
+       "checkbox-states#12",
+       "checkbox-states#13",
        "checkbox-states#15"
       ]
      },
@@ -692,18 +711,12 @@
     {
      "id": "checkbox-plus-minus",
      "kind": "behaviour",
-     "summary": "Plus and minus do nothing.",
+     "summary": "Plus and minus did nothing.",
      "real": "On an ordinary check box, plus checks it and minus clears it.",
-     "exampleDoes": "No effect.",
+     "exampleDoes": "Now the same in this example. The kit runtime does not add it to other pages.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "checkbox-states#12",
-       "checkbox-states#13"
-      ]
-     },
-     "note": "Could be added to the kit runtime; the examples use native inputs without it."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "checkbox-focus-on-press",
@@ -723,9 +736,9 @@
     {
      "id": "checkbox-row-spacing",
      "kind": "layout",
-     "summary": "Rows of check boxes follow the example page's own spacing, not dialog units.",
-     "real": "Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box.",
-     "exampleDoes": "The page layer's 8 px gaps: rows 23 px apart.",
+     "summary": "Rows of check boxes are 1 or 2 px further apart.",
+     "real": "Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box.",
+     "exampleDoes": "Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout.",
      "severity": "low",
      "status": "open",
      "covers": {
@@ -734,7 +747,7 @@
        "first row below the top of the group box"
       ]
      },
-     "note": "The stage of a non-dialog example is laid out by examples/widgets/shared.mjs, in both densities. Using the kit's dialog layout attributes there would change every example page."
+     "note": "The kit puts 4 dialog units (6 px) between controls in a group and its label line is 15 px where Windows' text is 13. Setting the label on a 13 px line would make dialogs differ between the two densities, which the kit promises they do not."
     }
    ],
    "lint": {
@@ -820,7 +833,7 @@
      {
       "name": "group box",
       "real": "150 by 102",
-      "example": "854 by 113",
+      "example": "854 by 105",
       "result": "layout only"
      }
     ],
@@ -828,13 +841,13 @@
      {
       "name": "from the top of one option row to the next",
       "real": 20,
-      "example": 23,
+      "example": 21,
       "same": false
      },
      {
       "name": "first row below the top of the group box",
       "real": 17,
-      "example": 21,
+      "example": 18,
       "same": false
      },
      {
@@ -863,9 +876,9 @@
     {
      "id": "radio-row-spacing",
      "kind": "layout",
-     "summary": "Rows of option buttons follow the example page's own spacing, not dialog units.",
-     "real": "Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box.",
-     "exampleDoes": "The page layer's 8 px gaps: rows 23 px apart.",
+     "summary": "Rows of option buttons are 1 or 2 px further apart.",
+     "real": "Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box.",
+     "exampleDoes": "Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout.",
      "severity": "low",
      "status": "open",
      "covers": {
@@ -874,7 +887,7 @@
        "first row below the top of the group box"
       ]
      },
-     "note": "The stage of a non-dialog example is laid out by examples/widgets/shared.mjs, in both densities. Using the kit's dialog layout attributes there would change every example page."
+     "note": "The kit puts 4 dialog units (6 px) between controls in a group and its label line is 15 px where Windows' text is 13. Setting the label on a 13 px line would make dialogs differ between the two densities, which the kit promises they do not."
     }
    ],
    "lint": {
@@ -1306,8 +1319,8 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -1321,41 +1334,16 @@
      {
       "name": "up button",
       "real": "17 by 11",
-      "example": "16 by 9",
-      "result": "edges-differ",
-      "edges": {
-       "top": {
-        "real": [
-         "#808080",
-         "#000000",
-         "#dfdfdf"
-        ],
-        "example": [
-         "#dfdfdf",
-         "#ffffff",
-         "#000000"
-        ]
-       },
-       "right": {
-        "real": [
-         "#ffffff",
-         "#dfdfdf",
-         "#000000"
-        ],
-        "example": [
-         "#000000",
-         "#808080",
-         "#c0c0c0"
-        ]
-       }
-      },
-      "note": "The upper half of the real up-down control."
+      "example": "17 by 11",
+      "result": "identical",
+      "note": "The upper half of the real up-down control, which draws the end of the text box frame round its buttons; the example rectangle takes in the same two pixels of the field frame above and to the right."
      },
      {
       "name": "both buttons",
       "real": "17 by 23",
-      "example": "16 by 19",
-      "result": "layout only"
+      "example": "17 by 23",
+      "result": "layout only",
+      "note": "With the two pixels of frame the real control draws above, below and to the right of its buttons."
      }
     ],
     "layout": [
@@ -1368,14 +1356,14 @@
      {
       "name": "up-down width",
       "real": 17,
-      "example": 16,
-      "same": false
+      "example": 17,
+      "same": true
      },
      {
       "name": "up-down height",
       "real": 23,
-      "example": 19,
-      "same": false
+      "example": 23,
+      "same": true
      }
     ]
    },
@@ -1386,7 +1374,7 @@
       "name": "updown-keys",
       "recording": "updown-keys",
       "compared": 15,
-      "agreed": 13,
+      "agreed": 14,
       "differing": [
        {
         "step": 17,
@@ -1396,17 +1384,6 @@
           "where": "facts.updown.text",
           "real": "20",
           "example": "2520"
-         }
-        ]
-       },
-       {
-        "step": 23,
-        "did": "left button down",
-        "differences": [
-         {
-          "where": "facts.updown.text",
-          "real": "20",
-          "example": "19"
          }
         ]
        }
@@ -1420,21 +1397,13 @@
     {
      "id": "spinner-size",
      "kind": "rendering",
-     "summary": "The up-down buttons are smaller and drawn differently.",
-     "real": "One control 17 px wide and as tall as the text box (23), inside its right end.",
-     "exampleDoes": "Two buttons 16 px wide, 19 px tall together.",
+     "summary": "The up-down buttons were wider, without the gap between them, and had larger arrows.",
+     "real": "Two buttons 15 by 9 px one pixel apart, inside the end of the text box frame, each with a 3 by 2 px arrow.",
+     "exampleDoes": "Now the same at the period density: the upper half matches the capture pixel for pixel.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "pairs": [
-       "up button"
-      ],
-      "metrics": [
-       "up-down width",
-       "up-down height"
-      ]
-     },
-     "note": "The kit's up-down sits inside the field's sunken edge; the real one overlaps it."
+     "status": "fixed",
+     "covers": {},
+     "note": "A kit stylesheet change (the up-down density properties)."
     },
     {
      "id": "spinner-invalid-then-up",
@@ -1456,14 +1425,10 @@
      "kind": "behaviour",
      "summary": "Holding a button.",
      "real": "The value changes when the button goes down, then repeats.",
-     "exampleDoes": "The value changes on the click, with no repeat.",
+     "exampleDoes": "Now the same in the examples' own up-down helper.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "updown-keys#23"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "lint": {
@@ -1973,16 +1938,18 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "list box",
       "real": "110 by 69",
-      "example": "72 by 78",
-      "result": "edges-differ",
+      "example": "110 by 69",
+      "result": "frame-differs",
+      "differingPixels": 1863,
+      "ofWhichInTheFrame": 351,
       "edges": {
        "right": {
         "real": [
@@ -1990,8 +1957,8 @@
          "#dfdfdf"
         ],
         "example": [
-         "#c0c0c0",
-         "#ffffff"
+         "#ffffff",
+         "#c0c0c0"
         ]
        }
       }
@@ -1999,13 +1966,13 @@
      {
       "name": "selected row",
       "real": "106 by 13",
-      "example": "46 by 14",
+      "example": "90 by 13",
       "result": "layout only"
      },
      {
       "name": "second row",
       "real": "106 by 13",
-      "example": "46 by 14",
+      "example": "90 by 13",
       "result": "layout only"
      }
     ],
@@ -2013,26 +1980,26 @@
      {
       "name": "row height",
       "real": 13,
-      "example": 14,
-      "same": false
+      "example": 13,
+      "same": true
      },
      {
       "name": "from the top of one row to the next",
       "real": 13,
-      "example": 14,
-      "same": false
+      "example": 13,
+      "same": true
      },
      {
       "name": "first row below the top of the list box",
       "real": 2,
-      "example": 4,
-      "same": false
+      "example": 2,
+      "same": true
      },
      {
       "name": "row in from the left of the list box",
       "real": 2,
-      "example": 5,
-      "same": false
+      "example": 2,
+      "same": true
      }
     ]
    },
@@ -2099,23 +2066,17 @@
     {
      "id": "listbox-inset",
      "kind": "rendering",
-     "summary": "Rows start further in and are 1 px taller.",
-     "real": "Rows 13 px high, 2 px inside the control's edge.",
-     "exampleDoes": "Rows 14 px high, 4 px down and 5 px in.",
+     "summary": "A scroll bar is drawn although every item fits.",
+     "real": "No scroll bar until the items do not fit. Rows 13 px high, starting at the frame.",
+     "exampleDoes": "Chromium always draws a scroll bar on a native list. The rows are now 13 px and start at the frame, as measured.",
      "severity": "low",
-     "status": "open",
+     "status": "host limit",
      "covers": {
       "pairs": [
        "list box"
-      ],
-      "metrics": [
-       "row height",
-       "from the top of one row to the next",
-       "first row below the top of the list box",
-       "row in from the left of the list box"
       ]
      },
-     "note": "A native list; its row metrics come from the browser."
+     "note": "The row sizes were fixed in the kit stylesheet (the list box density properties). The scroll bar is the browser's; a page rule does not remove it."
     },
     {
      "id": "listbox-keys",
@@ -2186,16 +2147,18 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "list box",
       "real": "110 by 69",
-      "example": "86 by 78",
-      "result": "edges-differ",
+      "example": "110 by 69",
+      "result": "frame-differs",
+      "differingPixels": 2130,
+      "ofWhichInTheFrame": 346,
       "edges": {
        "right": {
         "real": [
@@ -2203,8 +2166,8 @@
          "#dfdfdf"
         ],
         "example": [
-         "#c0c0c0",
-         "#ffffff"
+         "#ffffff",
+         "#c0c0c0"
         ]
        }
       }
@@ -2212,7 +2175,7 @@
      {
       "name": "row",
       "real": "106 by 13",
-      "example": "60 by 14",
+      "example": "90 by 13",
       "result": "layout only"
      }
     ],
@@ -2220,8 +2183,8 @@
      {
       "name": "row height",
       "real": 13,
-      "example": 14,
-      "same": false
+      "example": 13,
+      "same": true
      }
     ]
    },
@@ -2422,17 +2385,14 @@
     {
      "id": "multiselect-row",
      "kind": "rendering",
-     "summary": "Rows are 1 px taller and start further in.",
-     "real": "Rows 13 px high.",
-     "exampleDoes": "Rows 14 px high.",
+     "summary": "A scroll bar is drawn although every item fits.",
+     "real": "No scroll bar until the items do not fit. Rows 13 px high.",
+     "exampleDoes": "Chromium always draws a scroll bar on a native list. The rows are now 13 px, as measured.",
      "severity": "low",
-     "status": "open",
+     "status": "host limit",
      "covers": {
       "pairs": [
        "list box"
-      ],
-      "metrics": [
-       "row height"
       ]
      }
     },
@@ -2590,8 +2550,8 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -2599,9 +2559,7 @@
       "name": "slider thumb",
       "real": "11 by 21",
       "example": "11 by 21",
-      "result": "frame-differs",
-      "differingPixels": 42,
-      "ofWhichInTheFrame": 32
+      "result": "identical"
      },
      {
       "name": "slider channel",
@@ -2632,8 +2590,8 @@
      {
       "name": "channel below the top of the thumb",
       "real": 7,
-      "example": 9,
-      "same": false
+      "example": 7,
+      "same": true
      }
     ]
    },
@@ -2708,19 +2666,13 @@
     {
      "id": "slider-thumb",
      "kind": "rendering",
-     "summary": "The thumb sits 2 px higher on its channel and its edges differ.",
-     "real": "A thumb 11 by 21 with the channel 7 px below its top.",
-     "exampleDoes": "The same size, with the channel 9 px below its top.",
+     "summary": "The thumb was a rectangle centred on its channel.",
+     "real": "A thumb 11 by 21 with a point at the bottom and the channel 7 px below its top.",
+     "exampleDoes": "Now the same at the period density: the thumb matches the capture pixel for pixel.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "pairs": [
-       "slider thumb"
-      ],
-      "metrics": [
-       "channel below the top of the thumb"
-      ]
-     }
+     "status": "fixed",
+     "covers": {},
+     "note": "A kit stylesheet change (the slider density properties); a vertical slider points right."
     },
     {
      "id": "slider-keys",
@@ -3001,7 +2953,7 @@
        596,
        599
       ],
-      "example": 518,
+      "example": 520,
       "agree": true,
       "note": "Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same."
      },
@@ -3115,15 +3067,15 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "selected tab",
       "real": "53 by 20",
-      "example": "53 by 22",
+      "example": "54 by 22",
       "result": "same-edges",
       "note": "TCM_GETITEMRECT gives the inside of a tab; the selected tab is drawn 2 pixels larger on the top, left and right."
      },
@@ -3131,21 +3083,7 @@
       "name": "unselected tab",
       "real": "46 by 18",
       "example": "47 by 18",
-      "result": "edges-differ",
-      "edges": {
-       "right": {
-        "real": [
-         "#000000",
-         "#808080",
-         "#c0c0c0"
-        ],
-        "example": [
-         "#1f1f1f",
-         "#808080",
-         "#c0c0c0"
-        ]
-       }
-      }
+      "result": "same-edges"
      },
      {
       "name": "tab control",
@@ -3210,17 +3148,13 @@
     {
      "id": "tabs-fraction",
      "kind": "rendering",
-     "summary": "The right edge of a tab falls between pixels.",
+     "summary": "The right edge of a tab fell between pixels.",
      "real": "Whole pixels; the edge is one black line.",
-     "exampleDoes": "A tab is as wide as its text, 46.66 px here, so its right edge is drawn as a dark grey blend.",
+     "exampleDoes": "Now whole pixels: the examples' tab helper gives each label a whole width.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "pairs": [
-       "unselected tab"
-      ]
-     },
-     "note": "Any control sized by its text can end on a fraction of a pixel."
+     "status": "fixed",
+     "covers": {},
+     "note": "Any control sized by its text can end on a fraction of a pixel; the kit runtime does not do this for other pages."
     },
     {
      "id": "tabs-selected-height",
@@ -3273,8 +3207,8 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -3318,7 +3252,7 @@
      {
       "name": "toolbar",
       "real": "300 by 26",
-      "example": "854 by 29",
+      "example": "854 by 26",
       "result": "layout only"
      }
     ],
@@ -3344,14 +3278,14 @@
      {
       "name": "button below the top of the toolbar",
       "real": 2,
-      "example": 3,
-      "same": false
+      "example": 2,
+      "same": true
      },
      {
       "name": "first button in from the left of the toolbar",
       "real": 0,
-      "example": 3,
-      "same": false
+      "example": 0,
+      "same": true
      }
     ]
    },
@@ -3373,17 +3307,12 @@
     {
      "id": "toolbar-inset",
      "kind": "layout",
-     "summary": "Buttons start 3 px in and 3 px down.",
+     "summary": "Buttons started 3 px in and 3 px down.",
      "real": "The first button at the left edge, 2 px below the top.",
-     "exampleDoes": "3 px in, 3 px down.",
+     "exampleDoes": "Now the same at the period density.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "button below the top of the toolbar",
-       "first button in from the left of the toolbar"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "toolbar-keyboard",
@@ -3442,8 +3371,8 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -3507,20 +3436,8 @@
       "name": "tree-keys",
       "recording": "tree-keys",
       "compared": 24,
-      "agreed": 23,
-      "differing": [
-       {
-        "step": 18,
-        "did": "press p",
-        "differences": [
-         {
-          "where": "rows",
-          "real": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures",
-          "example": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
-         }
-        ]
-       }
-      ],
+      "agreed": 24,
+      "differing": [],
       "notCompared": []
      }
     ],
@@ -3540,16 +3457,12 @@
     {
      "id": "tree-typeahead",
      "kind": "behaviour",
-     "summary": "The same letter typed twice.",
+     "summary": "The same letter typed twice matched nothing.",
      "real": "Each letter stands alone: P goes to the next item starting with P, P again to the one after.",
-     "exampleDoes": "Letters typed within 0.7 s are taken together, so \"pp\" matches nothing.",
+     "exampleDoes": "Now the same.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "tree-keys#18"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "tree-metrics",
@@ -3600,8 +3513,8 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -3657,44 +3570,10 @@
      {
       "name": "report view: keys",
       "recording": "listview-keys",
-      "compared": 8,
-      "agreed": 6,
-      "differing": [
-       {
-        "step": 8,
-        "did": "press n (typing a letter)",
-        "differences": [
-         {
-          "where": "selected",
-          "real": "Notes.txt",
-          "example": "Report.txt"
-         }
-        ]
-       },
-       {
-        "step": 10,
-        "did": "press left",
-        "differences": [
-         {
-          "where": "selected",
-          "real": "Notes.txt",
-          "example": "Drawing.bmp"
-         }
-        ]
-       }
-      ],
-      "notCompared": [
-       {
-        "step": 9,
-        "did": "press right",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       },
-       {
-        "step": 11,
-        "did": "press spc (Space)",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       }
-      ]
+      "compared": 10,
+      "agreed": 10,
+      "differing": [],
+      "notCompared": []
      },
      {
       "name": "report view: sorting by a heading click",
@@ -3707,20 +3586,9 @@
      {
       "name": "icon view",
       "recording": "listview-keys",
-      "compared": 6,
-      "agreed": 4,
+      "compared": 7,
+      "agreed": 6,
       "differing": [
-       {
-        "step": 25,
-        "did": "press down",
-        "differences": [
-         {
-          "where": "selected",
-          "real": "Notes.txt",
-          "example": "Report.txt"
-         }
-        ]
-       },
        {
         "step": 27,
         "did": "press end",
@@ -3733,13 +3601,7 @@
         ]
        }
       ],
-      "notCompared": [
-       {
-        "step": 26,
-        "did": "press home",
-        "why": "not comparable: before this step the example was not in the state the real system was in"
-       }
-      ]
+      "notCompared": []
      }
     ],
     "checks": []
@@ -3759,17 +3621,27 @@
     {
      "id": "listview-keys",
      "kind": "behaviour",
-     "summary": "No type-ahead; Left and Right move in report view; icon view is treated as one line.",
+     "summary": "No type-ahead; Left and Right moved in report view; the icon view was treated as one line.",
      "real": "A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row.",
-     "exampleDoes": "Letters do nothing; Left and Right move like Up and Down; Down goes to the next icon.",
+     "exampleDoes": "Now the same.",
      "severity": "low",
-     "status": "open",
+     "status": "fixed",
+     "covers": {}
+    },
+    {
+     "id": "listview-icon-end",
+     "kind": "behaviour",
+     "summary": "End in a single row of icons.",
+     "real": "In this recording End left the selection on the first icon.",
+     "exampleDoes": "End goes to the last icon.",
+     "severity": "low",
+     "status": "deliberate",
      "covers": {
       "steps": [
-       "report view: keys#*",
-       "icon view#*"
+       "icon view#27"
       ]
-     }
+     },
+     "note": "End goes to the last item in every other list; one recorded step is not reason enough to make it do nothing here."
     }
    ],
    "lint": {
@@ -4294,7 +4166,7 @@
        400,
        491
       ],
-      "example": 428,
+      "example": 433,
       "agree": true,
       "note": "Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms."
      }
@@ -4660,8 +4532,8 @@
      "user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system)"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
@@ -4866,12 +4738,13 @@
      "real": "3 dialog units, which the dialog manager makes 5 px.",
      "exampleDoes": "4 px.",
      "severity": "low",
-     "status": "open",
+     "status": "deliberate",
      "covers": {
       "metrics": [
        "label below the top of its text box"
       ]
-     }
+     },
+     "note": "The kit sets a label on the text line of its field, so the two texts share a baseline in any font; where the label box lands follows from the host font. Moving it a pixel would break that alignment."
     },
     {
      "id": "modal-tab-wrap",
@@ -5206,21 +5079,21 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "property sheet window",
       "real": "344 by 400",
-      "example": "346 by 407",
+      "example": "336 by 394",
       "result": "same-edges"
      },
      {
       "name": "client area",
       "real": "338 by 375",
-      "example": "340 by 382",
+      "example": "330 by 369",
       "result": "layout only"
      },
      {
@@ -5238,7 +5111,7 @@
      {
       "name": "selected tab",
       "real": "53 by 20",
-      "example": "53 by 22",
+      "example": "54 by 22",
       "result": "same-edges"
      },
      {
@@ -5282,14 +5155,14 @@
      {
       "name": "tab control in from the left of the client area",
       "real": 6,
-      "example": 11,
-      "same": false
+      "example": 6,
+      "same": true
      },
      {
       "name": "tab control below the top of the client area",
       "real": 7,
-      "example": 11,
-      "same": false
+      "example": 7,
+      "same": true
      },
      {
       "name": "page width",
@@ -5318,8 +5191,8 @@
      {
       "name": "tab control to the row of buttons",
       "real": 6,
-      "example": 11,
-      "same": false
+      "example": 6,
+      "same": true
      },
      {
       "name": "space between OK and Cancel",
@@ -5336,14 +5209,14 @@
      {
       "name": "right margin (Apply from the client area)",
       "real": 6,
-      "example": 11,
-      "same": false
+      "example": 6,
+      "same": true
      },
      {
       "name": "bottom margin (buttons from the client area)",
       "real": 7,
-      "example": 11,
-      "same": false
+      "example": 7,
+      "same": true
      },
      {
       "name": "button width",
@@ -5374,20 +5247,8 @@
       "name": "Tab order",
       "recording": "propsheet-keys",
       "compared": 4,
-      "agreed": 3,
-      "differing": [
-       {
-        "step": 12,
-        "did": "press tab (onto the tabs)",
-        "differences": [
-         {
-          "where": "focusOn",
-          "real": "the tabs",
-          "example": "elsewhere"
-         }
-        ]
-       }
-      ],
+      "agreed": 4,
+      "differing": [],
       "notCompared": []
      },
      {
@@ -5428,21 +5289,13 @@
     {
      "id": "properties-margins",
      "kind": "layout",
-     "summary": "The tab control and buttons sit 11 px from the edges, not 6 or 7.",
+     "summary": "The tab control and buttons sat 11 px from the edges.",
      "real": "The tab control 6 px in and 7 px down; 6 px between it and the buttons; 6 px to the right of Apply, 7 px below.",
-     "exampleDoes": "11 px each.",
+     "exampleDoes": "Now the same: the kit has a property sheet layout with 4-unit margins.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "tab control in from the left of the client area",
-       "tab control below the top of the client area",
-       "tab control to the row of buttons",
-       "right margin (Apply from the client area)",
-       "bottom margin (buttons from the client area)"
-      ]
-     },
-     "note": "The property sheet frame uses 4 dialog units where a dialog uses 7. The page itself is the right size (318 by 306)."
+     "status": "fixed",
+     "covers": {},
+     "note": "data-gui95-dialog-layout=\"sheet\". The page itself is the right size (318 by 306)."
     },
     {
      "id": "properties-selected-tab",
@@ -5462,17 +5315,12 @@
     {
      "id": "properties-tab-order",
      "kind": "behaviour",
-     "summary": "The tabs come first in the Tab order, and Tab from Cancel leaves the sheet.",
+     "summary": "Tab from the last button left the sheet, and the caption Close button was a Tab stop.",
      "real": "Tab goes page, OK, Cancel, Apply when available, then the tabs, then the page again.",
-     "exampleDoes": "The tabs, the page, OK, Cancel, then out of the sheet.",
+     "exampleDoes": "Now the same: Tab goes round inside the sheet; Esc closes it.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "Tab order#*"
-      ]
-     },
-     "note": "The order follows the markup; the sheet is not modal, as the page says."
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "properties-close",
@@ -5596,21 +5444,21 @@
      "user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system)"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified, apart from host limits",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "message box window",
       "real": "278 by 119",
-      "example": "460 by 96",
+      "example": "302 by 100",
       "result": "same-edges"
      },
      {
       "name": "client area",
       "real": "272 by 94",
-      "example": "454 by 71",
+      "example": "296 by 75",
       "result": "layout only"
      },
      {
@@ -5633,14 +5481,14 @@
      {
       "name": "message text",
       "real": "77 by 15",
-      "example": "432 by 15",
+      "example": "274 by 15",
       "result": "layout only",
       "note": "Against the real message box that has no icon, as the example has none."
      },
      {
       "name": "client area of the box without an icon",
       "real": "98 by 75",
-      "example": "454 by 71",
+      "example": "296 by 75",
       "result": "layout only"
      },
      {
@@ -5666,13 +5514,13 @@
      {
       "name": "left of the first button from the client area",
       "real": 59,
-      "example": 149,
+      "example": 70,
       "same": false
      },
      {
       "name": "right of the last button from the client area",
       "real": 57,
-      "example": 149,
+      "example": 70,
       "same": false
      },
      {
@@ -5690,8 +5538,8 @@
      {
       "name": "message text to the buttons (no icon)",
       "real": 15,
-      "example": 11,
-      "same": false
+      "example": 15,
+      "same": true
      },
      {
       "name": "button width",
@@ -5743,18 +5591,18 @@
     {
      "id": "message-size",
      "kind": "layout",
-     "summary": "The box does not shrink to its message.",
-     "real": "The box is as wide as its text and buttons need (272 px client for this question); 15 px between a one-line message and the buttons.",
-     "exampleDoes": "A fixed 454 px client; 11 px between message and buttons.",
+     "summary": "The box is wider than the real one.",
+     "real": "As wide as its text and buttons need (272 px client for the real question), with 15 px between a one-line message and the buttons.",
+     "exampleDoes": "The box now shrinks to its message and leaves the same 15 px; it is 296 px because its question is longer and set in the host font.",
      "severity": "low",
-     "status": "open",
+     "status": "host limit",
      "covers": {
       "metrics": [
        "left of the first button from the client area",
-       "right of the last button from the client area",
-       "message text to the buttons (no icon)"
+       "right of the last button from the client area"
       ]
-     }
+     },
+     "note": "The box was a fixed 454 px before."
     }
    ],
    "lint": {
@@ -5792,16 +5640,7 @@
       "note": "Windows 95 capitalises each word of a title. Left for the owner: wording."
      }
     ],
-    "layout": [
-     {
-      "rule": "window-too-large",
-      "finding": "client area 454 by 70.8px is 303 by 44 dialog units; limit 263 by 263 (394.5 by 427.4px)",
-      "where": "dialog open",
-      "triage": "real",
-      "status": "open",
-      "note": "The example dialogs are 460 px wide, set by the page layer; 263 dialog units is the guideline's limit for a 640 by 480 screen."
-     }
-    ]
+    "layout": []
    },
    "notChecked": [
     {
@@ -5839,21 +5678,21 @@
      "comctl32 4.70: the 1996 common controls, not the 1995 library"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
     "pairs": [
      {
       "name": "wizard window",
       "real": "441 by 323",
-      "example": "460 by 148",
+      "example": "460 by 146",
       "result": "same-edges"
      },
      {
       "name": "client area",
       "real": "435 by 298",
-      "example": "454 by 123",
+      "example": "454 by 121",
       "result": "layout only"
      },
      {
@@ -5861,7 +5700,7 @@
       "real": "75 by 23",
       "example": "75 by 23",
       "result": "frame-identical",
-      "differingPixels": 261,
+      "differingPixels": 259,
       "ofWhichInTheFrame": 0
      },
      {
@@ -5869,7 +5708,7 @@
       "real": "75 by 23",
       "example": "75 by 23",
       "result": "frame-identical",
-      "differingPixels": 189,
+      "differingPixels": 186,
       "ofWhichInTheFrame": 0
      },
      {
@@ -5891,26 +5730,26 @@
      {
       "name": "space between Back and Next",
       "real": 0,
-      "example": 6,
-      "same": false
+      "example": 0,
+      "same": true
      },
      {
       "name": "space between Next and Cancel",
       "real": 10,
-      "example": 6,
-      "same": false
+      "example": 10,
+      "same": true
      },
      {
       "name": "right margin (Cancel from the client area)",
       "real": 10,
-      "example": 11,
-      "same": false
+      "example": 10,
+      "same": true
      },
      {
       "name": "bottom margin (buttons from the client area)",
       "real": 10,
-      "example": 11,
-      "same": false
+      "example": 10,
+      "same": true
      },
      {
       "name": "button width",
@@ -5933,42 +5772,8 @@
       "name": "wizard",
       "recording": "wizard",
       "compared": 8,
-      "agreed": 5,
-      "differing": [
-       {
-        "step": 4,
-        "did": "press alt+b (Back)",
-        "differences": [
-         {
-          "where": "page",
-          "real": 0,
-          "example": 1
-         }
-        ]
-       },
-       {
-        "step": 5,
-        "did": "press alt+n (Next)",
-        "differences": [
-         {
-          "where": "page",
-          "real": 1,
-          "example": 0
-         }
-        ]
-       },
-       {
-        "step": 6,
-        "did": "press alt+n",
-        "differences": [
-         {
-          "where": "page",
-          "real": 2,
-          "example": 1
-         }
-        ]
-       }
-      ],
+      "agreed": 8,
+      "differing": [],
       "notCompared": []
      }
     ],
@@ -5988,35 +5793,23 @@
     {
      "id": "wizard-access-keys",
      "kind": "behaviour",
-     "summary": "Back and Next have no access keys.",
+     "summary": "Back and Next had no access keys.",
      "real": "Alt+B and Alt+N.",
-     "exampleDoes": "None.",
+     "exampleDoes": "Now the same.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "steps": [
-       "wizard#4",
-       "wizard#5",
-       "wizard#6"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "wizard-buttons",
      "kind": "layout",
-     "summary": "Back and Next are 6 px apart and Cancel 6 px from Next.",
+     "summary": "Back and Next were 6 px apart and Cancel 6 px from Next.",
      "real": "Back and Next touch; Cancel is 10 px from Next; 10 px margins.",
-     "exampleDoes": "6 px between all three; 11 px margins.",
+     "exampleDoes": "Now the same: the kit has a wizard button row.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "metrics": [
-       "space between Back and Next",
-       "space between Next and Cancel",
-       "right margin (Cancel from the client area)",
-       "bottom margin (buttons from the client area)"
-      ]
-     }
+     "status": "fixed",
+     "covers": {},
+     "note": "data-gui95-buttons=\"wizard\"."
     }
    ],
    "lint": {
@@ -6049,7 +5842,7 @@
     "layout": [
      {
       "rule": "window-too-large",
-      "finding": "client area 454 by 122.3px is 303 by 75 dialog units; limit 263 by 263 (394.5 by 427.4px)",
+      "finding": "client area 454 by 121.3px is 303 by 75 dialog units; limit 263 by 263 (394.5 by 427.4px)",
       "where": "dialog open",
       "triage": "real",
       "status": "open",
@@ -6164,8 +5957,8 @@
      {
       "what": "an arrow key alone, in the grid of colours, changes the chosen colour",
       "real": false,
-      "example": true,
-      "agree": false,
+      "example": false,
+      "agree": true,
       "note": "Real: after Right then Enter the dialog returned #000080; after Right, Right, Down, Space, Enter it returned #400040. It opened on #000080."
      }
     ]
@@ -6191,16 +5984,12 @@
     {
      "id": "color-arrows",
      "kind": "behaviour",
-     "summary": "An arrow key chooses a colour at once.",
+     "summary": "An arrow key chose a colour at once.",
      "real": "Arrows move a focus rectangle; Space chooses the colour under it.",
-     "exampleDoes": "Arrows choose.",
+     "exampleDoes": "Now the same.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "checks": [
-       "an arrow key alone*"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     }
    ],
    "lint": {
@@ -6452,8 +6241,8 @@
      "user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system)"
     ]
    },
-   "verdict": "open",
-   "verdictText": "Verified, with open differences",
+   "verdict": "verified",
+   "verdictText": "Verified",
    "verdictNote": "behaviour by single checks, not a full replay",
    "rendering": {
     "method": "The example at the period density in Chromium (1280 by 900, scale 1) against the 24-bit screen dump of the real control: sizes; every pixel when the sizes are equal, with the outer frame counted apart from the inside (text and glyphs); the lines met walking in from each side when they are not. Layout numbers are differences between measured rectangles on both sides.",
@@ -6562,8 +6351,8 @@
      {
       "what": "the letter M chooses Move from the open system menu",
       "real": true,
-      "example": false,
-      "agree": false,
+      "example": true,
+      "agree": true,
       "note": "Real: after M the window was in its move loop (the guest stopped answering until Enter)."
      },
      {
@@ -6616,16 +6405,12 @@
     {
      "id": "window-menu-letters",
      "kind": "behaviour",
-     "summary": "The system menu has no access keys.",
+     "summary": "The system menu had no access keys.",
      "real": "M chooses Move, S Size, and so on.",
-     "exampleDoes": "Arrows and Enter only.",
+     "exampleDoes": "Now the same.",
      "severity": "low",
-     "status": "open",
-     "covers": {
-      "checks": [
-       "the letter M chooses Move*"
-      ]
-     }
+     "status": "fixed",
+     "covers": {}
     },
     {
      "id": "window-move-step",

@@ -15,6 +15,12 @@ export function helpers() {
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   const tabs = root => {
     const buttons = $$('[role=tab]', root);
+    // A tab is as wide as its label, which a browser measures in fractions of a pixel; Windows drew whole pixels, so each label is given a whole width.
+    const labels = buttons.map(button => { const span = document.createElement('span'); span.style.display = 'inline-block'; span.append(...button.childNodes); button.append(span); return span; });
+    const fit = () => labels.forEach(span => { span.style.width = ''; const width = span.getBoundingClientRect().width; if (width) span.style.width = Math.ceil(width) + 'px'; });
+    fit(); document.fonts?.ready.then(fit);
+    // Tabs inside a closed dialog have no size yet; measure again when they get one.
+    if (window.ResizeObserver) { let seen = 0; new ResizeObserver(([entry]) => { const width = entry.contentRect.width; if (width !== seen) { seen = width; fit(); } }).observe(root); }
     const select = button => buttons.forEach(item => {
       const active = item === button;
       item.tabIndex = active ? 0 : -1;
@@ -45,12 +51,20 @@ export function helpers() {
     const input = document.getElementById(button.dataset.gui95Step);
     if (!input) return;
     button.tabIndex = -1;
+    // As on Windows 95, the value changes when the button goes down and repeats while it is held.
+    let timer;
+    const stop = () => { clearTimeout(timer); timer = 0; };
     on(button, 'mousedown', event => {
       if (event.button !== 0) return;
       event.preventDefault();
       if (document.activeElement !== input) input.focus();
+      step();
+      stop(); timer = setTimeout(function again() { step(); timer = setTimeout(again, 50); }, 400);
     });
-    on(button, 'click', () => {
+    ['mouseup', 'mouseleave', 'blur'].forEach(type => on(button, type, stop));
+    // A click with no pointer behind it comes from the keyboard or an assistive tool.
+    on(button, 'click', event => { if (event.detail === 0) step(); });
+    const step = () => {
       if (input.disabled || input.readOnly) return;
       const before = input.value;
       try { Number(button.dataset.gui95Delta) < 0 ? input.stepDown() : input.stepUp(); } catch { return; }
@@ -59,7 +73,7 @@ export function helpers() {
       if (input.value === before) return;
       input.dispatchEvent(new Event('input', {bubbles: true}));
       input.dispatchEvent(new Event('change', {bubbles: true}));
-    });
+    };
   });
   // A compact local scope; no globals or application engine are required.
   return {$, $$, report, on, clamp, tabs, dialog, spin};

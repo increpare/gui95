@@ -47,7 +47,7 @@
       "title": "Checkboxes and mixed state",
       "family": "Basic controls",
       "states": "Unchecked, checked, mixed aggregate, focused, disabled checked.",
-      "keys": "Tab visits each enabled checkbox; Space toggles. Activating a mixed parent selects all children.",
+      "keys": "Tab visits each enabled checkbox; Space toggles, plus checks and minus clears. Activating a mixed parent selects all children.",
       "note": "Mixed describes an aggregate, not a third saved boolean. Setting indeterminate is separate from checked.",
       "sources": [
         {
@@ -343,7 +343,7 @@
       "title": "Tree view",
       "family": "Navigation and data",
       "states": "Expanded/collapsed branches, visible focus and single selection; children retain their state when a parent closes.",
-      "keys": "Up/Down visits visible rows; Right expands or enters a branch; Left collapses or reaches its parent; plus expands, minus collapses, asterisk expands everything below, Backspace goes to the parent; Home/End and type-ahead navigate; Enter opens. A click on a label selects it; a click on its plus or minus box, or a double-click on the label, opens or closes the branch.",
+      "keys": "Up/Down visits visible rows; Right expands or enters a branch; Left collapses or reaches its parent; plus expands, minus collapses, asterisk expands everything below, Backspace goes to the parent; Home/End and type-ahead navigate, and the same letter again goes to the next match; Enter opens. A click on a label selects it; a click on its plus or minus box, or a double-click on the label, opens or closes the branch.",
       "note": "This tree chooses selection-follows-focus. Multiselect trees and drag-and-drop are separate interaction models, not implied by this sample.",
       "sources": [
         {
@@ -363,8 +363,8 @@
       "title": "List view and sortable columns",
       "family": "Navigation and data",
       "states": "Details/icons, selected item, focus and ascending/descending sort; selection survives reordering.",
-      "keys": "Tab visits sort buttons and the selected row; arrows and Home/End change row; Enter opens. Header buttons sort.",
-      "note": "A compact single-selection file list, not an editable spreadsheet grid. The responsive icon view uses linear arrow navigation. Use a full grid model for editable cells.",
+      "keys": "Tab visits sort buttons and the selected row; Up/Down and Home/End change row, and a letter goes to the next name starting with it; in the icon view the four arrows move between icons. Enter opens. Header buttons sort.",
+      "note": "A compact single-selection file list, not an editable spreadsheet grid. Use a full grid model for editable cells.",
       "sources": [
         {
           "label": "Microsoft preliminary guide (1995), chapters 7–8",
@@ -499,7 +499,7 @@
       "title": "Property sheet with Apply and Cancel",
       "family": "Windows and dialogs",
       "states": "Cross-page draft, Apply enabled only when changed, OK commit/close, Cancel rollback since last Apply, explicit caption Close decision.",
-      "keys": "Arrows switch tabs; Ctrl+Tab and Ctrl+Page Down go to the next page, Ctrl+Shift+Tab and Ctrl+Page Up to the previous, where the host delivers those keys. Tab enters fields; Enter in a field acts as OK; Escape inside the sheet acts as Cancel. Caption Close offers Apply, Discard, or Keep editing when dirty.",
+      "keys": "Arrows switch tabs; Ctrl+Tab and Ctrl+Page Down go to the next page, Ctrl+Shift+Tab and Ctrl+Page Up to the previous, where the host delivers those keys. Tab goes round the page, the buttons and the tabs without leaving the sheet; Enter in a field acts as OK; Escape inside the sheet acts as Cancel. Caption Close offers Apply, Discard, or Keep editing when dirty.",
       "note": "A fixed-object modeless property sheet. Apply commits every page and Cancel never undoes an earlier Apply. The draft’s distinct Close behavior is modeled explicitly here; it is not a requirement to prompt on every dialog’s X.",
       "sources": [
         {
@@ -539,7 +539,7 @@
       "title": "Wizard with validation and backtracking",
       "family": "Windows and dialogs",
       "states": "First/middle/final step, required input, preserved draft while going Back, Finish commit and Cancel discard.",
-      "keys": "Tab operates the current page. Back/Next are explicit buttons; Enter in a field presses Next, the default button; Escape cancels. Step heading receives focus when the page changes.",
+      "keys": "Tab operates the current page. Back/Next are explicit buttons with the access keys Alt+B and Alt+N; Enter in a field presses Next, the default button; Escape cancels. Step heading receives focus when the page changes.",
       "note": "This is an original small workflow, not a generic wizard framework. Page transitions validate only the information needed to proceed.",
       "sources": [
         {
@@ -555,7 +555,7 @@
       "title": "Palette, color well and color dialog",
       "family": "Specialized controls",
       "states": "Swatches, RGB values, preview draft, committed well, validation and cancel rollback.",
-      "keys": "Tab reaches the palette and numeric fields; arrows select a palette color; Up/Down or the up-down buttons edit components; Escape cancels.",
+      "keys": "Tab reaches the palette and numeric fields; arrows move a focus rectangle over the palette and Space chooses the color under it; Up/Down or the up-down buttons edit components; Escape cancels.",
       "note": "A deliberately small browser color dialog. It does not emulate the native Windows custom-color store, hue/saturation plane, system palette or color management.",
       "sources": [
         {

@@ -8,7 +8,7 @@ import { chromium } from 'playwright';
 const cssUrl=new URL('../components/gui95.css',import.meta.url);
 const css=await readFile(cssUrl,'utf8');
 // The standard measures in dialog units, and the whole pixels they must come to with a 1.5 x 1.625 px unit.
-const expected={'margin-x':11,'margin-y':11,'gap-x':6,'gap-y':6,'tight-y':2,'control-h':23,'button-w':75,'group-x':9,'group-top':18,'group-bottom':10};
+const expected={'margin-x':11,'margin-y':11,'gap-x':6,'gap-y':6,'tight-y':2,'control-h':23,'button-w':75,'sheet-x':6,'sheet-y':7,'group-x':9,'group-top':18,'group-bottom':10};
 
 const fixture=`<!doctype html><html><head><link rel="stylesheet" href="/gui95.css"></head><body class="gui95" style="margin:0;padding:20px">
 <section class="window" id="bottom" style="width:360px"><div class="title-bar">Bottom row</div><form id="bottom-frame" data-gui95-dialog-layout>

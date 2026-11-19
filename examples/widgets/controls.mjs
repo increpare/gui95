@@ -2,7 +2,7 @@ import {example as e} from './shared.mjs';
 
 export default [
 e('buttons','Push buttons and default action','Basic controls',`
-<form id="form" class="stack"><label>Name <input id="name" required value="Untitled"></label><div class="row"><button class="default" type="submit">Create</button><button type="reset">Reset</button><button type="button" disabled>Unavailable</button></div></form>`,
+<form id="form" class="stack"><label>Name <input id="name" required value="Untitled"></label><div data-gui95-buttons style="margin-inline:0"><button class="default" type="submit">Create</button><button type="reset">Reset</button><button type="button" disabled>Delete</button></div></form>`,
 ({$,on,report})=>{on($('#form'),'submit',ev=>{ev.preventDefault();report(`Created: ${$('#name').value}`);});on($('#form'),'reset',()=>report('Reset to the initial value.'));},
 'Normal, pressed, focused, disabled, and default action. The default outline is separate from keyboard focus.',
 'Tab moves focus; Space activates a focused button. Enter in the name field submits the form.',
@@ -15,13 +15,15 @@ e('toggle','Toggle buttons','Basic controls',`
 'Keep the label stable and expose its persistent state with aria-pressed. A momentary command needs no aria-pressed.','button'),
 
 e('checkbox','Checkboxes and mixed state','Basic controls',`
-<fieldset class="stack"><legend>Export channels</legend><label><input type="checkbox" id="all">All channels (mixed until equal)</label><label><input type="checkbox" class="child" checked>Music</label><label><input type="checkbox" class="child">Effects</label><label><input type="checkbox" disabled checked>Required metadata</label></fieldset>`,
-({$,$$,on,report})=>{const all=$('#all'),children=$$('.child');const sync=()=>{const n=children.filter(x=>x.checked).length;all.checked=n===children.length;all.indeterminate=n>0&&n<children.length;report(`${n} of ${children.length} optional channels selected.`);};on(all,'change',()=>{children.forEach(x=>x.checked=all.checked);sync();});children.forEach(x=>on(x,'change',sync));sync();},
-'Unchecked, checked, mixed aggregate, focused, disabled checked.','Tab visits each enabled checkbox; Space toggles. Activating a mixed parent selects all children.',
+<fieldset data-gui95-group><legend>Export channels</legend><label><input type="checkbox" id="all">All channels (mixed until equal)</label><label><input type="checkbox" class="child" checked>Music</label><label><input type="checkbox" class="child">Effects</label><label><input type="checkbox" disabled checked>Required metadata</label></fieldset>`,
+({$,$$,on,report})=>{const all=$('#all'),children=$$('.child');const sync=()=>{const n=children.filter(x=>x.checked).length;all.checked=n===children.length;all.indeterminate=n>0&&n<children.length;report(`${n} of ${children.length} optional channels selected.`);};on(all,'change',()=>{children.forEach(x=>x.checked=all.checked);sync();});children.forEach(x=>on(x,'change',sync));
+ // On Windows 95 the plus key checks a check box and the minus key clears it.
+ [all,...children].forEach(x=>on(x,'keydown',ev=>{const want=ev.key==='+'||ev.key==='='?true:ev.key==='-'?false:null;if(want===null||ev.ctrlKey||ev.altKey||ev.metaKey)return;ev.preventDefault();if(x.checked!==want||x.indeterminate){x.checked=want;x.indeterminate=false;x.dispatchEvent(new Event('change',{bubbles:true}));}}));sync();},
+'Unchecked, checked, mixed aggregate, focused, disabled checked.','Tab visits each enabled checkbox; Space toggles, plus checks and minus clears. Activating a mixed parent selects all children.',
 'Mixed describes an aggregate, not a third saved boolean. Setting indeterminate is separate from checked.','checkbox'),
 
 e('radio','Radio-button groups','Basic controls',`
-<fieldset class="stack"><legend>Image quality</legend><label><input type="radio" name="quality" value="Draft" checked>Draft</label><label><input type="radio" name="quality" value="Normal">Normal</label><label><input type="radio" name="quality" value="Best">Best</label><label><input type="radio" name="quality" disabled>Printer managed</label></fieldset>`,
+<fieldset data-gui95-group><legend>Image quality</legend><label><input type="radio" name="quality" value="Draft" checked>Draft</label><label><input type="radio" name="quality" value="Normal">Normal</label><label><input type="radio" name="quality" value="Best">Best</label><label><input type="radio" name="quality" disabled>Printer managed</label></fieldset>`,
 ({$$,on,report})=>$$('[name=quality]').forEach(x=>on(x,'change',()=>report(`Quality: ${x.value}`))),
 'One selected option, focus, and disabled option. The legend labels the choice as a whole.',
 'Tab enters or leaves the group; arrow keys choose among enabled options; Space selects.',
@@ -66,14 +68,14 @@ e('combobox','Editable combo box','Basic controls',`
 'A modern ARIA adaptation. DOM focus stays in the field while aria-activedescendant names the current option. Native edit keys are not captured.','combobox'),
 
 e('listbox','Single-selection list box','Basic controls',`
-<label class="field">Available templates <select id="list" size="5"><option selected>Blank</option><option>Letter</option><option>Report</option><option>Invoice</option><option disabled>Archived</option></select></label><button id="open" style="margin-top:15px">Open template</button>`,
+<label class="field">Available templates <select id="list" size="5" style="width:110px"><option selected>Blank</option><option>Letter</option><option>Report</option><option>Invoice</option><option disabled>Archived</option></select></label><button id="open" style="margin-top:15px">Open template</button>`,
 ({$,on,report})=>on($('#open'),'click',()=>report(`Opened template: ${$('#list').value}`)),
 'Selected row, focus, scroll and disabled item. Selection does not activate the document.',
 'Arrows, Home/End and type-ahead choose an item; Tab reaches Open; Enter activates the button.',
 'This native list deliberately keeps selection and the explicit Open action separate.','listbox'),
 
 e('multiselect','Multiple-selection list box','Basic controls',`
-<label class="field">Files to export <select id="files" size="5" multiple aria-describedby="selection-help"><option selected>Intro.wav</option><option>Theme.wav</option><option selected>Ending.wav</option><option>Credits.wav</option></select></label><p id="selection-help">Use Ctrl+click to toggle, or Shift to extend a range. Keyboard conventions follow your host.</p><button id="export">Export selected</button>`,
+<label class="field">Files to export <select id="files" size="5" multiple aria-describedby="selection-help" style="width:110px"><option selected>Intro.wav</option><option>Theme.wav</option><option selected>Ending.wav</option><option>Credits.wav</option></select></label><p id="selection-help">Use Ctrl+click to toggle, or Shift to extend a range. Keyboard conventions follow your host.</p><button id="export">Export selected</button>`,
 ({$,on,report})=>on($('#export'),'click',()=>report(`Selected: ${[...$('#files').selectedOptions].map(x=>x.value).join(', ')||'none'}`)),
 'Discontiguous selections, range selection and empty selection.','Native modifier+arrow/Space selection varies by platform; Ctrl+A selects all on Windows. Tab leaves.',
 'The native multiple select retains host keyboard behavior; custom lists must choose and document a selection model.','listbox'),

@@ -220,6 +220,12 @@ Say which one an application uses. Do not describe a comfortable interface as pi
 | Toolbar button ‡ | 24 × 22, related buttons edge to edge | 24 × 22, touching | 24 × 23, 2 px apart |
 | Tree view † | Rows 16; each level 19 further right; a 9 × 9 plus or minus box with dotted lines on every second pixel; the label 19 from its level | The same | Rows 20; 25 a level; an 11 × 11 box inside the label |
 | Title bar buttons of `caption-controls.css` | 16 × 14; Minimize and Maximize touching, Close 2 px away; a 6 × 2 bar, a 9 × 9 box, an 8 × 7 cross | The same | 18 × 18, 2 and 4 px apart, larger marks |
+| List box drawn by the browser (`select` with `size`) | Rows 13, starting at the frame | The same | Rows 14, 2 px inside the frame |
+| Up-down control † | Two 15 × 9 buttons one pixel apart inside the end of the text box frame; a 3 × 2 arrow | The same | Two 16 px buttons, 9 and 10 high, touching; a 7 × 4 arrow |
+| Trackbar thumb † | 11 × 21 with a point at the bottom (at the right when vertical); the channel 7 px below its top; no thumb when unavailable | The same | An 11 × 21 rectangle centred on the channel; a dithered thumb when unavailable |
+| Toolbar inset † | The first button at the left edge, 2 px below the top | The same | 3 px in, 3 px down |
+| Property sheet frame † | The tab control 6 px in and 7 px down (4 dialog units), 6 px above the buttons | The same in both densities with `data-gui95-dialog-layout="sheet"` | The same |
+| Wizard buttons † | Back and Next edge to edge, Cancel 10 px away, 10 px margins | The same in both densities with `data-gui95-buttons="wizard"` | The same |
 
 † **Era caveat.** OSR2.5 is the 1996 release. Its window manager and graphics files (`user.exe`, `gdi.exe`) carry version 4.0.0.950, the same as the August 1995 release, so menus, title bars, frames, list boxes, drop-down lists, buttons, group boxes and scroll bars are good evidence for 1995. Its common controls library is `comctl32.dll` 4.70, the 1996 version. The status bar and tab rows are therefore evidence for that library; the 1995 library may have differed and has not been measured.
 

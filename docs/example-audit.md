@@ -15,42 +15,42 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 
 ## Summary
 
-13 examples verified (5 of them apart from host limits), 16 verified with open differences, 3 partly checked, 6 not verifiable.
+27 examples verified (11 of them apart from host limits), 2 verified with open differences, 3 partly checked, 6 not verifiable.
 
 | Example | Real counterpart | Rendering | Behaviour | Differences | Lint | Verdict |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Push buttons and default action](#buttons) | OK, Cancel and Apply in a real dialog and property sheet (user32) | 4 of 4 pairs agree in size or edges; 2 of 4 layout numbers equal | 2 of 4 steps agree | 1 open, 1 deliberate | 1 real, 0 false, 1 deliberate | Verified, with open differences |
+| [Push buttons and default action](#buttons) | OK, Cancel and Apply in a real dialog and property sheet (user32) | 4 of 4 pairs agree in size or edges; 4 of 4 layout numbers equal | 2 of 4 steps agree | 1 fixed, 1 deliberate | 1 real, 0 false, 1 deliberate | Verified |
 | [Toggle buttons](#toggle) | push-like check boxes (user32) and latched toolbar buttons (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 1 of 1 layout number equal | 4 of 6 steps agree | 2 host limit | 1 real, 0 false, 0 deliberate | Verified, apart from host limits |
-| [Checkboxes and mixed state](#checkbox) | check boxes in a real dialog made from a template (user32) | 4 of 4 pairs agree in size or edges; 1 of 3 layout numbers equal | 8 of 19 steps agree | 2 open, 2 deliberate, 1 host limit | 0 real, 0 false, 1 deliberate | Verified, with open differences |
+| [Checkboxes and mixed state](#checkbox) | check boxes in a real dialog made from a template (user32) | 4 of 4 pairs agree in size or edges; 1 of 3 layout numbers equal | 7 of 19 steps agree | 1 fixed, 1 open, 2 deliberate, 1 host limit | 0 real, 0 false, 1 deliberate | Verified, with open differences |
 | [Radio-button groups](#radio) | option buttons in a real dialog made from a template (user32) | 3 of 3 pairs agree in size or edges; 1 of 3 layout numbers equal | 8 of 8 steps agree | 1 open | clean | Verified, with open differences |
 | [Text fields and validation](#text) | edit controls (user32) | 4 of 4 pairs agree in size or edges; 1 of 1 layout number equal | 18 of 21 steps agree | 1 host limit | 5 real, 0 false, 1 deliberate | Verified, apart from host limits |
 | [Multiline text](#multiline) | a multi-line edit control with scroll bars (user32) | 1 of 1 pair agree in size or edges; 0 of 0 layout numbers equal | 1 of 6 steps agree | 1 host limit | 2 real, 0 false, 0 deliberate | Verified, apart from host limits |
-| [Numeric field and spin control](#spinner) | an up-down control beside its buddy edit control (comctl32 4.70) | 1 of 2 pairs agree in size or edges; 1 of 3 layout numbers equal | 13 of 15 steps agree | 2 open, 1 host limit | 2 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Numeric field and spin control](#spinner) | an up-down control beside its buddy edit control (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 3 of 3 layout numbers equal | 14 of 15 steps agree | 2 fixed, 1 host limit | 2 real, 0 false, 0 deliberate | Verified, apart from host limits |
 | [Drop-down selection](#select) | a drop-down list combo box (user32) | 2 of 2 pairs agree in size or edges; 1 of 1 layout number equal | 2 of 8 steps agree | 1 host limit | 2 real, 0 false, 0 deliberate | Verified, apart from host limits |
 | [Editable combo box](#combobox) | an editable drop-down combo box (user32) | 1 of 1 pair agree in size or edges; 0 of 1 layout number equal | 1 of 12 steps agree | 1 deliberate | 2 real, 0 false, 0 deliberate | Verified |
-| [Single-selection list box](#listbox) | a single-selection list box (user32) | 0 of 1 pair agree in size or edges; 0 of 4 layout numbers equal | 17 of 21 steps agree | 1 open, 1 host limit | 2 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Multiple-selection list box](#multiselect) | an extended-selection list box (user32) | 0 of 1 pair agree in size or edges; 0 of 1 layout number equal | 1 of 3 steps agree | 1 open, 1 host limit | 2 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Single-selection list box](#listbox) | a single-selection list box (user32) | 0 of 1 pair agree in size or edges; 4 of 4 layout numbers equal | 17 of 21 steps agree | 2 host limit | 2 real, 0 false, 0 deliberate | Verified, apart from host limits |
+| [Multiple-selection list box](#multiselect) | an extended-selection list box (user32) | 0 of 1 pair agree in size or edges; 1 of 1 layout number equal | 1 of 3 steps agree | 2 host limit | 2 real, 0 false, 0 deliberate | Verified, apart from host limits |
 | [Group boxes and labels](#groupbox) | group boxes in a real dialog made from a template (user32) | 1 of 1 pair agree in size or edges; 0 of 0 layout numbers equal | 12 of 12 steps agree | none | clean | Verified |
-| [Horizontal and vertical sliders](#slider) | trackbar controls (comctl32 4.70) | 1 of 2 pairs agree in size or edges; 3 of 4 layout numbers equal | 11 of 15 steps agree | 1 open, 1 host limit | clean | Verified, with open differences |
+| [Horizontal and vertical sliders](#slider) | trackbar controls (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 4 of 4 layout numbers equal | 11 of 15 steps agree | 1 fixed, 1 host limit | clean | Verified, apart from host limits |
 | [Progress bars](#progress) | progress bars (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | not compared | none | 1 real, 0 false, 0 deliberate | Partly checked |
 | [Scrollbars and scrolling regions](#scrollbars) | scroll bar controls and a window's own scroll bars (user32) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 4 of 4 steps agree | none | clean | Verified |
 | [Tooltips and status help](#tooltip) | the tooltip of a toolbar button (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 1 of 2 single checks agree | 1 fixed, 2 deliberate | 2 real, 0 false, 1 deliberate | Verified |
-| [Tabs and tab panels](#tabs) | tab controls (comctl32 4.70) | 2 of 3 pairs agree in size or edges; 2 of 3 layout numbers equal | 11 of 11 steps agree | 1 fixed, 1 open, 1 deliberate | clean | Verified, with open differences |
-| [Toolbar buttons and groups](#toolbar) | a toolbar (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 3 of 5 layout numbers equal | 3 of 3 steps agree | 1 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Tree view](#tree) | tree view controls (comctl32 4.70) | 1 of 1 pair agree in size or edges; 5 of 5 layout numbers equal | 23 of 24 steps agree | 2 fixed, 1 open | clean | Verified, with open differences |
-| [List view and sortable columns](#listview) | list view controls in report and icon view (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 3 of 3 layout numbers equal | 13 of 17 steps agree | 1 fixed, 1 open | 2 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Tabs and tab panels](#tabs) | tab controls (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 2 of 3 layout numbers equal | 11 of 11 steps agree | 2 fixed, 1 deliberate | clean | Verified |
+| [Toolbar buttons and groups](#toolbar) | a toolbar (comctl32 4.70) | 3 of 3 pairs agree in size or edges; 5 of 5 layout numbers equal | 3 of 3 steps agree | 1 fixed, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified |
+| [Tree view](#tree) | tree view controls (comctl32 4.70) | 1 of 1 pair agree in size or edges; 5 of 5 layout numbers equal | 24 of 24 steps agree | 3 fixed | clean | Verified |
+| [List view and sortable columns](#listview) | list view controls in report and icon view (comctl32 4.70) | 2 of 2 pairs agree in size or edges; 3 of 3 layout numbers equal | 19 of 20 steps agree | 2 fixed, 1 deliberate | 2 real, 0 false, 0 deliberate | Verified |
 | [Column header and resizing](#header) | a header control (comctl32 4.70) | 1 of 1 pair agree in size or edges; 1 of 1 layout number equal | 4 of 8 steps agree | 1 fixed, 1 deliberate | clean | Verified |
 | [Resizable split panes](#splitter) | none | not compared | not compared | none | clean | Not verifiable |
 | [Menu bar, submenus and recent files](#menus) | a real window's menu bar, drop-down and cascading menus (user32) | 1 of 1 pair agree in size or edges; 10 of 10 layout numbers equal | 73 of 76 steps agree; 1 of 1 single check agree | 4 fixed, 2 deliberate | 3 real, 0 false, 0 deliberate | Verified |
 | [Context menus](#context-menu) | a real pop-up menu opened by Shift+F10 and by right-click (user32) | 1 of 1 pair agree in size or edges; 4 of 4 layout numbers equal | 21 of 23 steps agree | 3 fixed, 1 deliberate, 1 host limit | 3 real, 0 false, 1 deliberate | Verified, apart from host limits |
-| [Modal dialog and focus restoration](#modal) | a real dialog made from a template that uses the 1995 guidelines' numbers in dialog units (user32) | 4 of 4 pairs agree in size or edges; 11 of 12 layout numbers equal | 5 of 7 steps agree | 1 fixed, 1 open, 1 host limit | 5 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Modal dialog and focus restoration](#modal) | a real dialog made from a template that uses the 1995 guidelines' numbers in dialog units (user32) | 4 of 4 pairs agree in size or edges; 11 of 12 layout numbers equal | 5 of 7 steps agree | 1 fixed, 1 deliberate, 1 host limit | 5 real, 0 false, 0 deliberate | Verified, apart from host limits |
 | [Modeless Find dialog](#modeless) | the real Find dialog (comdlg32 4.0.0.951) | 4 of 4 pairs agree in size or edges; 4 of 10 layout numbers equal | 2 of 2 steps agree | 1 deliberate | 5 real, 0 false, 0 deliberate | Verified |
-| [Property sheet with Apply and Cancel](#properties) | a real property sheet with two pages and Apply (comctl32 4.70 around user32 dialogs) | 6 of 6 pairs agree in size or edges; 7 of 13 layout numbers equal | 24 of 26 steps agree | 1 fixed, 2 open, 2 deliberate | 8 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Message box and safe default](#message) | real message boxes: Yes and No with No the default, OK and Cancel, and one without an icon (user32) | 3 of 3 pairs agree in size or edges; 6 of 9 layout numbers equal | 8 of 8 steps agree | 1 fixed, 1 open | 5 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Wizard with validation and backtracking](#wizard) | a real wizard with three pages (comctl32 4.70) | 5 of 5 pairs agree in size or edges; 2 of 6 layout numbers equal | 5 of 8 steps agree | 1 fixed, 2 open | 4 real, 0 false, 0 deliberate | Verified, with open differences |
-| [Palette, color well and color dialog](#color) | the real Color dialog (comdlg32 4.0.0.951) | 3 of 3 pairs agree in size or edges; 2 of 5 layout numbers equal | 0 of 1 single check agree | 1 open, 1 deliberate | 3 real, 0 false, 0 deliberate | Partly checked |
+| [Property sheet with Apply and Cancel](#properties) | a real property sheet with two pages and Apply (comctl32 4.70 around user32 dialogs) | 6 of 6 pairs agree in size or edges; 12 of 13 layout numbers equal | 25 of 26 steps agree | 3 fixed, 2 deliberate | 8 real, 0 false, 0 deliberate | Verified |
+| [Message box and safe default](#message) | real message boxes: Yes and No with No the default, OK and Cancel, and one without an icon (user32) | 3 of 3 pairs agree in size or edges; 7 of 9 layout numbers equal | 8 of 8 steps agree | 1 fixed, 1 host limit | 4 real, 0 false, 0 deliberate | Verified, apart from host limits |
+| [Wizard with validation and backtracking](#wizard) | a real wizard with three pages (comctl32 4.70) | 5 of 5 pairs agree in size or edges; 6 of 6 layout numbers equal | 8 of 8 steps agree | 3 fixed | 4 real, 0 false, 0 deliberate | Verified |
+| [Palette, color well and color dialog](#color) | the real Color dialog (comdlg32 4.0.0.951) | 3 of 3 pairs agree in size or edges; 2 of 5 layout numbers equal | 1 of 1 single check agree | 1 fixed, 1 deliberate | 3 real, 0 false, 0 deliberate | Partly checked |
 | [Font dialog with sample](#font) | the real Font dialog (comdlg32 4.0.0.951) | 3 of 3 pairs agree in size or edges; 2 of 6 layout numbers equal | 2 of 2 single checks agree | 1 deliberate | 4 real, 0 false, 0 deliberate | Partly checked |
-| [Window shell, system menu, move and size](#window) | a real sizable window (user32) | 4 of 4 pairs agree in size or edges; 8 of 8 layout numbers equal | 4 of 6 single checks agree | 2 fixed, 1 open, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified, with open differences |
+| [Window shell, system menu, move and size](#window) | a real sizable window (user32) | 4 of 4 pairs agree in size or edges; 8 of 8 layout numbers equal | 5 of 6 single checks agree | 3 fixed, 1 deliberate | 1 real, 0 false, 0 deliberate | Verified |
 | [Open file through the browser](#open-file) | the real Open dialog (comdlg32 4.0.0.951, shell32 4.0.0.1111), captured | not compared | not compared | none | clean | Not verifiable |
 | [Save file through the browser](#save-file) | the real Save As dialog (comdlg32 4.0.0.951, shell32 4.0.0.1111), captured | not compared | not compared | none | 2 real, 0 false, 0 deliberate | Not verifiable |
 | [Print through the browser](#print) | none | not compared | not compared | none | 2 real, 0 false, 0 deliberate | Not verifiable |
@@ -62,35 +62,25 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 
 | Severity | Example | Difference | Real Windows 95 | Example |
 | --- | --- | --- | --- | --- |
-| low | [Push buttons and default action](#buttons) | Buttons are 8 px apart and as wide as their labels. | Buttons in a row 4 dialog units (6 px) apart, each 50 units (75 px) wide. | 8 px apart; width from the label. |
-| low | [Checkboxes and mixed state](#checkbox) | Plus and minus do nothing. | On an ordinary check box, plus checks it and minus clears it. | No effect. |
-| low | [Checkboxes and mixed state](#checkbox) | Rows of check boxes follow the example page's own spacing, not dialog units. | Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box. | The page layer's 8 px gaps: rows 23 px apart. |
-| low | [Radio-button groups](#radio) | Rows of option buttons follow the example page's own spacing, not dialog units. | Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box. | The page layer's 8 px gaps: rows 23 px apart. |
-| low | [Numeric field and spin control](#spinner) | The up-down buttons are smaller and drawn differently. | One control 17 px wide and as tall as the text box (23), inside its right end. | Two buttons 16 px wide, 19 px tall together. |
-| low | [Numeric field and spin control](#spinner) | Holding a button. | The value changes when the button goes down, then repeats. | The value changes on the click, with no repeat. |
-| low | [Single-selection list box](#listbox) | Rows start further in and are 1 px taller. | Rows 13 px high, 2 px inside the control's edge. | Rows 14 px high, 4 px down and 5 px in. |
-| low | [Multiple-selection list box](#multiselect) | Rows are 1 px taller and start further in. | Rows 13 px high. | Rows 14 px high. |
-| low | [Horizontal and vertical sliders](#slider) | The thumb sits 2 px higher on its channel and its edges differ. | A thumb 11 by 21 with the channel 7 px below its top. | The same size, with the channel 9 px below its top. |
-| low | [Tabs and tab panels](#tabs) | The right edge of a tab falls between pixels. | Whole pixels; the edge is one black line. | A tab is as wide as its text, 46.66 px here, so its right edge is drawn as a dark grey blend. |
-| low | [Toolbar buttons and groups](#toolbar) | Buttons start 3 px in and 3 px down. | The first button at the left edge, 2 px below the top. | 3 px in, 3 px down. |
-| low | [Tree view](#tree) | The same letter typed twice. | Each letter stands alone: P goes to the next item starting with P, P again to the one after. | Letters typed within 0.7 s are taken together, so "pp" matches nothing. |
-| low | [List view and sortable columns](#listview) | No type-ahead; Left and Right move in report view; icon view is treated as one line. | A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row. | Letters do nothing; Left and Right move like Up and Down; Down goes to the next icon. |
-| low | [Modal dialog and focus restoration](#modal) | A label sits 4 px, not 5, below the top of its text box. | 3 dialog units, which the dialog manager makes 5 px. | 4 px. |
-| low | [Property sheet with Apply and Cancel](#properties) | The tab control and buttons sit 11 px from the edges, not 6 or 7. | The tab control 6 px in and 7 px down; 6 px between it and the buttons; 6 px to the right of Apply, 7 px below. | 11 px each. |
-| low | [Property sheet with Apply and Cancel](#properties) | The tabs come first in the Tab order, and Tab from Cancel leaves the sheet. | Tab goes page, OK, Cancel, Apply when available, then the tabs, then the page again. | The tabs, the page, OK, Cancel, then out of the sheet. |
-| low | [Message box and safe default](#message) | The box does not shrink to its message. | The box is as wide as its text and buttons need (272 px client for this question); 15 px between a one-line message and the buttons. | A fixed 454 px client; 11 px between message and buttons. |
-| low | [Wizard with validation and backtracking](#wizard) | Back and Next have no access keys. | Alt+B and Alt+N. | None. |
-| low | [Wizard with validation and backtracking](#wizard) | Back and Next are 6 px apart and Cancel 6 px from Next. | Back and Next touch; Cancel is 10 px from Next; 10 px margins. | 6 px between all three; 11 px margins. |
-| low | [Palette, color well and color dialog](#color) | An arrow key chooses a colour at once. | Arrows move a focus rectangle; Space chooses the colour under it. | Arrows choose. |
-| low | [Window shell, system menu, move and size](#window) | The system menu has no access keys. | M chooses Move, S Size, and so on. | Arrows and Enter only. |
+| low | [Checkboxes and mixed state](#checkbox) | Rows of check boxes are 1 or 2 px further apart. | Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box. | Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout. |
+| low | [Radio-button groups](#radio) | Rows of option buttons are 1 or 2 px further apart. | Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box. | Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout. |
 
 ## Fixed in this audit
 
+- **Push buttons and default action:** Buttons were 8 px apart and as wide as their labels.
+- **Checkboxes and mixed state:** Plus and minus did nothing.
+- **Numeric field and spin control:** The up-down buttons were wider, without the gap between them, and had larger arrows. A kit stylesheet change (the up-down density properties).
+- **Numeric field and spin control:** Holding a button.
+- **Horizontal and vertical sliders:** The thumb was a rectangle centred on its channel. A kit stylesheet change (the slider density properties); a vertical slider points right.
 - **Tooltips and status help:** The tooltip was 21 px high.
 - **Tabs and tab panels:** The arrow keys wrapped from the last tab to the first.
+- **Tabs and tab panels:** The right edge of a tab fell between pixels. Any control sized by its text can end on a fraction of a pixel; the kit runtime does not do this for other pages.
+- **Toolbar buttons and groups:** Buttons started 3 px in and 3 px down.
 - **Tree view:** Plus, minus, asterisk and Backspace did nothing; a click on a label opened the branch.
+- **Tree view:** The same letter typed twice matched nothing.
 - **Tree view:** Rows were taller, the indent wider, and the plus or minus a character inside the label. A kit stylesheet change (the tree density properties); the comfortable tree is as it was.
 - **List view and sortable columns:** Headings and rows were taller. The example is a table laid out by the page layer, which now has period sizes.
+- **List view and sortable columns:** No type-ahead; Left and Right moved in report view; the icon view was treated as one line.
 - **Column header and resizing:** The heading was taller.
 - **Menu bar, submenus and recent files:** Five behaviours corrected from the recordings.
 - **Menu bar, submenus and recent files:** The highlight skipped unavailable commands.
@@ -101,10 +91,16 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 - **Context menus:** Commands were 2 px taller.
 - **Modal dialog and focus restoration:** The default look did not move to the focused push button. A kit stylesheet rule; kit/test/default-button.test.mjs.
 - **Property sheet with Apply and Cancel:** Ctrl+Tab, Ctrl+Page Up and Down did not change page; Enter in a field did nothing; the tabs wrapped. A browser keeps Ctrl+Tab for itself; hosts such as Electron deliver it.
+- **Property sheet with Apply and Cancel:** The tab control and buttons sat 11 px from the edges. data-gui95-dialog-layout="sheet". The page itself is the right size (318 by 306).
+- **Property sheet with Apply and Cancel:** Tab from the last button left the sheet, and the caption Close button was a Tab stop.
 - **Message box and safe default:** Arrow keys did not move between the buttons.
 - **Wizard with validation and backtracking:** Enter in a field did not press Next.
+- **Wizard with validation and backtracking:** Back and Next had no access keys.
+- **Wizard with validation and backtracking:** Back and Next were 6 px apart and Cancel 6 px from Next. data-gui95-buttons="wizard".
+- **Palette, color well and color dialog:** An arrow key chose a colour at once.
 - **Window shell, system menu, move and size:** The title bar and its buttons were larger.
 - **Window shell, system menu, move and size:** Double-clicking the title bar did nothing.
+- **Window shell, system menu, move and size:** The system menu had no access keys.
 - **Hot-key input:** The field was grey, and Backspace and Delete did not clear it.
 
 ## The examples
@@ -112,19 +108,19 @@ Each of the 38 examples in `demo/dist/widgets/` was compared with Windows 95 4.0
 <a id="buttons"></a>
 ### Push buttons and default action
 
-`demo/dist/widgets/buttons.html` · Basic controls · **Verified, with open differences**
+`demo/dist/widgets/buttons.html` · Basic controls · **Verified**
 
 - **Families:** push button, default button, text box.
 - **Real counterpart:** OK, Cancel and Apply in a real dialog and property sheet (user32). Captures: `form`, `propsheet`. Recordings: `dialog-buttons`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** default button (75 by 23 against 52 by 23: same edges, different size); push button (75 by 23 against 46 by 23: same edges, different size); unavailable button (75 by 23 against 76 by 23: same edges, different size); text box (150 by 23 against 125 by 23: same edges, different size).
-- **Layout numbers (real, example), in pixels:** space between two buttons in a row: 6, 8 ≠; button height: 23, 23; button width: 75, 46 ≠; text box height: 23, 23.
+- **Rendering compared:** default button (75 by 23 against 75 by 23: frame identical, inside differs); push button (75 by 23 against 75 by 23: frame identical, inside differs); unavailable button (75 by 23 against 75 by 23: frame identical, inside differs); text box (150 by 23 against 125 by 23: same edges, different size).
+- **Layout numbers (real, example), in pixels:** space between two buttons in a row: 6, 6; button height: 23, 23; button width: 75, 75; text box height: 23, 23.
 - **Behaviour replayed, Enter and Space** (recording `dialog-buttons`): 2 of 4 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | The default look does not move to the focused button on this page. The kit now does this inside a dialog (fixed in the modal example). This page is a form on a page, not a dialog, and Windows only does it in dialogs. | In a dialog, the push button with the focus is drawn as the default and the designated default is drawn plain. | Create keeps the default look while Reset has the focus. | low | deliberate |
-| Buttons are 8 px apart and as wide as their labels. Page-layer spacing (the .row rule), not the kit's button row, which measures 6 px and 75 px in the modal example. | Buttons in a row 4 dialog units (6 px) apart, each 50 units (75 px) wide. | 8 px apart; width from the label. | low | open |
+| Buttons were 8 px apart and as wide as their labels. | Buttons in a row 4 dialog units (6 px) apart, each 50 units (75 px) wide. | Now the same: the row is the kit's button row. | low | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -172,16 +168,16 @@ Not checked:
 - **Real counterpart:** check boxes in a real dialog made from a template (user32). Captures: `form`. Recordings: `checkbox-states`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
 - **Rendering compared:** unchecked box (13 by 13 against 13 by 13: identical); checked box (13 by 13 against 13 by 13: identical); mixed box (13 by 13 against 13 by 13: frame identical, inside differs); unavailable checked box (13 by 13 against 13 by 13: identical).
-- **Layout numbers (real, example), in pixels:** from the top of one check box row to the next: 19, 23 ≠; first row below the top of the group box: 17, 21 ≠; row in from the left of the group box: 9, 9.
-- **Behaviour replayed, checkbox-states** (recording `checkbox-states`): 8 of 19 steps agree.
+- **Layout numbers (real, example), in pixels:** from the top of one check box row to the next: 19, 21 ≠; first row below the top of the group box: 17, 18 ≠; row in from the left of the group box: 9, 9.
+- **Behaviour replayed, checkbox-states** (recording `checkbox-states`): 7 of 19 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | The dither of the mixed box starts on the other pixel. Not a difference in the drawing rule: the same real box one pixel to the side would match. The frame is identical. | The pattern is anchored to the window, so its phase inside the box depends on where the box sits. | The pattern is anchored to the box. | low | deliberate |
 | The first box is an aggregate with its own rule. The page documents this: mixed describes an aggregate. A real program does the same by hand. | A three-state check box cycles unchecked, checked, mixed, and changes nothing else. | Choosing "All channels" checks or clears the boxes below it, and they set it to mixed. | low | deliberate |
-| Plus and minus do nothing. Could be added to the kit runtime; the examples use native inputs without it. | On an ordinary check box, plus checks it and minus clears it. | No effect. | low | open |
+| Plus and minus did nothing. | On an ordinary check box, plus checks it and minus clears it. | Now the same in this example. The kit runtime does not add it to other pages. | low | fixed |
 | Focus moves when the mouse button is released, not when it is pressed. | Pressing the mouse button on a check box gives it the focus at once. | Focus arrives with the click. | low | host limit |
-| Rows of check boxes follow the example page's own spacing, not dialog units. The stage of a non-dialog example is laid out by examples/widgets/shared.mjs, in both densities. Using the kit's dialog layout attributes there would change every example page. | Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box. | The page layer's 8 px gaps: rows 23 px apart. | low | open |
+| Rows of check boxes are 1 or 2 px further apart. The kit puts 4 dialog units (6 px) between controls in a group and its label line is 15 px where Windows' text is 13. Setting the label on a 13 px line would make dialogs differ between the two densities, which the kit promises they do not. | Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box. | Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout. | low | open |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -201,12 +197,12 @@ Not checked:
 - **Real counterpart:** option buttons in a real dialog made from a template (user32). Captures: `form`. Recordings: `dialog-option-group`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
 - **Rendering compared:** selected option (12 by 12 against 12 by 12: identical); unselected option (12 by 12 against 12 by 12: identical); unavailable option (12 by 12 against 12 by 12: identical).
-- **Layout numbers (real, example), in pixels:** from the top of one option row to the next: 20, 23 ≠; first row below the top of the group box: 17, 21 ≠; row in from the left of the group box: 9, 9.
+- **Layout numbers (real, example), in pixels:** from the top of one option row to the next: 20, 21 ≠; first row below the top of the group box: 17, 18 ≠; row in from the left of the group box: 9, 9.
 - **Behaviour replayed, dialog-option-group** (recording `dialog-option-group`): 8 of 8 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Rows of option buttons follow the example page's own spacing, not dialog units. The stage of a non-dialog example is laid out by examples/widgets/shared.mjs, in both densities. Using the kit's dialog layout attributes there would change every example page. | Rows 12 dialog units apart (19 or 20 px); the first row 11 units below the top of a group box. | The page layer's 8 px gaps: rows 23 px apart. | low | open |
+| Rows of option buttons are 1 or 2 px further apart. The kit puts 4 dialog units (6 px) between controls in a group and its label line is 15 px where Windows' text is 13. Setting the label on a 13 px line would make dialogs differ between the two densities, which the kit promises they do not. | Rows 12 dialog units apart (19 or 20 px); the first row 17 px below the top of the group box. | Rows 21 px apart, the first 18 px down. They were 23 px apart before the group box took the kit's group layout. | low | open |
 
 Both lints are clean on this page.
 
@@ -276,20 +272,20 @@ Not checked:
 <a id="spinner"></a>
 ### Numeric field and spin control
 
-`demo/dist/widgets/spinner.html` · Basic controls · **Verified, with open differences**
+`demo/dist/widgets/spinner.html` · Basic controls · **Verified, apart from host limits**
 
 - **Families:** up-down control with a buddy text box.
 - **Real counterpart:** an up-down control beside its buddy edit control (comctl32 4.70). Captures: `commctl`. Recordings: `updown-keys`.
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** number box (45 by 23 against 80 by 23: same edges, different size); up button (17 by 11 against 16 by 9: edges differ).
-- **Layout numbers (real, example), in pixels:** number box height: 23, 23; up-down width: 17, 16 ≠; up-down height: 23, 19 ≠.
-- **Behaviour replayed, updown-keys** (recording `updown-keys`): 13 of 15 steps agree.
+- **Rendering compared:** number box (45 by 23 against 80 by 23: same edges, different size); up button (17 by 11 against 17 by 11: identical).
+- **Layout numbers (real, example), in pixels:** number box height: 23, 23; up-down width: 17, 17; up-down height: 23, 23.
+- **Behaviour replayed, updown-keys** (recording `updown-keys`): 14 of 15 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| The up-down buttons are smaller and drawn differently. The kit's up-down sits inside the field's sunken edge; the real one overlaps it. | One control 17 px wide and as tall as the text box (23), inside its right end. | Two buttons 16 px wide, 19 px tall together. | low | open |
+| The up-down buttons were wider, without the gap between them, and had larger arrows. A kit stylesheet change (the up-down density properties). | Two buttons 15 by 9 px one pixel apart, inside the end of the text box frame, each with a 3 by 2 px arrow. | Now the same at the period density: the upper half matches the capture pixel for pixel. | low | fixed |
 | Up after an invalid typed value. A native number field; it reports the value as invalid instead. | With text the control cannot read, Up sets the maximum. | The typed text stays. | low | host limit |
-| Holding a button. | The value changes when the button goes down, then repeats. | The value changes on the click, with no repeat. | low | open |
+| Holding a button. | The value changes when the button goes down, then repeats. | Now the same in the examples' own up-down helper. | low | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -355,18 +351,18 @@ Not checked:
 <a id="listbox"></a>
 ### Single-selection list box
 
-`demo/dist/widgets/listbox.html` · Basic controls · **Verified, with open differences**
+`demo/dist/widgets/listbox.html` · Basic controls · **Verified, apart from host limits**
 
 - **Families:** list box.
 - **Real counterpart:** a single-selection list box (user32). Captures: `lists`. Recordings: `listbox-single`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** list box (110 by 69 against 72 by 78: edges differ).
-- **Layout numbers (real, example), in pixels:** row height: 13, 14 ≠; from the top of one row to the next: 13, 14 ≠; first row below the top of the list box: 2, 4 ≠; row in from the left of the list box: 2, 5 ≠.
+- **Rendering compared:** list box (110 by 69 against 110 by 69: frame differs).
+- **Layout numbers (real, example), in pixels:** row height: 13, 13; from the top of one row to the next: 13, 13; first row below the top of the list box: 2, 2; row in from the left of the list box: 2, 2.
 - **Behaviour replayed, listbox-single** (recording `listbox-single`): 17 of 21 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Rows start further in and are 1 px taller. A native list; its row metrics come from the browser. | Rows 13 px high, 2 px inside the control's edge. | Rows 14 px high, 4 px down and 5 px in. | low | open |
+| A scroll bar is drawn although every item fits. The row sizes were fixed in the kit stylesheet (the list box density properties). The scroll bar is the browser's; a page rule does not remove it. | No scroll bar until the items do not fit. Rows 13 px high, starting at the frame. | Chromium always draws a scroll bar on a native list. The rows are now 13 px and start at the frame, as measured. | low | host limit |
 | Left and Right do nothing; typing letters does not follow Windows. Chromium on macOS in this run. The control is the browser's own; on a Windows host the same keys follow Windows more closely, which this audit did not measure. | Right and Left move like Down and Up. A letter goes to the next item starting with it; each key stands alone. | No movement for Left and Right; typed letters are taken together. | low | host limit |
 
 | Lint finding | Triage | Note |
@@ -382,18 +378,18 @@ Not checked:
 <a id="multiselect"></a>
 ### Multiple-selection list box
 
-`demo/dist/widgets/multiselect.html` · Basic controls · **Verified, with open differences**
+`demo/dist/widgets/multiselect.html` · Basic controls · **Verified, apart from host limits**
 
 - **Families:** multiple-selection list box.
 - **Real counterpart:** an extended-selection list box (user32). Captures: `lists`. Recordings: `listbox-extended`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** list box (110 by 69 against 86 by 78: edges differ).
-- **Layout numbers (real, example), in pixels:** row height: 13, 14 ≠.
+- **Rendering compared:** list box (110 by 69 against 110 by 69: frame differs).
+- **Layout numbers (real, example), in pixels:** row height: 13, 13.
 - **Behaviour replayed, listbox-extended** (recording `listbox-extended`): 1 of 3 steps agree; 31 steps not comparable.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Rows are 1 px taller and start further in. | Rows 13 px high. | Rows 14 px high. | low | open |
+| A scroll bar is drawn although every item fits. | No scroll bar until the items do not fit. Rows 13 px high. | Chromium always draws a scroll bar on a native list. The rows are now 13 px, as measured. | low | host limit |
 | First Down, and Ctrl+/ to select everything. Chromium on macOS in this run. The control is the browser's own; on a Windows host the same keys follow Windows more closely, which this audit did not measure. | Down from the first item selects the second; Ctrl+/ selects all. | Down with nothing selected selects the first; Ctrl+/ does nothing. | low | host limit |
 
 | Lint finding | Triage | Note |
@@ -429,19 +425,19 @@ Not checked:
 <a id="slider"></a>
 ### Horizontal and vertical sliders
 
-`demo/dist/widgets/slider.html` · Feedback and layout · **Verified, with open differences**
+`demo/dist/widgets/slider.html` · Feedback and layout · **Verified, apart from host limits**
 
 - **Families:** trackbar.
 - **Real counterpart:** trackbar controls (comctl32 4.70). Captures: `commctl`. Recordings: `trackbar-keys`.
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** slider thumb (11 by 21 against 11 by 21: frame differs); slider channel (144 by 4 against 129 by 4: same edges, different size).
-- **Layout numbers (real, example), in pixels:** thumb width: 11, 11; thumb height: 21, 21; channel height: 4, 4; channel below the top of the thumb: 7, 9 ≠.
+- **Rendering compared:** slider thumb (11 by 21 against 11 by 21: identical); slider channel (144 by 4 against 129 by 4: same edges, different size).
+- **Layout numbers (real, example), in pixels:** thumb width: 11, 11; thumb height: 21, 21; channel height: 4, 4; channel below the top of the thumb: 7, 7.
 - **Behaviour replayed, horizontal** (recording `trackbar-keys`): 7 of 11 steps agree.
 - **Behaviour replayed, vertical: which way a key moves the thumb** (recording `trackbar-keys`): 4 of 4 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| The thumb sits 2 px higher on its channel and its edges differ. | A thumb 11 by 21 with the channel 7 px below its top. | The same size, with the channel 9 px below its top. | low | open |
+| The thumb was a rectangle centred on its channel. A kit stylesheet change (the slider density properties); a vertical slider points right. | A thumb 11 by 21 with a point at the bottom and the channel 7 px below its top. | Now the same at the period density: the thumb matches the capture pixel for pixel. | low | fixed |
 | Up, Down, Page Up and Page Down go the other way. A native range input; the browser decides. | Right and Down increase; Left and Up decrease; Page Down adds a page (20 of 100), Page Up takes one away. | Up and Page Up increase; Down and Page Down decrease. | medium | host limit |
 
 Both lints are clean on this page.
@@ -505,7 +501,7 @@ Not checked:
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
 - **Rendering compared:** tooltip (28 by 17 against 154 by 17: same edges, different size).
 - **Layout numbers (real, example), in pixels:** tooltip height: 17, 17.
-- **Measured:** time from the pointer coming to rest on a button to the tooltip showing (milliseconds): real [596,599], example 518 (agree). Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same.
+- **Measured:** time from the pointer coming to rest on a button to the tooltip showing (milliseconds): real [596,599], example 520 (agree). Real: the guest's own clock, from the last mouse move to the tooltip's show notification, once for each time it appeared; Windows counts the delay on a 55 ms timer. Example: wall clock, polled every 10 ms. Within 120 ms (two timer ticks) of the real range counts as the same.
 - **Measured:** time to the next tooltip when the pointer moves to a neighbouring button while one is showing (milliseconds): real [156,107,106,102], example null. The example has one tooltip only, so there is nothing to compare.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
@@ -528,19 +524,19 @@ Not checked:
 <a id="tabs"></a>
 ### Tabs and tab panels
 
-`demo/dist/widgets/tabs.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/tabs.html` · Navigation and data · **Verified**
 
 - **Families:** tab control.
 - **Real counterpart:** tab controls (comctl32 4.70). Captures: `commctl`. Recordings: `tab-control`.
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** selected tab (53 by 20 against 53 by 22: same edges, different size); unselected tab (46 by 18 against 47 by 18: edges differ); page area (300 by 72 against 854 by 38: same edges, different size).
+- **Rendering compared:** selected tab (53 by 20 against 54 by 22: same edges, different size); unselected tab (46 by 18 against 47 by 18: same edges, different size); page area (300 by 72 against 854 by 38: same edges, different size).
 - **Layout numbers (real, example), in pixels:** selected tab height: 20, 22 ≠; unselected tab height: 18, 18; selected tab stands above its neighbours by: 2, 2.
 - **Behaviour replayed, tab-control** (recording `tab-control`): 11 of 11 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | The arrow keys wrapped from the last tab to the first. | Right on the last tab and Left on the first do nothing. | Now the same. | medium | fixed |
-| The right edge of a tab falls between pixels. Any control sized by its text can end on a fraction of a pixel. | Whole pixels; the edge is one black line. | A tab is as wide as its text, 46.66 px here, so its right edge is drawn as a dark grey blend. | low | open |
+| The right edge of a tab fell between pixels. Any control sized by its text can end on a fraction of a pixel; the kit runtime does not do this for other pages. | Whole pixels; the edge is one black line. | Now whole pixels: the examples' tab helper gives each label a whole width. | low | fixed |
 | The selected tab is 2 px taller. The real tab erases that edge too; its reported rectangle does not include it. | 20 px: the 18 px tab raised 2 px. | 22 px: it also covers the top edge of the page below. | low | deliberate |
 
 Both lints are clean on this page.
@@ -553,18 +549,18 @@ Not checked:
 <a id="toolbar"></a>
 ### Toolbar buttons and groups
 
-`demo/dist/widgets/toolbar.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/toolbar.html` · Navigation and data · **Verified**
 
 - **Families:** toolbar.
 - **Real counterpart:** a toolbar (comctl32 4.70). Captures: `commctl`. Recordings: `tooltip`.
 - **Era of the evidence:** comctl32 4.70: the 1996 common controls, not the 1995 library.
 - **Rendering compared:** toolbar button (23 by 22 against 35 by 22: same edges, different size); toolbar button, latched (23 by 22 against 38 by 22: same edges, different size); toolbar button, unavailable (23 by 22 against 37 by 22: same edges, different size).
-- **Layout numbers (real, example), in pixels:** button height: 22, 22; space between neighbouring buttons: 0, 0; space across a separator: 8, 8; button below the top of the toolbar: 2, 3 ≠; first button in from the left of the toolbar: 0, 3 ≠.
+- **Layout numbers (real, example), in pixels:** button height: 22, 22; space between neighbouring buttons: 0, 0; space across a separator: 8, 8; button below the top of the toolbar: 2, 2; first button in from the left of the toolbar: 0, 0.
 - **Behaviour replayed, clicking toolbar buttons** (recording `tooltip`): 3 of 3 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
-| Buttons start 3 px in and 3 px down. | The first button at the left edge, 2 px below the top. | 3 px in, 3 px down. | low | open |
+| Buttons started 3 px in and 3 px down. | The first button at the left edge, 2 px below the top. | Now the same at the period density. | low | fixed |
 | The toolbar takes the keyboard focus. A browser page needs every command reachable by keyboard. | A Windows 95 toolbar never has the focus; its commands are reached through the menus. | One Tab stop, with arrows between buttons. | low | deliberate |
 
 | Lint finding | Triage | Note |
@@ -579,19 +575,19 @@ Not checked:
 <a id="tree"></a>
 ### Tree view
 
-`demo/dist/widgets/tree.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/tree.html` · Navigation and data · **Verified**
 
 - **Families:** tree view.
 - **Real counterpart:** tree view controls (comctl32 4.70). Captures: `lists`. Recordings: `tree-keys`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
 - **Rendering compared:** tree view (170 by 140 against 854 by 80: same edges, different size).
 - **Layout numbers (real, example), in pixels:** from the top of one row to the next: 16, 16; label height: 16, 16; a child label starts further right than its parent by: 19, 19; first label in from the left of the control: 21, 21; first label below the top of the control: 2, 2.
-- **Behaviour replayed, tree-keys** (recording `tree-keys`): 23 of 24 steps agree.
+- **Behaviour replayed, tree-keys** (recording `tree-keys`): 24 of 24 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Plus, minus, asterisk and Backspace did nothing; a click on a label opened the branch. | Plus expands, minus collapses, asterisk expands everything below, Backspace goes to the parent. A click on a label selects; the plus box or a double-click opens. | Now the same. | medium | fixed |
-| The same letter typed twice. | Each letter stands alone: P goes to the next item starting with P, P again to the one after. | Letters typed within 0.7 s are taken together, so "pp" matches nothing. | low | open |
+| The same letter typed twice matched nothing. | Each letter stands alone: P goes to the next item starting with P, P again to the one after. | Now the same. | low | fixed |
 | Rows were taller, the indent wider, and the plus or minus a character inside the label. A kit stylesheet change (the tree density properties); the comfortable tree is as it was. | Rows 16 px; a child 19 px further right; dotted lines and 9 px plus and minus boxes; the first label 21 px from the left. | Now the same at the period density: the kit draws the rows, the boxes and the lines, the top level included, on the pixels Windows used. | medium | fixed |
 
 Both lints are clean on this page.
@@ -604,21 +600,22 @@ Not checked:
 <a id="listview"></a>
 ### List view and sortable columns
 
-`demo/dist/widgets/listview.html` · Navigation and data · **Verified, with open differences**
+`demo/dist/widgets/listview.html` · Navigation and data · **Verified**
 
 - **Families:** list view, column heading.
 - **Real counterpart:** list view controls in report and icon view (comctl32 4.70). Captures: `lists`. Recordings: `listview-keys`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
 - **Rendering compared:** column heading (150 by 17 against 465 by 17: same edges, different size); list view (268 by 110 against 854 by 63: same edges, different size).
 - **Layout numbers (real, example), in pixels:** heading height: 17, 17; row height: 14, 14; from the top of one row to the next: 14, 14.
-- **Behaviour replayed, report view: keys** (recording `listview-keys`): 6 of 8 steps agree; 2 steps not comparable.
+- **Behaviour replayed, report view: keys** (recording `listview-keys`): 10 of 10 steps agree.
 - **Behaviour replayed, report view: sorting by a heading click** (recording `listview-keys`): 3 of 3 steps agree.
-- **Behaviour replayed, icon view** (recording `listview-keys`): 4 of 6 steps agree; 1 step not comparable.
+- **Behaviour replayed, icon view** (recording `listview-keys`): 6 of 7 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Headings and rows were taller. The example is a table laid out by the page layer, which now has period sizes. | Headings 17 px, rows 14 px. | Now the same at the period density. | medium | fixed |
-| No type-ahead; Left and Right move in report view; icon view is treated as one line. | A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row. | Letters do nothing; Left and Right move like Up and Down; Down goes to the next icon. | low | open |
+| No type-ahead; Left and Right moved in report view; the icon view was treated as one line. | A letter selects the next item starting with it. Left and Right do nothing in report view. In icon view Down does nothing in a single row. | Now the same. | low | fixed |
+| End in a single row of icons. End goes to the last item in every other list; one recorded step is not reason enough to make it do nothing here. | In this recording End left the selection on the first icon. | End goes to the last icon. | low | deliberate |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -690,7 +687,7 @@ Not checked:
 - **Behaviour replayed, access keys** (recording `menu-mnemonics`): 17 of 18 steps agree.
 - **Behaviour replayed, shortcut keys** (recording `menu-shortcuts`): 5 of 7 steps agree.
 - **Behaviour replayed, the mouse** (recording `menu-mouse`): 9 of 9 steps agree; 1 step not comparable.
-- **Measured:** time from the pointer coming onto a cascading item to its menu opening (milliseconds): real [493,400,491], example 428 (agree). Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.
+- **Measured:** time from the pointer coming onto a cascading item to its menu opening (milliseconds): real [493,400,491], example 433 (agree). Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
@@ -749,7 +746,7 @@ Not checked:
 <a id="modal"></a>
 ### Modal dialog and focus restoration
 
-`demo/dist/widgets/modal.html` · Windows and dialogs · **Verified, with open differences**
+`demo/dist/widgets/modal.html` · Windows and dialogs · **Verified, apart from host limits**
 
 - **Families:** dialog box, default button, text box.
 - **Real counterpart:** a real dialog made from a template that uses the 1995 guidelines' numbers in dialog units (user32). Captures: `form`. Recordings: `dialog-buttons`, `dialog-tab-order`.
@@ -763,7 +760,7 @@ Not checked:
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | The default look did not move to the focused push button. A kit stylesheet rule; kit/test/default-button.test.mjs. | The push button with the focus is drawn as the default; the designated default gets it back when focus is elsewhere. | Now the same, in any kit dialog. | medium | fixed |
-| A label sits 4 px, not 5, below the top of its text box. | 3 dialog units, which the dialog manager makes 5 px. | 4 px. | low | open |
+| A label sits 4 px, not 5, below the top of its text box. The kit sets a label on the text line of its field, so the two texts share a baseline in any font; where the label box lands follows from the host font. Moving it a pixel would break that alignment. | 3 dialog units, which the dialog manager makes 5 px. | 4 px. | low | deliberate |
 | Tab from the last control leaves the dialog for the browser's own controls before coming back. The browser's rule for a native modal dialog. | Tab from the last control goes to the first; Shift+Tab from the first to the last. | Focus leaves the page for one Tab press. | low | host limit |
 
 | Lint finding | Triage | Note |
@@ -813,23 +810,23 @@ Not checked:
 <a id="properties"></a>
 ### Property sheet with Apply and Cancel
 
-`demo/dist/widgets/properties.html` · Windows and dialogs · **Verified, with open differences**
+`demo/dist/widgets/properties.html` · Windows and dialogs · **Verified**
 
 - **Families:** property sheet, tab control.
 - **Real counterpart:** a real property sheet with two pages and Apply (comctl32 4.70 around user32 dialogs). Captures: `propsheet`. Recordings: `propsheet-keys`, `propsheet-apply`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** property sheet window (344 by 400 against 346 by 407: same edges, different size); selected tab (53 by 20 against 53 by 22: same edges, different size); text box (180 by 23 against 265 by 23: same edges, different size); OK (75 by 23 against 75 by 23: frame identical, inside differs); Cancel (75 by 23 against 75 by 23: frame identical, inside differs); Apply, unavailable (75 by 23 against 75 by 23: frame identical, inside differs).
-- **Layout numbers (real, example), in pixels:** tab control in from the left of the client area: 6, 11 ≠; tab control below the top of the client area: 7, 11 ≠; page width: 318, 318; page height: 306, 306; label in from the left of the page: 11, 11; text box below the top of the page: 11, 11; tab control to the row of buttons: 6, 11 ≠; space between OK and Cancel: 6, 6; space between Cancel and Apply: 6, 6; right margin (Apply from the client area): 6, 11 ≠; bottom margin (buttons from the client area): 7, 11 ≠; button width: 75, 75; selected tab height: 20, 22 ≠.
+- **Rendering compared:** property sheet window (344 by 400 against 336 by 394: same edges, different size); selected tab (53 by 20 against 54 by 22: same edges, different size); text box (180 by 23 against 265 by 23: same edges, different size); OK (75 by 23 against 75 by 23: frame identical, inside differs); Cancel (75 by 23 against 75 by 23: frame identical, inside differs); Apply, unavailable (75 by 23 against 75 by 23: frame identical, inside differs).
+- **Layout numbers (real, example), in pixels:** tab control in from the left of the client area: 6, 6; tab control below the top of the client area: 7, 7; page width: 318, 318; page height: 306, 306; label in from the left of the page: 11, 11; text box below the top of the page: 11, 11; tab control to the row of buttons: 6, 6; space between OK and Cancel: 6, 6; space between Cancel and Apply: 6, 6; right margin (Apply from the client area): 6, 6; bottom margin (buttons from the client area): 7, 7; button width: 75, 75; selected tab height: 20, 22 ≠.
 - **Behaviour replayed, changing page from the keyboard** (recording `propsheet-keys`): 12 of 12 steps agree.
-- **Behaviour replayed, Tab order** (recording `propsheet-keys`): 3 of 4 steps agree.
+- **Behaviour replayed, Tab order** (recording `propsheet-keys`): 4 of 4 steps agree.
 - **Behaviour replayed, Apply, OK, Cancel, Esc and Close** (recording `propsheet-apply`): 9 of 10 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Ctrl+Tab, Ctrl+Page Up and Down did not change page; Enter in a field did nothing; the tabs wrapped. A browser keeps Ctrl+Tab for itself; hosts such as Electron deliver it. | Ctrl+Tab and Ctrl+Page Down go to the next page and wrap; Enter presses OK; arrows on the tabs stop at the ends. | Now the same. | medium | fixed |
-| The tab control and buttons sit 11 px from the edges, not 6 or 7. The property sheet frame uses 4 dialog units where a dialog uses 7. The page itself is the right size (318 by 306). | The tab control 6 px in and 7 px down; 6 px between it and the buttons; 6 px to the right of Apply, 7 px below. | 11 px each. | low | open |
+| The tab control and buttons sat 11 px from the edges. data-gui95-dialog-layout="sheet". The page itself is the right size (318 by 306). | The tab control 6 px in and 7 px down; 6 px between it and the buttons; 6 px to the right of Apply, 7 px below. | Now the same: the kit has a property sheet layout with 4-unit margins. | low | fixed |
 | The selected tab is 2 px taller. As in the tabs example. | 20 px. | 22 px. | low | deliberate |
-| The tabs come first in the Tab order, and Tab from Cancel leaves the sheet. The order follows the markup; the sheet is not modal, as the page says. | Tab goes page, OK, Cancel, Apply when available, then the tabs, then the page again. | The tabs, the page, OK, Cancel, then out of the sheet. | low | open |
+| Tab from the last button left the sheet, and the caption Close button was a Tab stop. | Tab goes page, OK, Cancel, Apply when available, then the tabs, then the page again. | Now the same: Tab goes round inside the sheet; Esc closes it. | low | fixed |
 | The Close button asks about pending changes. The page documents the choice. | Close acts as Cancel: pending changes are dropped without a question. | A question with Apply and close, Discard changes, Keep editing. | low | deliberate |
 
 | Lint finding | Triage | Note |
@@ -852,20 +849,20 @@ Not checked:
 <a id="message"></a>
 ### Message box and safe default
 
-`demo/dist/widgets/message.html` · Windows and dialogs · **Verified, with open differences**
+`demo/dist/widgets/message.html` · Windows and dialogs · **Verified, apart from host limits**
 
 - **Families:** message box.
 - **Real counterpart:** real message boxes: Yes and No with No the default, OK and Cancel, and one without an icon (user32). Captures: `msgbox-question-yesno-default2`, `msgbox-plain-ok`. Recordings: `msgbox-keys`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system).
-- **Rendering compared:** message box window (278 by 119 against 460 by 96: same edges, different size); first button (75 by 23 against 75 by 23: frame identical, inside differs); default button (the second) (75 by 23 against 75 by 23: frame identical, inside differs).
-- **Layout numbers (real, example), in pixels:** space between buttons: 6, 6; bottom margin (buttons from the client area): 11, 11; left of the first button from the client area: 59, 149 ≠; right of the last button from the client area: 57, 149 ≠; message text in from the left (no icon): 11, 11; message text below the top (no icon): 11, 11; message text to the buttons (no icon): 15, 11 ≠; button width: 75, 75; button height: 23, 23.
+- **Rendering compared:** message box window (278 by 119 against 302 by 100: same edges, different size); first button (75 by 23 against 75 by 23: frame identical, inside differs); default button (the second) (75 by 23 against 75 by 23: frame identical, inside differs).
+- **Layout numbers (real, example), in pixels:** space between buttons: 6, 6; bottom margin (buttons from the client area): 11, 11; left of the first button from the client area: 59, 70 ≠; right of the last button from the client area: 57, 70 ≠; message text in from the left (no icon): 11, 11; message text below the top (no icon): 11, 11; message text to the buttons (no icon): 15, 15; button width: 75, 75; button height: 23, 23.
 - **Behaviour replayed, the second button as the default (real: Yes, No with No the default)** (recording `msgbox-keys`): 3 of 3 steps agree.
 - **Behaviour replayed, arrows, Tab, Enter on the focused button, Esc (real: OK, Cancel)** (recording `msgbox-keys`): 5 of 5 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Arrow keys did not move between the buttons. | Left and Right move the focus, and the default look, from button to button and wrap. | Now the same. | medium | fixed |
-| The box does not shrink to its message. | The box is as wide as its text and buttons need (272 px client for this question); 15 px between a one-line message and the buttons. | A fixed 454 px client; 11 px between message and buttons. | low | open |
+| The box is wider than the real one. The box was a fixed 454 px before. | As wide as its text and buttons need (272 px client for the real question), with 15 px between a one-line message and the buttons. | The box now shrinks to its message and leaves the same 15 px; it is 296 px because its question is longer and set in the host font. | low | host limit |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -873,7 +870,6 @@ Not checked:
 | wording, `ellipsis-character`: "Delete selected file…" | real, open | Windows 95 wrote three full stops; the single ellipsis character is later. Left for the owner: wording, and the example checks match on the text. |
 | wording, `button-title-caps`: "Delete file": "file" should be "File" | real, open | Windows 95 capitalises each word of a button label. Left for the owner: wording. |
 | wording, `dialog-title-caps`: "Delete file": "file" should be "File" | real, open | Windows 95 capitalises each word of a title. Left for the owner: wording. |
-| layout, `window-too-large`: client area 454 by 70.8px is 303 by 44 dialog units; limit 263 by 263 (394.5 by 427.4px) | real, open | The example dialogs are 460 px wide, set by the page layer; 263 dialog units is the guideline's limit for a 640 by 480 screen. |
 
 Not checked:
 
@@ -884,27 +880,27 @@ Not checked:
 <a id="wizard"></a>
 ### Wizard with validation and backtracking
 
-`demo/dist/widgets/wizard.html` · Windows and dialogs · **Verified, with open differences**
+`demo/dist/widgets/wizard.html` · Windows and dialogs · **Verified**
 
 - **Families:** wizard.
 - **Real counterpart:** a real wizard with three pages (comctl32 4.70). Captures: `wizard`. Recordings: `wizard`.
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comctl32 4.70: the 1996 common controls, not the 1995 library.
-- **Rendering compared:** wizard window (441 by 323 against 460 by 148: same edges, different size); Back (75 by 23 against 75 by 23: frame identical, inside differs); Next (75 by 23 against 75 by 23: frame identical, inside differs); Cancel (75 by 23 against 75 by 23: frame identical, inside differs); text box (180 by 23 against 358 by 23: same edges, different size).
-- **Layout numbers (real, example), in pixels:** space between Back and Next: 0, 6 ≠; space between Next and Cancel: 10, 6 ≠; right margin (Cancel from the client area): 10, 11 ≠; bottom margin (buttons from the client area): 10, 11 ≠; button width: 75, 75; button height: 23, 23.
-- **Behaviour replayed, wizard** (recording `wizard`): 5 of 8 steps agree.
+- **Rendering compared:** wizard window (441 by 323 against 460 by 146: same edges, different size); Back (75 by 23 against 75 by 23: frame identical, inside differs); Next (75 by 23 against 75 by 23: frame identical, inside differs); Cancel (75 by 23 against 75 by 23: frame identical, inside differs); text box (180 by 23 against 358 by 23: same edges, different size).
+- **Layout numbers (real, example), in pixels:** space between Back and Next: 0, 0; space between Next and Cancel: 10, 10; right margin (Cancel from the client area): 10, 10; bottom margin (buttons from the client area): 10, 10; button width: 75, 75; button height: 23, 23.
+- **Behaviour replayed, wizard** (recording `wizard`): 8 of 8 steps agree.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | Enter in a field did not press Next. | Enter presses the default button, Next. | Now the same. | medium | fixed |
-| Back and Next have no access keys. | Alt+B and Alt+N. | None. | low | open |
-| Back and Next are 6 px apart and Cancel 6 px from Next. | Back and Next touch; Cancel is 10 px from Next; 10 px margins. | 6 px between all three; 11 px margins. | low | open |
+| Back and Next had no access keys. | Alt+B and Alt+N. | Now the same. | low | fixed |
+| Back and Next were 6 px apart and Cancel 6 px from Next. data-gui95-buttons="wizard". | Back and Next touch; Cancel is 10 px from Next; 10 px margins. | Now the same: the kit has a wizard button row. | low | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
 | wording, `button-title-caps`: "Create project…": "project" should be "Project" | real, open | Windows 95 capitalises each word of a button label. Left for the owner: wording. |
 | wording, `ellipsis-character`: "Create project…" | real, open | Windows 95 wrote three full stops; the single ellipsis character is later. Left for the owner: wording, and the example checks match on the text. |
 | wording, `dialog-title-caps`: "New project": "project" should be "Project" | real, open | Windows 95 capitalises each word of a title. Left for the owner: wording. |
-| layout, `window-too-large`: client area 454 by 122.3px is 303 by 75 dialog units; limit 263 by 263 (394.5 by 427.4px) | real, open | The example dialogs are 460 px wide, set by the page layer; 263 dialog units is the guideline's limit for a 640 by 480 screen. |
+| layout, `window-too-large`: client area 454 by 121.3px is 303 by 75 dialog units; limit 263 by 263 (394.5 by 427.4px) | real, open | The example dialogs are 460 px wide, set by the page layer; 263 dialog units is the guideline's limit for a 640 by 480 screen. |
 
 Not checked:
 
@@ -921,12 +917,12 @@ Not checked:
 - **Era of the evidence:** user32/gdi32 4.0.0.950: the window manager of the 1995 release (on an OSR2.5 system); comdlg32 4.0.0.951 and shell32 4.0.0.1111: OSR2's common dialogs.
 - **Rendering compared:** dialog window (225 by 324 against 460 by 208: same edges, different size); OK (66 by 23 against 75 by 23: same edges, different size); Cancel (66 by 23 against 75 by 23: same edges, different size).
 - **Layout numbers (real, example), in pixels:** space between OK and Cancel: 6, 6; bottom margin (buttons from the client area): 6, 11 ≠; button width: 66, 75 ≠; button height: 23, 23; OK in from the left of the client area: 6, 287 ≠.
-- **Measured:** an arrow key alone, in the grid of colours, changes the chosen colour: real false, example true. Real: after Right then Enter the dialog returned #000080; after Right, Right, Down, Space, Enter it returned #400040. It opened on #000080.
+- **Measured:** an arrow key alone, in the grid of colours, changes the chosen colour: real false, example false (agree). Real: after Right then Enter the dialog returned #000080; after Right, Right, Down, Space, Enter it returned #400040. It opened on #000080.
 
 | Difference | Real Windows 95 | Example | Severity | Status |
 | --- | --- | --- | --- | --- |
 | A small dialog of its own, not the Windows layout. The page says it is deliberately small. | OK and Cancel 66 px wide at the bottom left, 6 px from the edges; 48 basic colours. | 75 px buttons at the bottom right, 11 px margins; 8 colours. | low | deliberate |
-| An arrow key chooses a colour at once. | Arrows move a focus rectangle; Space chooses the colour under it. | Arrows choose. | low | open |
+| An arrow key chose a colour at once. | Arrows move a focus rectangle; Space chooses the colour under it. | Now the same. | low | fixed |
 
 | Lint finding | Triage | Note |
 | --- | --- | --- |
@@ -971,7 +967,7 @@ Not checked:
 <a id="window"></a>
 ### Window shell, system menu, move and size
 
-`demo/dist/widgets/window.html` · Windows and dialogs · **Verified, with open differences** (behaviour by single checks, not a full replay)
+`demo/dist/widgets/window.html` · Windows and dialogs · **Verified** (behaviour by single checks, not a full replay)
 
 - **Families:** window, title bar, system menu.
 - **Real counterpart:** a real sizable window (user32). Captures: `menus`.
@@ -980,7 +976,7 @@ Not checked:
 - **Layout numbers (real, example), in pixels:** title bar height: 18, 18; frame thickness (title bar in from the left of the window): 4, 4; Close button in from the right of the title bar: 2, 2; Close button below the top of the title bar: 2, 2; space between Maximize and Close: 2, 2; space between Minimize and Maximize: 0, 0; caption button width: 16, 16; caption button height: 14, 14.
 - **Measured:** Alt+Space opens the window's system menu: real true, example true (agree).
 - **Measured:** command highlighted when the system menu opens from the keyboard: real "Restore", example "Restore" (agree). Only whether a command is highlighted is compared; the two menus hold different commands.
-- **Measured:** the letter M chooses Move from the open system menu: real true, example false. Real: after M the window was in its move loop (the guest stopped answering until Enter).
+- **Measured:** the letter M chooses Move from the open system menu: real true, example true (agree). Real: after M the window was in its move loop (the guest stopped answering until Enter).
 - **Measured:** Move, then Right, Right, Down, Enter moves the window by (pixels right, pixels down): real [18,9], example [20,10].
 - **Measured:** Esc during a keyboard move puts the window back: real true, example true (agree).
 - **Measured:** double-clicking the title bar maximizes the window: real true, example true (agree).
@@ -989,7 +985,7 @@ Not checked:
 | --- | --- | --- | --- | --- |
 | The title bar and its buttons were larger. | Title bar 18 px; buttons 16 by 14; Minimize and Maximize touch, Close 2 px away. | Now the same at the period density: the shared caption-button stylesheet reads the kit's density sizes. | medium | fixed |
 | Double-clicking the title bar did nothing. | It maximizes, and restores. | Now the same. | low | fixed |
-| The system menu has no access keys. | M chooses Move, S Size, and so on. | Arrows and Enter only. | low | open |
+| The system menu had no access keys. | M chooses Move, S Size, and so on. | Now the same. | low | fixed |
 | An arrow key moves the window 10 px. | 9 px in this recording (18 for two presses). | 10 px. | low | deliberate |
 
 | Lint finding | Triage | Note |
