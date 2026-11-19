@@ -25,8 +25,9 @@ export function helpers() {
       on(button, 'click', () => select(button));
       on(button, 'keydown', event => {
         let next;
-        if (event.key === 'ArrowRight') next = (i + 1) % buttons.length;
-        if (event.key === 'ArrowLeft') next = (i + buttons.length - 1) % buttons.length;
+        // A Windows 95 tab control stops at its first and last tab; the arrows do not wrap.
+        if (event.key === 'ArrowRight') next = Math.min(i + 1, buttons.length - 1);
+        if (event.key === 'ArrowLeft') next = Math.max(i - 1, 0);
         if (event.key === 'Home') next = 0;
         if (event.key === 'End') next = buttons.length - 1;
         if (next === undefined) return;
@@ -105,6 +106,7 @@ th:has(>button){padding:0;box-shadow:none}
 th button{display:block;width:100%;min-width:60px;text-align:left}
 .gui95 tr[aria-selected="true"]{background:#000080;color:#fff}
 .menu{position:absolute;z-index:5;margin:0;min-width:180px}
+.menu:focus{outline:none}
 .gui95 .menu [role^="menuitem"]{gap:6px;padding:3px 8px 3px 4px}
 .gui95 .menu [role^="menuitem"]:not(:has(.mark)){padding-left:24px}
 .gui95 .menu [role^="menuitem"]::before{content:none}

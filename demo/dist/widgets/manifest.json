@@ -303,7 +303,7 @@
       "title": "Tabs and tab panels",
       "family": "Navigation and data",
       "states": "Selected tab, inactive tabs, focus, persistent values in hidden panels.",
-      "keys": "Tab enters the active tab; Left/Right and Home/End select tabs; Tab enters the active panel.",
+      "keys": "Tab enters the active tab; Left/Right and Home/End select tabs, stopping at the first and last; Tab enters the active panel.",
       "note": "Automatic activation is appropriate for these local, instant panels. Later guidance discourages multiple rows; use a layout that keeps labels readable.",
       "sources": [
         {
@@ -343,7 +343,7 @@
       "title": "Tree view",
       "family": "Navigation and data",
       "states": "Expanded/collapsed branches, visible focus and single selection; children retain their state when a parent closes.",
-      "keys": "Up/Down visits visible rows; Right expands or enters a branch; Left collapses or reaches its parent; Home/End and type-ahead navigate; Enter opens.",
+      "keys": "Up/Down visits visible rows; Right expands or enters a branch; Left collapses or reaches its parent; plus expands, minus collapses, asterisk expands everything below, Backspace goes to the parent; Home/End and type-ahead navigate; Enter opens. A click on a label selects it; a click on its plus or minus box, or a double-click on the label, opens or closes the branch.",
       "note": "This tree chooses selection-follows-focus. Multiselect trees and drag-and-drop are separate interaction models, not implied by this sample.",
       "sources": [
         {
@@ -424,7 +424,7 @@
       "family": "Navigation and data",
       "states": "Menu-bar mode, dropdown, delayed pointer submenu, disabled item, check mark, exclusive radio mark and numbered inline MRU group.",
       "keys": "Alt alone or F10 focuses the bar; Alt+F/V opens a menu. Arrows navigate; Enter/Space activates; underlined letters select. Escape closes one layer at a time, then exits the bar and restores focus. Tab leaves.",
-      "note": "The 1995 draft describes staged menu dismissal and sparse cascades. Short inline MRUs above a separated final Exit match period examples; long/grouped histories may use a submenu. ARIA and the 350 ms pointer delay are explicit browser choices. Ctrl+N is illustrative menu text, not a registered browser shortcut.",
+      "note": "The 1995 draft describes staged menu dismissal and sparse cascades. Short inline MRUs above a separated final Exit match period examples; long/grouped histories may use a submenu. ARIA is an explicit browser choice; the 400 ms pointer delay is the one measured on Windows 95. A menu opened with the mouse has no command highlighted until an arrow key or the pointer chooses one. Ctrl+N is illustrative menu text, not a registered browser shortcut.",
       "sources": [
         {
           "label": "Microsoft preliminary guide (1995), chapters 7–8",
@@ -443,7 +443,7 @@
       "title": "Context menus",
       "family": "Navigation and data",
       "states": "Pointer and keyboard invocation, disabled command, bounded horizontal placement and focus restoration.",
-      "keys": "Shift+F10 or the context-menu key opens for the focused document; Up/Down, Home/End and mnemonic letters navigate; Enter selects; Escape restores focus.",
+      "keys": "Shift+F10 or the context-menu key opens for the focused document with no command highlighted, as Windows 95 does; Down highlights the first. Up/Down, Home/End and mnemonic letters navigate; Enter selects; Escape restores focus.",
       "note": "A context menu supplements visible commands in a real app. This sample uses no menu bar; browser context menus outside its target remain available.",
       "sources": [
         {
@@ -499,7 +499,7 @@
       "title": "Property sheet with Apply and Cancel",
       "family": "Windows and dialogs",
       "states": "Cross-page draft, Apply enabled only when changed, OK commit/close, Cancel rollback since last Apply, explicit caption Close decision.",
-      "keys": "Arrows switch tabs; Tab enters fields; Escape inside the sheet acts as Cancel. Caption Close offers Apply, Discard, or Keep editing when dirty.",
+      "keys": "Arrows switch tabs; Ctrl+Tab and Ctrl+Page Down go to the next page, Ctrl+Shift+Tab and Ctrl+Page Up to the previous, where the host delivers those keys. Tab enters fields; Enter in a field acts as OK; Escape inside the sheet acts as Cancel. Caption Close offers Apply, Discard, or Keep editing when dirty.",
       "note": "A fixed-object modeless property sheet. Apply commits every page and Cancel never undoes an earlier Apply. The draft’s distinct Close behavior is modeled explicitly here; it is not a requirement to prompt on every dialog’s X.",
       "sources": [
         {
@@ -539,7 +539,7 @@
       "title": "Wizard with validation and backtracking",
       "family": "Windows and dialogs",
       "states": "First/middle/final step, required input, preserved draft while going Back, Finish commit and Cancel discard.",
-      "keys": "Tab operates the current page. Back/Next are explicit buttons; Escape cancels. Step heading receives focus when the page changes.",
+      "keys": "Tab operates the current page. Back/Next are explicit buttons; Enter in a field presses Next, the default button; Escape cancels. Step heading receives focus when the page changes.",
       "note": "This is an original small workflow, not a generic wizard framework. Page transitions validate only the information needed to proceed.",
       "sources": [
         {
@@ -655,7 +655,7 @@
       "title": "Hot-key input",
       "family": "Specialized controls",
       "states": "Recorded chord, empty value, canceled capture and invalid chord.",
-      "keys": "Modified keys record a shortcut; Tab always leaves; Escape reverts to the value at focus entry.",
+      "keys": "Modified keys record a shortcut; Backspace or Delete clears it; Tab always leaves; Escape reverts to the value at focus entry.",
       "note": "A browser capture field, not the Windows hot-key common control. Reserved OS/browser chords may never reach the page. A consuming app must validate conflicts and registration failures.",
       "sources": [
         {

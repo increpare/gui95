@@ -8361,6 +8361,540 @@
     "layout": []
    }
   },
+  "tree": {
+   "visual": {
+    "pairs": [
+     {
+      "name": "tree view",
+      "group": null,
+      "real": {
+       "capture": "lists",
+       "cell": "tree"
+      },
+      "example": "#tree",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release); tree view and list view: comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+      "result": {
+       "real": {
+        "w": 170,
+        "h": 140
+       },
+       "example": {
+        "w": 854,
+        "h": 88
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "first row",
+      "group": null,
+      "real": {
+       "capture": "lists",
+       "cell": "tree",
+       "part": "text0"
+      },
+      "example": "#tree > li:first-child > [data-gui95-tree-label]",
+      "note": "The label rectangle: the text and its highlight.",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release); tree view and list view: comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+      "result": {
+       "real": {
+        "w": 58,
+        "h": 16
+       },
+       "example": {
+        "w": 77,
+        "h": 20
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "second row",
+      "group": null,
+      "real": {
+       "capture": "lists",
+       "cell": "tree",
+       "part": "text1"
+      },
+      "example": "#tree > li:first-child > ul > li:first-child > [data-gui95-tree-label]",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release); tree view and list view: comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+      "result": {
+       "real": {
+        "w": 42,
+        "h": 16
+       },
+       "example": {
+        "w": 62,
+        "h": 20
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     }
+    ],
+    "metrics": [
+     {
+      "name": "from the top of one row to the next",
+      "kind": "dy",
+      "of": [
+       "first row",
+       "second row"
+      ],
+      "group": null,
+      "real": 16,
+      "example": 20,
+      "same": false
+     },
+     {
+      "name": "label height",
+      "kind": "height",
+      "of": [
+       "first row"
+      ],
+      "group": null,
+      "real": 16,
+      "example": 20,
+      "same": false
+     },
+     {
+      "name": "a child label starts further right than its parent by",
+      "kind": "dx",
+      "of": [
+       "first row",
+       "second row"
+      ],
+      "group": null,
+      "real": 19,
+      "example": 25,
+      "same": false
+     },
+     {
+      "name": "first label in from the left of the control",
+      "kind": "left",
+      "of": [
+       "first row",
+       "tree view"
+      ],
+      "group": null,
+      "real": 21,
+      "example": 4,
+      "same": false
+     },
+     {
+      "name": "first label below the top of the control",
+      "kind": "top",
+      "of": [
+       "first row",
+       "tree view"
+      ],
+      "group": null,
+      "real": 2,
+      "example": 4,
+      "same": false
+     }
+    ]
+   },
+   "behaviour": [
+    {
+     "name": "tree-keys",
+     "script": "tree-keys",
+     "title": "Tree view: arrows, plus, minus, asterisk, Backspace, typing, the mouse",
+     "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+     "compared": 19,
+     "agreed": 14,
+     "steps": [
+      {
+       "index": 2,
+       "step": {
+        "key": "down"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 3,
+       "step": {
+        "key": "right",
+        "note": "Right on a collapsed item expands it"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 4,
+       "step": {
+        "key": "right",
+        "note": "Right on an expanded item goes to its first child"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|*Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|*Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 5,
+       "step": {
+        "key": "down"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|*Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|*Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 6,
+       "step": {
+        "key": "down",
+        "note": "past the branch"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|*Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|*Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 7,
+       "step": {
+        "key": "up"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|*Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|*Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 8,
+       "step": {
+        "key": "up"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|*Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|*Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 9,
+       "step": {
+        "key": "left",
+        "note": "Left on a child goes to its parent"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 10,
+       "step": {
+        "key": "left",
+        "note": "Left on an expanded item collapses it"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 11,
+       "step": {
+        "key": "backspace",
+        "note": "Backspace goes to the parent"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "rows",
+         "real": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures",
+         "example": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+        }
+       ],
+       "real": {
+        "rows": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 13,
+       "step": {
+        "key": "kp_add",
+        "note": "plus expands"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "rows",
+         "real": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures",
+         "example": "*[+]Documents|[+]Pictures"
+        }
+       ],
+       "real": {
+        "rows": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "*[+]Documents|[+]Pictures"
+       }
+      },
+      {
+       "index": 15,
+       "step": {
+        "key": "end"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       }
+      },
+      {
+       "index": 16,
+       "step": {
+        "key": "home"
+       },
+       "agree": true,
+       "real": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 17,
+       "step": {
+        "key": "p",
+        "note": "typing a letter"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "rows",
+         "real": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures",
+         "example": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+        }
+       ],
+       "real": {
+        "rows": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 19,
+       "step": {
+        "key": "ret"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       }
+      },
+      {
+       "index": 20,
+       "step": {
+        "key": "kp_subtract",
+        "note": "collapse with a child selected elsewhere"
+       },
+       "agree": true,
+       "real": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       },
+       "example": {
+        "rows": "[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|*[+]Pictures"
+       }
+      },
+      {
+       "index": 21,
+       "step": {
+        "key": "home"
+       },
+       "agree": true,
+       "real": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       },
+       "example": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 22,
+       "step": {
+        "key": "kp_subtract",
+        "note": "collapse the item holding the selection"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "rows",
+         "real": "*[+]Documents|[+]Pictures",
+         "example": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+        }
+       ],
+       "real": {
+        "rows": "*[+]Documents|[+]Pictures"
+       },
+       "example": {
+        "rows": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+       }
+      },
+      {
+       "index": 24,
+       "step": {
+        "click": {
+         "cell": "tree",
+         "part": "text1"
+        },
+        "note": "click a label"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "rows",
+         "real": "[+]Documents|*[-]Pictures|Holiday",
+         "example": "[+]Documents|*[+]Pictures"
+        }
+       ],
+       "real": {
+        "rows": "[+]Documents|*[-]Pictures|Holiday"
+       },
+       "example": {
+        "rows": "[+]Documents|*[+]Pictures"
+       }
+      }
+     ],
+     "skipped": [
+      {
+       "index": 12,
+       "step": {
+        "key": "kp_subtract",
+        "note": "minus collapses"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "rows",
+         "real": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures",
+         "example": "[-]Documents|*[+]Projects|Readme.txt|[+]Pictures"
+        }
+       ]
+      },
+      {
+       "index": 14,
+       "step": {
+        "key": "kp_multiply",
+        "note": "asterisk expands everything below"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "rows",
+         "real": "*[-]Documents|[+]Projects|Readme.txt|[+]Pictures",
+         "example": "*[+]Documents|[+]Pictures"
+        }
+       ]
+      },
+      {
+       "index": 18,
+       "step": {
+        "key": "p"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "rows",
+         "real": "[-]Documents|*[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures",
+         "example": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+        }
+       ]
+      },
+      {
+       "index": 23,
+       "step": {
+        "click": {
+         "cell": "tree",
+         "part": "row1",
+         "fx": 0,
+         "dx": 9
+        },
+        "note": "click a plus button"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "rows",
+         "real": "*[+]Documents|[+]Pictures",
+         "example": "*[-]Documents|[-]Projects|Sketches|Letters|Readme.txt|[+]Pictures"
+        }
+       ]
+      },
+      {
+       "index": 25,
+       "step": {
+        "dblclick": {
+         "cell": "tree",
+         "part": "text0"
+        },
+        "note": "double-click a label"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "rows",
+         "real": "[+]Documents|*[-]Pictures|Holiday",
+         "example": "[+]Documents|*[+]Pictures"
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "checks": [],
+   "lint": {
+    "wording": [],
+    "layout": []
+   }
+  },
   "listview": {
    "visual": {
     "pairs": [
@@ -8940,7 +9474,167 @@
     {
      "name": "dragging a divider",
      "script": "header",
-     "error": "ENOENT: no such file or directory, open '/Users/stephenlavelle/Documents/GitHub/gui95/.claude/worktrees/win95-reference-capture-f0f258/tools/win95-reference/recordings/header.json'"
+     "title": "Header control: clicking a column heading, dragging a divider, double-clicking a divider",
+     "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
+     "compared": 8,
+     "agreed": 4,
+     "steps": [
+      {
+       "index": 6,
+       "step": {
+        "move": {
+         "cell": "header_live",
+         "part": "item0",
+         "fx": 1,
+         "dx": 1
+        },
+        "note": "drag the divider after the first heading"
+       },
+       "agree": true,
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      },
+      {
+       "index": 7,
+       "step": {
+        "press": "left"
+       },
+       "agree": true,
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      },
+      {
+       "index": 8,
+       "step": {
+        "move": {
+         "cell": "header_live",
+         "part": "item0",
+         "fx": 1,
+         "dx": 31
+        }
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "firstColumnChangesBy",
+         "real": 0,
+         "example": 34
+        }
+       ],
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": 34
+       }
+      },
+      {
+       "index": 9,
+       "step": {
+        "release": "left"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "firstColumnChangesBy",
+         "real": 30,
+         "example": 0
+        }
+       ],
+       "real": {
+        "firstColumnChangesBy": 30
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      },
+      {
+       "index": 10,
+       "step": {
+        "move": {
+         "cell": "header_live",
+         "part": "item0",
+         "fx": 1,
+         "dx": 1
+        },
+        "note": "drag it far to the left"
+       },
+       "agree": true,
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      },
+      {
+       "index": 11,
+       "step": {
+        "press": "left"
+       },
+       "agree": true,
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      },
+      {
+       "index": 12,
+       "step": {
+        "move": {
+         "cell": "header_live",
+         "part": "item0",
+         "fx": 0,
+         "dx": -4
+        }
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "firstColumnChangesBy",
+         "real": 0,
+         "example": -290
+        }
+       ],
+       "real": {
+        "firstColumnChangesBy": 0
+       },
+       "example": {
+        "firstColumnChangesBy": -290
+       }
+      },
+      {
+       "index": 13,
+       "step": {
+        "release": "left"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "firstColumnChangesBy",
+         "real": -110,
+         "example": 0
+        }
+       ],
+       "real": {
+        "firstColumnChangesBy": -110
+       },
+       "example": {
+        "firstColumnChangesBy": 0
+       }
+      }
+     ],
+     "skipped": []
     }
    ],
    "checks": [],
@@ -10090,7 +10784,8 @@
       {
        "index": 11,
        "step": {
-        "key": "up"
+        "key": "up",
+        "note": "the unavailable item going up"
        },
        "agree": false,
        "differences": [
@@ -10130,8 +10825,8 @@
       {
        "index": 13,
        "step": {
-        "key": "ret",
-        "note": "Enter on the unavailable item"
+        "key": "spc",
+        "note": "Space on it"
        },
        "agree": true,
        "real": {
@@ -10139,24 +10834,20 @@
         "title": null,
         "open": [],
         "highlighted": [],
-        "ran": [
-         "Open..."
-        ]
+        "ran": []
        },
        "example": {
         "mode": "none",
         "title": null,
         "open": [],
         "highlighted": [],
-        "ran": [
-         "Open..."
-        ]
+        "ran": []
        }
       },
       {
        "index": 14,
        "step": {
-        "key": "home"
+        "key": "up"
        },
        "agree": true,
        "real": {
@@ -10177,7 +10868,7 @@
       {
        "index": 15,
        "step": {
-        "key": "end"
+        "key": "home"
        },
        "agree": true,
        "real": {
@@ -10198,8 +10889,7 @@
       {
        "index": 16,
        "step": {
-        "key": "right",
-        "note": "Right on an ordinary item"
+        "key": "end"
        },
        "agree": true,
        "real": {
@@ -10240,8 +10930,8 @@
       {
        "index": 12,
        "step": {
-        "key": "up",
-        "note": "the unavailable item going up"
+        "key": "ret",
+        "note": "Enter on the unavailable item"
        },
        "why": "not comparable: before this step the example was not in the state the real system was in",
        "detail": [
@@ -11609,8 +12299,12 @@
    "checks": [
     {
      "what": "time from the pointer coming onto a cascading item to its menu opening (milliseconds)",
-     "real": [],
-     "example": 377,
+     "real": [
+      493,
+      400,
+      491
+     ],
+     "example": 374,
      "agree": false,
      "note": "Real: one value per cascade opened by resting the pointer in the recording. Example: wall clock, polled every 10 ms."
     }
@@ -13295,6 +13989,905 @@
     ]
    }
   },
+  "properties": {
+   "visual": {
+    "pairs": [
+     {
+      "name": "property sheet window",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "window": "rect"
+      },
+      "example": "#box",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 344,
+        "h": 400
+       },
+       "example": {
+        "w": 346,
+        "h": 407
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "client area",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "window": "client"
+      },
+      "example": "#box > [data-gui95-dialog-layout]",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 338,
+        "h": 375
+       },
+       "example": {
+        "w": 340,
+        "h": 382
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "tab control",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 12320
+      },
+      "example": "#tabs",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 326,
+        "h": 332
+       },
+       "example": {
+        "w": 318,
+        "h": 326
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "page",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 0,
+       "class": "#32770"
+      },
+      "example": "#general-panel",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 318,
+        "h": 306
+       },
+       "example": {
+        "w": 318,
+        "h": 306
+       },
+       "sameSize": true,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "selected tab",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 12320,
+       "part": "item0",
+       "inset": [
+        -2,
+        -2,
+        -2,
+        0
+       ]
+      },
+      "example": "#general-tab",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 53,
+        "h": 20
+       },
+       "example": {
+        "w": 53,
+        "h": 22,
+        "exact": {
+         "w": 53.13,
+         "h": 22
+        }
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "label",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 200
+      },
+      "example": "#box label[for=name]",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 45,
+        "h": 13
+       },
+       "example": {
+        "w": 25,
+        "h": 15
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "text box",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 201
+      },
+      "example": "#box #name",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 180,
+        "h": 23
+       },
+       "example": {
+        "w": 265,
+        "h": 23,
+        "exact": {
+         "w": 265.16,
+         "h": 23
+        }
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "OK",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 1
+      },
+      "example": "#ok",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 75,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": true,
+       "edges": "same",
+       "differingPixels": 78,
+       "framePixels": 0,
+       "compared": 1725,
+       "pixels": "frame-identical",
+       "box": {
+        "left": 30,
+        "top": 6,
+        "right": 44,
+        "bottom": 15
+       }
+      }
+     },
+     {
+      "name": "Cancel",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 2
+      },
+      "example": "#cancel",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 75,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": true,
+       "edges": "same",
+       "differingPixels": 187,
+       "framePixels": 0,
+       "compared": 1725,
+       "pixels": "frame-identical",
+       "box": {
+        "left": 21,
+        "top": 6,
+        "right": 53,
+        "bottom": 15
+       }
+      }
+     },
+     {
+      "name": "Apply, unavailable",
+      "group": null,
+      "real": {
+       "capture": "propsheet",
+       "id": 12321
+      },
+      "example": "#apply",
+      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); the page contents: user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 75,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": true,
+       "edges": "same",
+       "differingPixels": 211,
+       "framePixels": 0,
+       "compared": 1725,
+       "pixels": "frame-identical",
+       "box": {
+        "left": 24,
+        "top": 6,
+        "right": 51,
+        "bottom": 18
+       }
+      }
+     }
+    ],
+    "metrics": [
+     {
+      "name": "tab control in from the left of the client area",
+      "kind": "left",
+      "of": [
+       "tab control",
+       "client area"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "tab control below the top of the client area",
+      "kind": "top",
+      "of": [
+       "tab control",
+       "client area"
+      ],
+      "group": null,
+      "real": 7,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "page width",
+      "kind": "width",
+      "of": [
+       "page"
+      ],
+      "group": null,
+      "real": 318,
+      "example": 318,
+      "same": true
+     },
+     {
+      "name": "page height",
+      "kind": "height",
+      "of": [
+       "page"
+      ],
+      "group": null,
+      "real": 306,
+      "example": 306,
+      "same": true
+     },
+     {
+      "name": "label in from the left of the page",
+      "kind": "left",
+      "of": [
+       "label",
+       "page"
+      ],
+      "group": null,
+      "real": 11,
+      "example": 11,
+      "same": true
+     },
+     {
+      "name": "text box below the top of the page",
+      "kind": "top",
+      "of": [
+       "text box",
+       "page"
+      ],
+      "group": null,
+      "real": 11,
+      "example": 11,
+      "same": true
+     },
+     {
+      "name": "tab control to the row of buttons",
+      "kind": "gap-y",
+      "of": [
+       "tab control",
+       "OK"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "space between OK and Cancel",
+      "kind": "gap-x",
+      "of": [
+       "OK",
+       "Cancel"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 6,
+      "same": true
+     },
+     {
+      "name": "space between Cancel and Apply",
+      "kind": "gap-x",
+      "of": [
+       "Cancel",
+       "Apply, unavailable"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 6,
+      "same": true
+     },
+     {
+      "name": "right margin (Apply from the client area)",
+      "kind": "right",
+      "of": [
+       "Apply, unavailable",
+       "client area"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "bottom margin (buttons from the client area)",
+      "kind": "bottom",
+      "of": [
+       "OK",
+       "client area"
+      ],
+      "group": null,
+      "real": 7,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "button width",
+      "kind": "width",
+      "of": [
+       "OK"
+      ],
+      "group": null,
+      "real": 75,
+      "example": 75,
+      "same": true
+     },
+     {
+      "name": "selected tab height",
+      "kind": "height",
+      "of": [
+       "selected tab"
+      ],
+      "group": null,
+      "real": 20,
+      "example": 22,
+      "same": false
+     }
+    ]
+   },
+   "behaviour": [
+    {
+     "name": "changing page from the keyboard",
+     "script": "propsheet-keys",
+     "title": "Property sheet: Ctrl+Tab, Ctrl+Page Down, Tab between the page, the buttons and the tabs, arrows on a tab",
+     "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+     "compared": 12,
+     "agreed": 2,
+     "steps": [
+      {
+       "index": 1,
+       "step": {
+        "key": [
+         "ctrl",
+         "tab"
+        ],
+        "note": "Ctrl+Tab"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 2,
+       "step": {
+        "key": [
+         "ctrl",
+         "tab"
+        ],
+        "note": "again: wraps"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 3,
+       "step": {
+        "key": [
+         "ctrl",
+         "shift",
+         "tab"
+        ],
+        "note": "Ctrl+Shift+Tab"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 4,
+       "step": {
+        "key": [
+         "ctrl",
+         "shift",
+         "tab"
+        ]
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 5,
+       "step": {
+        "key": [
+         "ctrl",
+         "pgdn"
+        ],
+        "note": "Ctrl+Page Down"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 6,
+       "step": {
+        "key": [
+         "ctrl",
+         "pgdn"
+        ],
+        "note": "again"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 7,
+       "step": {
+        "key": [
+         "ctrl",
+         "pgup"
+        ],
+        "note": "Ctrl+Page Up"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 8,
+       "step": {
+        "key": [
+         "ctrl",
+         "pgup"
+        ]
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "page": 0,
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 13,
+       "step": {
+        "key": "right",
+        "note": "Right on a focused tab"
+       },
+       "agree": true,
+       "real": {
+        "page": 1,
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "the tabs"
+       }
+      },
+      {
+       "index": 14,
+       "step": {
+        "key": "right",
+        "note": "at the last tab"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "page": 1,
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "the tabs"
+       }
+      },
+      {
+       "index": 15,
+       "step": {
+        "key": "left"
+       },
+       "agree": true,
+       "real": {
+        "page": 0,
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "page": 0,
+        "focusOn": "the tabs"
+       }
+      },
+      {
+       "index": 16,
+       "step": {
+        "key": "left",
+        "note": "at the first tab"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "page": 0,
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "page": 1,
+        "focusOn": "the tabs"
+       }
+      }
+     ],
+     "skipped": []
+    },
+    {
+     "name": "Tab order",
+     "script": "propsheet-keys",
+     "title": "Property sheet: Ctrl+Tab, Ctrl+Page Down, Tab between the page, the buttons and the tabs, arrows on a tab",
+     "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+     "compared": 5,
+     "agreed": 3,
+     "steps": [
+      {
+       "index": 9,
+       "step": {
+        "key": "tab",
+        "note": "Tab from the first field"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "focusOn",
+         "real": "second field of the page",
+         "example": "OK"
+        }
+       ],
+       "real": {
+        "focusOn": "second field of the page"
+       },
+       "example": {
+        "focusOn": "OK"
+       }
+      },
+      {
+       "index": 11,
+       "step": {
+        "key": "tab"
+       },
+       "agree": true,
+       "real": {
+        "focusOn": "Cancel"
+       },
+       "example": {
+        "focusOn": "Cancel"
+       }
+      },
+      {
+       "index": 12,
+       "step": {
+        "key": "tab",
+        "note": "onto the tabs"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "focusOn",
+         "real": "the tabs",
+         "example": "elsewhere"
+        }
+       ],
+       "real": {
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "focusOn": "elsewhere"
+       }
+      },
+      {
+       "index": 17,
+       "step": {
+        "key": "tab",
+        "note": "Tab from the tabs into the page"
+       },
+       "agree": true,
+       "real": {
+        "focusOn": "first field of the page"
+       },
+       "example": {
+        "focusOn": "first field of the page"
+       }
+      },
+      {
+       "index": 18,
+       "step": {
+        "key": [
+         "shift",
+         "tab"
+        ],
+        "note": "Shift+Tab back onto the tabs"
+       },
+       "agree": true,
+       "real": {
+        "focusOn": "the tabs"
+       },
+       "example": {
+        "focusOn": "the tabs"
+       }
+      }
+     ],
+     "skipped": [
+      {
+       "index": 10,
+       "step": {
+        "key": "tab"
+       },
+       "why": "not comparable: before this step the example was not in the state the real system was in",
+       "detail": [
+        {
+         "where": "focusOn",
+         "real": "second field of the page",
+         "example": "OK"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Apply, OK, Cancel, Esc and Close",
+     "script": "propsheet-apply",
+     "error": "locator.click: Timeout 4000ms exceeded."
+    }
+   ],
+   "checks": [],
+   "lint": {
+    "wording": [
+     {
+      "rule": "ellipsis-character",
+      "value": "\"Properties…\"",
+      "element": "#show",
+      "state": "loaded"
+     },
+     {
+      "rule": "dialog-title-caps",
+      "value": "\"Document properties\": \"properties\" should be \"Properties\"",
+      "element": "#title",
+      "state": "dialog open"
+     },
+     {
+      "rule": "button-title-caps",
+      "value": "\"Apply and close\": \"close\" should be \"Close\"",
+      "element": "#save-close",
+      "state": "dialog open"
+     },
+     {
+      "rule": "button-title-caps",
+      "value": "\"Discard changes\": \"changes\" should be \"Changes\"",
+      "element": "#discard",
+      "state": "dialog open"
+     },
+     {
+      "rule": "button-title-caps",
+      "value": "\"Keep editing\": \"editing\" should be \"Editing\"",
+      "element": "#keep",
+      "state": "dialog open"
+     },
+     {
+      "rule": "dialog-title-caps",
+      "value": "\"Pending property changes\": \"property\" should be \"Property\"; \"changes\" should be \"Changes\"",
+      "element": "#confirm-title",
+      "state": "dialog open"
+     }
+    ],
+    "layout": [
+     {
+      "rule": "no-default-button",
+      "value": "3 command buttons: Apply and close, Discard changes, Keep editing",
+      "element": "#confirm",
+      "state": "dialog open"
+     },
+     {
+      "rule": "window-too-large",
+      "value": "client area 454 by 70.8px is 303 by 44 dialog units; limit 263 by 263 (394.5 by 427.4px)",
+      "element": "#confirm",
+      "state": "dialog open"
+     }
+    ]
+   }
+  },
   "message": {
    "visual": {
     "pairs": [
@@ -14049,7 +15642,192 @@
     {
      "name": "wizard",
      "script": "wizard",
-     "error": "Cannot read properties of undefined (reading 'step')"
+     "title": "Wizard: Next with a missing value, Back keeps what was typed, Finish, Esc",
+     "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3); dialog navigation: user32 4.0.0.950 (the window manager of the 1995 release)",
+     "compared": 8,
+     "agreed": 4,
+     "steps": [
+      {
+       "index": 1,
+       "step": {
+        "key": "ret",
+        "note": "Enter with the name empty"
+       },
+       "agree": true,
+       "real": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       }
+      },
+      {
+       "index": 2,
+       "step": {
+        "text": "demo"
+       },
+       "agree": true,
+       "real": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       }
+      },
+      {
+       "index": 3,
+       "step": {
+        "key": "ret",
+        "note": "Enter: Next is the default"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "open": true,
+        "page": 1,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       }
+      },
+      {
+       "index": 4,
+       "step": {
+        "key": [
+         "alt",
+         "b"
+        ],
+        "note": "Back"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 0,
+         "example": 1
+        }
+       ],
+       "real": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 1,
+        "finished": false
+       }
+      },
+      {
+       "index": 5,
+       "step": {
+        "key": [
+         "alt",
+         "n"
+        ],
+        "note": "Next"
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 1,
+         "example": 0
+        }
+       ],
+       "real": {
+        "open": true,
+        "page": 1,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 0,
+        "finished": false
+       }
+      },
+      {
+       "index": 6,
+       "step": {
+        "key": [
+         "alt",
+         "n"
+        ]
+       },
+       "agree": false,
+       "differences": [
+        {
+         "where": "page",
+         "real": 2,
+         "example": 1
+        }
+       ],
+       "real": {
+        "open": true,
+        "page": 2,
+        "finished": false
+       },
+       "example": {
+        "open": true,
+        "page": 1,
+        "finished": false
+       }
+      },
+      {
+       "index": 7,
+       "step": {
+        "key": "ret",
+        "note": "Enter on the last page: Finish"
+       },
+       "agree": true,
+       "real": {
+        "open": false,
+        "page": -1,
+        "finished": true
+       },
+       "example": {
+        "open": false,
+        "page": -1,
+        "finished": true
+       }
+      },
+      {
+       "index": 9,
+       "step": {
+        "key": "esc",
+        "note": "Esc"
+       },
+       "agree": true,
+       "real": {
+        "open": false,
+        "page": -1,
+        "finished": false
+       },
+       "example": {
+        "open": false,
+        "page": -1,
+        "finished": false
+       }
+      }
+     ],
+     "skipped": []
     }
    ],
    "checks": [],
@@ -14082,6 +15860,861 @@
       "state": "dialog open"
      }
     ]
+   }
+  },
+  "color": {
+   "visual": {
+    "pairs": [
+     {
+      "name": "dialog window",
+      "group": null,
+      "real": {
+       "capture": "comdlg-color",
+       "window": "rect"
+      },
+      "example": "#box",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 225,
+        "h": 324
+       },
+       "example": {
+        "w": 460,
+        "h": 208
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "client area",
+      "group": null,
+      "real": {
+       "capture": "comdlg-color",
+       "window": "client"
+      },
+      "example": "#box > form",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 219,
+        "h": 299
+       },
+       "example": {
+        "w": 454,
+        "h": 183
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "OK",
+      "group": null,
+      "real": {
+       "capture": "comdlg-color",
+       "id": 1
+      },
+      "example": "#box button[value=ok]",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 66,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "Cancel",
+      "group": null,
+      "real": {
+       "capture": "comdlg-color",
+       "id": 2
+      },
+      "example": "#box button[value=cancel]",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 66,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "first label",
+      "group": null,
+      "real": {
+       "capture": "comdlg-color",
+       "text": "Basic colors:"
+      },
+      "example": "#box legend",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 210,
+        "h": 15
+       },
+       "example": {
+        "w": 59,
+        "h": 13
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     }
+    ],
+    "metrics": [
+     {
+      "name": "space between OK and Cancel",
+      "kind": "gap-x",
+      "of": [
+       "OK",
+       "Cancel"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 6,
+      "same": true
+     },
+     {
+      "name": "bottom margin (buttons from the client area)",
+      "kind": "bottom",
+      "of": [
+       "OK",
+       "client area"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "button width",
+      "kind": "width",
+      "of": [
+       "OK"
+      ],
+      "group": null,
+      "real": 66,
+      "example": 75,
+      "same": false
+     },
+     {
+      "name": "button height",
+      "kind": "height",
+      "of": [
+       "OK"
+      ],
+      "group": null,
+      "real": 23,
+      "example": 23,
+      "same": true
+     },
+     {
+      "name": "OK in from the left of the client area",
+      "kind": "left",
+      "of": [
+       "OK",
+       "client area"
+      ],
+      "group": null,
+      "real": 6,
+      "example": 287,
+      "same": false
+     }
+    ]
+   },
+   "behaviour": [],
+   "checks": [
+    {
+     "what": "an arrow key alone, in the grid of colours, changes the chosen colour",
+     "real": false,
+     "example": true,
+     "agree": false,
+     "note": "Real: after Right then Enter the dialog returned #000080; after Right, Right, Down, Space, Enter it returned #400040. It opened on #000080."
+    }
+   ],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Choose color…\": \"color\" should be \"Color\"",
+      "element": "#show",
+      "state": "loaded"
+     },
+     {
+      "rule": "ellipsis-character",
+      "value": "\"Choose color…\"",
+      "element": "#show",
+      "state": "loaded"
+     }
+    ],
+    "layout": [
+     {
+      "rule": "window-too-large",
+      "value": "client area 454 by 183px is 303 by 113 dialog units; limit 263 by 263 (394.5 by 427.4px)",
+      "element": "#box",
+      "state": "dialog open"
+     }
+    ]
+   }
+  },
+  "font": {
+   "visual": {
+    "pairs": [
+     {
+      "name": "dialog window",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "window": "rect"
+      },
+      "example": "#box",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 401,
+        "h": 344
+       },
+       "example": {
+        "w": 460,
+        "h": 174,
+        "exact": {
+         "w": 460,
+         "h": 173.44
+        }
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "client area",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "window": "client"
+      },
+      "example": "#box > form",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 395,
+        "h": 319
+       },
+       "example": {
+        "w": 454,
+        "h": 149
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "OK",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "id": 1
+      },
+      "example": "#box button[value=ok]",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 68,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "Cancel",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "id": 2
+      },
+      "example": "#box button[value=cancel]",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 68,
+        "h": 23
+       },
+       "example": {
+        "w": 75,
+        "h": 23
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "first label",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "id": 1088
+      },
+      "example": "#box label[for=family]",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 60,
+        "h": 15
+       },
+       "example": {
+        "w": 45,
+        "h": 15
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "sample group box",
+      "group": null,
+      "real": {
+       "capture": "comdlg-font",
+       "id": 1073
+      },
+      "example": "#box fieldset",
+      "drawnBy": "comdlg32 4.0.0.951 and shell32 4.0.0.1111 (OSR2), on user32 4.0.0.950",
+      "result": {
+       "real": {
+        "w": 141,
+        "h": 70
+       },
+       "example": {
+        "w": 346,
+        "h": 50
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     }
+    ],
+    "metrics": [
+     {
+      "name": "space between the stacked buttons",
+      "kind": "gap-y",
+      "of": [
+       "OK",
+       "Cancel"
+      ],
+      "group": null,
+      "real": 3,
+      "example": 6,
+      "same": false
+     },
+     {
+      "name": "right margin (buttons from the client area)",
+      "kind": "right",
+      "of": [
+       "OK",
+       "client area"
+      ],
+      "group": null,
+      "real": 12,
+      "example": 11,
+      "same": false
+     },
+     {
+      "name": "left margin (first label from the client area)",
+      "kind": "left",
+      "of": [
+       "first label",
+       "client area"
+      ],
+      "group": null,
+      "real": 11,
+      "example": 11,
+      "same": true
+     },
+     {
+      "name": "top margin (first label from the client area)",
+      "kind": "top",
+      "of": [
+       "first label",
+       "client area"
+      ],
+      "group": null,
+      "real": 11,
+      "example": 14,
+      "same": false
+     },
+     {
+      "name": "button width",
+      "kind": "width",
+      "of": [
+       "OK"
+      ],
+      "group": null,
+      "real": 68,
+      "example": 75,
+      "same": false
+     },
+     {
+      "name": "button height",
+      "kind": "height",
+      "of": [
+       "OK"
+      ],
+      "group": null,
+      "real": 23,
+      "example": 23,
+      "same": true
+     }
+    ]
+   },
+   "behaviour": [],
+   "checks": [
+    {
+     "what": "Enter in a field accepts the dialog",
+     "real": true,
+     "example": true,
+     "agree": true,
+     "note": "Real: ChooseFont returned 1 after a size was typed and Enter pressed."
+    },
+    {
+     "what": "Esc cancels the dialog",
+     "real": true,
+     "example": false,
+     "agree": false
+    }
+   ],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Choose font…\": \"font\" should be \"Font\"",
+      "element": "#show",
+      "state": "loaded"
+     },
+     {
+      "rule": "ellipsis-character",
+      "value": "\"Choose font…\"",
+      "element": "#show",
+      "state": "loaded"
+     }
+    ],
+    "layout": [
+     {
+      "rule": "edge-near-miss",
+      "value": "left edge at 473.1px, 1.7px off #size at 474.8px",
+      "element": "form > div:nth-of-type(1) > div:nth-of-type(2) > label:nth-of-type(2)",
+      "state": "dialog open"
+     },
+     {
+      "rule": "window-too-large",
+      "value": "client area 454 by 143.7px is 303 by 88 dialog units; limit 263 by 263 (394.5 by 427.4px)",
+      "element": "#box",
+      "state": "dialog open"
+     }
+    ]
+   }
+  },
+  "window": {
+   "visual": {
+    "pairs": [
+     {
+      "name": "window",
+      "group": null,
+      "real": {
+       "capture": "menus",
+       "cell": "frame",
+       "window": "rect"
+      },
+      "example": "#child",
+      "note": "A real sizable window; its frame is 4 pixels, a dialog's 3.",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 420,
+        "h": 300
+       },
+       "example": {
+        "w": 300,
+        "h": 220
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "title bar",
+      "group": null,
+      "real": {
+       "capture": "menus",
+       "cell": "frame",
+       "window": "rect",
+       "inset": [
+        4,
+        4,
+        4,
+        278
+       ]
+      },
+      "example": "#titlebar",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 412,
+        "h": 18
+       },
+       "example": {
+        "w": 292,
+        "h": 22
+       },
+       "sameSize": false,
+       "pixels": "layout only"
+      }
+     },
+     {
+      "name": "Close button",
+      "group": null,
+      "real": {
+       "capture": "menus",
+       "cell": "frame",
+       "window": "rect",
+       "inset": [
+        398,
+        6,
+        6,
+        280
+       ]
+      },
+      "example": "#close",
+      "note": "The caption buttons are not windows of their own; their place is worked out from the frame (4), the 2 pixels inside the title bar and the 16 by 14 button size the system reports.",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 16,
+        "h": 14
+       },
+       "example": {
+        "w": 18,
+        "h": 18
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     },
+     {
+      "name": "Maximize button",
+      "group": null,
+      "real": {
+       "capture": "menus",
+       "cell": "frame",
+       "window": "rect",
+       "inset": [
+        380,
+        6,
+        24,
+        280
+       ]
+      },
+      "example": "#max",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 16,
+        "h": 14
+       },
+       "example": {
+        "w": 18,
+        "h": 18
+       },
+       "sameSize": false,
+       "edges": {
+        "top": {
+         "real": [
+          "#ffffff",
+          "#dfdfdf",
+          "#000000"
+         ],
+         "example": [
+          "#ffffff",
+          "#dfdfdf",
+          "#c0c0c0"
+         ]
+        }
+       },
+       "pixels": "edges-differ"
+      }
+     },
+     {
+      "name": "Minimize button",
+      "group": null,
+      "real": {
+       "capture": "menus",
+       "cell": "frame",
+       "window": "rect",
+       "inset": [
+        364,
+        6,
+        40,
+        280
+       ]
+      },
+      "example": "#min",
+      "drawnBy": "user32/gdi32 4.0.0.950 (the window manager of the 1995 release)",
+      "result": {
+       "real": {
+        "w": 16,
+        "h": 14
+       },
+       "example": {
+        "w": 18,
+        "h": 18
+       },
+       "sameSize": false,
+       "edges": "same",
+       "pixels": "same-edges"
+      }
+     }
+    ],
+    "metrics": [
+     {
+      "name": "title bar height",
+      "kind": "height",
+      "of": [
+       "title bar"
+      ],
+      "group": null,
+      "real": 18,
+      "example": 22,
+      "same": false
+     },
+     {
+      "name": "frame thickness (title bar in from the left of the window)",
+      "kind": "left",
+      "of": [
+       "title bar",
+       "window"
+      ],
+      "group": null,
+      "real": 4,
+      "example": 4,
+      "same": true
+     },
+     {
+      "name": "Close button in from the right of the title bar",
+      "kind": "right",
+      "of": [
+       "Close button",
+       "title bar"
+      ],
+      "group": null,
+      "real": 2,
+      "example": 2,
+      "same": true
+     },
+     {
+      "name": "Close button below the top of the title bar",
+      "kind": "top",
+      "of": [
+       "Close button",
+       "title bar"
+      ],
+      "group": null,
+      "real": 2,
+      "example": 2,
+      "same": true
+     },
+     {
+      "name": "space between Maximize and Close",
+      "kind": "gap-x",
+      "of": [
+       "Maximize button",
+       "Close button"
+      ],
+      "group": null,
+      "real": 2,
+      "example": 4,
+      "same": false
+     },
+     {
+      "name": "space between Minimize and Maximize",
+      "kind": "gap-x",
+      "of": [
+       "Minimize button",
+       "Maximize button"
+      ],
+      "group": null,
+      "real": 0,
+      "example": 2,
+      "same": false
+     },
+     {
+      "name": "caption button width",
+      "kind": "width",
+      "of": [
+       "Close button"
+      ],
+      "group": null,
+      "real": 16,
+      "example": 18,
+      "same": false
+     },
+     {
+      "name": "caption button height",
+      "kind": "height",
+      "of": [
+       "Close button"
+      ],
+      "group": null,
+      "real": 14,
+      "example": 18,
+      "same": false
+     }
+    ]
+   },
+   "behaviour": [],
+   "checks": [
+    {
+     "what": "Alt+Space opens the window's system menu",
+     "real": true,
+     "example": true,
+     "agree": true
+    },
+    {
+     "what": "command highlighted when the system menu opens from the keyboard",
+     "real": "Restore",
+     "example": "Restore",
+     "agree": false,
+     "note": "Different commands are available in the two menus, so only whether one is highlighted is comparable."
+    },
+    {
+     "what": "the letter M chooses Move from the open system menu",
+     "real": true,
+     "example": false,
+     "agree": false,
+     "note": "Real: after M the window was in its move loop (the guest stopped answering until Enter)."
+    },
+    {
+     "what": "Move, then Right, Right, Down, Enter moves the window by (pixels right, pixels down)",
+     "real": [
+      18,
+      9
+     ],
+     "example": [
+      20,
+      10
+     ],
+     "agree": false
+    },
+    {
+     "what": "Esc during a keyboard move puts the window back",
+     "real": true,
+     "example": true,
+     "agree": true
+    },
+    {
+     "what": "double-clicking the title bar maximizes the window",
+     "real": true,
+     "example": false,
+     "agree": false
+    }
+   ],
+   "lint": {
+    "wording": [
+     {
+      "rule": "label-colon-missing",
+      "value": "\"Document name\"",
+      "element": "#window-content > label",
+      "state": "loaded"
+     }
+    ],
+    "layout": []
+   }
+  },
+  "open-file": {
+   "visual": {
+    "pairs": [],
+    "metrics": []
+   },
+   "behaviour": [],
+   "checks": [],
+   "lint": {
+    "wording": [],
+    "layout": []
+   }
+  },
+  "save-file": {
+   "visual": {
+    "pairs": [],
+    "metrics": []
+   },
+   "behaviour": [],
+   "checks": [],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Save file…\": \"file\" should be \"File\"",
+      "element": "#save",
+      "state": "loaded"
+     },
+     {
+      "rule": "ellipsis-character",
+      "value": "\"Save file…\"",
+      "element": "#save",
+      "state": "loaded"
+     }
+    ],
+    "layout": []
+   }
+  },
+  "print": {
+   "visual": {
+    "pairs": [],
+    "metrics": []
+   },
+   "behaviour": [],
+   "checks": [],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Print sample…\": \"sample\" should be \"Sample\"",
+      "element": "#print",
+      "state": "loaded"
+     },
+     {
+      "rule": "ellipsis-character",
+      "value": "\"Print sample…\"",
+      "element": "#print",
+      "state": "loaded"
+     }
+    ],
+    "layout": []
    }
   },
   "hotkey": {
@@ -14180,8 +16813,8 @@
      "script": "hotkey",
      "title": "Hot-key control: recording a chord, clearing it",
      "drawnBy": "comctl32 4.70 (the 1996 common controls shipped with OSR2 and Internet Explorer 3)",
-     "compared": 11,
-     "agreed": 5,
+     "compared": 8,
+     "agreed": 3,
      "steps": [
       {
        "index": 2,
@@ -14198,15 +16831,13 @@
         "key": "K",
         "ctrl": true,
         "alt": true,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "K",
         "ctrl": true,
         "alt": true,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14232,15 +16863,13 @@
         "key": "K",
         "ctrl": false,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "K",
         "ctrl": true,
         "alt": true,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14264,15 +16893,13 @@
         "key": "K",
         "ctrl": false,
         "alt": false,
-        "shift": true,
-        "focusStays": true
+        "shift": true
        },
        "example": {
         "key": "K",
         "ctrl": false,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14289,15 +16916,13 @@
         "key": "F5",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "F5",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14323,15 +16948,13 @@
         "key": null,
         "ctrl": false,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "F5",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14348,15 +16971,13 @@
         "key": "K",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "K",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14382,15 +17003,13 @@
         "key": null,
         "ctrl": false,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "K",
         "ctrl": true,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        }
       },
       {
@@ -14421,88 +17040,13 @@
         "key": null,
         "ctrl": false,
         "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": false
        },
        "example": {
         "key": "K",
         "ctrl": true,
         "alt": false,
-        "shift": true,
-        "focusStays": true
-       }
-      },
-      {
-       "index": 10,
-       "step": {
-        "key": "tab",
-        "note": "Tab"
-       },
-       "agree": false,
-       "differences": [
-        {
-         "where": "focusStays",
-         "real": true,
-         "example": false
-        }
-       ],
-       "real": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": true
-       },
-       "example": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": false
-       }
-      },
-      {
-       "index": 11,
-       "step": {
-        "key": "ret",
-        "note": "Enter"
-       },
-       "agree": true,
-       "real": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": true
-       },
-       "example": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": true
-       }
-      },
-      {
-       "index": 12,
-       "step": {
-        "key": "spc",
-        "note": "Space"
-       },
-       "agree": true,
-       "real": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": true
-       },
-       "example": {
-        "key": null,
-        "ctrl": false,
-        "alt": false,
-        "shift": false,
-        "focusStays": true
+        "shift": true
        }
       }
      ],
@@ -14527,6 +17071,44 @@
       "state": "loaded"
      }
     ]
+   }
+  },
+  "rich-text": {
+   "visual": {
+    "pairs": [],
+    "metrics": []
+   },
+   "behaviour": [],
+   "checks": [],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Read plain text\": \"plain\" should be \"Plain\"; \"text\" should be \"Text\"",
+      "element": "#plain",
+      "state": "loaded"
+     }
+    ],
+    "layout": []
+   }
+  },
+  "animation": {
+   "visual": {
+    "pairs": [],
+    "metrics": []
+   },
+   "behaviour": [],
+   "checks": [],
+   "lint": {
+    "wording": [
+     {
+      "rule": "button-title-caps",
+      "value": "\"Play animation\": \"animation\" should be \"Animation\"",
+      "element": "#play",
+      "state": "loaded"
+     }
+    ],
+    "layout": []
    }
   }
  },

@@ -39,6 +39,10 @@ SOFTWARE.
 :is(.gui95,[data-gui95]) button[aria-pressed="true"]{box-shadow:var(--gui95-pressed);background:repeating-conic-gradient(#fff 0% 25%,#c0c0c0 0% 50%) 0 0/2px 2px}
 :is(.gui95,[data-gui95]) :is(button.default,button[data-gui95-default]){box-shadow:inset 0 0 0 1px #000,inset -2px -2px #000,inset 2px 2px #fff,inset -3px -3px #808080,inset 3px 3px #dfdfdf}
 :is(.gui95,[data-gui95]) :is(button.default,button[data-gui95-default]):is(:active:not(:disabled),[data-gui95-state="pressed"]){box-shadow:inset 0 0 0 1px #000,inset 0 0 0 2px #808080}
+/* In a dialog the default look follows the focus among push buttons: the Windows 95 dialog manager gives it to whichever push button has the focus and back to the designated default when the focus is on anything else (measured; evidence record default-button-follows-focus). */
+:is(.gui95,[data-gui95]) :is(dialog,[role="dialog"],[role="alertdialog"],[data-gui95-dialog-layout]):has(button:focus:not(.default,[data-gui95-default],[aria-pressed],[role],[data-gui95-step],.gui95-caption-button,.title-bar *,:disabled)) :is(button.default,button[data-gui95-default]):not(:focus,:active){box-shadow:var(--gui95-raised)}
+:is(.gui95,[data-gui95]) :is(dialog,[role="dialog"],[role="alertdialog"],[data-gui95-dialog-layout]) button:focus:not(.default,[data-gui95-default],[aria-pressed],[role],[data-gui95-step],.gui95-caption-button,.title-bar *,:disabled){box-shadow:inset 0 0 0 1px #000,inset -2px -2px #000,inset 2px 2px #fff,inset -3px -3px #808080,inset 3px 3px #dfdfdf}
+:is(.gui95,[data-gui95]) :is(dialog,[role="dialog"],[role="alertdialog"],[data-gui95-dialog-layout]) button:focus:not(.default,[data-gui95-default],[aria-pressed],[role],[data-gui95-step],.gui95-caption-button,.title-bar *,:disabled):is(:active,[data-gui95-state="pressed"]){box-shadow:inset 0 0 0 1px #000,inset 0 0 0 2px #808080}
 :is(.gui95,[data-gui95]) :is(button,input,select,textarea,[tabindex]):focus-visible{outline:1px dotted #000;outline-offset:-4px}
 :is(.gui95,[data-gui95]) :is(textarea,input:not([type="checkbox"],[type="radio"],[type="range"],[type="button"],[type="submit"],[type="reset"],[type="color"],[type="file"],[type="image"])):focus{outline:none}
 :is(.gui95,[data-gui95])::selection,:is(.gui95,[data-gui95]) ::selection{background:#000080;color:#fff}
@@ -276,6 +280,7 @@ th:has(>button){padding:0;box-shadow:none}
 th button{display:block;width:100%;min-width:60px;text-align:left}
 .gui95 tr[aria-selected="true"]{background:#000080;color:#fff}
 .menu{position:absolute;z-index:5;margin:0;min-width:180px}
+.menu:focus{outline:none}
 .gui95 .menu [role^="menuitem"]{gap:6px;padding:3px 8px 3px 4px}
 .gui95 .menu [role^="menuitem"]:not(:has(.mark)){padding-left:24px}
 .gui95 .menu [role^="menuitem"]::before{content:none}
@@ -319,8 +324,9 @@ th button{display:block;width:100%;min-width:60px;text-align:left}
       on(button, 'click', () => select(button));
       on(button, 'keydown', event => {
         let next;
-        if (event.key === 'ArrowRight') next = (i + 1) % buttons.length;
-        if (event.key === 'ArrowLeft') next = (i + buttons.length - 1) % buttons.length;
+        // A Windows 95 tab control stops at its first and last tab; the arrows do not wrap.
+        if (event.key === 'ArrowRight') next = Math.min(i + 1, buttons.length - 1);
+        if (event.key === 'ArrowLeft') next = Math.max(i - 1, 0);
         if (event.key === 'Home') next = 0;
         if (event.key === 'End') next = buttons.length - 1;
         if (next === undefined) return;

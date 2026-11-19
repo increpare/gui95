@@ -328,8 +328,8 @@ export default [
     visual: [{
       pairs: [
         { name: 'tree view', sel: '#tree', real: { capture: 'lists', cell: 'tree' }, depth: 2 },
-        { name: 'first row', sel: '#tree > li@0 > [data-gui95-tree-label]', real: { capture: 'lists', cell: 'tree', part: 'text0' }, layoutOnly: true, note: 'The label rectangle: the text and its highlight.' },
-        { name: 'second row', sel: '#tree > li@0 > ul > li@0 > [data-gui95-tree-label]', real: { capture: 'lists', cell: 'tree', part: 'text1' }, layoutOnly: true }
+        { name: 'first row', sel: '#tree > li:first-child > [data-gui95-tree-label]', real: { capture: 'lists', cell: 'tree', part: 'text0' }, layoutOnly: true, note: 'The label rectangle: the text and its highlight.' },
+        { name: 'second row', sel: '#tree > li:first-child > ul > li:first-child > [data-gui95-tree-label]', real: { capture: 'lists', cell: 'tree', part: 'text1' }, layoutOnly: true }
       ],
       metrics: [['from the top of one row to the next', 'dy', 'first row', 'second row'], ['label height', 'height', 'first row'], ['a child label starts further right than its parent by', 'dx', 'first row', 'second row'], ['first label in from the left of the control', 'left', 'first row', 'tree view'], ['first label below the top of the control', 'top', 'first row', 'tree view']]
     }],
